@@ -1,0 +1,471 @@
+import { LanguageCode } from '../services/translationService';
+
+// Static UI translations (not dynamic content from AI)
+export interface Translations {
+  // Common
+  loading: string;
+  error: string;
+  success: string;
+  cancel: string;
+  confirm: string;
+  save: string;
+  delete: string;
+  edit: string;
+  close: string;
+
+  // Navigation
+  next: string;
+  previous: string;
+  back: string;
+  continue: string;
+
+  // Auth
+  login: string;
+  logout: string;
+  signup: string;
+  email: string;
+  password: string;
+  forgotPassword: string;
+
+  // Welcome Screen
+  welcomeTitle: string;
+  welcomeSubtitle: string;
+  getStarted: string;
+
+  // Chat Interface
+  typeMessage: string;
+  send: string;
+  thinking: string;
+
+  // Stage Navigation
+  stage: string;
+  of: string;
+  complete: string;
+  incomplete: string;
+
+  // AI Response
+  acceptResponse: string;
+  regenerate: string;
+  aiSuggestion: string;
+
+  // Settings
+  settings: string;
+  language: string;
+  theme: string;
+  profile: string;
+
+  // Errors
+  errorLoadingData: string;
+  errorSavingData: string;
+  errorGeneratingResponse: string;
+  pleaseTryAgain: string;
+
+  // Blueprint
+  downloadBlueprint: string;
+  viewBlueprint: string;
+  blueprintReady: string;
+}
+
+const translations: Record<LanguageCode, Translations> = {
+  en: {
+    // Common
+    loading: 'Loading...',
+    error: 'Error',
+    success: 'Success',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    save: 'Save',
+    delete: 'Delete',
+    edit: 'Edit',
+    close: 'Close',
+
+    // Navigation
+    next: 'Next',
+    previous: 'Previous',
+    back: 'Back',
+    continue: 'Continue',
+
+    // Auth
+    login: 'Login',
+    logout: 'Logout',
+    signup: 'Sign Up',
+    email: 'Email',
+    password: 'Password',
+    forgotPassword: 'Forgot Password?',
+
+    // Welcome Screen
+    welcomeTitle: 'Welcome to AI Startup Mentor',
+    welcomeSubtitle: 'Your AI-powered guide to building a successful startup',
+    getStarted: 'Get Started',
+
+    // Chat Interface
+    typeMessage: 'Type your message...',
+    send: 'Send',
+    thinking: 'AI is thinking...',
+
+    // Stage Navigation
+    stage: 'Stage',
+    of: 'of',
+    complete: 'Complete',
+    incomplete: 'Incomplete',
+
+    // AI Response
+    acceptResponse: 'Accept',
+    regenerate: 'Regenerate',
+    aiSuggestion: 'AI Suggestion',
+
+    // Settings
+    settings: 'Settings',
+    language: 'Language',
+    theme: 'Theme',
+    profile: 'Profile',
+
+    // Errors
+    errorLoadingData: 'Error loading data',
+    errorSavingData: 'Error saving data',
+    errorGeneratingResponse: 'Error generating response',
+    pleaseTryAgain: 'Please try again',
+
+    // Blueprint
+    downloadBlueprint: 'Download Blueprint',
+    viewBlueprint: 'View Blueprint',
+    blueprintReady: 'Blueprint Ready'
+  },
+
+  fa: {
+    // Common
+    loading: 'در حال بارگذاری...',
+    error: 'خطا',
+    success: 'موفقیت',
+    cancel: 'لغو',
+    confirm: 'تأیید',
+    save: 'ذخیره',
+    delete: 'حذف',
+    edit: 'ویرایش',
+    close: 'بستن',
+
+    // Navigation
+    next: 'بعدی',
+    previous: 'قبلی',
+    back: 'بازگشت',
+    continue: 'ادامه',
+
+    // Auth
+    login: 'ورود',
+    logout: 'خروج',
+    signup: 'ثبت‌نام',
+    email: 'ایمیل',
+    password: 'رمز عبور',
+    forgotPassword: 'رمز عبور را فراموش کرده‌اید؟',
+
+    // Welcome Screen
+    welcomeTitle: 'به مربی هوشمند استارتاپ خوش آمدید',
+    welcomeSubtitle: 'راهنمای هوشمند شما برای ساخت یک استارتاپ موفق',
+    getStarted: 'شروع کنید',
+
+    // Chat Interface
+    typeMessage: 'پیام خود را بنویسید...',
+    send: 'ارسال',
+    thinking: 'هوش مصنوعی در حال فکر کردن...',
+
+    // Stage Navigation
+    stage: 'مرحله',
+    of: 'از',
+    complete: 'تکمیل شده',
+    incomplete: 'ناتمام',
+
+    // AI Response
+    acceptResponse: 'قبول',
+    regenerate: 'ساخت مجدد',
+    aiSuggestion: 'پیشنهاد هوش مصنوعی',
+
+    // Settings
+    settings: 'تنظیمات',
+    language: 'زبان',
+    theme: 'تم',
+    profile: 'پروفایل',
+
+    // Errors
+    errorLoadingData: 'خطا در بارگذاری اطلاعات',
+    errorSavingData: 'خطا در ذخیره اطلاعات',
+    errorGeneratingResponse: 'خطا در تولید پاسخ',
+    pleaseTryAgain: 'لطفاً دوباره تلاش کنید',
+
+    // Blueprint
+    downloadBlueprint: 'دانلود نقشه',
+    viewBlueprint: 'مشاهده نقشه',
+    blueprintReady: 'نقشه آماده است'
+  },
+
+  ar: {
+    // Common
+    loading: 'جاري التحميل...',
+    error: 'خطأ',
+    success: 'نجاح',
+    cancel: 'إلغاء',
+    confirm: 'تأكيد',
+    save: 'حفظ',
+    delete: 'حذف',
+    edit: 'تعديل',
+    close: 'إغلاق',
+
+    // Navigation
+    next: 'التالي',
+    previous: 'السابق',
+    back: 'رجوع',
+    continue: 'متابعة',
+
+    // Auth
+    login: 'تسجيل الدخول',
+    logout: 'تسجيل الخروج',
+    signup: 'إنشاء حساب',
+    email: 'البريد الإلكتروني',
+    password: 'كلمة المرور',
+    forgotPassword: 'هل نسيت كلمة المرور؟',
+
+    // Welcome Screen
+    welcomeTitle: 'مرحباً بك في مرشد الشركات الناشئة بالذكاء الاصطناعي',
+    welcomeSubtitle: 'دليلك الذكي لبناء شركة ناشئة ناجحة',
+    getStarted: 'ابدأ الآن',
+
+    // Chat Interface
+    typeMessage: 'اكتب رسالتك...',
+    send: 'إرسال',
+    thinking: 'الذكاء الاصطناعي يفكر...',
+
+    // Stage Navigation
+    stage: 'المرحلة',
+    of: 'من',
+    complete: 'مكتمل',
+    incomplete: 'غير مكتمل',
+
+    // AI Response
+    acceptResponse: 'قبول',
+    regenerate: 'إعادة الإنشاء',
+    aiSuggestion: 'اقتراح الذكاء الاصطناعي',
+
+    // Settings
+    settings: 'الإعدادات',
+    language: 'اللغة',
+    theme: 'المظهر',
+    profile: 'الملف الشخصي',
+
+    // Errors
+    errorLoadingData: 'خطأ في تحميل البيانات',
+    errorSavingData: 'خطأ في حفظ البيانات',
+    errorGeneratingResponse: 'خطأ في إنشاء الرد',
+    pleaseTryAgain: 'يرجى المحاولة مرة أخرى',
+
+    // Blueprint
+    downloadBlueprint: 'تحميل المخطط',
+    viewBlueprint: 'عرض المخطط',
+    blueprintReady: 'المخطط جاهز'
+  },
+
+  fr: {
+    // Common
+    loading: 'Chargement...',
+    error: 'Erreur',
+    success: 'Succès',
+    cancel: 'Annuler',
+    confirm: 'Confirmer',
+    save: 'Enregistrer',
+    delete: 'Supprimer',
+    edit: 'Modifier',
+    close: 'Fermer',
+
+    // Navigation
+    next: 'Suivant',
+    previous: 'Précédent',
+    back: 'Retour',
+    continue: 'Continuer',
+
+    // Auth
+    login: 'Connexion',
+    logout: 'Déconnexion',
+    signup: 'S\'inscrire',
+    email: 'Email',
+    password: 'Mot de passe',
+    forgotPassword: 'Mot de passe oublié?',
+
+    // Welcome Screen
+    welcomeTitle: 'Bienvenue sur AI Startup Mentor',
+    welcomeSubtitle: 'Votre guide intelligent pour créer une startup réussie',
+    getStarted: 'Commencer',
+
+    // Chat Interface
+    typeMessage: 'Tapez votre message...',
+    send: 'Envoyer',
+    thinking: 'L\'IA réfléchit...',
+
+    // Stage Navigation
+    stage: 'Étape',
+    of: 'sur',
+    complete: 'Terminé',
+    incomplete: 'Incomplet',
+
+    // AI Response
+    acceptResponse: 'Accepter',
+    regenerate: 'Régénérer',
+    aiSuggestion: 'Suggestion IA',
+
+    // Settings
+    settings: 'Paramètres',
+    language: 'Langue',
+    theme: 'Thème',
+    profile: 'Profil',
+
+    // Errors
+    errorLoadingData: 'Erreur de chargement des données',
+    errorSavingData: 'Erreur de sauvegarde des données',
+    errorGeneratingResponse: 'Erreur de génération de réponse',
+    pleaseTryAgain: 'Veuillez réessayer',
+
+    // Blueprint
+    downloadBlueprint: 'Télécharger le plan',
+    viewBlueprint: 'Voir le plan',
+    blueprintReady: 'Plan prêt'
+  },
+
+  es: {
+    // Common
+    loading: 'Cargando...',
+    error: 'Error',
+    success: 'Éxito',
+    cancel: 'Cancelar',
+    confirm: 'Confirmar',
+    save: 'Guardar',
+    delete: 'Eliminar',
+    edit: 'Editar',
+    close: 'Cerrar',
+
+    // Navigation
+    next: 'Siguiente',
+    previous: 'Anterior',
+    back: 'Volver',
+    continue: 'Continuar',
+
+    // Auth
+    login: 'Iniciar sesión',
+    logout: 'Cerrar sesión',
+    signup: 'Registrarse',
+    email: 'Correo electrónico',
+    password: 'Contraseña',
+    forgotPassword: '¿Olvidaste tu contraseña?',
+
+    // Welcome Screen
+    welcomeTitle: 'Bienvenido a AI Startup Mentor',
+    welcomeSubtitle: 'Tu guía inteligente para construir una startup exitosa',
+    getStarted: 'Comenzar',
+
+    // Chat Interface
+    typeMessage: 'Escribe tu mensaje...',
+    send: 'Enviar',
+    thinking: 'La IA está pensando...',
+
+    // Stage Navigation
+    stage: 'Etapa',
+    of: 'de',
+    complete: 'Completo',
+    incomplete: 'Incompleto',
+
+    // AI Response
+    acceptResponse: 'Aceptar',
+    regenerate: 'Regenerar',
+    aiSuggestion: 'Sugerencia de IA',
+
+    // Settings
+    settings: 'Configuración',
+    language: 'Idioma',
+    theme: 'Tema',
+    profile: 'Perfil',
+
+    // Errors
+    errorLoadingData: 'Error al cargar datos',
+    errorSavingData: 'Error al guardar datos',
+    errorGeneratingResponse: 'Error al generar respuesta',
+    pleaseTryAgain: 'Por favor, inténtalo de nuevo',
+
+    // Blueprint
+    downloadBlueprint: 'Descargar plano',
+    viewBlueprint: 'Ver plano',
+    blueprintReady: 'Plano listo'
+  },
+
+  de: {
+    // Common
+    loading: 'Laden...',
+    error: 'Fehler',
+    success: 'Erfolg',
+    cancel: 'Abbrechen',
+    confirm: 'Bestätigen',
+    save: 'Speichern',
+    delete: 'Löschen',
+    edit: 'Bearbeiten',
+    close: 'Schließen',
+
+    // Navigation
+    next: 'Weiter',
+    previous: 'Zurück',
+    back: 'Zurück',
+    continue: 'Fortfahren',
+
+    // Auth
+    login: 'Anmelden',
+    logout: 'Abmelden',
+    signup: 'Registrieren',
+    email: 'E-Mail',
+    password: 'Passwort',
+    forgotPassword: 'Passwort vergessen?',
+
+    // Welcome Screen
+    welcomeTitle: 'Willkommen bei AI Startup Mentor',
+    welcomeSubtitle: 'Ihr intelligenter Leitfaden für ein erfolgreiches Startup',
+    getStarted: 'Loslegen',
+
+    // Chat Interface
+    typeMessage: 'Nachricht eingeben...',
+    send: 'Senden',
+    thinking: 'KI denkt nach...',
+
+    // Stage Navigation
+    stage: 'Phase',
+    of: 'von',
+    complete: 'Abgeschlossen',
+    incomplete: 'Unvollständig',
+
+    // AI Response
+    acceptResponse: 'Akzeptieren',
+    regenerate: 'Neu generieren',
+    aiSuggestion: 'KI-Vorschlag',
+
+    // Settings
+    settings: 'Einstellungen',
+    language: 'Sprache',
+    theme: 'Design',
+    profile: 'Profil',
+
+    // Errors
+    errorLoadingData: 'Fehler beim Laden der Daten',
+    errorSavingData: 'Fehler beim Speichern der Daten',
+    errorGeneratingResponse: 'Fehler beim Generieren der Antwort',
+    pleaseTryAgain: 'Bitte versuchen Sie es erneut',
+
+    // Blueprint
+    downloadBlueprint: 'Plan herunterladen',
+    viewBlueprint: 'Plan ansehen',
+    blueprintReady: 'Plan bereit'
+  }
+};
+
+// Helper function to get translations for a specific language
+export const getTranslations = (language: LanguageCode): Translations => {
+  return translations[language] || translations.en;
+};
+
+// Helper hook for use in components
+export const useTranslations = (language: LanguageCode) => {
+  return getTranslations(language);
+};
+
+export default translations;

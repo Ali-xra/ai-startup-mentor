@@ -10,10 +10,11 @@ import { StageIndicator } from './components/StageIndicator';
 import { useStartupJourney } from './hooks/useStartupJourney';
 // FIX: Corrected import path to be a relative path.
 import { useAuth } from './contexts/AuthContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { Locale, t } from './i18n';
 import { Loader } from './components/Loader';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
     const { session, loading } = useAuth();
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [theme, setTheme] = useState<'light' | 'dark'>(() => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark');
@@ -125,6 +126,14 @@ const App: React.FC = () => {
                 </div>
             </main>
         </div>
+    );
+};
+
+const App: React.FC = () => {
+    return (
+        <LanguageProvider>
+            <AppContent />
+        </LanguageProvider>
     );
 };
 
