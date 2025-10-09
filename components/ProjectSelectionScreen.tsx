@@ -5,6 +5,7 @@ import { supabase } from '../services/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 import { Loader } from './Loader';
 import { ConfirmationModal } from './ConfirmationModal';
+import LanguageSelector from './LanguageSelector';
 
 interface ProjectSelectionScreenProps {
     onProjectSelect: (projectId: string) => void;
@@ -193,13 +194,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({ 
             <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center p-4 font-sans transition-colors duration-300">
                 <div className="w-full max-w-4xl mx-auto relative">
                     <div className="absolute top-0 flex gap-2" style={{[locale === 'fa' ? 'left' : 'right']: '1rem'}}>
-                        <button
-                            onClick={onLocaleToggle}
-                            className="p-2 w-10 h-10 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-bold text-sm"
-                            title={`Switch to ${locale === 'fa' ? 'English' : 'فارسی'}`}
-                        >
-                            {locale === 'fa' ? 'EN' : 'FA'}
-                        </button>
+                        <LanguageSelector />
                         <button
                             onClick={signOut}
                             className="p-2 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"

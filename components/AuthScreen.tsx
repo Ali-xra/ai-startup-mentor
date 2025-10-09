@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { supabase } from '../services/supabaseClient';
 import { Locale, t } from '../i18n';
 import { Loader } from './Loader';
+import LanguageSelector from './LanguageSelector';
 
 interface AuthScreenProps {
     locale: Locale;
@@ -67,13 +68,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale, onLocaleToggle }
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center p-4 font-sans transition-colors duration-300">
             <div className="w-full max-w-md mx-auto relative">
-                <button
-                    onClick={onLocaleToggle}
-                    className={`absolute top-0 p-2 w-10 h-10 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-bold text-sm z-10 ${locale === 'fa' ? 'left-4' : 'right-4'}`}
-                    title={`Switch to ${locale === 'fa' ? 'English' : 'فارسی'}`}
-                >
-                    {locale === 'fa' ? 'EN' : 'FA'}
-                </button>
+                <div className={`absolute top-0 z-10 ${locale === 'fa' ? 'left-4' : 'right-4'}`}>
+                    <LanguageSelector />
+                </div>
                 <div className="text-center mb-10">
                     <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600 mb-2">
                         {t('welcome_title', locale)}

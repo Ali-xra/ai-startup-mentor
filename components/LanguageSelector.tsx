@@ -18,6 +18,12 @@ const languages: Language[] = [
   { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' }
 ];
 
+const GlobeIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
 const LanguageSelector: React.FC = () => {
   const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = React.useState(false);
@@ -31,22 +37,14 @@ const LanguageSelector: React.FC = () => {
 
   return (
     <div className="relative">
-      {/* Current language button */}
+      {/* Current language button - Globe icon */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+        className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
         aria-label="Select language"
+        title={currentLanguage.nativeName}
       >
-        <span className="text-xl">{currentLanguage.flag}</span>
-        <span className="text-sm font-medium">{currentLanguage.nativeName}</span>
-        <svg
-          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <GlobeIcon />
       </button>
 
       {/* Dropdown menu */}
@@ -59,23 +57,23 @@ const LanguageSelector: React.FC = () => {
           />
 
           {/* Menu */}
-          <div className="absolute top-full mt-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20 min-w-[200px]">
+          <div className="absolute top-full mt-2 right-0 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-20 min-w-[220px]">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => handleLanguageChange(lang.code)}
-                className={`w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition-colors ${
-                  lang.code === language ? 'bg-blue-50' : ''
+                className={`w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors ${
+                  lang.code === language ? 'bg-purple-50 dark:bg-purple-900/20' : ''
                 }`}
               >
-                <span className="text-xl">{lang.flag}</span>
-                <div className="flex flex-col items-start">
-                  <span className="text-sm font-medium">{lang.nativeName}</span>
-                  <span className="text-xs text-gray-500">{lang.name}</span>
+                <span className="text-2xl">{lang.flag}</span>
+                <div className="flex flex-col items-start flex-1">
+                  <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{lang.nativeName}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">{lang.name}</span>
                 </div>
                 {lang.code === language && (
                   <svg
-                    className="w-4 h-4 ml-auto text-blue-600"
+                    className="w-5 h-5 text-purple-600 dark:text-purple-400"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
