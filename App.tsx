@@ -10,15 +10,19 @@ import { StageIndicator } from './components/StageIndicator';
 import { useStartupJourney } from './hooks/useStartupJourney';
 // FIX: Corrected import path to be a relative path.
 import { useAuth } from './contexts/AuthContext';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { Locale, t } from './i18n';
 import { Loader } from './components/Loader';
+import { LanguageCode } from './services/translationService';
 
 const AppContent: React.FC = () => {
     const { session, loading } = useAuth();
+    const { language } = useLanguage();
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [theme, setTheme] = useState<'light' | 'dark'>(() => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark');
-    const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem('locale') as Locale) || 'en');
+
+    // Map LanguageCode to Locale for backwards compatibility
+    const locale: Locale = language === 'fa' ? 'fa' : 'en';
 
     const journey = useStartupJourney(selectedProjectId, locale);
 
@@ -26,10 +30,9 @@ const AppContent: React.FC = () => {
         document.documentElement.className = theme;
         localStorage.setItem('theme', theme);
     }, [theme]);
-    
+
     useEffect(() => {
-        document.documentElement.lang = locale;
-        document.documentElement.dir = locale === 'fa' ? 'rtl' : 'ltr';
+        // Sync old locale system with new language context
         localStorage.setItem('locale', locale);
         if (journey.isInitialized) {
             journey.reloadLocale();
@@ -58,8 +61,9 @@ const AppContent: React.FC = () => {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
 
+    // No longer needed - LanguageSelector handles this
     const toggleLocale = () => {
-        setLocale(prev => prev === 'en' ? 'fa' : 'en');
+        // Kept for backwards compatibility but does nothing
     };
 
     if (loading) {
