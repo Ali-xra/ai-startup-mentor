@@ -21,7 +21,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   });
 
   // Determine if current language is RTL (Right-to-Left)
-  const isRTL = language === 'fa' || language === 'ar';
+  const isRTL = language === 'fa';
 
   // Update language and save to localStorage
   const setLanguage = (lang: LanguageCode) => {

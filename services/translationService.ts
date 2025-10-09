@@ -2,7 +2,7 @@ import { supabase } from './supabaseClient';
 import { Stage } from '../types';
 
 // Language codes we support
-export type LanguageCode = 'en' | 'fa' | 'ar' | 'fr' | 'es' | 'de';
+export type LanguageCode = 'en' | 'fa' | 'fr' | 'es' | 'de';
 
 // Translation result interface
 interface StageTranslation {
@@ -67,7 +67,6 @@ const getFromAPI = async (stageId: string, languageCode: LanguageCode, originalT
     const languageNames: Record<LanguageCode, string> = {
       en: 'English',
       fa: 'Persian (Farsi)',
-      ar: 'Arabic',
       fr: 'French',
       es: 'Spanish',
       de: 'German'
