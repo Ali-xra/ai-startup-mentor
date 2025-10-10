@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, Stage, StartupData } from '../types';
 import { Loader } from './Loader';
 import { ChatBubble } from './ChatBubble';
+import { SuggestionModal } from './SuggestionModal';
 import { STAGE_TO_DATA_KEY } from '../hooks/useStartupJourney';
 import { Locale, t } from '../i18n';
 
@@ -97,29 +98,35 @@ interface ChatInterfaceProps {
   editingStage: Stage | null;
   startupData: Partial<StartupData>;
   isReadyForNextSection: boolean;
+  suggestionModalOpen: boolean;
+  currentSuggestion: string;
   locale: Locale;
   onSendMessage: (message: string) => void;
   onRequestSuggestion: () => void;
-  onSuggestionAccept: (messageId: string, acceptedAnswer: string) => void;
-  onRefineSuggestion: (messageId: string, originalSuggestion: string, instruction: string) => void;
+  onSuggestionModalAccept: (acceptedAnswer: string) => void;
+  onRefineSuggestion: (originalSuggestion: string, instruction: string) => void;
+  onSuggestionModalClose: () => void;
   onProceedToNextSection: () => void;
   onUpdateStageData: (stage: Stage, newValue: string) => void;
   onCancelDirectEdit: () => void;
   onRefineEditedStage: (stage: Stage, instruction: string) => void;
 }
 
-export const ChatInterface: React.FC<ChatInterfaceProps> = ({ 
-    messages, 
-    isLoading, 
-    isComplete, 
+export const ChatInterface: React.FC<ChatInterfaceProps> = ({
+    messages,
+    isLoading,
+    isComplete,
     editingStage,
     startupData,
     isReadyForNextSection,
+    suggestionModalOpen,
+    currentSuggestion,
     locale,
-    onSendMessage, 
-    onRequestSuggestion, 
-    onSuggestionAccept,
+    onSendMessage,
+    onRequestSuggestion,
+    onSuggestionModalAccept,
     onRefineSuggestion,
+    onSuggestionModalClose,
     onProceedToNextSection,
     onUpdateStageData,
     onCancelDirectEdit,
@@ -127,8 +134,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 }) => {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const isAwaitingConfirmation = messages.some(m => m.isSuggestion);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -139,7 +144,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   }, [messages, isLoading]);
 
   const handleSend = () => {
-    if (input.trim() && !isLoading && !isComplete && !isAwaitingConfirmation) {
+    if (input.trim() && !isLoading && !isComplete && !suggestionModalOpen) {
       onSendMessage(input);
       setInput('');
     }
@@ -153,28 +158,39 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   return (
-    <div className="flex flex-col bg-slate-100 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 h-full overflow-hidden shadow-2xl shadow-black/10 dark:shadow-black/20 transition-colors duration-300">
-      <div className="flex-1 p-6 space-y-4 overflow-y-auto">
-        {messages.map((msg) => (
-          <ChatBubble 
-            key={msg.id} 
-            message={msg} 
-            onSuggestionAccept={onSuggestionAccept}
-            onRefineSuggestion={onRefineSuggestion}
-            isLoading={isLoading} 
-            locale={locale}
-          />
-        ))}
-        {isLoading && !isAwaitingConfirmation && !editingStage && (
-            <div className={`flex ${locale === 'fa' ? 'justify-start' : 'justify-start'}`}>
-                 <div className="bg-slate-200 dark:bg-slate-700 rounded-lg p-3 max-w-lg flex items-center space-x-2">
-                    <Loader />
-                    <span className="text-slate-500 dark:text-slate-400 italic">{t('chat_thinking', locale)}</span>
-                </div>
-            </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
+    <>
+      <SuggestionModal
+        isOpen={suggestionModalOpen}
+        suggestion={currentSuggestion}
+        isLoading={isLoading}
+        locale={locale}
+        onAccept={onSuggestionModalAccept}
+        onRefine={onRefineSuggestion}
+        onClose={onSuggestionModalClose}
+      />
+
+      <div className="flex flex-col bg-slate-100 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 h-full overflow-hidden shadow-2xl shadow-black/10 dark:shadow-black/20 transition-colors duration-300">
+        <div className="flex-1 p-6 space-y-4 overflow-y-auto">
+          {messages.map((msg) => (
+            <ChatBubble
+              key={msg.id}
+              message={msg}
+              onSuggestionAccept={() => {}}
+              onRefineSuggestion={() => {}}
+              isLoading={isLoading}
+              locale={locale}
+            />
+          ))}
+          {isLoading && !suggestionModalOpen && !editingStage && (
+              <div className={`flex ${locale === 'fa' ? 'justify-start' : 'justify-start'}`}>
+                   <div className="bg-slate-200 dark:bg-slate-700 rounded-lg p-3 max-w-lg flex items-center space-x-2">
+                      <Loader />
+                      <span className="text-slate-500 dark:text-slate-400 italic">{t('chat_thinking', locale)}</span>
+                  </div>
+              </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
       <div className="p-4 bg-slate-100/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700">
         {isComplete ? (
           <div className="text-center text-green-600 dark:text-green-400 font-semibold p-4 bg-green-100 dark:bg-green-900/50 rounded-lg">
@@ -207,15 +223,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={isAwaitingConfirmation ? t('chat_placeholder_awaiting_suggestion', locale) : t('chat_placeholder_default', locale)}
+                placeholder={suggestionModalOpen ? t('chat_placeholder_awaiting_suggestion', locale) : t('chat_placeholder_default', locale)}
                 rows={2}
                 className="flex-1 p-3 bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-300 resize-none text-slate-800 dark:text-slate-200"
-                disabled={isLoading || isAwaitingConfirmation}
+                disabled={isLoading || suggestionModalOpen}
             />
             <div className="flex flex-col gap-2">
                     <button
                     onClick={handleSend}
-                    disabled={!input.trim() || isLoading || isAwaitingConfirmation}
+                    disabled={!input.trim() || isLoading || suggestionModalOpen}
                     className="p-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     title={t('chat_send_button_tooltip', locale)}
                     >
@@ -225,7 +241,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 </button>
                     <button
                     onClick={onRequestSuggestion}
-                    disabled={isLoading || isAwaitingConfirmation}
+                    disabled={isLoading || suggestionModalOpen}
                     className="p-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     title={t('chat_suggest_button_tooltip', locale)}
                     >
@@ -237,6 +253,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 };

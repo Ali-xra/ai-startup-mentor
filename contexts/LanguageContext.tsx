@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { LanguageCode } from '../services/translationService';
+import { supabase } from '../services/supabaseClient';
+import { useAuth } from './AuthContext';
 
 interface LanguageContextType {
   language: LanguageCode;
@@ -14,19 +16,41 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
-  // Get initial language from localStorage or default to English
+  const { user } = useAuth();
+
+  // Get initial language from user metadata, localStorage, or default to English
   const [language, setLanguageState] = useState<LanguageCode>(() => {
     const saved = localStorage.getItem('appLanguage');
     return (saved as LanguageCode) || 'en';
   });
 
+  // Load language from user metadata when user logs in
+  useEffect(() => {
+    if (user?.user_metadata?.preferred_language) {
+      const userLang = user.user_metadata.preferred_language as LanguageCode;
+      setLanguageState(userLang);
+      localStorage.setItem('appLanguage', userLang);
+    }
+  }, [user]);
+
   // Determine if current language is RTL (Right-to-Left)
   const isRTL = language === 'fa';
 
-  // Update language and save to localStorage
-  const setLanguage = (lang: LanguageCode) => {
+  // Update language and save to both localStorage and user metadata
+  const setLanguage = async (lang: LanguageCode) => {
     setLanguageState(lang);
     localStorage.setItem('appLanguage', lang);
+
+    // Save to Supabase user metadata if user is logged in
+    if (user) {
+      try {
+        await supabase.auth.updateUser({
+          data: { preferred_language: lang }
+        });
+      } catch (error) {
+        console.error('Failed to save language preference:', error);
+      }
+    }
   };
 
   // Apply RTL direction to document when language changes

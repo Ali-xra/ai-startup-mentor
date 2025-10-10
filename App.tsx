@@ -10,7 +10,7 @@ import { StageIndicator } from './components/StageIndicator';
 import { useStartupJourney } from './hooks/useStartupJourney';
 // FIX: Corrected import path to be a relative path.
 import { useAuth } from './contexts/AuthContext';
-import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { useLanguage } from './contexts/LanguageContext';
 import { Locale, t } from './i18n';
 import { Loader } from './components/Loader';
 import { LanguageCode } from './services/translationService';
@@ -27,7 +27,11 @@ const AppContent: React.FC = () => {
     const journey = useStartupJourney(selectedProjectId, locale);
 
     useEffect(() => {
-        document.documentElement.className = theme;
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
         localStorage.setItem('theme', theme);
     }, [theme]);
 
@@ -114,11 +118,14 @@ const AppContent: React.FC = () => {
                         editingStage={journey.editingStage}
                         startupData={journey.startupData}
                         isReadyForNextSection={journey.isReadyForNextSection}
+                        suggestionModalOpen={journey.suggestionModalOpen}
+                        currentSuggestion={journey.currentSuggestion}
                         locale={locale}
                         onSendMessage={journey.handleSendMessage}
                         onRequestSuggestion={journey.handleRequestSuggestion}
-                        onSuggestionAccept={journey.handleSuggestionAccept}
+                        onSuggestionModalAccept={journey.handleSuggestionModalAccept}
                         onRefineSuggestion={journey.handleRefineSuggestion}
+                        onSuggestionModalClose={journey.handleSuggestionModalClose}
                         onProceedToNextSection={journey.proceedToNextSection}
                         onUpdateStageData={journey.handleUpdateStageData}
                         onCancelDirectEdit={journey.cancelDirectEdit}
@@ -134,11 +141,7 @@ const AppContent: React.FC = () => {
 };
 
 const App: React.FC = () => {
-    return (
-        <LanguageProvider>
-            <AppContent />
-        </LanguageProvider>
-    );
+    return <AppContent />;
 };
 
 export default App;
