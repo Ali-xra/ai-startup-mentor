@@ -1,8 +1,8 @@
 import { supabase } from './supabaseClient';
 import { Stage } from '../types';
 
-// Language codes we support
-export type LanguageCode = 'en' | 'fa' | 'fr' | 'es' | 'de';
+// Language codes we support (currently only EN and FA are fully translated)
+export type LanguageCode = 'en' | 'fa'; // TODO: Add 'fr' | 'es' | 'de' when ready
 
 // Translation result interface
 interface StageTranslation {
@@ -66,10 +66,7 @@ const getFromAPI = async (stageId: string, languageCode: LanguageCode, originalT
   try {
     const languageNames: Record<LanguageCode, string> = {
       en: 'English',
-      fa: 'Persian (Farsi)',
-      fr: 'French',
-      es: 'Spanish',
-      de: 'German'
+      fa: 'Persian (Farsi)'
     };
 
     const targetLanguage = languageNames[languageCode];

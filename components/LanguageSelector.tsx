@@ -11,10 +11,8 @@ interface Language {
 
 const languages: Language[] = [
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
-  { code: 'fa', name: 'Persian', nativeName: 'فارسی', flag: '🇮🇷' },
-  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
-  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
-  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' }
+  { code: 'fa', name: 'Persian', nativeName: 'فارسی', flag: '🇮🇷' }
+  // TODO: Add more languages (FR, ES, DE) when translations are ready
 ];
 
 const GlobeIcon = () => (

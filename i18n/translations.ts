@@ -195,8 +195,10 @@ const translations: Record<LanguageCode, Translations> = {
     downloadBlueprint: 'دانلود نقشه',
     viewBlueprint: 'مشاهده نقشه',
     blueprintReady: 'نقشه آماده است'
-  },
+  }
 
+  // TODO: Add FR, ES, DE translations when ready
+  /*
   fr: {
     // Common
     loading: 'Chargement...',
@@ -391,6 +393,7 @@ const translations: Record<LanguageCode, Translations> = {
     viewBlueprint: 'Plan ansehen',
     blueprintReady: 'Plan bereit'
   }
+  */
 };
 
 // Helper function to get translations for a specific language
