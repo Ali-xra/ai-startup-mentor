@@ -12,14 +12,20 @@ interface StageIndicatorProps {
 
 const STAGES_BY_SECTION: Record<MajorSection, Stage[]> = {
     [MajorSection.CORE_CONCEPT]: [
-        Stage.CORE_CONCEPT_IDEA_TITLE,
-        Stage.CORE_CONCEPT_IDEA_ABSTRACT,
-        Stage.CORE_CONCEPT_PROBLEM_STATEMENT,
-        Stage.CORE_CONCEPT_INITIAL_TARGET_AUDIENCE,
-        Stage.CORE_CONCEPT_PROPOSED_SOLUTION,
-        Stage.CORE_CONCEPT_VALUE_PROPOSITION,
-        Stage.CORE_CONCEPT_BUSINESS_GOALS,
-        Stage.CORE_CONCEPT_SUMMARY,
+        Stage.IDEA_TITLE,
+        Stage.ELEVATOR_PITCH,
+        Stage.EXECUTIVE_SUMMARY,
+        Stage.PROBLEM_DESCRIPTION,
+        Stage.PROBLEM_MAGNITUDE,
+        Stage.CURRENT_SOLUTIONS,
+        Stage.CUSTOMER_SEGMENTS,
+        Stage.EARLY_ADOPTER_PERSONA,
+        Stage.PRODUCT_DESCRIPTION,
+        Stage.HOW_IT_WORKS,
+        Stage.UVP_STATEMENT,
+        Stage.UNFAIR_ADVANTAGE,
+        Stage.VALIDATION_SUMMARY,
+        Stage.BUSINESS_GOALS_TIMELINE,
     ],
     [MajorSection.MARKET_ANALYSIS]: [
         Stage.MARKET_ANALYSIS_SIZE,
@@ -138,6 +144,7 @@ const SECTION_ORDER = [
 
 export const StageIndicator: React.FC<StageIndicatorProps> = ({ stages, currentStage, onStageSelect, onEditStage, locale }) => {
     const currentStageIndex = stages.indexOf(currentStage);
+    const [expandedSections, setExpandedSections] = React.useState<Set<MajorSection>>(new Set([MajorSection.CORE_CONCEPT]));
 
     const renderStageItem = (stage: Stage, options?: {isIndented?: boolean}) => {
         const stageIndex = stages.indexOf(stage);
@@ -150,13 +157,13 @@ export const StageIndicator: React.FC<StageIndicatorProps> = ({ stages, currentS
 
         const canJump = isCompleted && !isActive;
 
-        const paddingClass = options?.isIndented 
+        const paddingClass = options?.isIndented
             ? (locale === 'fa' ? 'pr-8' : 'pl-8')
             : (locale === 'fa' ? 'pr-4' : 'pl-4');
 
         return (
-            <div 
-                key={stage} 
+            <div
+                key={stage}
                 className={`group flex items-center justify-between text-sm py-1.5 ${paddingClass} ${locale === 'fa' ? '-mr-0.5' : '-ml-0.5'} border-transparent ${locale === 'fa' ? 'border-r-2' : 'border-l-2'} transition-colors duration-200
                 ${isActive ? 'border-purple-500 text-purple-600 dark:text-purple-300 font-semibold' : ''}
                 ${isCompleted ? 'text-slate-500 dark:text-slate-400' : 'text-slate-400 dark:text-slate-500'}
@@ -165,7 +172,12 @@ export const StageIndicator: React.FC<StageIndicatorProps> = ({ stages, currentS
                 onClick={canJump ? () => onStageSelect(stage) : undefined}
                 title={canJump ? t('stage_indicator_jump_tooltip', locale) : ''}
             >
-                <span className="truncate">{t(stage, locale)}</span>
+                <span className="truncate flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 transition-transform ${isActive ? 'rotate-90' : ''}`} viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                    {t(stage, locale)}
+                </span>
                 {isCompleted && !isGenerated && (
                     <button
                         onClick={(e) => {
@@ -196,9 +208,25 @@ export const StageIndicator: React.FC<StageIndicatorProps> = ({ stages, currentS
                     const isSectionComplete = sectionStages.every(stage => stages.indexOf(stage) < currentStageIndex);
                     const isSectionActive = sectionStages.some(stage => stage === currentStage);
 
+                    const isExpanded = expandedSections.has(section);
+
                     return (
                         <div key={section}>
-                             <h3 className={`font-bold mb-2 flex items-center gap-2 text-base ${isSectionActive ? 'text-purple-600 dark:text-purple-300' : 'text-slate-600 dark:text-slate-400'}`}>
+                             <h3
+                                className={`font-bold mb-2 flex items-center gap-2 text-base cursor-pointer hover:text-slate-800 dark:hover:text-slate-200 transition-colors ${isSectionActive ? 'text-purple-600 dark:text-purple-300' : 'text-slate-600 dark:text-slate-400'}`}
+                                onClick={() => {
+                                    const newExpanded = new Set(expandedSections);
+                                    if (isExpanded) {
+                                        newExpanded.delete(section);
+                                    } else {
+                                        newExpanded.add(section);
+                                    }
+                                    setExpandedSections(newExpanded);
+                                }}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-90' : ''}`} viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                                </svg>
                                 {isSectionComplete ? (
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
                                 ) : isSectionActive ? (
@@ -215,22 +243,22 @@ export const StageIndicator: React.FC<StageIndicatorProps> = ({ stages, currentS
                                 )}
                                 {t(section, locale)}
                             </h3>
-                            {section === MajorSection.MARKET_ANALYSIS ? (
+                            {isExpanded && section === MajorSection.MARKET_ANALYSIS ? (
                                 <div className={`space-y-1 ${locale === 'fa' ? 'border-r-2' : 'border-l-2'} border-slate-300 dark:border-slate-600 ml-2.5`}>
                                     <h4 className={`font-semibold text-sm pt-2 pb-1 text-slate-500 dark:text-slate-400 ${locale === 'fa' ? 'pr-4' : 'pl-4'}`}>
                                         {t('subsection_market_environment', locale)}
                                     </h4>
                                     {[Stage.MARKET_ANALYSIS_SIZE, Stage.MARKET_ANALYSIS_TRENDS, Stage.MARKET_ANALYSIS_OPP_THREATS].map(stage => renderStageItem(stage, { isIndented: true }))}
-                                    
+
                                     <div className="pt-2"></div>
 
                                     <h4 className={`font-semibold text-sm pt-2 pb-1 text-slate-500 dark:text-slate-400 ${locale === 'fa' ? 'pr-4' : 'pl-4'}`}>
                                         {t('subsection_competitive_landscape', locale)}
                                     </h4>
                                     {[Stage.MARKET_ANALYSIS_COMPETITOR_IDENTIFICATION, Stage.MARKET_ANALYSIS_COMPETITOR_ANALYSIS].map(stage => renderStageItem(stage, { isIndented: true }))}
-                                    
+
                                     <div className="pt-2"></div>
-                                    
+
                                     <h4 className={`font-semibold text-sm pt-2 pb-1 text-slate-500 dark:text-slate-400 ${locale === 'fa' ? 'pr-4' : 'pl-4'}`}>
                                         {t('subsection_strategic_positioning', locale)}
                                     </h4>

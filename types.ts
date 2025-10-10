@@ -3,15 +3,35 @@ export type Locale = 'en' | 'fa';
 
 export enum Stage {
     INITIAL = 'INITIAL',
-    // Phase 1: Idea & Core Concept Definition
-    CORE_CONCEPT_IDEA_TITLE = 'CORE_CONCEPT_IDEA_TITLE',
-    CORE_CONCEPT_IDEA_ABSTRACT = 'CORE_CONCEPT_IDEA_ABSTRACT',
-    CORE_CONCEPT_PROBLEM_STATEMENT = 'CORE_CONCEPT_PROBLEM_STATEMENT',
-    CORE_CONCEPT_INITIAL_TARGET_AUDIENCE = 'CORE_CONCEPT_INITIAL_TARGET_AUDIENCE',
-    CORE_CONCEPT_PROPOSED_SOLUTION = 'CORE_CONCEPT_PROPOSED_SOLUTION',
-    CORE_CONCEPT_VALUE_PROPOSITION = 'CORE_CONCEPT_VALUE_PROPOSITION',
-    CORE_CONCEPT_BUSINESS_GOALS = 'CORE_CONCEPT_BUSINESS_GOALS',
-    CORE_CONCEPT_SUMMARY = 'CORE_CONCEPT_SUMMARY',
+
+    // Phase 1: Core Concept & Validation (NEW STRUCTURE)
+    // 1.1. Idea Definition
+    IDEA_TITLE = 'IDEA_TITLE',
+    ELEVATOR_PITCH = 'ELEVATOR_PITCH',
+    EXECUTIVE_SUMMARY = 'EXECUTIVE_SUMMARY',
+
+    // 1.2. Problem Statement
+    PROBLEM_DESCRIPTION = 'PROBLEM_DESCRIPTION',
+    PROBLEM_MAGNITUDE = 'PROBLEM_MAGNITUDE',
+    CURRENT_SOLUTIONS = 'CURRENT_SOLUTIONS',
+
+    // 1.3. Target Audience
+    CUSTOMER_SEGMENTS = 'CUSTOMER_SEGMENTS',
+    EARLY_ADOPTER_PERSONA = 'EARLY_ADOPTER_PERSONA',
+
+    // 1.4. Proposed Solution
+    PRODUCT_DESCRIPTION = 'PRODUCT_DESCRIPTION',
+    HOW_IT_WORKS = 'HOW_IT_WORKS',
+
+    // 1.5. Unique Value Proposition
+    UVP_STATEMENT = 'UVP_STATEMENT',
+    UNFAIR_ADVANTAGE = 'UNFAIR_ADVANTAGE',
+
+    // 1.6. Practical Validation
+    VALIDATION_SUMMARY = 'VALIDATION_SUMMARY',
+
+    // 1.7. Business Goals
+    BUSINESS_GOALS_TIMELINE = 'BUSINESS_GOALS_TIMELINE',
     
     // Phase 2: In-depth Market, Competitor & Risk Analysis
     MARKET_ANALYSIS_SIZE = 'MARKET_ANALYSIS_SIZE',
@@ -146,16 +166,35 @@ export interface TargetAudiencePersona {
 export interface StartupData {
     projectName?: string;
     initialIdea?: string;
-    
-    // Phase 1: Idea & Core Concept Definition
-    coreConcept_ideaTitle?: string;
-    coreConcept_ideaAbstract?: string;
-    coreConcept_problemStatement?: string;
-    coreConcept_initialTargetAudience?: string; // Stored as a JSON string
-    coreConcept_proposedSolution?: string;
-    coreConcept_valueProposition?: string;
-    coreConcept_businessGoals?: string; // Stored as a JSON string of an array
-    coreConceptSummary?: string;
+
+    // Phase 1: Core Concept & Validation (NEW STRUCTURE)
+    // 1.1. Idea Definition
+    idea_title?: string;
+    elevator_pitch?: string;
+    executive_summary?: string;
+
+    // 1.2. Problem Statement
+    problem_description?: string;
+    problem_magnitude?: string;
+    current_solutions?: string;
+
+    // 1.3. Target Audience
+    customer_segments?: string;
+    early_adopter_persona?: string;
+
+    // 1.4. Proposed Solution
+    product_description?: string;
+    core_features?: string;
+
+    // 1.5. Unique Value Proposition
+    uvp_statement?: string;
+    unfair_advantage?: string;
+
+    // 1.6. Practical Validation
+    validation_summary?: string;
+
+    // 1.7. Business Goals
+    business_goals?: string;
 
     // Phase 2: Market Analysis
     marketAnalysis_size?: string; // JSON { tam, sam, som }
