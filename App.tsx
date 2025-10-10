@@ -26,6 +26,17 @@ const AppContent: React.FC = () => {
 
     const journey = useStartupJourney(selectedProjectId, locale);
 
+    // Initialize theme on mount
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' || 'dark';
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, []);
+
+    // Update theme when it changes
     useEffect(() => {
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
