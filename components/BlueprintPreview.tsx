@@ -1,401 +1,377 @@
-import React, { useState, useCallback } from 'react';
-// FIX: Imported the `Stage` enum to resolve the "Cannot find name 'Stage'" error.
-import { StartupData, Locale, MajorSection, Stage, TargetAudiencePersona } from '../types';
+import React, { useState, useEffect, useRef } from 'react';
+import { StartupData, Locale, Stage } from '../types';
 import { t } from '../i18n';
-import { Loader } from './Loader';
-import * as geminiService from '../services/geminiService'; // Assuming a service for Gemini exists
+import { STAGE_TO_DATA_KEY } from '../hooks/useStartupJourney';
+
+// Confirmed Content Display Component (similar to StageIndicator style)
+interface ConfirmedContentProps {
+  startupData: Partial<StartupData>;
+  locale: Locale;
+  selectedStage: string | null;
+  onEditStage?: (stage: Stage) => void;
+}
+
+const ConfirmedContent: React.FC<ConfirmedContentProps> = ({ startupData, locale, selectedStage, onEditStage }) => {
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['CORE_CONCEPT']));
+  const itemRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
+
+  const toggleSection = (sectionId: string) => {
+    const newExpanded = new Set(expandedSections);
+    if (newExpanded.has(sectionId)) {
+      newExpanded.delete(sectionId);
+    } else {
+      newExpanded.add(sectionId);
+    }
+    setExpandedSections(newExpanded);
+  };
+
+  // Auto-expand section and scroll to item when selectedStage changes
+  useEffect(() => {
+    if (selectedStage) {
+      // Find which section contains this stage
+      const dataKey = STAGE_TO_DATA_KEY[selectedStage as any];
+      if (dataKey) {
+        // Find which section contains this dataKey and expand it
+        const sectionId = findSectionForDataKey(dataKey);
+        if (sectionId) {
+          setExpandedSections(prev => new Set([...prev, sectionId]));
+
+          // Wait for expand animation, then scroll
+          setTimeout(() => {
+            const element = itemRefs.current[selectedStage];
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 300);
+        }
+      }
+    }
+  }, [selectedStage]);
+
+  const findSectionForDataKey = (dataKey: string): string | null => {
+    // Map common data keys to section IDs
+    const keyToSectionMap: {[key: string]: string} = {
+      'idea_title': 'IDEA_DEFINITION',
+      'elevator_pitch': 'IDEA_DEFINITION',
+      'executive_summary': 'IDEA_DEFINITION',
+      'problem_description': 'PROBLEM_STATEMENT',
+      'problem_magnitude': 'PROBLEM_STATEMENT',
+      'current_solutions': 'PROBLEM_STATEMENT',
+      'customer_segments': 'TARGET_AUDIENCE',
+      'early_adopter_persona': 'TARGET_AUDIENCE',
+      'product_description': 'SOLUTION',
+      'how_it_works': 'SOLUTION',
+      'uvp_statement': 'VALUE_PROPOSITION',
+      'unfair_advantage': 'VALUE_PROPOSITION',
+      'validation_summary': 'VALIDATION',
+      'business_goals_timeline': 'VALIDATION',
+    };
+    return keyToSectionMap[dataKey] || null;
+  };
+
+  const renderDataItem = (label: string, data: any, stageId?: string) => {
+    if (!data) return null;
+
+    const isHighlighted = selectedStage === stageId;
+
+    return (
+      <div
+        ref={(el) => { if (stageId) itemRefs.current[stageId] = el; }}
+        className={`py-2 ${locale === 'fa' ? 'pr-6' : 'pl-6'} border-transparent ${locale === 'fa' ? 'border-r-2' : 'border-l-2'} border-slate-200 dark:border-slate-600 transition-all duration-300 ${
+          isHighlighted ? 'bg-purple-100 dark:bg-purple-900/30 border-purple-500 !border-r-4' : ''
+        }`}
+      >
+        <div className="text-sm text-slate-600 dark:text-slate-400 font-medium mb-1">{label}</div>
+        <div className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
+          {typeof data === 'string' ? data : JSON.stringify(data, null, 2)}
+        </div>
+      </div>
+    );
+  };
+
+  const sections = [
+    {
+      id: 'PROJECT_INFO',
+      title: locale === 'fa' ? 'اطلاعات پروژه' : 'Project Info',
+      icon: '📋',
+      data: [
+        { label: locale === 'fa' ? 'نام پروژه' : 'Project Name', value: startupData.projectName },
+        { label: locale === 'fa' ? 'ایده اولیه' : 'Initial Idea', value: startupData.initialIdea },
+      ]
+    },
+    {
+      id: 'IDEA_DEFINITION',
+      title: locale === 'fa' ? 'تعریف ایده' : 'Idea Definition',
+      icon: '💡',
+      data: [
+        { label: t('IDEA_TITLE', locale), value: startupData.idea_title, stageId: 'IDEA_TITLE' },
+        { label: t('ELEVATOR_PITCH', locale), value: startupData.elevator_pitch, stageId: 'ELEVATOR_PITCH' },
+        { label: t('EXECUTIVE_SUMMARY', locale), value: startupData.executive_summary, stageId: 'EXECUTIVE_SUMMARY' },
+      ]
+    },
+    {
+      id: 'PROBLEM_STATEMENT',
+      title: locale === 'fa' ? 'بیان مسئله' : 'Problem Statement',
+      icon: '❓',
+      data: [
+        { label: t('PROBLEM_DESCRIPTION', locale), value: startupData.problem_description, stageId: 'PROBLEM_DESCRIPTION' },
+        { label: t('PROBLEM_MAGNITUDE', locale), value: startupData.problem_magnitude, stageId: 'PROBLEM_MAGNITUDE' },
+        { label: t('CURRENT_SOLUTIONS', locale), value: startupData.current_solutions, stageId: 'CURRENT_SOLUTIONS' },
+      ]
+    },
+    {
+      id: 'TARGET_AUDIENCE',
+      title: locale === 'fa' ? 'مخاطب هدف' : 'Target Audience',
+      icon: '👥',
+      data: [
+        { label: t('CUSTOMER_SEGMENTS', locale), value: startupData.customer_segments, stageId: 'CUSTOMER_SEGMENTS' },
+        { label: t('EARLY_ADOPTER_PERSONA', locale), value: startupData.early_adopter_persona, stageId: 'EARLY_ADOPTER_PERSONA' },
+      ]
+    },
+    {
+      id: 'SOLUTION',
+      title: locale === 'fa' ? 'راه‌حل' : 'Solution',
+      icon: '🔧',
+      data: [
+        { label: t('PRODUCT_DESCRIPTION', locale), value: startupData.product_description, stageId: 'PRODUCT_DESCRIPTION' },
+        { label: t('HOW_IT_WORKS', locale), value: startupData.how_it_works, stageId: 'HOW_IT_WORKS' },
+      ]
+    },
+    {
+      id: 'VALUE_PROPOSITION',
+      title: locale === 'fa' ? 'ارزش پیشنهادی' : 'Value Proposition',
+      icon: '💎',
+      data: [
+        { label: t('UVP_STATEMENT', locale), value: startupData.uvp_statement, stageId: 'UVP_STATEMENT' },
+        { label: t('UNFAIR_ADVANTAGE', locale), value: startupData.unfair_advantage, stageId: 'UNFAIR_ADVANTAGE' },
+      ]
+    },
+    {
+      id: 'VALIDATION',
+      title: locale === 'fa' ? 'اعتبارسنجی' : 'Validation',
+      icon: '✅',
+      data: [
+        { label: t('VALIDATION_SUMMARY', locale), value: startupData.validation_summary, stageId: 'VALIDATION_SUMMARY' },
+        { label: t('BUSINESS_GOALS_TIMELINE', locale), value: startupData.business_goals_timeline, stageId: 'BUSINESS_GOALS_TIMELINE' },
+      ]
+    },
+    {
+      id: 'MARKET_ANALYSIS',
+      title: locale === 'fa' ? 'تحلیل بازار' : 'Market Analysis',
+      icon: '📊',
+      data: [
+        { label: t('MARKET_ANALYSIS_SIZE', locale), value: startupData.marketAnalysis_size },
+        { label: t('MARKET_ANALYSIS_TRENDS', locale), value: startupData.marketAnalysis_trends },
+        { label: t('MARKET_ANALYSIS_OPP_THREATS', locale), value: startupData.marketAnalysis_oppThreats },
+        { label: t('MARKET_ANALYSIS_COMPETITOR_IDENTIFICATION', locale), value: startupData.marketAnalysis_competitor_list },
+        { label: t('MARKET_ANALYSIS_COMPETITOR_ANALYSIS', locale), value: startupData.marketAnalysis_competitors },
+        { label: t('MARKET_ANALYSIS_SWOT_STRENGTHS', locale), value: startupData.marketAnalysis_swot },
+        { label: t('MARKET_ANALYSIS_RISK_IDENTIFICATION', locale), value: startupData.marketAnalysis_identified_risks },
+        { label: t('MARKET_ANALYSIS_RISK_MITIGATION', locale), value: startupData.marketAnalysis_risk_analysis },
+        { label: t('MARKET_ANALYSIS_SUMMARY', locale), value: startupData.marketAnalysisSummary },
+      ]
+    },
+    {
+      id: 'BUSINESS_MODEL',
+      title: locale === 'fa' ? 'مدل کسب و کار' : 'Business Model',
+      icon: '💼',
+      data: [
+        { label: t('BMC_VALUE_PROPOSITIONS', locale), value: startupData.bmc_valuePropositions },
+        { label: t('BMC_CUSTOMER_SEGMENTS', locale), value: startupData.bmc_customerSegments },
+        { label: t('BMC_CHANNELS', locale), value: startupData.bmc_channels },
+        { label: t('BMC_CUSTOMER_RELATIONSHIPS', locale), value: startupData.bmc_customerRelationships },
+        { label: t('BMC_REVENUE_STREAMS', locale), value: startupData.bmc_revenueStreams },
+        { label: t('BMC_KEY_ACTIVITIES', locale), value: startupData.bmc_keyActivities },
+        { label: t('BMC_KEY_RESOURCES', locale), value: startupData.bmc_keyResources },
+        { label: t('BMC_KEY_PARTNERSHIPS', locale), value: startupData.bmc_keyPartnerships },
+        { label: t('BMC_COST_STRUCTURE', locale), value: startupData.bmc_costStructure },
+        { label: t('BUSINESS_MODELING_SUMMARY', locale), value: startupData.businessModelingSummary },
+      ]
+    },
+    {
+      id: 'BRANDING',
+      title: locale === 'fa' ? 'برندینگ' : 'Branding',
+      icon: '🎨',
+      data: [
+        { label: t('BRANDING_VISION', locale), value: startupData.branding_vision },
+        { label: t('BRANDING_MISSION', locale), value: startupData.branding_mission },
+        { label: t('BRANDING_CORE_VALUES', locale), value: startupData.branding_coreValues },
+        { label: t('BRANDING_PERSONALITY', locale), value: startupData.branding_personality },
+        { label: t('BRANDING_POSITIONING', locale), value: startupData.branding_positioning },
+        { label: t('BRANDING_NAME', locale), value: startupData.branding_name },
+        { label: t('BRANDING_TAGLINE', locale), value: startupData.branding_tagline },
+        { label: t('BRANDING_TONE_OF_VOICE', locale), value: startupData.branding_toneOfVoice },
+        { label: t('BRANDING_KEY_MESSAGES', locale), value: startupData.branding_keyMessages },
+        { label: t('BRANDING_LOGO', locale), value: startupData.branding_logo },
+        { label: t('BRANDING_COLOR_PALETTE', locale), value: startupData.branding_colorPalette },
+        { label: t('BRANDING_TYPOGRAPHY', locale), value: startupData.branding_typography },
+        { label: t('BRANDING_VISUAL_STYLE', locale), value: startupData.branding_visualStyle },
+        { label: t('BRANDING_GUIDELINES', locale), value: startupData.branding_guidelines },
+      ]
+    },
+    {
+      id: 'PRODUCT_DEV',
+      title: locale === 'fa' ? 'توسعه محصول' : 'Product Development',
+      icon: '🚀',
+      data: [
+        { label: t('PRODUCT_DEV_CORE_FEATURES', locale), value: startupData.productDev_coreFeatures },
+        { label: t('PRODUCT_DEV_USER_BENEFITS', locale), value: startupData.productDev_userBenefits },
+        { label: t('PRODUCT_DEV_DIFFERENTIATORS', locale), value: startupData.productDev_differentiators },
+        { label: t('PRODUCT_DEV_MVP_DEFINITION', locale), value: startupData.productDev_mvpDefinition },
+        { label: t('PRODUCT_DEV_MVP_PHASES', locale), value: startupData.productDev_mvpPhases },
+        { label: t('PRODUCT_DEV_MVP_TECH_STACK', locale), value: startupData.productDev_mvpTechStack },
+        { label: t('PRODUCT_DEV_MVP_DATA_MODEL', locale), value: startupData.productDev_mvpDataModel },
+        { label: t('PRODUCT_DEV_MVP_USER_FLOW', locale), value: startupData.productDev_mvpUserFlow },
+        { label: t('PRODUCT_DEV_MVP_RESOURCES', locale), value: startupData.productDev_mvpResources },
+        { label: t('PRODUCT_DEV_SUMMARY', locale), value: startupData.productDevSummary },
+      ]
+    },
+    {
+      id: 'MARKETING',
+      title: locale === 'fa' ? 'بازاریابی و فروش' : 'Marketing & Sales',
+      icon: '📢',
+      data: [
+        { label: t('MARKETING_OBJECTIVES', locale), value: startupData.marketing_objectives },
+        { label: t('MARKETING_STRATEGY_CONTENT', locale), value: startupData.marketing_strategy_content },
+        { label: t('MARKETING_STRATEGY_SEO', locale), value: startupData.marketing_strategy_seo },
+        { label: t('MARKETING_STRATEGY_SMM', locale), value: startupData.marketing_strategy_smm },
+        { label: t('MARKETING_STRATEGY_PAID_ADS', locale), value: startupData.marketing_strategy_paid_ads },
+        { label: t('MARKETING_STRATEGY_EMAIL', locale), value: startupData.marketing_strategy_email },
+        { label: t('MARKETING_STRATEGY_PR', locale), value: startupData.marketing_strategy_pr },
+        { label: t('MARKETING_STRATEGY_INFLUENCER', locale), value: startupData.marketing_strategy_influencer },
+        { label: t('SALES_STRATEGY_CHANNELS', locale), value: startupData.sales_strategy_channels },
+        { label: t('SALES_STRATEGY_PROCESS', locale), value: startupData.sales_strategy_process },
+        { label: t('INITIAL_CAMPAIGN_PLANNING', locale), value: startupData.initial_campaigns },
+        { label: t('MARKETING_MEASUREMENT_KPIS', locale), value: startupData.marketing_kpis },
+        { label: t('MARKETING_MEASUREMENT_TOOLS', locale), value: startupData.marketing_tools },
+        { label: t('MARKETING_MEASUREMENT', locale), value: startupData.marketing_measurement },
+        { label: t('MARKETING_SUMMARY', locale), value: startupData.marketingSummary },
+      ]
+    },
+    {
+      id: 'ORGANIZATION',
+      title: locale === 'fa' ? 'سازمان و مالی' : 'Organization & Financials',
+      icon: '🏢',
+      data: [
+        { label: t('ORGANIZATION_LEGAL_TEAM', locale), value: startupData.org_team },
+        { label: t('ORGANIZATION_LEGAL_AGREEMENT', locale), value: startupData.org_agreement },
+        { label: t('ORGANIZATION_LEGAL_STRUCTURE', locale), value: startupData.org_structure },
+        { label: t('ORGANIZATION_LEGAL_IP', locale), value: startupData.org_ip },
+        { label: t('ORGANIZATION_LEGAL_TERMS', locale), value: startupData.org_terms },
+        { label: t('ORGANIZATION_LEGAL_COMPLIANCE', locale), value: startupData.org_compliance },
+        { label: t('ORGANIZATION_MANAGEMENT_LEGAL', locale), value: startupData.org_managementLegal },
+        { label: t('ORGANIZATION_COMPANY_SUMMARY', locale), value: startupData.org_companyDescription },
+        { label: t('ORGANIZATION_OPERATIONS_DAILY_PROCESSES', locale), value: startupData.org_ops_dailyProcesses },
+        { label: t('ORGANIZATION_OPERATIONS_PRODUCT_ROADMAP', locale), value: startupData.org_ops_productRoadmap },
+        { label: t('ORGANIZATION_OPERATIONAL_PLAN', locale), value: startupData.org_operationalPlan },
+        { label: t('ORGANIZATION_FINANCIALS_ASSUMPTIONS', locale), value: startupData.org_financials_assumptions },
+        { label: t('ORGANIZATION_FINANCIALS_SALES_FORECAST', locale), value: startupData.org_financials_sales_forecast },
+        { label: t('ORGANIZATION_FINANCIALS_PNL', locale), value: startupData.org_financials_pnl },
+        { label: t('ORGANIZATION_FINANCIALS_CASH_FLOW', locale), value: startupData.org_financials_cash_flow },
+        { label: t('ORGANIZATION_FINANCIALS_BREAK_EVEN', locale), value: startupData.org_financials_break_even },
+        { label: t('ORGANIZATION_FINANCIALS_FUNDING_NEEDS', locale), value: startupData.org_financials_funding_needs },
+        { label: t('ORGANIZATION_FINANCIAL_PROJECTIONS', locale), value: startupData.org_financialProjections },
+        { label: t('ORGANIZATION_SUMMARY', locale), value: startupData.orgSummary },
+      ]
+    },
+    {
+      id: 'FINAL_OUTPUTS',
+      title: locale === 'fa' ? 'خروجی نهایی' : 'Final Outputs',
+      icon: '📋',
+      data: [
+        { label: t('COMPREHENSIVE_BUSINESS_PLAN', locale), value: startupData.final_businessPlan },
+        { label: t('INVESTOR_PITCH_DECK', locale), value: startupData.final_pitchDeck },
+        { label: t('FUNDING_REQUEST', locale), value: startupData.final_fundingRequest },
+        { label: t('APPENDICES', locale), value: startupData.final_appendices },
+        { label: t('FINAL_OUTPUTS_SUMMARY', locale), value: startupData.finalOutputsSummary },
+      ]
+    }
+  ];
+
+  return (
+    <div className="space-y-3">
+      {sections.map((section) => {
+        const hasData = section.data.some(item => item.value);
+        if (!hasData) return null;
+
+        const isExpanded = expandedSections.has(section.id);
+
+        return (
+          <div key={section.id} className="bg-slate-50 dark:bg-slate-700/30 rounded-lg border border-slate-200 dark:border-slate-600">
+            <div
+              className="flex items-center justify-between p-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors"
+              onClick={() => toggleSection(section.id)}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-lg">{section.icon}</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">{section.title}</span>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-5 w-5 transition-transform text-slate-500 ${isExpanded ? 'rotate-90' : ''} ${locale === 'fa' ? 'rotate-180' : ''}`}
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+            </div>
+
+            {isExpanded && (
+              <div className="border-t border-slate-200 dark:border-slate-600">
+                {section.data.map((item: any, index: number) => (
+                  item.value && (
+                    <div key={index}>
+                      {renderDataItem(item.label, item.value, item.stageId)}
+                    </div>
+                  )
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 interface BlueprintPreviewProps {
     startupData: Partial<StartupData>;
     locale: Locale;
+    selectedStage?: string | null;
 }
 
-const Section: React.FC<{ title: string; children: React.ReactNode; InitiallyOpen?: boolean }> = ({ title, children, InitiallyOpen = true }) => {
-    const [isOpen, setIsOpen] = useState(InitiallyOpen);
-    return (
-        <div className="mb-6 bg-slate-100 dark:bg-slate-800 rounded-lg p-4">
-            <h3 onClick={() => setIsOpen(!isOpen)} className="text-lg font-bold text-slate-700 dark:text-slate-200 cursor-pointer flex justify-between items-center hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
-                <span className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transition-transform ${isOpen ? 'rotate-90' : ''}`} viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {title}
-                </span>
-                <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-            </h3>
-            {isOpen && <div className="mt-4 space-y-3 pl-7">{children}</div>}
-        </div>
-    );
-};
-
-const SubSection: React.FC<{ title: string; children: React.ReactNode; InitiallyOpen?: boolean }> = ({ title, children, InitiallyOpen = true }) => {
-    const [isOpen, setIsOpen] = useState(InitiallyOpen);
-    return (
-        <div className="border-r-2 border-indigo-200 dark:border-indigo-700 pr-4">
-            <h4
-                onClick={() => setIsOpen(!isOpen)}
-                className="font-semibold text-slate-600 dark:text-slate-300 mb-2 cursor-pointer flex justify-between items-center hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
-            >
-                {title}
-                <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-            </h4>
-            {isOpen && <div className="space-y-2 ml-2">{children}</div>}
-        </div>
-    );
-};
-
-const DataDisplay: React.FC<{ label: string; data: any; }> = ({ label, data }) => {
-    if (!data) return null;
-
-    const renderContent = () => {
-        if (typeof data === 'string') {
-            try {
-                const parsed = JSON.parse(data);
-                return <pre className="whitespace-pre-wrap text-xs bg-slate-200 dark:bg-slate-700 p-2 rounded"><code>{JSON.stringify(parsed, null, 2)}</code></pre>;
-            } catch (e) {
-                // Not a JSON string, render as text
-                return <p className="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">{data}</p>;
-            }
-        }
-        return <pre className="whitespace-pre-wrap text-xs"><code>{JSON.stringify(data, null, 2)}</code></pre>;
-    };
-
-    return (
-        <div className="mb-3">
-            <h4 className="font-semibold text-slate-600 dark:text-slate-400">{label}</h4>
-            {renderContent()}
-        </div>
-    );
-};
-
-const PersonaCard: React.FC<{ persona: TargetAudiencePersona }> = ({ persona }) => (
-    <div className="p-3 border border-slate-300 dark:border-slate-600 rounded-lg mb-2">
-        <h5 className="font-bold">{persona.personaName}</h5>
-        <p><strong>Demographics:</strong> {persona.demographics}</p>
-        <p><strong>Needs & Goals:</strong> {persona.needsAndGoals}</p>
-        <p><strong>Pain Points:</strong> {persona.painPoints}</p>
-    </div>
-);
-
-const MarketResearchTool: React.FC<{ startupData: Partial<StartupData>, locale: Locale }> = ({ startupData, locale }) => {
-    const [query, setQuery] = useState('');
-    const [result, setResult] = useState<{ text: string, sources?: { uri: string, title: string }[] } | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    const handleResearch = async () => {
-        if (!query.trim()) return;
-        setIsLoading(true);
-        setError(null);
-        setResult(null);
-        try {
-            const researchResult = await geminiService.generateResponseForStage('MARKET_ANALYSIS_TRENDS' as Stage, { ...startupData, marketAnalysis_trends: query }, locale);
-            setResult(researchResult);
-        } catch (e) {
-            setError(t('blueprint_market_research_error', locale));
-            console.error(e);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    
-    return (
-        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-700">
-            <h4 className="font-bold text-indigo-800 dark:text-indigo-200">{t(MajorSection.MARKET_RESEARCH_TOOL, locale)}</h4>
-            <p className="text-sm text-indigo-600 dark:text-indigo-400 mb-2">{t('blueprint_market_research_desc', locale)}</p>
-            <div className="flex gap-2">
-                <input 
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder={t('blueprint_market_research_placeholder', locale)}
-                    className="flex-1 p-2 bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-all duration-300"
-                    disabled={isLoading}
-                />
-                <button
-                    onClick={handleResearch}
-                    disabled={isLoading || !query.trim()}
-                    className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 disabled:opacity-50"
-                >
-                    {isLoading ? <Loader /> : t('blueprint_market_research_button', locale)}
-                </button>
-            </div>
-            {isLoading && <p className="text-sm italic text-slate-500 mt-2">{t('blueprint_market_research_loading', locale)}</p>}
-            {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
-            {result && (
-                <div className="mt-4">
-                    <p className="whitespace-pre-wrap">{result.text}</p>
-                     {result.sources && result.sources.length > 0 && (
-                        <div className="mt-2 text-xs">
-                            <span className="font-semibold">{t('blueprint_sources', locale)}</span>
-                            <ul className="list-disc list-inside">
-                                {result.sources.map((source, index) => (
-                                    <li key={index} className="truncate">
-                                        <a href={source.uri} target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline">
-                                            {source.title || source.uri}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
-            )}
-        </div>
-    );
-};
 
 
-export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ startupData, locale }) => {
 
-    const renderAudience = useCallback(() => {
-        if (!startupData.coreConcept_initialTargetAudience) return null;
-        try {
-            const audienceData = JSON.parse(startupData.coreConcept_initialTargetAudience);
-            if(Array.isArray(audienceData)) {
-                return audienceData.map((persona: TargetAudiencePersona, index: number) => <PersonaCard key={index} persona={persona} />);
-            }
-            return <p>{startupData.coreConcept_initialTargetAudience}</p>;
-        } catch {
-            return <p>{startupData.coreConcept_initialTargetAudience}</p>;
-        }
-    }, [startupData.coreConcept_initialTargetAudience]);
+export const BlueprintPreview: React.FC<BlueprintPreviewProps> = ({ startupData, locale, selectedStage }) => {
+    const hasAnyData = Object.values(startupData).some(value => value);
 
     return (
         <div className="p-6 bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 h-full overflow-y-auto shadow-lg">
-            <h2 className="text-2xl font-bold text-center mb-6 text-slate-800 dark:text-slate-100">طرح کلی استارتاپ شما - نسخه ۱</h2>
+            <h2 className="text-2xl font-bold text-center mb-6 text-slate-800 dark:text-slate-100">
+                {locale === 'fa' ? 'متن‌های تایید شده' : 'Confirmed Content'}
+            </h2>
 
-            <MarketResearchTool startupData={startupData} locale={locale} />
-
-            <div className="mt-6">
-                {/* Core Concept Section */}
-                <Section title={`${t(MajorSection.CORE_CONCEPT, locale)} ${locale === 'fa' ? '(فکر ابتدایی)' : '(Core Concept)'}`}>
-                    <SubSection title={locale === 'fa' ? 'مشخصات ایده' : 'Idea Definition'}>
-                        <DataDisplay label={t('CORE_CONCEPT_IDEA_TITLE', locale)} data={startupData.coreConcept_ideaTitle} />
-                        <DataDisplay label={t('CORE_CONCEPT_IDEA_ABSTRACT', locale)} data={startupData.coreConcept_ideaAbstract} />
-                        <DataDisplay label={t('CORE_CONCEPT_PROBLEM_STATEMENT', locale)} data={startupData.coreConcept_problemStatement} />
-                        <div className="mb-3">
-                            <h4 className="font-semibold text-slate-600 dark:text-slate-400">{t('CORE_CONCEPT_INITIAL_TARGET_AUDIENCE', locale)}</h4>
-                            {renderAudience()}
-                        </div>
-                    </SubSection>
-                    <SubSection title={locale === 'fa' ? 'راه‌حل و ارزش' : 'Solution & Value'}>
-                        <DataDisplay label={t('CORE_CONCEPT_PROPOSED_SOLUTION', locale)} data={startupData.coreConcept_proposedSolution} />
-                        <DataDisplay label={t('CORE_CONCEPT_VALUE_PROPOSITION', locale)} data={startupData.coreConcept_valueProposition} />
-                        <DataDisplay label={t('CORE_CONCEPT_BUSINESS_GOALS', locale)} data={startupData.coreConcept_businessGoals} />
-                    </SubSection>
-                    {startupData.coreConceptSummary && (
-                        <SubSection title={locale === 'fa' ? 'خلاصه' : 'Summary'}>
-                            <DataDisplay label={t('CORE_CONCEPT_SUMMARY', locale)} data={startupData.coreConceptSummary} />
-                        </SubSection>
-                    )}
-                </Section>
-
-                {/* Market Analysis Section */}
-                <Section title={`${t(MajorSection.MARKET_ANALYSIS, locale)} ${locale === 'fa' ? '(تحلیل بازار و رقبا)' : '(Market & Competitors)'}`}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <SubSection title={locale === 'fa' ? 'محیط بازار' : 'Market Environment'}>
-                            <DataDisplay label={t('MARKET_ANALYSIS_SIZE', locale)} data={startupData.marketAnalysis_size} />
-                            <DataDisplay label={t('MARKET_ANALYSIS_TRENDS', locale)} data={startupData.marketAnalysis_trends} />
-                            <DataDisplay label={t('MARKET_ANALYSIS_OPP_THREATS', locale)} data={startupData.marketAnalysis_oppThreats} />
-                        </SubSection>
-                        <SubSection title={locale === 'fa' ? 'چشم‌انداز رقابتی' : 'Competitive Landscape'}>
-                            <DataDisplay label={t('MARKET_ANALYSIS_COMPETITOR_IDENTIFICATION', locale)} data={startupData.marketAnalysis_competitor_list} />
-                            <DataDisplay label={t('MARKET_ANALYSIS_COMPETITOR_ANALYSIS', locale)} data={startupData.marketAnalysis_competitors} />
-                        </SubSection>
-                        <SubSection title={locale === 'fa' ? 'موقعیت‌یابی استراتژیک' : 'Strategic Positioning'}>
-                            <DataDisplay label={locale === 'fa' ? 'تحلیل SWOT' : 'SWOT Analysis'} data={startupData.marketAnalysis_swot} />
-                        </SubSection>
-                        <SubSection title={locale === 'fa' ? 'تحلیل ریسک' : 'Risk Analysis'}>
-                            <DataDisplay label={t('blueprint_risk_analysis_title', locale)} data={startupData.marketAnalysis_risk_analysis} />
-                            {startupData.marketAnalysisSummary && <DataDisplay label={t('MARKET_ANALYSIS_SUMMARY', locale)} data={startupData.marketAnalysisSummary} />}
-                        </SubSection>
+            {hasAnyData ? (
+                <ConfirmedContent startupData={startupData} locale={locale} selectedStage={selectedStage || null} />
+            ) : (
+                <div className="text-center py-8">
+                    <div className="text-slate-500 dark:text-slate-400">
+                        <svg className="mx-auto h-12 w-12 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <p className="text-lg font-medium mb-2">
+                            {locale === 'fa' ? 'هنوز متنی تایید نشده' : 'No confirmed content yet'}
+                        </p>
+                        <p className="text-sm">
+                            {locale === 'fa'
+                                ? 'با ادامه کار، متن‌های تایید شده در این بخش نمایش داده می‌شوند'
+                                : 'Confirmed content will appear here as you progress through the stages'
+                            }
+                        </p>
                     </div>
-                </Section>
-
-                {/* Business Modeling Section */}
-                {Object.values(startupData).some(value => value) && (
-                    <Section title={`${t(MajorSection.BUSINESS_MODELING, locale)} ${locale === 'fa' ? '(مدل کسب‌وکار - BMC)' : '(Business Model Canvas)'}`}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <SubSection title={locale === 'fa' ? 'ارزش‌ها' : 'Value Proposition'}>
-                                <DataDisplay label={t('BMC_VALUE_PROPOSITIONS', locale)} data={startupData.bmc_valuePropositions} />
-                                <DataDisplay label={t('BMC_CUSTOMER_RELATIONSHIPS', locale)} data={startupData.bmc_customerRelationships} />
-                                <DataDisplay label={t('BMC_CHANNELS', locale)} data={startupData.bmc_channels} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'مشتریان و درآمد' : 'Customers & Revenue'}>
-                                <DataDisplay label={t('BMC_CUSTOMER_SEGMENTS', locale)} data={startupData.bmc_customerSegments} />
-                                <DataDisplay label={t('BMC_REVENUE_STREAMS', locale)} data={startupData.bmc_revenueStreams} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'فعالیت‌ها و منابع' : 'Activities & Resources'}>
-                                <DataDisplay label={t('BMC_KEY_ACTIVITIES', locale)} data={startupData.bmc_keyActivities} />
-                                <DataDisplay label={t('BMC_KEY_RESOURCES', locale)} data={startupData.bmc_keyResources} />
-                                <DataDisplay label={t('BMC_KEY_PARTNERSHIPS', locale)} data={startupData.bmc_keyPartnerships} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'هزینه‌ها' : 'Costs'}>
-                                <DataDisplay label={t('BMC_COST_STRUCTURE', locale)} data={startupData.bmc_costStructure} />
-                            </SubSection>
-                        </div>
-                        {startupData.businessModelingSummary && (
-                            <SubSection title={locale === 'fa' ? 'خلاصه' : 'Summary'}>
-                                <DataDisplay label={t('BUSINESS_MODELING_SUMMARY', locale)} data={startupData.businessModelingSummary} />
-                            </SubSection>
-                        )}
-                    </Section>
-                )}
-
-                {/* Branding Section */}
-                {(startupData.branding_vision || startupData.branding_name || startupData.branding_guidelines) && (
-                    <Section title={`${t(MajorSection.BRANDING, locale)} ${locale === 'fa' ? '(برندینگ و هویت)' : '(Branding & Identity)'}`}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <SubSection title={locale === 'fa' ? 'استراتژی برند' : 'Brand Strategy'}>
-                                <DataDisplay label={t('BRANDING_VISION', locale)} data={startupData.branding_vision} />
-                                <DataDisplay label={t('BRANDING_MISSION', locale)} data={startupData.branding_mission} />
-                                <DataDisplay label={t('BRANDING_CORE_VALUES', locale)} data={startupData.branding_coreValues} />
-                                <DataDisplay label={t('BRANDING_PERSONALITY', locale)} data={startupData.branding_personality} />
-                                <DataDisplay label={t('BRANDING_POSITIONING', locale)} data={startupData.branding_positioning} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'هویت کلامی' : 'Verbal Identity'}>
-                                <DataDisplay label={t('BRANDING_NAME', locale)} data={startupData.branding_name} />
-                                <DataDisplay label={t('BRANDING_TAGLINE', locale)} data={startupData.branding_tagline} />
-                                <DataDisplay label={t('BRANDING_TONE_OF_VOICE', locale)} data={startupData.branding_toneOfVoice} />
-                                <DataDisplay label={t('BRANDING_KEY_MESSAGES', locale)} data={startupData.branding_keyMessages} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'هویت بصری' : 'Visual Identity'}>
-                                <DataDisplay label={t('BRANDING_LOGO', locale)} data={startupData.branding_logo} />
-                                <DataDisplay label={t('BRANDING_COLOR_PALETTE', locale)} data={startupData.branding_colorPalette} />
-                                <DataDisplay label={t('BRANDING_TYPOGRAPHY', locale)} data={startupData.branding_typography} />
-                                <DataDisplay label={t('BRANDING_VISUAL_STYLE', locale)} data={startupData.branding_visualStyle} />
-                            </SubSection>
-                        </div>
-                        {startupData.branding_guidelines && (
-                            <SubSection title={locale === 'fa' ? 'راهنمای برند' : 'Brand Guidelines'}>
-                                <DataDisplay label={t('BRANDING_GUIDELINES', locale)} data={startupData.branding_guidelines} />
-                            </SubSection>
-                        )}
-                    </Section>
-                )}
-
-                {/* Product Development Section */}
-                {(startupData.productDev_coreFeatures || startupData.productDevSummary) && (
-                    <Section title={`${t(MajorSection.PRODUCT_DEVELOPMENT, locale)} ${locale === 'fa' ? '(توسعه محصول - MVP)' : '(Product Dev - MVP)'}`}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <SubSection title={locale === 'fa' ? 'توضیحات محصول' : 'Product Description'}>
-                                <DataDisplay label={t('PRODUCT_DEV_CORE_FEATURES', locale)} data={startupData.productDev_coreFeatures} />
-                                <DataDisplay label={t('PRODUCT_DEV_USER_BENEFITS', locale)} data={startupData.productDev_userBenefits} />
-                                <DataDisplay label={t('PRODUCT_DEV_DIFFERENTIATORS', locale)} data={startupData.productDev_differentiators} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'برنامه MVP' : 'MVP Plan'}>
-                                <DataDisplay label={t('PRODUCT_DEV_MVP_DEFINITION', locale)} data={startupData.productDev_mvpDefinition} />
-                                <DataDisplay label={t('PRODUCT_DEV_MVP_PHASES', locale)} data={startupData.productDev_mvpPhases} />
-                                <DataDisplay label={t('PRODUCT_DEV_MVP_TECH_STACK', locale)} data={startupData.productDev_mvpTechStack} />
-                                <DataDisplay label={t('PRODUCT_DEV_MVP_DATA_MODEL', locale)} data={startupData.productDev_mvpDataModel} />
-                                <DataDisplay label={t('PRODUCT_DEV_MVP_USER_FLOW', locale)} data={startupData.productDev_mvpUserFlow} />
-                                <DataDisplay label={t('PRODUCT_DEV_MVP_RESOURCES', locale)} data={startupData.productDev_mvpResources} />
-                            </SubSection>
-                        </div>
-                        {startupData.productDevSummary && (
-                            <SubSection title={locale === 'fa' ? 'خلاصه' : 'Summary'}>
-                                <DataDisplay label={t('PRODUCT_DEV_SUMMARY', locale)} data={startupData.productDevSummary} />
-                            </SubSection>
-                        )}
-                    </Section>
-                )}
-
-                {/* Marketing & Sales Section */}
-                {(startupData.marketing_objectives || startupData.marketingSummary) && (
-                    <Section title={`${t(MajorSection.MARKETING_SALES, locale)} ${locale === 'fa' ? '(بازاریابی و فروش)' : '(Marketing & Sales)'}`}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <SubSection title={locale === 'fa' ? 'استراتژی‌های بازاریابی' : 'Marketing Strategies'}>
-                                <DataDisplay label={t('MARKETING_OBJECTIVES', locale)} data={startupData.marketing_objectives} />
-                                <DataDisplay label={t('MARKETING_STRATEGY_CONTENT', locale)} data={startupData.marketing_strategy_content} />
-                                <DataDisplay label={t('MARKETING_STRATEGY_SEO', locale)} data={startupData.marketing_strategy_seo} />
-                                <DataDisplay label={t('MARKETING_STRATEGY_SMM', locale)} data={startupData.marketing_strategy_smm} />
-                                <DataDisplay label={t('MARKETING_STRATEGY_PAID_ADS', locale)} data={startupData.marketing_strategy_paid_ads} />
-                                <DataDisplay label={t('MARKETING_STRATEGY_EMAIL', locale)} data={startupData.marketing_strategy_email} />
-                                <DataDisplay label={t('MARKETING_STRATEGY_PR', locale)} data={startupData.marketing_strategy_pr} />
-                                <DataDisplay label={t('MARKETING_STRATEGY_INFLUENCER', locale)} data={startupData.marketing_strategy_influencer} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'استراتژی فروش' : 'Sales Strategy'}>
-                                <DataDisplay label={t('SALES_STRATEGY_CHANNELS', locale)} data={startupData.sales_strategy_channels} />
-                                <DataDisplay label={t('SALES_STRATEGY_PROCESS', locale)} data={startupData.sales_strategy_process} />
-                                <DataDisplay label={t('INITIAL_CAMPAIGN_PLANNING', locale)} data={startupData.initial_campaigns} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'اندازه‌گیری و بهبود' : 'Measurement & Improvement'}>
-                                <DataDisplay label={t('MARKETING_MEASUREMENT_KPIS', locale)} data={startupData.marketing_kpis} />
-                                <DataDisplay label={t('MARKETING_MEASUREMENT_TOOLS', locale)} data={startupData.marketing_tools} />
-                                <DataDisplay label={t('MARKETING_MEASUREMENT', locale)} data={startupData.marketing_measurement} />
-                            </SubSection>
-                        </div>
-                        {startupData.marketingSummary && (
-                            <SubSection title={locale === 'fa' ? 'خلاصه' : 'Summary'}>
-                                <DataDisplay label={t('MARKETING_SUMMARY', locale)} data={startupData.marketingSummary} />
-                            </SubSection>
-                        )}
-                    </Section>
-                )}
-
-                {/* Organization & Financials Section */}
-                {(startupData.org_team || startupData.orgSummary) && (
-                    <Section title={`${t(MajorSection.ORGANIZATION_FINANCIALS, locale)} ${locale === 'fa' ? '(سازمان و امور مالی)' : '(Organization & Financials)'}`}>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <SubSection title={locale === 'fa' ? 'سازمان و حقوقی' : 'Organization & Legal'}>
-                                <DataDisplay label={t('ORGANIZATION_LEGAL_TEAM', locale)} data={startupData.org_team} />
-                                <DataDisplay label={t('ORGANIZATION_LEGAL_AGREEMENT', locale)} data={startupData.org_agreement} />
-                                <DataDisplay label={t('ORGANIZATION_LEGAL_STRUCTURE', locale)} data={startupData.org_structure} />
-                                <DataDisplay label={t('ORGANIZATION_LEGAL_IP', locale)} data={startupData.org_ip} />
-                                <DataDisplay label={t('ORGANIZATION_LEGAL_TERMS', locale)} data={startupData.org_terms} />
-                                <DataDisplay label={t('ORGANIZATION_LEGAL_COMPLIANCE', locale)} data={startupData.org_compliance} />
-                                <DataDisplay label={t('ORGANIZATION_MANAGEMENT_LEGAL', locale)} data={startupData.org_managementLegal} />
-                                <DataDisplay label={t('ORGANIZATION_COMPANY_SUMMARY', locale)} data={startupData.org_companyDescription} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'عملیاتی' : 'Operational'}>
-                                <DataDisplay label={t('ORGANIZATION_OPERATIONS_DAILY_PROCESSES', locale)} data={startupData.org_ops_dailyProcesses} />
-                                <DataDisplay label={t('ORGANIZATION_OPERATIONS_PRODUCT_ROADMAP', locale)} data={startupData.org_ops_productRoadmap} />
-                                <DataDisplay label={t('ORGANIZATION_OPERATIONAL_PLAN', locale)} data={startupData.org_operationalPlan} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'پیش‌بینی‌های مالی' : 'Financial Projections'}>
-                                <DataDisplay label={t('ORGANIZATION_FINANCIALS_ASSUMPTIONS', locale)} data={startupData.org_financials_assumptions} />
-                                <DataDisplay label={t('ORGANIZATION_FINANCIALS_SALES_FORECAST', locale)} data={startupData.org_financials_sales_forecast} />
-                                <DataDisplay label={t('ORGANIZATION_FINANCIALS_PNL', locale)} data={startupData.org_financials_pnl} />
-                                <DataDisplay label={t('ORGANIZATION_FINANCIALS_CASH_FLOW', locale)} data={startupData.org_financials_cash_flow} />
-                                <DataDisplay label={t('ORGANIZATION_FINANCIALS_BREAK_EVEN', locale)} data={startupData.org_financials_break_even} />
-                                <DataDisplay label={t('ORGANIZATION_FINANCIALS_FUNDING_NEEDS', locale)} data={startupData.org_financials_funding_needs} />
-                                <DataDisplay label={t('ORGANIZATION_FINANCIAL_PROJECTIONS', locale)} data={startupData.org_financialProjections} />
-                            </SubSection>
-                        </div>
-                        {startupData.orgSummary && (
-                            <SubSection title={locale === 'fa' ? 'خلاصه' : 'Summary'}>
-                                <DataDisplay label={t('ORGANIZATION_SUMMARY', locale)} data={startupData.orgSummary} />
-                            </SubSection>
-                        )}
-                    </Section>
-                )}
-
-                {/* Final Outputs Section */}
-                {(startupData.final_fundingRequest || startupData.final_businessPlan) && (
-                    <Section title={`${t(MajorSection.FINAL_OUTPUTS, locale)} ${locale === 'fa' ? '(خروجی‌های نهایی)' : '(Final Outputs)'}`}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <SubSection title={locale === 'fa' ? 'طرح‌ها' : 'Plans'}>
-                                <DataDisplay label={t('COMPREHENSIVE_BUSINESS_PLAN', locale)} data={startupData.final_businessPlan} />
-                                <DataDisplay label={t('INVESTOR_PITCH_DECK', locale)} data={startupData.final_pitchDeck} />
-                            </SubSection>
-                            <SubSection title={locale === 'fa' ? 'درخواست تأمین مالی' : 'Funding Request'}>
-                                <DataDisplay label={t('FUNDING_REQUEST', locale)} data={startupData.final_fundingRequest} />
-                                <DataDisplay label={t('APPENDICES', locale)} data={startupData.final_appendices} />
-                            </SubSection>
-                        </div>
-                        {startupData.finalOutputsSummary && (
-                            <SubSection title={locale === 'fa' ? 'خلاصه' : 'Summary'}>
-                                <DataDisplay label={t('FINAL_OUTPUTS_SUMMARY', locale)} data={startupData.finalOutputsSummary} />
-                            </SubSection>
-                        )}
-                    </Section>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 };

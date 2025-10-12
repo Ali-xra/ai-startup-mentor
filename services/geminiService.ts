@@ -1,7 +1,8 @@
 import { StartupData, Stage, Locale } from '../types';
+import { getStageById } from '../config/stages';
 
 // Check if we should use direct API or PHP proxy
-const USE_DIRECT_API = import.meta.env.VITE_USE_DIRECT_API === 'true';
+const USE_DIRECT_API = true; // موقت برای تست مستقیم
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
 
 // Helper function to call Gemini API directly (for local testing)
@@ -57,22 +58,152 @@ const callGeminiDirect = async (payload: any): Promise<any> => {
 
 // Helper function to handle API calls to the PHP proxy
 const callProxy = async (endpoint: 'gemini_proxy.php' | 'gemini_image_proxy.php', body: object) => {
-    const proxyUrl = `/${endpoint}`;
+    const proxyUrl = `http://localhost:8000/${endpoint}`;
+
+    console.log('🔄 Calling proxy:', proxyUrl, 'with body:', body);
 
     const response = await fetch(proxyUrl, {
         method: 'POST',
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
         },
         body: JSON.stringify(body),
     });
 
+    console.log('📡 Proxy response status:', response.status);
+
     if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Proxy error response:', errorText);
         const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
         throw new Error(`Proxy error: ${response.statusText} - ${errorData.error || 'Unknown error'}`);
     }
 
-    return response.json();
+    const result = await response.json();
+    console.log('✅ Proxy response data:', result);
+    return result;
+};
+
+// Helper function to replace context keys in prompt with actual data
+const replaceContextKeys = (prompt: string, contextKeys: string[], startupData: Partial<StartupData>, userInput?: string): string => {
+    let replacedPrompt = prompt;
+
+    // Replace each context key
+    for (const key of contextKeys) {
+        const placeholder = `{${key}}`;
+        let value = '';
+
+        if (key === 'userInput') {
+            value = userInput || '';
+        } else if (key === 'initialIdea') {
+            value = startupData.initialIdea || '';
+        } else {
+            // Get value from startupData using the key
+            value = (startupData as any)[key] || '';
+        }
+
+        replacedPrompt = replacedPrompt.replace(new RegExp(placeholder, 'g'), value);
+    }
+
+    return replacedPrompt;
+};
+
+// Build prompt from stage config (NEW - uses phase1.ts promptConfig)
+const buildPromptFromConfig = (stage: Stage, startupData: Partial<StartupData>, locale: Locale, userInput?: string): any | null => {
+    const stageConfig = getStageById(stage);
+
+    if (!stageConfig || !stageConfig.promptConfig) {
+        console.warn(`No promptConfig found for stage: ${stage}`);
+        return null;
+    }
+
+    const config = stageConfig.promptConfig;
+    const isRTL = locale === 'fa';
+    const lang = isRTL ? 'Persian (Farsi)' : 'English';
+
+    // Build system instruction
+    let systemInstruction = config.role || `You are an AI startup mentor helping entrepreneurs develop their business ideas.`;
+    systemInstruction += ` Always respond in ${lang}.`;
+
+    // Add constraints to system instruction
+    if (config.constraints) {
+        const constraints = [];
+        if (config.constraints.tone) {
+            constraints.push(`Tone: ${config.constraints.tone}`);
+        }
+        if (config.constraints.complexity) {
+            constraints.push(`Complexity: ${config.constraints.complexity}`);
+        }
+        if (config.constraints.length) {
+            constraints.push(`Length: ${config.constraints.length}`);
+        }
+        if (config.constraints.maxWords) {
+            constraints.push(`Max words: ${config.constraints.maxWords}`);
+        }
+        if (config.constraints.count) {
+            constraints.push(`Count: ${config.constraints.count} items`);
+        }
+
+        if (constraints.length > 0) {
+            systemInstruction += `\n\nConstraints: ${constraints.join(', ')}`;
+        }
+    }
+
+    // Add goal
+    if (config.goal) {
+        systemInstruction += `\n\nGoal: ${config.goal}`;
+    }
+
+    // Add output format
+    if (config.outputFormat) {
+        systemInstruction += `\n\nOutput Format: ${config.outputFormat}`;
+    }
+
+    // Build user prompt
+    let userPrompt = config.prompt || '';
+
+    // Replace context keys if they exist
+    if (config.contextKeys && config.contextKeys.length > 0) {
+        userPrompt = replaceContextKeys(userPrompt, config.contextKeys, startupData, userInput);
+    }
+
+    // Build generation config
+    const generationConfig: any = {
+        temperature: config.aiSettings?.temperature || 0.7,
+        topK: config.aiSettings?.topK || 40,
+        topP: config.aiSettings?.topP || 0.95,
+        maxOutputTokens: config.aiSettings?.maxOutputTokens || 2048,
+    };
+
+    // Add grounding if webSearch is enabled
+    const tools: any[] = [];
+    if (config.tools?.webSearch) {
+        tools.push({
+            googleSearch: {}
+        });
+    }
+
+    const payload: any = {
+        contents: [{
+            parts: [{
+                text: userPrompt
+            }]
+        }],
+        systemInstruction: {
+            parts: [{
+                text: systemInstruction
+            }]
+        },
+        generationConfig
+    };
+
+    if (tools.length > 0) {
+        payload.tools = tools;
+    }
+
+    return payload;
 };
 
 // Build prompt based on action
@@ -126,8 +257,15 @@ const buildPrompt = (action: string, data: any, locale: Locale): any => {
     };
 };
 
-export const generateSuggestion = async (stage: Stage, startupData: Partial<StartupData>, locale: Locale): Promise<string> => {
-    const payload = buildPrompt('generateSuggestion', { stage, startupData, locale }, locale);
+export const generateSuggestion = async (stage: Stage, startupData: Partial<StartupData>, locale: Locale, userInput?: string): Promise<string> => {
+    // Try to use config-based prompt first
+    let payload = buildPromptFromConfig(stage, startupData, locale, userInput);
+
+    // Fallback to old prompt system if no config found
+    if (!payload) {
+        console.warn(`Using fallback prompt for stage: ${stage}`);
+        payload = buildPrompt('generateSuggestion', { stage, startupData, locale }, locale);
+    }
 
     if (USE_DIRECT_API) {
         const result = await callGeminiDirect(payload);

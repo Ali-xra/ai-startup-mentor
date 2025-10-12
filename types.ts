@@ -184,7 +184,7 @@ export interface StartupData {
 
     // 1.4. Proposed Solution
     product_description?: string;
-    core_features?: string;
+    how_it_works?: string;
 
     // 1.5. Unique Value Proposition
     uvp_statement?: string;
@@ -194,7 +194,7 @@ export interface StartupData {
     validation_summary?: string;
 
     // 1.7. Business Goals
-    business_goals?: string;
+    business_goals_timeline?: string;
 
     // Phase 2: Market Analysis
     marketAnalysis_size?: string; // JSON { tam, sam, som }

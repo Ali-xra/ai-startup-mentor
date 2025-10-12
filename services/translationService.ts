@@ -189,7 +189,7 @@ export const translateStage = async (
     return { title: originalTitle, description: originalDescription };
   }
 
-  const stageIdStr = typeof stageId === 'string' ? stageId : stageId.toString();
+  const stageIdStr = typeof stageId === 'string' ? stageId : String(stageId);
 
   // Layer 1: Memory cache
   const fromMemory = getFromMemory(stageIdStr, languageCode);

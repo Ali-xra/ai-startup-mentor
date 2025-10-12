@@ -36,6 +36,17 @@ export interface Translations {
   typeMessage: string;
   send: string;
   thinking: string;
+  chat_current_prompt: string;
+  chat_current_question: string;
+  chat_awaiting_input: string;
+  chat_welcome_message: string;
+  chat_start_question: string;
+  chat_placeholder_default: string;
+  chat_placeholder_awaiting_suggestion: string;
+  chat_send_button_tooltip: string;
+  chat_suggest_button_tooltip: string;
+  chat_complete_title: string;
+  chat_continue_to_next_section: string;
 
   // Stage Navigation
   stage: string;
@@ -102,6 +113,17 @@ const translations: Record<LanguageCode, Translations> = {
     typeMessage: 'Type your message...',
     send: 'Send',
     thinking: 'AI is thinking...',
+    chat_current_prompt: 'Current Prompt',
+    chat_current_question: 'Current Question',
+    chat_awaiting_input: 'Awaiting your input...',
+    chat_welcome_message: 'Welcome! Let\'s start building your startup idea.',
+    chat_start_question: 'What is your startup idea?',
+    chat_placeholder_default: 'Type your response...',
+    chat_placeholder_awaiting_suggestion: 'Waiting for AI suggestion...',
+    chat_send_button_tooltip: 'Send message',
+    chat_suggest_button_tooltip: 'Get AI suggestion',
+    chat_complete_title: 'Journey Complete!',
+    chat_continue_to_next_section: 'Continue to Next Section',
 
     // Stage Navigation
     stage: 'Stage',
@@ -167,6 +189,17 @@ const translations: Record<LanguageCode, Translations> = {
     typeMessage: 'پیام خود را بنویسید...',
     send: 'ارسال',
     thinking: 'هوش مصنوعی در حال فکر کردن...',
+    chat_current_prompt: 'دستورالعمل فعلی',
+    chat_current_question: 'سوال فعلی',
+    chat_awaiting_input: 'در انتظار پاسخ شما...',
+    chat_welcome_message: 'خوش آمدید! بیایید ایده استارتاپ شما را بسازیم.',
+    chat_start_question: 'ایده استارتاپ شما چیست؟',
+    chat_placeholder_default: 'پاسخ خود را بنویسید...',
+    chat_placeholder_awaiting_suggestion: 'در انتظار پیشنهاد هوش مصنوعی...',
+    chat_send_button_tooltip: 'ارسال پیام',
+    chat_suggest_button_tooltip: 'دریافت پیشنهاد هوش مصنوعی',
+    chat_complete_title: 'مسیر تکمیل شد!',
+    chat_continue_to_next_section: 'ادامه به بخش بعدی',
 
     // Stage Navigation
     stage: 'مرحله',

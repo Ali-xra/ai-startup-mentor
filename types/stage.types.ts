@@ -10,12 +10,46 @@ export type OutputType = 'text' | 'selection' | 'list' | 'analysis';
 /**
  * Tone options for AI responses
  */
-export type ToneType = 'professional' | 'casual' | 'inspiring' | 'educational';
+export type ToneType =
+  | 'professional'
+  | 'casual'
+  | 'inspiring'
+  | 'educational'
+  | 'strategic'
+  | 'analytical'
+  | 'realistic'
+  | 'informative'
+  | 'precautionary'
+  | 'concise'
+  | 'customer-centric'
+  | 'practical'
+  | 'business-oriented'
+  | 'action-oriented'
+  | 'financial'
+  | 'inspirational'
+  | 'principled'
+  | 'creative'
+  | 'descriptive'
+  | 'design-oriented'
+  | 'detailed'
+  | 'structured'
+  | 'focused'
+  | 'logical'
+  | 'technical'
+  | 'methodical'
+  | 'persuasive'
+  | 'empathetic'
+  | 'critical'
+  | 'benefit-oriented'
+  | 'functional'
+  | 'confident'
+  | 'creative_and_professional'
+  | 'persuasive_and_concise';
 
 /**
  * Complexity levels for AI responses
  */
-export type ComplexityType = 'simple' | 'moderate' | 'technical';
+export type ComplexityType = 'simple' | 'moderate' | 'technical' | 'simple_and_clear';
 
 /**
  * Constraints for AI prompt generation

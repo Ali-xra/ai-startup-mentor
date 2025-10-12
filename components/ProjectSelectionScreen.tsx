@@ -20,7 +20,7 @@ interface ProjectSummary {
     updated_at: string;
 }
 
-export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({ onProjectSelect, locale, onLocaleToggle }) => {
+export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({ onProjectSelect, locale }) => {
     const { user, signOut } = useAuth();
     const [projects, setProjects] = useState<ProjectSummary[]>([]);
     const [projectName, setProjectName] = useState('');
@@ -80,7 +80,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({ 
                 project_name: projectName,
                 initial_idea: initialIdea,
                 user_id: user.id,
-                stage: Stage.CORE_CONCEPT_IDEA_TITLE,
+                stage: Stage.IDEA_TITLE,
                 startup_data: { projectName, initialIdea },
                 messages: [],
             })

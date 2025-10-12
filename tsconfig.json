@@ -17,6 +17,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["."],
-  "exclude": ["vite.config.ts"],
+  "exclude": ["vite.config.ts", "demo-new-structure.tsx", "test-phase1.ts", "components/StageIndicatorNew.tsx", "types-new-structure.ts", "i18n-new-phases.ts", "demo.html"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

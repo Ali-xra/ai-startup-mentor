@@ -15,7 +15,7 @@ interface HeaderProps {
     onExportProject: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ progress, theme, locale, projectName, initialIdea, onThemeToggle, onLocaleToggle, onRestart, onSwitchProjects, onExportProject }) => {
+export const Header: React.FC<HeaderProps> = ({ progress, locale, projectName, initialIdea, onRestart, onSwitchProjects, onExportProject }) => {
     const title = projectName || initialIdea || t('header_title_unnamed', locale);
     return (
         <header className="p-4 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">

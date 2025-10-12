@@ -10,12 +10,18 @@ require_once 'config.php';
 
 // تنظیم هدرهای لازم برای ارتباط صحیح با فرانت‌اند
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // برای محیط نهایی، می‌توانید این را به دامنه خود محدود کنید
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Origin: *"); // موقت برای تست
+header("Access-Control-Allow-Methods: POST, OPTIONS, GET");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Origin");
+header("Access-Control-Max-Age: 86400"); // کش کردن preflight برای 24 ساعت
 
 // رسیدگی به درخواست‌های preflight برای CORS
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: POST, OPTIONS, GET");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Origin");
+    header("Access-Control-Max-Age: 86400");
     exit(0);
 }
 

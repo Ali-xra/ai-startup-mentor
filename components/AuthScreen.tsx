@@ -19,7 +19,7 @@ const GoogleIcon = () => (
     </svg>
 );
 
-export const AuthScreen: React.FC<AuthScreenProps> = ({ locale, onLocaleToggle }) => {
+export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLogin, setIsLogin] = useState(true);

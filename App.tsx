@@ -13,13 +13,13 @@ import { useAuth } from './contexts/AuthContext';
 import { useLanguage } from './contexts/LanguageContext';
 import { Locale, t } from './i18n';
 import { Loader } from './components/Loader';
-import { LanguageCode } from './services/translationService';
 
 const AppContent: React.FC = () => {
     const { session, loading } = useAuth();
     const { language } = useLanguage();
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [theme, setTheme] = useState<'light' | 'dark'>(() => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark');
+    const [selectedStageForPreview, setSelectedStageForPreview] = useState<string | null>(null);
 
     // Map LanguageCode to Locale for backwards compatibility
     const locale: Locale = language === 'fa' ? 'fa' : 'en';
@@ -61,6 +61,18 @@ const AppContent: React.FC = () => {
     const handleSwitchProjects = () => {
         setSelectedProjectId(null);
     };
+
+    // Handle suggestion requests from ChatInterface
+    useEffect(() => {
+        const handleRequestSuggestion = () => {
+            if (journey && !journey.isLoading && !journey.suggestionModalOpen) {
+                journey.handleRequestSuggestion();
+            }
+        };
+
+        window.addEventListener('requestSuggestion', handleRequestSuggestion);
+        return () => window.removeEventListener('requestSuggestion', handleRequestSuggestion);
+    }, [journey]);
     
     const handleRestart = () => {
         if (window.confirm(t('settings_restart_confirm', locale))) {
@@ -98,7 +110,7 @@ const AppContent: React.FC = () => {
     }
 
     return (
-        <div className={`min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 ${locale === 'fa' ? 'font-vazir' : 'font-sans'}`}>
+        <div className={`h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 ${locale === 'fa' ? 'font-vazir' : 'font-sans'}`}>
             <Header
                 progress={journey.progress}
                 theme={theme}
@@ -111,17 +123,19 @@ const AppContent: React.FC = () => {
                 onSwitchProjects={handleSwitchProjects}
                 onExportProject={handleExportProject}
             />
-            <main className="max-w-screen-2xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-85px)]">
-                <div className="lg:col-span-2 h-full overflow-y-auto">
-                    <StageIndicator 
-                        stages={journey.stages} 
+            <main className="flex-1 w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-0">
+                <div className="lg:col-span-2 overflow-y-auto">
+                    <StageIndicator
+                        stages={journey.stages}
                         currentStage={journey.stage}
-                        onStageSelect={journey.jumpToStage}
-                        onEditStage={journey.editStage}
+                        onStageSelect={(stage) => {
+                            // فقط برای preview - مسیر رو reset نکن
+                            setSelectedStageForPreview(stage);
+                        }}
                         locale={locale}
                     />
                 </div>
-                <div className="lg:col-span-5 h-full">
+                <div className="lg:col-span-5 flex flex-col overflow-hidden">
                     <ChatInterface
                         messages={journey.messages}
                         isLoading={journey.isLoading}
@@ -131,9 +145,9 @@ const AppContent: React.FC = () => {
                         isReadyForNextSection={journey.isReadyForNextSection}
                         suggestionModalOpen={journey.suggestionModalOpen}
                         currentSuggestion={journey.currentSuggestion}
+                        selectedStageForPreview={selectedStageForPreview}
                         locale={locale}
                         onSendMessage={journey.handleSendMessage}
-                        onRequestSuggestion={journey.handleRequestSuggestion}
                         onSuggestionModalAccept={journey.handleSuggestionModalAccept}
                         onRefineSuggestion={journey.handleRefineSuggestion}
                         onSuggestionModalClose={journey.handleSuggestionModalClose}
@@ -143,8 +157,13 @@ const AppContent: React.FC = () => {
                         onRefineEditedStage={journey.handleRefineEditedStage}
                     />
                 </div>
-                <div className="lg:col-span-5 h-full">
-                    <BlueprintPreview startupData={journey.startupData} locale={locale} />
+                <div className="lg:col-span-5 overflow-y-auto">
+                    <BlueprintPreview
+                        startupData={journey.startupData}
+                        locale={locale}
+                        selectedStage={selectedStageForPreview}
+                        onEditStage={journey.editStage}
+                    />
                 </div>
             </main>
         </div>

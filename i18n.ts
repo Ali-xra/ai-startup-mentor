@@ -147,15 +147,21 @@ const translations: Record<Locale, Record<string, string>> = {
     'subsection_financial_projections': 'Financial Projections',
 
     // Stages & Data Keys
-    // Phase 1: Idea & Core Concept Definition
-    [Stage.CORE_CONCEPT_IDEA_TITLE]: 'Idea Title',
-    [Stage.CORE_CONCEPT_IDEA_ABSTRACT]: 'Idea Abstract',
-    [Stage.CORE_CONCEPT_PROBLEM_STATEMENT]: 'Problem Statement',
-    [Stage.CORE_CONCEPT_INITIAL_TARGET_AUDIENCE]: 'Initial Target Audience',
-    [Stage.CORE_CONCEPT_PROPOSED_SOLUTION]: 'Proposed Solution',
-    [Stage.CORE_CONCEPT_VALUE_PROPOSITION]: 'Value Proposition',
-    [Stage.CORE_CONCEPT_BUSINESS_GOALS]: 'Business Goals (SMART)',
-    [Stage.CORE_CONCEPT_SUMMARY]: 'Core Concept Summary',
+    // Phase 1: Core Concept & Validation
+    [Stage.IDEA_TITLE]: 'Idea Title',
+    [Stage.ELEVATOR_PITCH]: 'Elevator Pitch',
+    [Stage.EXECUTIVE_SUMMARY]: 'Executive Summary',
+    [Stage.PROBLEM_DESCRIPTION]: 'Problem Description',
+    [Stage.PROBLEM_MAGNITUDE]: 'Problem Magnitude',
+    [Stage.CURRENT_SOLUTIONS]: 'Current Solutions',
+    [Stage.CUSTOMER_SEGMENTS]: 'Customer Segments',
+    [Stage.EARLY_ADOPTER_PERSONA]: 'Early Adopter Persona',
+    [Stage.PRODUCT_DESCRIPTION]: 'Product Description',
+    [Stage.HOW_IT_WORKS]: 'How It Works',
+    [Stage.UVP_STATEMENT]: 'Unique Value Proposition',
+    [Stage.UNFAIR_ADVANTAGE]: 'Unfair Advantage',
+    [Stage.VALIDATION_SUMMARY]: 'Validation Summary',
+    [Stage.BUSINESS_GOALS_TIMELINE]: 'Business Goals & Timeline',
 
     // Phase 2: In-depth Market, Competitor & Risk Analysis
     [Stage.MARKET_ANALYSIS_SIZE]: 'Market Size (TAM, SAM, SOM)',
@@ -483,15 +489,21 @@ const translations: Record<Locale, Record<string, string>> = {
     'subsection_financial_projections': 'پیش‌بینی‌های مالی',
 
     // مراحل و کلیدهای داده
-    // فاز ۱: تعریف ایده و مفهوم اصلی
-    [Stage.CORE_CONCEPT_IDEA_TITLE]: 'عنوان ایده',
-    [Stage.CORE_CONCEPT_IDEA_ABSTRACT]: 'چکیده ایده',
-    [Stage.CORE_CONCEPT_PROBLEM_STATEMENT]: 'بیان مسئله',
-    [Stage.CORE_CONCEPT_INITIAL_TARGET_AUDIENCE]: 'مخاطب هدف اولیه',
-    [Stage.CORE_CONCEPT_PROPOSED_SOLUTION]: 'راه حل پیشنهادی',
-    [Stage.CORE_CONCEPT_VALUE_PROPOSITION]: 'ارزش پیشنهادی',
-    [Stage.CORE_CONCEPT_BUSINESS_GOALS]: 'اهداف کسب‌وکار (SMART)',
-    [Stage.CORE_CONCEPT_SUMMARY]: 'خلاصه مفهوم اصلی',
+    // فاز ۱: مفهوم اصلی و اعتبارسنجی ایده
+    [Stage.IDEA_TITLE]: 'عنوان ایده',
+    [Stage.ELEVATOR_PITCH]: 'معرفی کوتاه (Elevator Pitch)',
+    [Stage.EXECUTIVE_SUMMARY]: 'خلاصه مدیریتی',
+    [Stage.PROBLEM_DESCRIPTION]: 'توضیح مشکل',
+    [Stage.PROBLEM_MAGNITUDE]: 'بزرگی مشکل',
+    [Stage.CURRENT_SOLUTIONS]: 'راه‌حل‌های موجود',
+    [Stage.CUSTOMER_SEGMENTS]: 'بخش‌های مشتری',
+    [Stage.EARLY_ADOPTER_PERSONA]: 'پرسونای مشتری اولیه',
+    [Stage.PRODUCT_DESCRIPTION]: 'توضیح محصول',
+    [Stage.HOW_IT_WORKS]: 'نحوه کارکرد محصول',
+    [Stage.UVP_STATEMENT]: 'ارزش منحصربه‌فرد (UVP)',
+    [Stage.UNFAIR_ADVANTAGE]: 'مزیت رقابتی',
+    [Stage.VALIDATION_SUMMARY]: 'خلاصه اعتبارسنجی',
+    [Stage.BUSINESS_GOALS_TIMELINE]: 'اهداف کسب‌وکار و جدول زمانی',
 
     // فاز ۲: تحلیل عمیق بازار، رقبا و ریسک
     [Stage.MARKET_ANALYSIS_SIZE]: 'اندازه بازار (TAM, SAM, SOM)',

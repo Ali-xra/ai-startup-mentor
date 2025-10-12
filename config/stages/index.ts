@@ -70,3 +70,56 @@ export const getAllStagesFlat = () => {
   }
   return stages;
 };
+
+// ========================================
+// Helper Functions for Title Retrieval
+// ========================================
+
+/**
+ * Get stage title from config based on locale
+ * @param stageId - Stage ID (e.g., 'IDEA_TITLE')
+ * @param locale - Language ('fa' | 'en')
+ * @returns Stage title in the requested language
+ */
+export const getStageTitle = (stageId: string, locale: 'fa' | 'en'): string => {
+  const stage = getStageById(stageId);
+  if (stage) {
+    return locale === 'fa' ? stage.title_fa : stage.title_en;
+  }
+
+  // Fallback to stage ID if not found
+  console.warn(`Stage "${stageId}" not found in config, returning stage ID`);
+  return stageId;
+};
+
+/**
+ * Get subsection title from config based on locale
+ * @param subsectionId - Subsection ID (e.g., 'IDEA_DEFINITION')
+ * @param locale - Language ('fa' | 'en')
+ * @returns Subsection title in the requested language
+ */
+export const getSubsectionTitle = (subsectionId: string, locale: 'fa' | 'en'): string => {
+  const subsection = getSubsectionById(subsectionId);
+  if (subsection) {
+    return locale === 'fa' ? subsection.title_fa : subsection.title_en;
+  }
+
+  console.warn(`Subsection "${subsectionId}" not found in config`);
+  return subsectionId;
+};
+
+/**
+ * Get phase title from config based on locale
+ * @param phaseId - Phase ID (e.g., 'CORE_CONCEPT_VALIDATION')
+ * @param locale - Language ('fa' | 'en')
+ * @returns Phase title in the requested language
+ */
+export const getPhaseTitle = (phaseId: string, locale: 'fa' | 'en'): string => {
+  const phase = getPhaseById(phaseId);
+  if (phase) {
+    return locale === 'fa' ? phase.title_fa : phase.title_en;
+  }
+
+  console.warn(`Phase "${phaseId}" not found in config`);
+  return phaseId;
+};
