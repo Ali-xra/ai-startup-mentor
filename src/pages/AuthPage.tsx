@@ -31,3 +31,6 @@ root.render(
     </AuthProvider>
   </React.StrictMode>
 );
+
+
+export default AuthApp;

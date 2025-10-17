@@ -593,3 +593,6 @@ const LandingApp: React.FC = () => {
 
 const root = createRoot(document.getElementById('root')!);
 root.render(<LandingApp />);
+
+
+export default LandingApp;

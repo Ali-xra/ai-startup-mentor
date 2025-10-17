@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../services/supabaseClient';
-import { Locale, t } from '../i18n';
+import { Locale, _t } from '../i18n';
 import { Loader } from './Loader';
 
 interface RoleSelectionProps {
@@ -11,7 +11,7 @@ interface RoleSelectionProps {
 
 type UserRole = 'entrepreneur' | 'investor' | 'programmer' | 'consultant' | 'designer';
 
-export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, onComplete }) => {
+export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, _onComplete }) => {
     const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);

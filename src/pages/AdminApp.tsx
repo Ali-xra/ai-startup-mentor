@@ -56,3 +56,6 @@ const AdminApp: React.FC = () => {
 
 const root = createRoot(document.getElementById('root')!);
 root.render(<AdminApp />);
+
+
+export default AdminApp;

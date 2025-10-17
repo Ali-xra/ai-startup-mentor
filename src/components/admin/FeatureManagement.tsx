@@ -53,7 +53,7 @@ export const FeatureManagement: React.FC = () => {
     };
 
     // Toggle feature for user
-    const handleToggleFeature = async (userId: string, featureKey: FeatureKey, currentValue: boolean) => {
+    const _handleToggleFeature = async (userId: string, featureKey: FeatureKey, currentValue: boolean) => {
         if (!user) return;
 
         try {
@@ -304,7 +304,7 @@ export const FeatureManagement: React.FC = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {Object.entries(featuresByCategory).map(([category, categoryFeatures]) => {
                                             // پیدا کردن فیچر فعال در این category
-                                            const activeFeature = categoryFeatures.find(feature => {
+                                            const _activeFeature = categoryFeatures.find(feature => {
                                                 const userFeature = userData.features.find(
                                                     (f) => f.feature_key === feature.feature_key
                                                 );
@@ -312,7 +312,7 @@ export const FeatureManagement: React.FC = () => {
                                             });
 
                                             return (
-                                                <div key={category} className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 space-y-3">
+                                                <div key={_category} className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 space-y-3">
                                                     <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2 border-b border-slate-200 dark:border-slate-600 pb-2">
                                                         <span>{categoryLabels[category]?.icon}</span>
                                                         <span>{categoryLabels[category]?.fa}</span>
@@ -335,13 +335,13 @@ export const FeatureManagement: React.FC = () => {
                                                                 >
                                                                     <input
                                                                         type="radio"
-                                                                        name={`feature-${category}-${userData.id}`}
+                                                                        name={`feature-${_category}-${userData.id}`}
                                                                         checked={isEnabled}
                                                                         onChange={() => {
                                                                             if (!isEnabled) {
                                                                                 handleChangeFeatureInCategory(
                                                                                     userData.id,
-                                                                                    category,
+                                                                                    _category,
                                                                                     feature.feature_key as FeatureKey,
                                                                                     categoryFeatures
                                                                                 );
@@ -429,7 +429,7 @@ export const FeatureManagement: React.FC = () => {
                     </p>
                     <div className="space-y-4">
                         {Object.entries(featuresByCategory).map(([category, categoryFeatures]) => (
-                            <div key={category}>
+                            <div key={_category}>
                                 <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
                                     <span>{categoryLabels[category]?.icon}</span>
                                     <span>{categoryLabels[category]?.fa}</span>

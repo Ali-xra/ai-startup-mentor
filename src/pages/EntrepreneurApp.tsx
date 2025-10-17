@@ -45,3 +45,6 @@ root.render(
         </ErrorBoundary>
     </React.StrictMode>
 );
+
+
+export default EntrepreneurAppWithAuthCheck;

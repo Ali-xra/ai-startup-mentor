@@ -72,7 +72,7 @@ class ErrorHandlerService {
      * ارسال خطا به Sentry
      * TODO: باید Sentry SDK نصب و configure شود
      */
-    private sendToSentry(error: AppError): void {
+    private _sendToSentry(_error: AppError): void {
         // if (window.Sentry) {
         //     window.Sentry.captureException(error.originalError, {
         //         level: this.mapSeverityToSentry(error.severity),
@@ -87,7 +87,7 @@ class ErrorHandlerService {
     /**
      * تبدیل severity به format Sentry
      */
-    private mapSeverityToSentry(severity: ErrorSeverity): string {
+    private _mapSeverityToSentry(severity: ErrorSeverity): string {
         const map = {
             [ErrorSeverity.LOW]: 'info',
             [ErrorSeverity.MEDIUM]: 'warning',

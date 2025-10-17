@@ -10,7 +10,7 @@ import { supabase } from '../../services/supabaseClient';
  */
 export const InvestorLayout: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const _navigate = useNavigate();
   const { user, profile, investorProfile } = useInvestorAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
 

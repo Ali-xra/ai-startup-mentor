@@ -9,7 +9,7 @@ import type {
   ProjectSearchResult,
   ProjectAnalytics
 } from '../types/project';
-import type { SavedProject, SavedProjectWithDetails } from '../types/connection';
+import type { SavedProject, _SavedProjectWithDetails } from '../types/connection';
 
 export const investorProjectService = {
   // ==========================================

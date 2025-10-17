@@ -430,3 +430,6 @@ const AboutApp: React.FC = () => {
 
 const root = createRoot(document.getElementById('root')!);
 root.render(<AboutApp />);
+
+
+export default AboutApp;

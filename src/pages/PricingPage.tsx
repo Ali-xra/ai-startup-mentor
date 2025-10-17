@@ -626,3 +626,6 @@ const PricingApp: React.FC = () => {
 
 const root = createRoot(document.getElementById('root')!);
 root.render(<PricingApp />);
+
+
+export default PricingApp;

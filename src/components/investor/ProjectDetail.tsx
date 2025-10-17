@@ -8,7 +8,7 @@ import { useInvestorAuth } from '../../hooks/useInvestorAuth';
 export const ProjectDetail: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
-  const { user, investorProfile } = useInvestorAuth();
+  const { user, _investorProfile } = useInvestorAuth();
 
   const [project, setProject] = useState<PublicProject | null>(null);
   const [loading, setLoading] = useState(true);

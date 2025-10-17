@@ -72,3 +72,6 @@ root.render(
         </ErrorBoundary>
     </React.StrictMode>
 );
+
+
+export default InvestorAppWithAuthCheck;
