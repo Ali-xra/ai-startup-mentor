@@ -7,9 +7,9 @@ import { Loader } from './components/Loader';
 import ErrorBoundary from './src/components/ErrorBoundary';
 
 /**
- * صفحه ساده سرمایه‌گذار - بدون هیچ پیچیدگی
+ * صفحه ساده برنامه‌نویس/فریلنسر - بدون هیچ پیچیدگی
  */
-const SimpleInvestorDashboard: React.FC = () => {
+const SimpleProgrammerDashboard: React.FC = () => {
     const handleLogout = async () => {
         try {
             await supabase.auth.signOut();
@@ -21,14 +21,14 @@ const SimpleInvestorDashboard: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
             <div className="text-center">
-                <div className="text-9xl mb-8">💰</div>
+                <div className="text-9xl mb-8">💻</div>
                 <h1 className="text-6xl font-bold text-slate-900 dark:text-white mb-4">
-                    داشبورد سرمایه‌گذار
+                    داشبورد برنامه‌نویس
                 </h1>
                 <p className="text-2xl text-slate-600 dark:text-slate-300 mb-8">
-                    Investor Dashboard
+                    Programmer Dashboard
                 </p>
                 <button
                     onClick={handleLogout}
@@ -44,11 +44,11 @@ const SimpleInvestorDashboard: React.FC = () => {
 /**
  * Wrapper با auth check قبل از render
  */
-const InvestorAppWithAuthCheck: React.FC = () => {
+const ProgrammerAppWithAuthCheck: React.FC = () => {
     const [authChecked, setAuthChecked] = useState(false);
 
     useEffect(() => {
-        checkAndRedirect('investor').then(() => {
+        checkAndRedirect('programmer').then(() => {
             setAuthChecked(true);
         });
     }, []);
@@ -61,14 +61,14 @@ const InvestorAppWithAuthCheck: React.FC = () => {
         );
     }
 
-    return <SimpleInvestorDashboard />;
+    return <SimpleProgrammerDashboard />;
 };
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
     <React.StrictMode>
         <ErrorBoundary>
-            <InvestorAppWithAuthCheck />
+            <ProgrammerAppWithAuthCheck />
         </ErrorBoundary>
     </React.StrictMode>
 );
