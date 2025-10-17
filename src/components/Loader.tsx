@@ -1,15 +1,13 @@
+/**
+ * Backward compatibility export
+ *
+ * این فایل برای backward compatibility نگه داشته شده است.
+ * برای استفاده از loading states جدید، از LoadingSpinner استفاده کنید:
+ *
+ * import { LoadingSpinner } from './LoadingSpinner';
+ *
+ * یا اگر می‌خواهید همان رفتار قدیمی را داشته باشید:
+ * import { Loader } from './Loader';
+ */
 
-import React from 'react';
-
-export const Loader: React.FC = () => {
-  return (
-    <div
-      className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-      role="status"
-    >
-      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-        Loading...
-      </span>
-    </div>
-  );
-};
+export { LoadingSpinner as Loader } from './LoadingSpinner';
