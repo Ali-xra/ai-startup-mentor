@@ -1,14 +1,17 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { handleError, getUserFriendlyMessage, ErrorType, ErrorSeverity } from '../services/errorHandler';
 
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
+  locale?: 'fa' | 'en';
 }
 
 interface State {
   hasError: boolean;
   error: Error | null;
   errorInfo: ErrorInfo | null;
+  userFriendlyMessage?: string;
 }
 
 /**
@@ -22,6 +25,7 @@ class ErrorBoundary extends Component<Props, State> {
       hasError: false,
       error: null,
       errorInfo: null,
+      userFriendlyMessage: undefined,
     };
   }
 
@@ -34,16 +38,25 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // لاگ کردن خطا برای debugging
-    console.error('Error caught by boundary:', error);
-    console.error('Error info:', errorInfo);
+    // استفاده از ErrorHandler سرویس برای مدیریت متمرکز خطا
+    const appError = handleError(
+      error,
+      {
+        componentStack: errorInfo.componentStack,
+        page: window.location.pathname,
+      },
+      ErrorType.UNKNOWN,
+      ErrorSeverity.HIGH
+    );
 
-    // TODO: ارسال به error tracking service (مثل Sentry)
-    // sendErrorToService(error, errorInfo);
+    // دریافت پیام user-friendly
+    const locale = this.props.locale || 'fa';
+    const userFriendlyMessage = getUserFriendlyMessage(appError, locale);
 
     this.setState({
       error,
       errorInfo,
+      userFriendlyMessage,
     });
   }
 
@@ -52,6 +65,7 @@ class ErrorBoundary extends Component<Props, State> {
       hasError: false,
       error: null,
       errorInfo: null,
+      userFriendlyMessage: undefined,
     });
   };
 
@@ -63,16 +77,20 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       // در غیر این صورت نمایش پیام خطای پیش‌فرض
+      const locale = this.props.locale || 'fa';
       return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center p-4">
           <div className="max-w-2xl w-full bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8">
             <div className="text-center mb-6">
               <div className="text-8xl mb-4">⚠️</div>
               <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                خطایی رخ داده است
+                {locale === 'fa' ? 'خطایی رخ داده است' : 'Something went wrong'}
               </h1>
               <p className="text-lg text-slate-600 dark:text-slate-400">
-                Something went wrong
+                {this.state.userFriendlyMessage || (locale === 'fa'
+                  ? 'متأسفانه مشکلی پیش آمده است. لطفاً دوباره تلاش کنید.'
+                  : 'An unexpected error occurred. Please try again.'
+                )}
               </p>
             </div>
 
@@ -97,19 +115,22 @@ class ErrorBoundary extends Component<Props, State> {
                 onClick={this.handleReset}
                 className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
               >
-                تلاش مجدد / Try Again
+                {locale === 'fa' ? 'تلاش مجدد' : 'Try Again'}
               </button>
               <button
                 onClick={() => window.location.href = '/'}
                 className="px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold rounded-lg transition-colors"
               >
-                بازگشت به صفحه اصلی / Go Home
+                {locale === 'fa' ? 'بازگشت به صفحه اصلی' : 'Go Home'}
               </button>
             </div>
 
             <div className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-              <p>در صورت تکرار مشکل، لطفاً با پشتیبانی تماس بگیرید</p>
-              <p className="text-xs mt-1">If the problem persists, please contact support</p>
+              <p>
+                {locale === 'fa'
+                  ? 'در صورت تکرار مشکل، لطفاً با پشتیبانی تماس بگیرید'
+                  : 'If the problem persists, please contact support'}
+              </p>
             </div>
           </div>
         </div>
