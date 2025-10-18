@@ -2,8 +2,16 @@ import { StartupData, Stage, Locale } from '../types';
 import { getStageById } from '../config/stages';
 
 // Check if we should use direct API or PHP proxy
-const USE_DIRECT_API = true; // موقت برای تست مستقیم
+const USE_DIRECT_API = import.meta.env.VITE_USE_DIRECT_API === 'true';
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
+
+// Validate Gemini API key when using direct API
+if (USE_DIRECT_API && !GEMINI_API_KEY) {
+    console.warn(
+        'VITE_GEMINI_API_KEY is not set in .env file. Gemini AI features will not work. ' +
+        'Please add your API key to .env file.'
+    );
+}
 
 // Helper function to call Gemini API directly (for local testing)
 const callGeminiDirect = async (payload: any): Promise<any> => {
