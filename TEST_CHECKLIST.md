@@ -13,11 +13,12 @@
 ### Task 1.4: Loading States System ✅
 ### Task 1.5: State Management (85%) ⚠️
 ### Task 1.7: Security & API Keys ✅ (🆕 تازه کامل شد!)
+### Task 1.8: Refactor useStartupJourney Hook ✅ (🆕 تازه کامل شد!)
 ### Task 1.10: Git Workflow ✅ (🆕 تازه کامل شد!)
 
 ---
 
-# 🆕 راهنمای تست تغییرات جدید (Task 1.7 & 1.10)
+# 🆕 راهنمای تست تغییرات جدید (Task 1.7, 1.8 & 1.10)
 
 ## 📌 Task 1.7: Security & API Keys - چطور تست کنیم؟
 
@@ -112,6 +113,181 @@
 8. **نتیجه مورد انتظار:**
    - ✅ AI باید response بده
    - ✅ اگر خطای API key نداد → موفق
+
+---
+
+## 📌 Task 1.8: Refactor useStartupJourney Hook - چطور تست کنیم؟
+
+### ✅ چیزی که انجام شد:
+- useStartupJourney از 831 خط به 408 خط کاهش یافت (51% کاهش!)
+- 4 hook مستقل ایجاد شد:
+  - useProjectManager.ts (156 خط) - CRUD operations
+  - useStageManager.ts (363 خط) - Stage logic & progression
+  - useChatManager.ts (189 خط) - Chat & messaging
+  - useExportManager.ts (210 خط) - Export functionality
+- Single Responsibility Principle رعایت شد
+
+### 🧪 تست ۱: بررسی فایل‌های جدید
+**مدت زمان:** ۱ دقیقه
+
+1. **باز کن:** مسیر `src/hooks/`
+2. **چک کن:** آیا این فایل‌ها موجود هستند؟
+   ```
+   ✅ useProjectManager.ts
+   ✅ useStageManager.ts
+   ✅ useChatManager.ts
+   ✅ useExportManager.ts
+   ✅ useStartupJourney.ts (رفکتور شده)
+   ```
+3. **نتیجه مورد انتظار:** همه فایل‌ها باید موجود باشند
+
+---
+
+### 🧪 تست ۲: بررسی کد useStartupJourney.ts
+**مدت زمان:** ۲ دقیقه
+
+1. **باز کن:** فایل `src/hooks/useStartupJourney.ts`
+2. **چک کن خط 1-20:** آیا این import ها هستند؟
+   ```typescript
+   import { useProjectManager } from './useProjectManager'
+   import { useStageManager } from './useStageManager'
+   import { useChatManager } from './useChatManager'
+   import { useExportManager } from './useExportManager'
+   ```
+3. **اسکرول کن:** به انتها
+4. **چک کن:** آیا تعداد خطوط حدود 400-450 خطه؟ (نه 831!)
+5. **نتیجه مورد انتظار:**
+   - ✅ فایل کوچک‌تر شده
+   - ✅ hook ها import شدند
+   - ✅ کد readable تر شده
+
+---
+
+### 🧪 تست ۳: تست Build بدون Error
+**مدت زمان:** ۱ دقیقه
+
+1. **اجرا کن:** در terminal:
+   ```bash
+   npm run build
+   ```
+2. **نتیجه مورد انتظار:**
+   - ✅ Build باید **موفق** باشه
+   - ✅ باید ببینی: `✓ built in X.XXs`
+   - ❌ اگر TypeScript error دیدی → مشکل داریم
+3. **چک کن:** خروجی Console
+   - ❌ نباید هیچ error یا warning TypeScript داشته باشیم
+
+---
+
+### 🧪 تست ۴: تست Functionality در Entrepreneur Dashboard
+**مدت زمان:** ۵ دقیقه
+
+**⚠️ مهم:** این تست می‌سنجه که refactoring باعث خرابی functionality نشده
+
+1. **اجرا کن:** dev server:
+   ```bash
+   npm run dev
+   ```
+2. **باز کن:** http://localhost:5174/login.html
+3. **Login کن** با یک account
+4. **انتخاب کن:** role "Entrepreneur"
+5. **Test useProjectManager:**
+   - [ ] کلیک روی "Create New Project"
+   - [ ] وارد کن Project Name و Initial Idea
+   - [ ] کلیک "Create"
+   - [ ] **نتیجه:** پروژه باید بدون error ساخته بشه
+6. **Test useStageManager:**
+   - [ ] چک کن Progress Bar نمایش داده میشه
+   - [ ] چک کن Current Stage مشخصه
+   - [ ] تلاش کن برای رفتن به stage بعدی
+   - [ ] **نتیجه:** stage progression باید کار کنه
+7. **Test useChatManager:**
+   - [ ] تایپ کن یک پیام در chat
+   - [ ] کلیک روی Send
+   - [ ] **نتیجه:** پیام باید ارسال بشه و ذخیره بشه
+8. **Test useExportManager:**
+   - [ ] کلیک روی Export یا Menu
+   - [ ] انتخاب کن یکی از فرمت‌ها (PDF, Word, etc.)
+   - [ ] **نتیجه:** export باید کار کنه و فایل دانلود بشه
+
+---
+
+### 🧪 تست ۵: بررسی Console Errors
+**مدت زمان:** ۱ دقیقه
+
+1. **باز کن:** Browser Console (F12 → Console)
+2. **چک کن:** آیا error یا warning قرمز هست؟
+3. **نتیجه مورد انتظار:**
+   - ✅ هیچ error مربوط به hooks نباید باشه
+   - ✅ هیچ "undefined is not a function" نباید باشه
+   - ✅ هیچ "Cannot read property" نباید باشه
+
+---
+
+### 🧪 تست ۶: بررسی Code Quality
+**مدت زمان:** ۳ دقیقه
+
+1. **باز کن:** `src/hooks/useProjectManager.ts`
+2. **چک کن:**
+   - [ ] آیا فقط مسئولیت CRUD operations رو داره؟
+   - [ ] آیا functions با نام مشخص هستند؟ (createProject, updateProject, etc.)
+   - [ ] آیا comments کافی داره؟
+
+3. **باز کن:** `src/hooks/useStageManager.ts`
+4. **چک کن:**
+   - [ ] آیا فقط مسئولیت stage logic رو داره؟
+   - [ ] آیا functions مربوط به progression هستند؟
+
+5. **باز کن:** `src/hooks/useChatManager.ts`
+6. **چک کن:**
+   - [ ] آیا فقط مسئولیت messaging رو داره؟
+   - [ ] آیا AI interaction handling داره؟
+
+7. **باز کن:** `src/hooks/useExportManager.ts`
+8. **چک کن:**
+   - [ ] آیا فقط مسئولیت export رو داره؟
+   - [ ] آیا تمام 4 فرمت (PDF, Word, CSV, Excel) support میشه؟
+
+---
+
+### 🧪 تست ۷: بررسی Git Commits
+**مدت زمان:** ۱ دقیقه
+
+1. **اجرا کن:**
+   ```bash
+   git log --oneline -10
+   ```
+2. **جستجو کن:** برای commit مربوط به Task 1.8
+3. **نتیجه مورد انتظار:**
+   - ✅ باید ببینی commit با message شامل "refactor" و "useStartupJourney"
+   - ✅ مثال: `refactor: Complete Task 1.8 - Refactor useStartupJourney Hook`
+
+---
+
+## ✅ خلاصه تست‌های سریع Task 1.8 (۵ دقیقه):
+
+### چک‌لیست فوری:
+
+- [ ] **4 فایل hook جدید موجود است** (useProjectManager, useStageManager, useChatManager, useExportManager)
+- [ ] **useStartupJourney.ts رفکتور شده** (حدود 400 خط، نه 831)
+- [ ] **Build موفق است** (`npm run build`)
+- [ ] **Create Project کار می‌کند** (useProjectManager)
+- [ ] **Stage Progression کار می‌کند** (useStageManager)
+- [ ] **Chat/Messaging کار می‌کند** (useChatManager)
+- [ ] **Export کار می‌کند** (useExportManager)
+- [ ] **هیچ Console Error مربوط به hooks نیست**
+- [ ] **Git commit انجام شده** برای Task 1.8
+
+---
+
+**اگر همه این‌ها ✅ بودند → Task 1.8 کامل و موفق است!** 🎉
+
+**مزایای Refactoring:**
+- ✅ کد 51% کوچک‌تر شد (قابل خواندن‌تر)
+- ✅ هر hook مسئولیت خاص خودش رو داره (SRP)
+- ✅ Debug و Test راحت‌تر شد
+- ✅ تغییرات آینده ایمن‌تر هستند
+- ✅ Code reusability بالاتر
 
 ---
 
