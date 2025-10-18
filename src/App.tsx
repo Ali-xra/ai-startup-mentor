@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 
@@ -20,10 +20,9 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <LanguageProvider>
-          <Routes>
+    <AuthProvider>
+      <LanguageProvider>
+        <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/auth" element={<AuthPage />} />
@@ -94,9 +93,8 @@ const App: React.FC = () => {
             {/* Catch all - 404 */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </LanguageProvider>
-      </AuthProvider>
-    </BrowserRouter>
+      </LanguageProvider>
+    </AuthProvider>
   );
 };
 
