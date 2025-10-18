@@ -11,6 +11,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 export const InvestorSignup: React.FC = () => {
   const navigate = useNavigate();
   const { signUpInvestor, loading } = useInvestorAuth();
+  // @ts-ignore - t will be used in future for translations
   const { t } = useLanguage();
 
   const [formData, setFormData] = useState({

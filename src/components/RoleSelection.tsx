@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../services/supabaseClient';
-import { Locale, _t } from '../i18n';
+import { Locale, t } from '../i18n';
 import { Loader } from './Loader';
 
 interface RoleSelectionProps {
@@ -11,7 +11,7 @@ interface RoleSelectionProps {
 
 type UserRole = 'entrepreneur' | 'investor' | 'programmer' | 'consultant' | 'designer';
 
-export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, _onComplete }) => {
+export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, onComplete }) => {
     const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -23,35 +23,64 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, _o
         setError(null);
 
         try {
-            // ساخت profile با role
-            const { error: profileError } = await supabase.from('profiles').insert({
-                id: userId,
-                role: selectedRole
-            });
+            // چک کردن اینکه profile موجود هست یا نه
+            const { data: existingProfile } = await supabase
+                .from('profiles')
+                .select('id, role')
+                .eq('id', userId)
+                .maybeSingle();
 
-            if (profileError) throw profileError;
+            if (existingProfile) {
+                // اگر profile موجود هست، فقط role رو update کن
+                const { error: updateError } = await supabase
+                    .from('profiles')
+                    .update({ role: selectedRole })
+                    .eq('id', userId);
+
+                if (updateError) throw updateError;
+            } else {
+                // اگر profile موجود نیست، جدید بساز
+                const { error: insertError } = await supabase
+                    .from('profiles')
+                    .insert({
+                        id: userId,
+                        role: selectedRole
+                    });
+
+                if (insertError) throw insertError;
+            }
+
+            // برای investor، investor_profile هم بساز (اگر نداره)
+            if (selectedRole === 'investor') {
+                const { data: existingInvestorProfile } = await supabase
+                    .from('investor_profiles')
+                    .select('id')
+                    .eq('id', userId)
+                    .maybeSingle();
+
+                if (!existingInvestorProfile) {
+                    const { error: investorError } = await supabase
+                        .from('investor_profiles')
+                        .insert({
+                            id: userId,
+                            tier: 'free',
+                            monthly_project_views: 0
+                        });
+
+                    if (investorError) throw investorError;
+                }
+            }
 
             // ریدایرکت بر اساس نقش انتخابی
-            if (selectedRole === 'investor') {
-                const { error: investorError } = await supabase.from('investor_profiles').insert({
-                    id: userId,
-                    tier: 'free',
-                    monthly_project_views: 0
-                });
+            const rolePages: Record<UserRole, string> = {
+                'investor': '/investor.html',
+                'programmer': '/programmer.html',
+                'consultant': '/consultant.html',
+                'designer': '/designer.html',
+                'entrepreneur': '/entrepreneur.html'
+            };
 
-                if (investorError) throw investorError;
-
-                window.location.href = '/investor.html';
-            } else if (selectedRole === 'programmer') {
-                window.location.href = '/programmer.html';
-            } else if (selectedRole === 'consultant') {
-                window.location.href = '/consultant.html';
-            } else if (selectedRole === 'designer') {
-                window.location.href = '/designer.html';
-            } else {
-                // Entrepreneur
-                window.location.href = '/entrepreneur.html';
-            }
+            window.location.href = rolePages[selectedRole];
         } catch (err: any) {
             console.error('Error saving role:', err);
             setError(err.message || 'خطا در ذخیره اطلاعات. لطفاً دوباره تلاش کنید.');

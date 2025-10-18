@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { supabase } from '../services/supabaseClient';
 import { Locale, t } from '../i18n';
 import { Loader } from './Loader';
-import LanguageSelector from './LanguageSelector';
 
 interface AuthScreenProps {
     locale: Locale;
@@ -19,7 +18,7 @@ const GoogleIcon = () => (
     </svg>
 );
 
-export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
+export const AuthScreen: React.FC<AuthScreenProps> = ({ locale, onLocaleToggle }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLogin, setIsLogin] = useState(true);
@@ -30,12 +29,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-
+        
         try {
             if (isLogin) {
                 const { error } = await supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
-                // AuthContext's onAuthStateChange listener will handle the redirect
             } else {
                 const { error } = await supabase.auth.signUp({ email, password });
                 if (error) throw error;
@@ -51,32 +49,31 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
     const handleGoogleLogin = async () => {
         setLoading(true);
         setError(null);
+        
+        // By removing the `redirectTo` option, we allow the Supabase JS library
+        // to automatically handle the OAuth flow, which typically uses a popup
+        // in browser environments, avoiding the iframe redirect issue.
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+        });
 
-        try {
-            // بعد از OAuth، به صفحه /login.html برگرد تا auth check انجام بشه
-            const { error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    redirectTo: `${window.location.origin}/login.html`
-                }
-            });
-
-            if (error) {
-                throw error;
-            }
-            // AuthOnlyPage بعد از redirect، auth state رو چک می‌کنه و به داشبورد می‌بره
-        } catch (error: any) {
+        if (error) {
             setError(error.message);
             setLoading(false);
         }
+        // The onAuthStateChange listener in AuthContext will handle the successful login.
     };
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center p-4 font-sans transition-colors duration-300">
             <div className="w-full max-w-md mx-auto relative">
-                <div className={`absolute top-0 z-10 ${locale === 'fa' ? 'left-4' : 'right-4'}`}>
-                    <LanguageSelector />
-                </div>
+                <button
+                    onClick={onLocaleToggle}
+                    className={`absolute top-0 p-2 w-10 h-10 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-bold text-sm z-10 ${locale === 'fa' ? 'left-4' : 'right-4'}`}
+                    title={`Switch to ${locale === 'fa' ? 'English' : 'فارسی'}`}
+                >
+                    {locale === 'fa' ? 'EN' : 'FA'}
+                </button>
                 <div className="text-center mb-10">
                     <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600 mb-2">
                         {t('welcome_title', locale)}

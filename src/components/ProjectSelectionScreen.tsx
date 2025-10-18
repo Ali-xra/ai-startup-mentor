@@ -164,7 +164,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({ 
                 const memberData = (memberProjects || []).find((mp: any) => mp.project_id === p.id);
 
                 // نمایش نام فرستنده از user_email به جای invited_by
-                const _displayName = memberData?.user_email ||
+                const displayName = memberData?.user_email ||
                                    memberData?.invited_by ||
                                    'نامشخص';
 
@@ -548,7 +548,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({ 
                                     {projects.map(p => {
                                         const progress = calculateProgress(p);
                                         const isShared = p.is_shared && p.shared_by;
-                                        const _displayName = isShared ? `${p.name} - به اشتراک گذاشته شده توسط ${p.shared_by}` : p.name;
+                                        const displayName = isShared ? `${p.name} - به اشتراک گذاشته شده توسط ${p.shared_by}` : p.name;
 
                                         return (
                                             <div key={p.id} className="group flex flex-col gap-2 p-3 bg-slate-100/50 dark:bg-slate-900/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-900 transition-all">

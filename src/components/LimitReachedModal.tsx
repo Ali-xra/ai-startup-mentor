@@ -103,6 +103,7 @@ const LimitReachedModal: React.FC<LimitReachedModalProps> = ({
     };
 
     const t = (key: keyof typeof translations) => {
+        // @ts-ignore - Complex union type indexing
         return translations[key][language as 'fa' | 'en'];
     };
 

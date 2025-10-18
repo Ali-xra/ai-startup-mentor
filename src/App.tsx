@@ -82,7 +82,6 @@ const App: React.FC = () => {
             />
 
             {/* Redirect old paths */}
-            <Route path="/auth.html" element={<Navigate to="/auth" replace />} />
             <Route path="/login.html" element={<Navigate to="/login" replace />} />
             <Route path="/investor.html" element={<Navigate to="/investor" replace />} />
             <Route path="/programmer.html" element={<Navigate to="/programmer" replace />} />

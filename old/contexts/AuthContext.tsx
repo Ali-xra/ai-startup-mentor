@@ -6,7 +6,6 @@ interface AuthContextType {
     session: Session | null;
     user: User | null;
     loading: boolean;
-    signIn: (email: string, password: string) => Promise<void>;
     signOut: () => Promise<void>;
 }
 
@@ -38,31 +37,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         };
     }, []);
 
-    const signIn = async (email: string, password: string) => {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-
-        if (error) throw error;
-
-        setSession(data.session);
-        setUser(data.user);
-    };
-
     const signOut = async () => {
         await supabase.auth.signOut();
         setSession(null);
         setUser(null);
-        // بعد از logout، به صفحه لاگین redirect کن
-        window.location.href = '/login.html';
     };
 
     const value = {
         session,
         user,
         loading,
-        signIn,
         signOut,
     };
 

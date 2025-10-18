@@ -13,10 +13,10 @@ const SimpleConsultantDashboard: React.FC = () => {
     const handleLogout = async () => {
         try {
             await supabase.auth.signOut();
-            window.location.href = '/';
+            window.location.href = '/login.html';
         } catch (error) {
             console.error('Logout error:', error);
-            window.location.href = '/';
+            window.location.href = '/login.html';
         }
     };
 

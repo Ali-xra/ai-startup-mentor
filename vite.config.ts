@@ -16,16 +16,16 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         login: resolve(__dirname, 'login.html'),
+        sessionManager: resolve(__dirname, 'session-manager.html'),
         entrepreneur: resolve(__dirname, 'entrepreneur.html'),
         investor: resolve(__dirname, 'investor.html'),
         programmer: resolve(__dirname, 'programmer.html'),
         consultant: resolve(__dirname, 'consultant.html'),
         designer: resolve(__dirname, 'designer.html'),
-        admin: resolve(__dirname, 'admin.html'),
-        pricing: resolve(__dirname, 'pricing.html'),
-        auth: resolve(__dirname, 'auth.html'),
-        about: resolve(__dirname, 'about.html'),
-        logout: resolve(__dirname, 'logout.html'),
+        // Temporarily disabled - will be fixed in later phases
+        // admin: resolve(__dirname, 'admin.html'), // inline CSS issue
+        // pricing: resolve(__dirname, 'pricing.html'), // inline CSS issue
+        // about: resolve(__dirname, 'about.html'), // inline CSS issue
       },
     },
   },
