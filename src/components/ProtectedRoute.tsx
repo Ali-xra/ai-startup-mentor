@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../services/supabaseClient';
 import { Loader } from './Loader';
 
 interface ProtectedRouteProps {
@@ -8,19 +9,46 @@ interface ProtectedRouteProps {
   requiredRole?: 'entrepreneur' | 'investor' | 'programmer' | 'consultant' | 'designer' | 'admin';
 }
 
-/**
- * ProtectedRoute
- *
- * این component از AuthContext برای check کردن role استفاده می‌کنه
- * اگر user role مناسب نداشته باشه، به صفحه مناسب redirect می‌شه
- */
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
-  const { session, loading, userRole } = useAuth();
+  const { session, loading, user } = useAuth();
+  const [checking, setChecking] = useState(true);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [hasRole, setHasRole] = useState(false);
+
+  useEffect(() => {
+    const checkUserRole = async () => {
+      if (!user) {
+        setChecking(false);
+        return;
+      }
+
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (profile?.role) {
+          setUserRole(profile.role);
+          setHasRole(true);
+        } else {
+          setHasRole(false);
+        }
+      } catch (error) {
+        console.error('Error checking user role:', error);
+      } finally {
+        setChecking(false);
+      }
+    };
+
+    checkUserRole();
+  }, [user]);
 
   // Loading state
-  if (loading) {
+  if (loading || checking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
         <Loader />
       </div>
     );
@@ -31,8 +59,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
     return <Navigate to="/auth" replace />;
   }
 
-  // No role assigned - redirect to role selection (or let the app handle it)
-  if (!userRole) {
+  // No role assigned - redirect to role selection
+  if (!hasRole) {
     // This will be handled by the app itself showing RoleSelection component
     return <>{children}</>;
   }
@@ -49,7 +77,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
       admin: '/admin',
     };
 
-    const redirectPath = roleRoutes[userRole] || '/';
+    const redirectPath = roleRoutes[userRole || ''] || '/';
     return <Navigate to={redirectPath} replace />;
   }
 
