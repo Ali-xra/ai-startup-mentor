@@ -32,7 +32,7 @@ const App: React.FC = () => {
 
             {/* Protected Routes */}
             <Route
-              path="/app/*"
+              path="/entrepreneur/*"
               element={
                 <ProtectedRoute requiredRole="entrepreneur">
                   <EntrepreneurApp />
@@ -81,7 +81,9 @@ const App: React.FC = () => {
             />
 
             {/* Redirect old paths */}
+            <Route path="/app/*" element={<Navigate to="/entrepreneur" replace />} />
             <Route path="/login.html" element={<Navigate to="/login" replace />} />
+            <Route path="/entrepreneur.html" element={<Navigate to="/entrepreneur" replace />} />
             <Route path="/investor.html" element={<Navigate to="/investor" replace />} />
             <Route path="/programmer.html" element={<Navigate to="/programmer" replace />} />
             <Route path="/consultant.html" element={<Navigate to="/consultant" replace />} />
