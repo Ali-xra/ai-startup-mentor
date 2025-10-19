@@ -26,6 +26,15 @@ const AuthPage: React.FC = () => {
     // Language toggle handled by LanguageContext
   };
 
+  // فعال کردن dark theme فقط برای صفحه لاگین
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    return () => {
+      // وقتی از صفحه خارج میشیم، dark mode رو خاموش نمی‌کنیم
+      // چون ممکنه صفحات دیگه هم dark باشن
+    };
+  }, []);
+
   // چک کردن وضعیت user بعد از login
   useEffect(() => {
     const checkUserRole = async () => {
