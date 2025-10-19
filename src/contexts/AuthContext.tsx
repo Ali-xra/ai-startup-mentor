@@ -54,8 +54,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         await supabase.auth.signOut();
         setSession(null);
         setUser(null);
-        // بعد از logout، به صفحه لاگین redirect کن
-        window.location.href = '/login.html';
+        // بعد از logout، به صفحه لاگین redirect کن (React Router خودش redirect می‌کنه)
+        window.location.href = '/login';
     };
 
     const value = {

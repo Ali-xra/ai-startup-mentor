@@ -126,7 +126,7 @@ const LandingPageContent: React.FC = () => {
     };
 
     const handleLogin = () => {
-        window.location.href = '/login.html';
+        window.location.href = '/login';
     };
 
     const getPhasePercentage = (completed: number, total: number) => {

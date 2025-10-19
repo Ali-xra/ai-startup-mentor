@@ -71,13 +71,13 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
                 }
             }
 
-            // ریدایرکت بر اساس نقش انتخابی
+            // ریدایرکت بر اساس نقش انتخابی (با React Router)
             const rolePages: Record<UserRole, string> = {
-                'investor': '/investor.html',
-                'programmer': '/programmer.html',
-                'consultant': '/consultant.html',
-                'designer': '/designer.html',
-                'entrepreneur': '/entrepreneur.html'
+                'investor': '/investor',
+                'programmer': '/programmer',
+                'consultant': '/consultant',
+                'designer': '/designer',
+                'entrepreneur': '/app'
             };
 
             window.location.href = rolePages[selectedRole];

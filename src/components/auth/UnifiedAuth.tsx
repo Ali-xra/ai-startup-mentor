@@ -68,17 +68,17 @@ export const UnifiedAuth: React.FC = () => {
 
       // Redirect بر اساس نقش
       const rolePages: Record<string, string> = {
-        'entrepreneur': '/entrepreneur.html',
+        'entrepreneur': '/app',
         'investor': '/investor',
-        'programmer': '/programmer.html',
-        'consultant': '/consultant.html',
-        'designer': '/designer.html'
+        'programmer': '/programmer',
+        'consultant': '/consultant',
+        'designer': '/designer'
       };
 
       if (profile?.role && rolePages[profile.role]) {
         navigate(rolePages[profile.role]);
       } else {
-        navigate('/login.html');
+        navigate('/login');
       }
     } catch (error: any) {
       console.error('Login error:', error);
@@ -123,16 +123,16 @@ export const UnifiedAuth: React.FC = () => {
       } else {
         // Redirect بر اساس نقش
         const rolePages: Record<string, string> = {
-          'entrepreneur': '/entrepreneur.html',
-          'programmer': '/programmer.html',
-          'consultant': '/consultant.html',
-          'designer': '/designer.html'
+          'entrepreneur': '/app',
+          'programmer': '/programmer',
+          'consultant': '/consultant',
+          'designer': '/designer'
         };
 
         if (rolePages[role]) {
           navigate(rolePages[role]);
         } else {
-          navigate('/login.html');
+          navigate('/login');
         }
       }
     } catch (error: any) {

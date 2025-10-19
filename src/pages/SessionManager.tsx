@@ -70,7 +70,7 @@ const SessionManagerContent: React.FC = () => {
 
             // مستقیم به صفحه لاگین بره
             setTimeout(() => {
-                window.location.href = '/login.html';
+                window.location.href = '/login';
             }, 500);
         } catch (error: any) {
             console.error('Error clearing session:', error);
@@ -109,7 +109,7 @@ const SessionManagerContent: React.FC = () => {
 
             // مستقیم به صفحه لاگین بره
             setTimeout(() => {
-                window.location.href = '/login.html';
+                window.location.href = '/login';
             }, 500);
         } catch (error: any) {
             console.error('Error clearing all sessions:', error);
@@ -269,7 +269,7 @@ const SessionManagerContent: React.FC = () => {
                             برای استفاده از پلتفرم ابتدا وارد شوید
                         </p>
                         <button
-                            onClick={() => window.location.href = '/login.html'}
+                            onClick={() => window.location.href = '/login'}
                             className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 transition-all font-semibold"
                         >
                             ورود به حساب کاربری
@@ -296,7 +296,7 @@ const SessionManagerContent: React.FC = () => {
                             🏠 صفحه اصلی
                         </button>
                         <button
-                            onClick={() => window.location.href = '/login.html'}
+                            onClick={() => window.location.href = '/login'}
                             className="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm"
                         >
                             🔐 صفحه ورود

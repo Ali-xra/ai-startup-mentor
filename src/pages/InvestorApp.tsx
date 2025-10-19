@@ -13,10 +13,10 @@ const SimpleInvestorDashboard: React.FC = () => {
     const handleLogout = async () => {
         try {
             await supabase.auth.signOut();
-            window.location.href = '/login.html';
+            window.location.href = '/login';
         } catch (error) {
             console.error('Logout error:', error);
-            window.location.href = '/login.html';
+            window.location.href = '/login';
         }
     };
 

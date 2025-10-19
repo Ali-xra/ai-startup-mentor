@@ -31,7 +31,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 
   if (!user) {
     // Redirect به صفحه لاگین اصلی
-    window.location.href = '/login.html';
+    window.location.href = '/login';
     return null;
   }
 

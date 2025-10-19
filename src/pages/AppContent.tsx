@@ -74,13 +74,13 @@ const AppContent: React.FC = () => {
 
                 // Redirect بر اساس role
                 if (profile.role === 'investor') {
-                    window.location.href = '/investor.html';
+                    window.location.href = '/investor';
                 } else if (profile.role === 'programmer') {
-                    window.location.href = '/programmer.html';
+                    window.location.href = '/programmer';
                 } else if (profile.role === 'consultant') {
-                    window.location.href = '/consultant.html';
+                    window.location.href = '/consultant';
                 } else if (profile.role === 'designer') {
-                    window.location.href = '/designer.html';
+                    window.location.href = '/designer';
                 } else if (!profile.role) {
                     // اگه role نداره، RoleSelection نشون بده
                     setNeedsRoleSelection(true);

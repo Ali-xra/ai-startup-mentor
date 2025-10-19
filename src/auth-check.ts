@@ -115,7 +115,7 @@ export function getRedirectPath(
     if (!authResult.isAuthenticated) {
         // اگر توی هر dashboard هست، بفرستش به لاگین
         if (currentPage !== 'login' && currentPage !== 'landing') {
-            return '/login.html';
+            return '/login';
         }
         // اگر توی login هست یا landing، نگهش دار همونجا
         return null;
@@ -123,20 +123,20 @@ export function getRedirectPath(
 
     // اگر نیاز به انتخاب نقش داره
     if (authResult.needsRoleSelection) {
-        // فقط login.html نمایش RoleSelection میده
+        // فقط /login نمایش RoleSelection میده
         if (currentPage !== 'login') {
-            return '/login.html';
+            return '/login';
         }
         return null;
     }
 
     // اگر role داره، ببرش به صفحه مربوط به role اش
     const rolePages: Record<string, string> = {
-        'entrepreneur': '/entrepreneur.html',
-        'investor': '/investor.html',
-        'programmer': '/programmer.html',
-        'consultant': '/consultant.html',
-        'designer': '/designer.html'
+        'entrepreneur': '/app',
+        'investor': '/investor',
+        'programmer': '/programmer',
+        'consultant': '/consultant',
+        'designer': '/designer'
     };
 
     if (authResult.role && rolePages[authResult.role]) {

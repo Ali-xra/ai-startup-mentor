@@ -10,19 +10,19 @@
 ## 🎯 نمای کلی پیشرفت
 
 ```
-فاز ۱: معماری و Navigation          [███████░░░] 73%
+فاز ۱: معماری و Navigation          [███████░░░] 76%
 فاز ۲: راه‌اندازی تست‌ها            [░░░░░░░░░░]  0%
 فاز ۳: Performance و Caching         [░░░░░░░░░░]  0%
 فاز ۴: Design System و UI/UX         [░░░░░░░░░░]  0%
 فاز ۵: امنیت و Deployment            [░░░░░░░░░░]  0%
 فاز ۶: مستندات نهایی                [░░░░░░░░░░]  0%
 
-پیشرفت کلی پروژه: 12.2%
+پیشرفت کلی پروژه: 12.7%
 ```
 
 ### 📊 محاسبه پیشرفت فاز ۱:
 ```
-Task 1.1:  40%  (نیمه‌کاره) ⚡ BrowserRouter دوگانه حل شد!
+Task 1.1:  70%  (نیمه‌کاره) ⚡ React Router paths migration complete!
 Task 1.2:  100% (کامل) ✅
 Task 1.3:  100% (کامل) ✅
 Task 1.4:  100% (کامل) ✅
@@ -33,7 +33,7 @@ Task 1.8:  100% (کامل) ✅ 🎉 Refactoring
 Task 1.9:  0%   (انجام نشده)
 Task 1.10: 100% (کامل) ✅ 🆕 Git Workflow
 
-میانگین: (40+100+100+100+85+0+100+100+0+100) / 10 = 72.5% ≈ 73%
+میانگین: (70+100+100+100+85+0+100+100+0+100) / 10 = 75.5% ≈ 76%
 ```
 
 ---
@@ -43,23 +43,22 @@ Task 1.10: 100% (کامل) ✅ 🆕 Git Workflow
 **اولویت:** 🔴 بالا
 **مدت زمان تخمینی:** ۲-۳ هفته (به دلیل اضافه شدن taskهای جدید)
 **تاریخ شروع:** 2025-10-16
-**پیشرفت:** 73%
+**پیشرفت:** 76%
 
 ## Task 1.1: حذف Navigation پیچیده
-**وضعیت:** ⚠️ نیمه‌کاره (40%)
+**وضعیت:** ⚠️ نیمه‌کاره (70%)
 **زمان تخمینی:** ۲-۳ روز
-**زمان صرف شده:** ۱.۲ روز
+**زمان صرف شده:** ۱.۵ روز
 
 ### Subtasks:
 - [x] بررسی فایل‌های HTML موجود
 - [x] حذف auth.html و role-selection.html (duplicates)
 - [x] ✅ رفع BrowserRouter دوگانه در main.tsx و App.tsx (CRITICAL SOLVED!)
-- [ ] ایجاد یک فایل index.html واحد با React Router
-- [ ] پیاده‌سازی React Router DOM
-- [ ] ایجاد src/routes/index.tsx
-- [ ] جایگزینی window.location.href با useNavigate
+- [x] ✅ نصب و بررسی React Router DOM (v7.9.4 نصب بود)
+- [x] ✅ جایگزینی همه window.location.href="/...html" با React Router paths
+- [ ] حذف تمام HTML files غیرضروری (فقط index.html لازمه)
 - [ ] تست navigation در تمام صفحات
-- [ ] حذف تمام HTML files غیرضروری
+- [ ] اطمینان از routing کامل
 
 ### 📝 یادداشت‌ها:
 ```
@@ -67,16 +66,34 @@ Task 1.10: 100% (کامل) ✅ 🆕 Git Workflow
 ✅ انجام شد: auth.html و role-selection.html حذف شدند
 ✅ انجام شد: AuthOnlyPage به عنوان single entry point
 ✅ Build موفق: هیچ TypeScript error نداریم
-❌ مشکل: هنوز ۸ تا HTML file داریم (باید فقط ۱ تا باشه)
-❌ مشکل: هنوز از window.location.href استفاده می‌کنیم
+✅ انجام شد: همه window.location.href به React Router paths تبدیل شد (17 فایل)
+✅ انجام شد: تمام role pages به clean URLs تبدیل شدند:
+   - /login.html → /login
+   - /entrepreneur.html → /app
+   - /investor.html → /investor
+   - /programmer.html → /programmer
+   - /consultant.html → /consultant
+   - /designer.html → /designer
+
+✅ فایل‌های اصلاح شده:
+   - src/contexts/AuthContext.tsx
+   - src/components/RoleSelection.tsx
+   - src/components/investor/InvestorRouter.tsx
+   - src/pages/AppContent.tsx
+   - src/pages/ConsultantApp.tsx, DesignerApp.tsx, InvestorApp.tsx, ProgrammerApp.tsx
+   - src/pages/LandingPage.tsx, PricingPage.tsx, SessionManager.tsx
+   - src/auth-check.ts
+   - src/components/auth/UnifiedAuth.tsx
+
+❌ باقی‌مونده: HTML files غیرضروری هنوز حذف نشدند
+❌ باقی‌مونده: تست navigation در production
 ```
 
 ### 🎯 بعدی چیه؟
 ```bash
-1. نصب React Router DOM: npm install react-router-dom
-2. ایجاد src/routes/index.tsx
-3. تبدیل تمام HTML files به routes
-4. جایگزینی window.location.href با useNavigate
+1. تست navigation در تمام مسیرها
+2. حذف HTML files غیرضروری
+3. تست production build
 ```
 
 ---

@@ -214,7 +214,7 @@ const PricingPage: React.FC = () => {
     const handleSelectPlan = (planId: string) => {
         if (!user) {
             alert(locale === 'fa' ? 'لطفاً ابتدا وارد شوید' : 'Please sign in first');
-            window.location.href = '/login.html';
+            window.location.href = '/login';
             return;
         }
 
@@ -230,12 +230,12 @@ const PricingPage: React.FC = () => {
     };
 
     const handleStartFree = () => {
-        window.location.href = '/login.html';
+        window.location.href = '/login';
     };
 
     const handleUpgradePro = () => {
         if (!user) {
-            window.location.href = '/login.html';
+            window.location.href = '/login';
             return;
         }
         handleSelectPlan('pro');
