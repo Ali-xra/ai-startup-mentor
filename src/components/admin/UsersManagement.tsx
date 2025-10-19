@@ -85,17 +85,6 @@ export const UsersManagement: React.FC = () => {
         throw profileError;
       }
 
-      // حذف از auth.users با استفاده از RPC function
-      // توجه: این function باید در Supabase ایجاد شود
-      const { error: authError } = await supabase.rpc('delete_user', {
-        user_id: userId,
-      });
-
-      if (authError) {
-        console.warn('Could not delete from auth.users:', authError);
-        // اگر function وجود نداشت، فقط از profiles حذف می‌شود
-      }
-
       // به‌روزرسانی لیست کاربران
       setUsers(users.filter((u) => u.id !== userId));
       setFilteredUsers(filteredUsers.filter((u) => u.id !== userId));
