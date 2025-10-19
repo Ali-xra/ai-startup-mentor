@@ -93,19 +93,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
         <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
-                {menuItems.find((item) => item.id === currentPage)?.label}
-              </h2>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">مدیریت سیستم</p>
-            </div>
-            <a
-              href="/"
-              className="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm font-medium"
-            >
-              بازگشت به سایت
-            </a>
+          <div>
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
+              {menuItems.find((item) => item.id === currentPage)?.label}
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">مدیریت سیستم</p>
           </div>
         </div>
 
