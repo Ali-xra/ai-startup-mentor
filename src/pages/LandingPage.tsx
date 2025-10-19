@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AuthProvider } from '../contexts/AuthContext';
-import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import LanguageSelector from '../components/LanguageSelector';
 import { Locale } from '../i18n';
 import { PublicProjectsService, PublicProject as PublicProjectType, ProjectFilter } from '../services/publicProjectsService';
-import ErrorBoundary from '../components/ErrorBoundary';
 import '../index.css';
 
 interface PublicProject extends PublicProjectType {
@@ -578,16 +576,4 @@ const LandingPageContent: React.FC = () => {
     );
 };
 
-const LandingApp: React.FC = () => {
-    return (
-        <ErrorBoundary>
-            <AuthProvider>
-                <LanguageProvider>
-                    <LandingPageContent />
-                </LanguageProvider>
-            </AuthProvider>
-        </ErrorBoundary>
-    );
-};
-
-export default LandingApp;
+export default LandingPageContent;

@@ -2,8 +2,8 @@
 // Investor Components - Export Index
 // ==========================================
 
-// Router & Layout
-export { InvestorRouter } from './InvestorRouter';
+// Layout
+// InvestorRouter removed - moved to old/ (nested BrowserRouter issue)
 export { InvestorLayout } from './InvestorLayout';
 
 // Authentication & Profile

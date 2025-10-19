@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../services/supabaseClient';
-import { AuthProvider, useAuth } from '../contexts/AuthContext';
-import { LanguageProvider } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
 import { Loader } from '../components/Loader';
-import ErrorBoundary from '../components/ErrorBoundary';
 import '../index.css';
 
 interface SessionInfo {
@@ -307,12 +305,4 @@ const SessionManagerContent: React.FC = () => {
     );
 };
 
-const SessionManager: React.FC = () => {
-    return (
-        <LanguageProvider>
-            <SessionManagerContent />
-        </LanguageProvider>
-    );
-};
-
-export default SessionManager;
+export default SessionManagerContent;
