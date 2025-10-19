@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AuthProvider, useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { useAdminAuth } from '../hooks/useAdminAuth';
 import { AdminLogin } from '../components/admin/AdminLogin';
 import { AdminLayout } from '../components/admin/AdminLayout';
@@ -9,7 +9,6 @@ import { UsersManagement } from '../components/admin/UsersManagement';
 import { UpgradeRequestsPanel } from '../components/admin/UpgradeRequestsPanel';
 import { AuditLog } from '../components/admin/AuditLog';
 import { Loader } from '../components/Loader';
-import ErrorBoundary from '../components/ErrorBoundary';
 import '../index.css';
 
 type AdminPage = 'dashboard' | 'features' | 'users' | 'upgrade-requests' | 'audit';
@@ -44,13 +43,7 @@ const AdminPanelContent: React.FC = () => {
 };
 
 const AdminApp: React.FC = () => {
-    return (
-        <ErrorBoundary>
-            <AuthProvider>
-                <AdminPanelContent />
-            </AuthProvider>
-        </ErrorBoundary>
-    );
+    return <AdminPanelContent />;
 };
 
 export default AdminApp;

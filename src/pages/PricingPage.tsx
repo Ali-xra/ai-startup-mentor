@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { AuthProvider, useAuth } from '../contexts/AuthContext';
-import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { useFeatureFlags } from '../hooks/useFeatureFlags';
 import { Locale } from '../i18n';
 import LanguageSelector from '../components/LanguageSelector';
-import ErrorBoundary from '../components/ErrorBoundary';
 import '../index.css';
 
 const PricingPage: React.FC = () => {
@@ -611,16 +610,4 @@ const PricingPage: React.FC = () => {
     );
 };
 
-const PricingApp: React.FC = () => {
-    return (
-        <ErrorBoundary>
-            <AuthProvider>
-                <LanguageProvider>
-                    <PricingPage />
-                </LanguageProvider>
-            </AuthProvider>
-        </ErrorBoundary>
-    );
-};
-
-export default PricingApp;
+export default PricingPage;

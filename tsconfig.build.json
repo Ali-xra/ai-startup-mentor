@@ -11,6 +11,7 @@
     "types-new-structure.ts",
     "i18n-new-phases.ts",
     "demo.html",
+    "old/**/*",
     "**/*.test.*",
     "**/*.spec.*"
   ]

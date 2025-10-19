@@ -1,5 +1,2 @@
-// ==========================================
-// Auth Components - Export Index
-// ==========================================
-
-export { UnifiedAuth } from './UnifiedAuth';
+// Auth components index
+// UnifiedAuth removed - no longer used (moved to old/)

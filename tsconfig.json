@@ -17,6 +17,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["."],
-  "exclude": ["vite.config.ts", "demo-new-structure.tsx", "src/test-*.ts", "test-*.ts", "src/components/StageIndicatorNew.tsx", "src/pages/AppContent.tsx", "src/services/investorProjectService.ts", "types-new-structure.ts", "i18n-new-phases.ts", "demo.html"],
+  "exclude": ["vite.config.ts", "demo-new-structure.tsx", "src/test-*.ts", "test-*.ts", "src/components/StageIndicatorNew.tsx", "src/pages/AppContent.tsx", "src/services/investorProjectService.ts", "types-new-structure.ts", "i18n-new-phases.ts", "demo.html", "old/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

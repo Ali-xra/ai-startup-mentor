@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { AuthProvider } from '../contexts/AuthContext';
-import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { Locale } from '../i18n';
 import LanguageSelector from '../components/LanguageSelector';
-import ErrorBoundary from '../components/ErrorBoundary';
 import '../index.css';
 
 const AboutPage: React.FC = () => {
@@ -415,16 +413,4 @@ const AboutPage: React.FC = () => {
     );
 };
 
-const AboutApp: React.FC = () => {
-    return (
-        <ErrorBoundary>
-            <AuthProvider>
-                <LanguageProvider>
-                    <AboutPage />
-                </LanguageProvider>
-            </AuthProvider>
-        </ErrorBoundary>
-    );
-};
-
-export default AboutApp;
+export default AboutPage;
