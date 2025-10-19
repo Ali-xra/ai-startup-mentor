@@ -23,6 +23,13 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
     setError(null);
 
     try {
+      // گرفتن اطلاعات کاربر از auth.users
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
       // چک کردن اینکه profile موجود هست یا نه
       const { data: existingProfile } = await supabase
         .from('profiles')
@@ -31,18 +38,24 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
         .maybeSingle();
 
       if (existingProfile) {
-        // اگر profile موجود هست، فقط role رو update کن
+        // اگر profile موجود هست، role و email رو update کن
         const { error: updateError } = await supabase
           .from('profiles')
-          .update({ role: selectedRole })
+          .update({
+            role: selectedRole,
+            email: user.email || '',
+            name: user.user_metadata?.full_name || user.email?.split('@')[0] || ''
+          })
           .eq('id', userId);
 
         if (updateError) throw updateError;
       } else {
-        // اگر profile موجود نیست، جدید بساز
+        // اگر profile موجود نیست، جدید بساز با email و name
         const { error: insertError } = await supabase.from('profiles').insert({
           id: userId,
           role: selectedRole,
+          email: user.email || '',
+          name: user.user_metadata?.full_name || user.email?.split('@')[0] || ''
         });
 
         if (insertError) throw insertError;
