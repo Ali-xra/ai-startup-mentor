@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import '../index.css';
 import { supabase } from '../services/supabaseClient';
 import { checkAndRedirect } from '../auth-check';
@@ -63,15 +62,5 @@ const InvestorAppWithAuthCheck: React.FC = () => {
 
     return <SimpleInvestorDashboard />;
 };
-
-const root = createRoot(document.getElementById('root')!);
-root.render(
-    <React.StrictMode>
-        <ErrorBoundary>
-            <InvestorAppWithAuthCheck />
-        </ErrorBoundary>
-    </React.StrictMode>
-);
-
 
 export default InvestorAppWithAuthCheck;

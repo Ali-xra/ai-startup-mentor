@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import '../index.css';
 import { supabase } from '../services/supabaseClient';
 import { checkAndRedirect } from '../auth-check';
@@ -63,15 +62,5 @@ const ProgrammerAppWithAuthCheck: React.FC = () => {
 
     return <SimpleProgrammerDashboard />;
 };
-
-const root = createRoot(document.getElementById('root')!);
-root.render(
-    <React.StrictMode>
-        <ErrorBoundary>
-            <ProgrammerAppWithAuthCheck />
-        </ErrorBoundary>
-    </React.StrictMode>
-);
-
 
 export default ProgrammerAppWithAuthCheck;

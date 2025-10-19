@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
 import { AuthScreen } from '../components/AuthScreen';
@@ -38,11 +37,11 @@ const AuthOnlyPageContent: React.FC = () => {
                 if (result.isAuthenticated && result.role) {
                     // اگر role داره، به dashboard بفرست
                     const rolePages: Record<string, string> = {
-                        'entrepreneur': '/entrepreneur.html',
-                        'investor': '/investor.html',
-                        'programmer': '/programmer.html',
-                        'consultant': '/consultant.html',
-                        'designer': '/designer.html'
+                        'entrepreneur': '/app',
+                        'investor': '/investor',
+                        'programmer': '/programmer',
+                        'consultant': '/consultant',
+                        'designer': '/designer'
                     };
                     if (rolePages[result.role]) {
                         window.location.href = rolePages[result.role];
@@ -104,18 +103,5 @@ const AuthOnlyPage: React.FC = () => {
         </LanguageProvider>
     );
 };
-
-const root = createRoot(document.getElementById('root')!);
-root.render(
-    <React.StrictMode>
-        <ErrorBoundary>
-            <AuthProvider>
-                <LanguageProvider>
-                    <AuthOnlyPage />
-                </LanguageProvider>
-            </AuthProvider>
-        </ErrorBoundary>
-    </React.StrictMode>
-);
 
 export default AuthOnlyPage;

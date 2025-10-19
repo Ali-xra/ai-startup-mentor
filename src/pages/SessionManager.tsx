@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import { supabase } from '../services/supabaseClient';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
@@ -315,16 +314,5 @@ const SessionManager: React.FC = () => {
         </LanguageProvider>
     );
 };
-
-const root = createRoot(document.getElementById('root')!);
-root.render(
-    <React.StrictMode>
-        <ErrorBoundary>
-            <AuthProvider>
-                <SessionManager />
-            </AuthProvider>
-        </ErrorBoundary>
-    </React.StrictMode>
-);
 
 export default SessionManager;

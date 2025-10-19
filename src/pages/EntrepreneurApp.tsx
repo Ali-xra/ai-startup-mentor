@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import { AuthProvider } from '../contexts/AuthContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
 import AppContent from './AppContent';
@@ -32,19 +31,5 @@ const EntrepreneurAppWithAuthCheck: React.FC = () => {
 
     return <AppContent />;
 };
-
-const root = createRoot(document.getElementById('root')!);
-root.render(
-    <React.StrictMode>
-        <ErrorBoundary>
-            <AuthProvider>
-                <LanguageProvider>
-                    <EntrepreneurAppWithAuthCheck />
-                </LanguageProvider>
-            </AuthProvider>
-        </ErrorBoundary>
-    </React.StrictMode>
-);
-
 
 export default EntrepreneurAppWithAuthCheck;

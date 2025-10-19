@@ -82,7 +82,7 @@ export const PlanBadge: React.FC<PlanBadgeProps> = ({ locale }) => {
             {planName === 'Free' && (
                 <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
                     <a
-                        href="/pricing.html"
+                        href="/pricing"
                         className="block text-center px-3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-sm font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg"
                     >
                         {locale === 'fa' ? '⬆️ ارتقای پلن' : '⬆️ Upgrade Plan'}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
 import { AuthProvider } from '../contexts/AuthContext';
 import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
 import LanguageSelector from '../components/LanguageSelector';
@@ -165,13 +164,13 @@ const LandingPageContent: React.FC = () => {
                                 {theme === 'dark' ? '☀️' : '🌙'}
                             </button>
                             <a
-                                href="/pricing.html"
+                                href="/pricing"
                                 className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                             >
                                 {t('cta_pricing')}
                             </a>
                             <a
-                                href="/about.html"
+                                href="/about"
                                 className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                             >
                                 {t('about_us')}
@@ -477,10 +476,10 @@ const LandingPageContent: React.FC = () => {
                             <a href="/" className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                 {t('home')}
                             </a>
-                            <a href="/pricing.html" className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                            <a href="/pricing" className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                 {t('cta_pricing')}
                             </a>
-                            <a href="/about.html" className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                            <a href="/about" className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                 {t('about_us')}
                             </a>
                         </div>
@@ -590,9 +589,5 @@ const LandingApp: React.FC = () => {
         </ErrorBoundary>
     );
 };
-
-const root = createRoot(document.getElementById('root')!);
-root.render(<LandingApp />);
-
 
 export default LandingApp;

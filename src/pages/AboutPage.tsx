@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
 import { AuthProvider } from '../contexts/AuthContext';
 import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
 import { Locale } from '../i18n';
@@ -190,7 +189,7 @@ const AboutPage: React.FC = () => {
                                 {t('home')}
                             </a>
                             <a
-                                href="/pricing.html"
+                                href="/pricing"
                                 className="px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                             >
                                 {t('pricing')}
@@ -379,7 +378,7 @@ const AboutPage: React.FC = () => {
                             <a href="/" className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                 {t('home')}
                             </a>
-                            <a href="/pricing.html" className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                            <a href="/pricing" className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                 {t('pricing')}
                             </a>
                         </div>
@@ -427,9 +426,5 @@ const AboutApp: React.FC = () => {
         </ErrorBoundary>
     );
 };
-
-const root = createRoot(document.getElementById('root')!);
-root.render(<AboutApp />);
-
 
 export default AboutApp;

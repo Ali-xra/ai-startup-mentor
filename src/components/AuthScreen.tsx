@@ -53,11 +53,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
         setError(null);
 
         try {
-            // بعد از OAuth، به صفحه /login.html برگرد تا auth check انجام بشه
+            // بعد از OAuth، به صفحه /login برگرد تا auth check انجام بشه
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${window.location.origin}/login.html`
+                    redirectTo: `${window.location.origin}/login`
                 }
             });
 

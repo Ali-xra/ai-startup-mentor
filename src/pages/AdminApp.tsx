@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { useAdminAuth } from '../hooks/useAdminAuth';
 import { AdminLogin } from '../components/admin/AdminLogin';
@@ -53,9 +52,5 @@ const AdminApp: React.FC = () => {
         </ErrorBoundary>
     );
 };
-
-const root = createRoot(document.getElementById('root')!);
-root.render(<AdminApp />);
-
 
 export default AdminApp;
