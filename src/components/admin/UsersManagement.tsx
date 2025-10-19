@@ -75,22 +75,26 @@ export const UsersManagement: React.FC = () => {
   const handleDeleteUser = async (userId: string) => {
     setIsDeleting(true);
     try {
-      // حذف از جدول profiles
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('id', userId);
+      // استفاده از RPC function برای حذف کامل از تمام جداول
+      const { data, error } = await supabase.rpc('delete_user_completely', {
+        target_user_id: userId,
+      });
 
-      if (profileError) {
-        throw profileError;
+      if (error) {
+        throw error;
       }
 
-      // به‌روزرسانی لیست کاربران
-      setUsers(users.filter((u) => u.id !== userId));
-      setFilteredUsers(filteredUsers.filter((u) => u.id !== userId));
+      // بررسی نتیجه
+      if (data && data.success) {
+        // به‌روزرسانی لیست کاربران
+        setUsers(users.filter((u) => u.id !== userId));
+        setFilteredUsers(filteredUsers.filter((u) => u.id !== userId));
 
-      alert('✅ کاربر با موفقیت حذف شد');
-      setDeleteConfirmUserId(null);
+        alert('✅ کاربر با موفقیت حذف شد');
+        setDeleteConfirmUserId(null);
+      } else {
+        throw new Error(data?.message || 'Failed to delete user');
+      }
     } catch (error) {
       console.error('Error deleting user:', error);
       alert('❌ خطا در حذف کاربر: ' + (error as any).message);
