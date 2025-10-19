@@ -69,7 +69,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
   if (requiredRole && userRole !== requiredRole) {
     // Redirect to correct dashboard based on user's role
     const roleRoutes: Record<string, string> = {
-      entrepreneur: '/app',
+      entrepreneur: '/entrepreneur',
       investor: '/investor',
       programmer: '/programmer',
       consultant: '/consultant',

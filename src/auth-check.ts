@@ -132,7 +132,7 @@ export function getRedirectPath(
 
     // اگر role داره، ببرش به صفحه مربوط به role اش
     const rolePages: Record<string, string> = {
-        'entrepreneur': '/app',
+        'entrepreneur': '/entrepreneur',
         'investor': '/investor',
         'programmer': '/programmer',
         'consultant': '/consultant',

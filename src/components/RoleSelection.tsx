@@ -77,7 +77,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
                 'programmer': '/programmer',
                 'consultant': '/consultant',
                 'designer': '/designer',
-                'entrepreneur': '/app'
+                'entrepreneur': '/entrepreneur'
             };
 
             window.location.href = rolePages[selectedRole];
