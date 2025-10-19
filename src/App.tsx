@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -19,12 +19,6 @@ import AboutPage from './pages/AboutPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 const App: React.FC = () => {
-  // Force dark theme globally for all pages
-  useEffect(() => {
-    document.documentElement.classList.add('dark');
-    localStorage.setItem('theme', 'dark');
-  }, []);
-
   return (
     <AuthProvider>
       <LanguageProvider>

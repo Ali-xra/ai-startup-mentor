@@ -11,9 +11,23 @@ const PricingPage: React.FC = () => {
     const { planName } = useFeatureFlags();
     const { language } = useLanguage();
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+        // Check if user has a saved theme preference
+        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
+        return savedTheme || 'dark'; // Default to dark theme
+    });
 
     // Map LanguageCode to Locale
     const locale: Locale = language === 'fa' ? 'fa' : 'en';
+
+    // Apply theme on component mount and when theme changes
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [theme]);
 
     const t = (key: string) => {
         const translations: Record<string, { fa: string; en: string }> = {
@@ -249,6 +263,22 @@ const PricingPage: React.FC = () => {
                         {/* Right Side */}
                         <div className="flex items-center gap-3">
                             <LanguageSelector />
+                            <button
+                                onClick={() => {
+                                    const newTheme = theme === 'light' ? 'dark' : 'light';
+                                    setTheme(newTheme);
+                                    localStorage.setItem('theme', newTheme);
+                                    if (newTheme === 'dark') {
+                                        document.documentElement.classList.add('dark');
+                                    } else {
+                                        document.documentElement.classList.remove('dark');
+                                    }
+                                }}
+                                className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                                title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                            >
+                                {theme === 'dark' ? '☀️' : '🌙'}
+                            </button>
                             {user && (
                                 <div className={`flex items-center gap-3 ${locale === 'fa' ? 'flex-row' : 'flex-row-reverse'}`}>
                                     <div className={locale === 'fa' ? 'text-right' : 'text-left'}>
