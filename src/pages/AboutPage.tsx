@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Locale } from '../i18n';
 import LanguageSelector from '../components/LanguageSelector';
@@ -7,29 +7,6 @@ import '../index.css';
 const AboutPage: React.FC = () => {
     const { language } = useLanguage();
     const locale: Locale = language === 'fa' ? 'fa' : 'en';
-    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
-        return savedTheme || 'dark';
-    });
-
-    useEffect(() => {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, [theme]);
-
-    const toggleTheme = () => {
-        const newTheme = theme === 'light' ? 'dark' : 'light';
-        setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-        if (newTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    };
 
     const t = (key: string) => {
         const translations: Record<string, { fa: string; en: string }> = {
@@ -173,13 +150,6 @@ const AboutPage: React.FC = () => {
                         {/* Right Side */}
                         <div className="flex items-center gap-2 sm:gap-3">
                             <LanguageSelector />
-                            <button
-                                onClick={toggleTheme}
-                                className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                                title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                            >
-                                {theme === 'dark' ? '☀️' : '🌙'}
-                            </button>
                             <a
                                 href="/"
                                 className="px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"

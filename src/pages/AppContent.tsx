@@ -21,7 +21,6 @@ const AppContent: React.FC = () => {
     const { session, loading, user } = useAuth();
     const { language } = useLanguage();
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
-    const [theme, setTheme] = useState<'light' | 'dark'>(() => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark');
     const [selectedStageForPreview, setSelectedStageForPreview] = useState<string | null>(null);
     const [profileCheckDone, setProfileCheckDone] = useState(false);
     const [needsRoleSelection, setNeedsRoleSelection] = useState(false);
@@ -164,9 +163,6 @@ const AppContent: React.FC = () => {
         journey.exportProject();
     }
 
-    const toggleTheme = () => {
-        setTheme(prev => prev === 'light' ? 'dark' : 'light');
-    };
 
     // No longer needed - LanguageSelector handles this
     const toggleLocale = () => {
@@ -199,11 +195,10 @@ const AppContent: React.FC = () => {
         // @ts-ignore - HeaderProps will be updated in refactoring
             <Header
                 progress={journey.progress}
-                theme={theme}
+                theme="dark"
                 locale={locale}
                 projectName={journey.startupData.projectName}
                 initialIdea={journey.startupData.initialIdea}
-                onThemeToggle={toggleTheme}
                 onLocaleToggle={toggleLocale}
                 onRestart={handleRestart}
                 onSwitchProjects={handleSwitchProjects}
