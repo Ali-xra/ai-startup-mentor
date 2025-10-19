@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../services/supabaseClient';
 
 interface AdminProtectedRouteProps {
   children: React.ReactNode;
@@ -21,10 +22,37 @@ interface AdminProtectedRouteProps {
  * } />
  */
 export const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ children }) => {
-  const { user, isAdmin, loading } = useAuth();
+  const { user, loading } = useAuth();
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [roleLoading, setRoleLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user) {
+        try {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+
+          if (error) throw error;
+          setUserRole(data?.role || null);
+        } catch (error) {
+          console.error('Error fetching user role:', error);
+          setUserRole(null);
+        }
+      }
+      setRoleLoading(false);
+    };
+
+    if (!loading) {
+      fetchUserRole();
+    }
+  }, [user, loading]);
 
   // در حال بارگذاری
-  if (loading) {
+  if (loading || roleLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
@@ -41,7 +69,7 @@ export const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ childr
   }
 
   // کاربر admin نیست
-  if (!isAdmin) {
+  if (userRole !== 'admin') {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-100">
         <div className="max-w-md rounded-lg bg-white p-8 text-center shadow-lg">

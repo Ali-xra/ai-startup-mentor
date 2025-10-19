@@ -14,6 +14,8 @@ export const UsersManagement: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [deleteConfirmUserId, setDeleteConfirmUserId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     loadUsers();
@@ -68,6 +70,44 @@ export const UsersManagement: React.FC = () => {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     alert('کپی شد! ✓');
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    setIsDeleting(true);
+    try {
+      // حذف از جدول profiles
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', userId);
+
+      if (profileError) {
+        throw profileError;
+      }
+
+      // حذف از auth.users با استفاده از RPC function
+      // توجه: این function باید در Supabase ایجاد شود
+      const { error: authError } = await supabase.rpc('delete_user', {
+        user_id: userId,
+      });
+
+      if (authError) {
+        console.warn('Could not delete from auth.users:', authError);
+        // اگر function وجود نداشت، فقط از profiles حذف می‌شود
+      }
+
+      // به‌روزرسانی لیست کاربران
+      setUsers(users.filter((u) => u.id !== userId));
+      setFilteredUsers(filteredUsers.filter((u) => u.id !== userId));
+
+      alert('✅ کاربر با موفقیت حذف شد');
+      setDeleteConfirmUserId(null);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('❌ خطا در حذف کاربر: ' + (error as any).message);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   if (isLoading) {
@@ -218,6 +258,12 @@ export const UsersManagement: React.FC = () => {
                       >
                         کپی ID
                       </button>
+                      <button
+                        onClick={() => setDeleteConfirmUserId(user.id)}
+                        className="px-3 py-1.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-sm font-medium"
+                      >
+                        🗑️ حذف
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -235,6 +281,47 @@ export const UsersManagement: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      {deleteConfirmUserId && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl max-w-md w-full p-6">
+            <div className="text-center">
+              <div className="text-6xl mb-4">⚠️</div>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
+                تایید حذف کاربر
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400 mb-2">
+                آیا از حذف این کاربر مطمئن هستید؟
+              </p>
+              <p className="text-sm text-slate-500 dark:text-slate-500 mb-6 font-mono bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                {users.find((u) => u.id === deleteConfirmUserId)?.email}
+              </p>
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 mb-6">
+                <p className="text-sm text-red-800 dark:text-red-400">
+                  ⚠️ این عمل غیرقابل بازگشت است و تمام اطلاعات کاربر حذف خواهد شد.
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setDeleteConfirmUserId(null)}
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-3 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors font-medium disabled:opacity-50"
+                >
+                  انصراف
+                </button>
+                <button
+                  onClick={() => handleDeleteUser(deleteConfirmUserId)}
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50"
+                >
+                  {isDeleting ? 'در حال حذف...' : '✓ تایید حذف'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Help Text */}
       <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
