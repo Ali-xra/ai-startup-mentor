@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  ReactNode,
+  useMemo,
+} from 'react';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 
 interface LoadingState {
@@ -60,13 +67,17 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
     [showLoading, hideLoading]
   );
 
-  const value: LoadingContextType = {
-    isLoading: loadingState.isLoading,
-    message: loadingState.message,
-    showLoading,
-    hideLoading,
-    withLoading,
-  };
+  // Memoize the context value to prevent unnecessary re-renders
+  const value: LoadingContextType = useMemo(
+    () => ({
+      isLoading: loadingState.isLoading,
+      message: loadingState.message,
+      showLoading,
+      hideLoading,
+      withLoading,
+    }),
+    [loadingState.isLoading, loadingState.message, showLoading, hideLoading, withLoading]
+  );
 
   return (
     <LoadingContext.Provider value={value}>

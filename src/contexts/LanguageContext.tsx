@@ -1,4 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useMemo,
+  useCallback,
+} from 'react';
 import { LanguageCode } from '../services/translationService';
 import { supabase } from '../services/supabaseClient';
 import { useAuth } from './AuthContext';
@@ -33,25 +41,28 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     }
   }, [user]);
 
-  // Determine if current language is RTL (Right-to-Left)
-  const isRTL = language === 'fa';
+  // Memoize isRTL to prevent recalculation on every render
+  const isRTL = useMemo(() => language === 'fa', [language]);
 
-  // Update language and save to both localStorage and user metadata
-  const setLanguage = async (lang: LanguageCode) => {
-    setLanguageState(lang);
-    localStorage.setItem('appLanguage', lang);
+  // Memoize setLanguage to prevent re-creation on every render
+  const setLanguage = useCallback(
+    async (lang: LanguageCode) => {
+      setLanguageState(lang);
+      localStorage.setItem('appLanguage', lang);
 
-    // Save to Supabase user metadata if user is logged in
-    if (user) {
-      try {
-        await supabase.auth.updateUser({
-          data: { preferred_language: lang },
-        });
-      } catch (error) {
-        console.error('Failed to save language preference:', error);
+      // Save to Supabase user metadata if user is logged in
+      if (user) {
+        try {
+          await supabase.auth.updateUser({
+            data: { preferred_language: lang },
+          });
+        } catch (error) {
+          console.error('Failed to save language preference:', error);
+        }
       }
-    }
-  };
+    },
+    [user]
+  );
 
   // Apply RTL direction to document when language changes
   useEffect(() => {
@@ -64,11 +75,17 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     }
   }, [language, isRTL]);
 
-  return (
-    <LanguageContext.Provider value={{ language, setLanguage, isRTL }}>
-      {children}
-    </LanguageContext.Provider>
+  // Memoize the context value to prevent unnecessary re-renders
+  const value = useMemo(
+    () => ({
+      language,
+      setLanguage,
+      isRTL,
+    }),
+    [language, setLanguage, isRTL]
   );
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 };
 
 // Custom hook to use language context

@@ -1,4 +1,12 @@
-import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  ReactNode,
+  useMemo,
+  useCallback,
+} from 'react';
 import { supabase } from '../services/supabaseClient';
 import { Session, User } from '@supabase/supabase-js';
 
@@ -42,7 +50,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  // Memoize signIn to prevent re-creation on every render
+  const signIn = useCallback(async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -52,23 +61,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     setSession(data.session);
     setUser(data.user);
-  };
+  }, []);
 
-  const signOut = async () => {
+  // Memoize signOut to prevent re-creation on every render
+  const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setSession(null);
     setUser(null);
     // بعد از logout، به صفحه لاگین redirect کن (React Router خودش redirect می‌کنه)
     window.location.href = '/login';
-  };
+  }, []);
 
-  const value = {
-    session,
-    user,
-    loading,
-    signIn,
-    signOut,
-  };
+  // Memoize the context value to prevent unnecessary re-renders
+  const value = useMemo(
+    () => ({
+      session,
+      user,
+      loading,
+      signIn,
+      signOut,
+    }),
+    [session, user, loading, signIn, signOut]
+  );
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 };
