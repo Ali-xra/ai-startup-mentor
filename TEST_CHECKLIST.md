@@ -1,6 +1,6 @@
 # 🧪 چک‌لیست تست کاربری - AI Startup Mentor
 
-**تاریخ تست:** 2025-10-18
+**تاریخ تست:** 2025-10-19
 **URL:** http://localhost:5174
 **تستر:** Ali
 
@@ -8,17 +8,236 @@
 
 ## ✅ چیزهای کامل شده که باید تست بشند:
 
+### Task 1.1: Navigation System ✅ (🆕 تازه کامل شد!)
 ### Task 1.2: Error Boundaries ✅
 ### Task 1.3: Error Handler متمرکز ✅
 ### Task 1.4: Loading States System ✅
 ### Task 1.5: State Management (85%) ⚠️
-### Task 1.7: Security & API Keys ✅ (🆕 تازه کامل شد!)
-### Task 1.8: Refactor useStartupJourney Hook ✅ (🆕 تازه کامل شد!)
-### Task 1.10: Git Workflow ✅ (🆕 تازه کامل شد!)
+### Task 1.7: Security & API Keys ✅
+### Task 1.8: Refactor useStartupJourney Hook ✅
+### Task 1.10: Git Workflow ✅
 
 ---
 
-# 🆕 راهنمای تست تغییرات جدید (Task 1.7, 1.8 & 1.10)
+# 🆕 راهنمای تست تغییرات جدید (Task 1.1)
+
+## 📌 Task 1.1: Navigation System - چطور تست کنیم؟
+
+### ✅ چیزی که انجام شد:
+- همه HTML files غیرضروری به پوشه `old/` منتقل شدند (13 فایل)
+- فقط `index.html` در root باقی مونده
+- React Router حالا به طور کامل navigation رو handle می‌کنه
+- vite.config.ts به‌روز شد - فقط index.html در build
+- index.html اصلاح شد - حالا main.tsx رو load می‌کنه
+
+### 🧪 تست ۱: بررسی فایل‌های Root Directory
+**مدت زمان:** ۱ دقیقه
+
+1. **باز کن:** Explorer و برو به root پروژه
+2. **چک کن:** آیا فقط `index.html` موجوده؟
+3. **چک کن:** آیا این فایل‌ها **وجود ندارند**؟
+   ```
+   ❌ login.html
+   ❌ entrepreneur.html
+   ❌ investor.html
+   ❌ programmer.html
+   ❌ consultant.html
+   ❌ designer.html
+   ❌ admin.html
+   ❌ pricing.html
+   ❌ about.html
+   ❌ session-manager.html
+   ❌ logout.html
+   ❌ demo.html
+   ❌ test-programmer.html
+   ```
+4. **نتیجه مورد انتظار:** ✅ فقط index.html باید باشه
+
+---
+
+### 🧪 تست ۲: بررسی پوشه old/
+**مدت زمان:** ۱ دقیقه
+
+1. **باز کن:** پوشه `old/` در root
+2. **چک کن:** آیا این فایل‌ها اینجا هستند؟
+   ```
+   ✅ old/login.html
+   ✅ old/entrepreneur.html
+   ✅ old/investor.html
+   ✅ old/programmer.html
+   ✅ old/consultant.html
+   ✅ old/designer.html
+   ✅ old/admin.html
+   ✅ old/pricing.html
+   ✅ old/about.html
+   ✅ old/session-manager.html
+   ✅ old/logout.html
+   ✅ old/demo.html
+   ✅ old/test-programmer.html
+   ```
+3. **نتیجه مورد انتظار:** ✅ همه فایل‌ها باید در old/ باشند
+
+---
+
+### 🧪 تست ۳: تست Production Build
+**مدت زمان:** ۱ دقیقه
+
+1. **اجرا کن:** در terminal:
+   ```bash
+   npm run build
+   ```
+2. **نتیجه مورد انتظار:**
+   - ✅ Build باید **موفق** باشه
+   - ✅ باید ببینی: `✓ built in X.XXs`
+   - ❌ نباید خطای "Could not resolve entry module" بیاد
+   - ✅ فقط `dist/index.html` باید ساخته بشه
+
+---
+
+### 🧪 تست ۴: تست Dev Server
+**مدت زمان:** ۲ دقیقه
+
+1. **اجرا کن:**
+   ```bash
+   npm run dev
+   ```
+2. **باز کن:** http://localhost:5174
+3. **چک کن:** آیا Landing Page به درستی لود می‌شه؟
+4. **نتیجه مورد انتظار:**
+   - ✅ صفحه Landing Page نمایش داده می‌شه
+   - ✅ هیچ error در Console نیست
+   - ✅ React Router کار می‌کنه
+
+---
+
+### 🧪 تست ۵: تست Navigation به صفحات مختلف
+**مدت زمان:** ۵ دقیقه
+
+1. **باز کن:** http://localhost:5174
+2. **کلیک کن:** روی "Login" یا "Get Started"
+3. **چک کن:** آیا به `/login` می‌ره؟ (نه `/login.html`)
+4. **نتیجه مورد انتظار:** ✅ URL باید بشه `http://localhost:5174/login`
+
+5. **Test Clean URLs:**
+   - [ ] http://localhost:5174/login → صفحه login
+   - [ ] http://localhost:5174/pricing → صفحه pricing
+   - [ ] http://localhost:5174/about → صفحه about
+   - [ ] همه URLs بدون `.html` هستند
+
+6. **Test Backward Compatibility (Redirects):**
+   - [ ] http://localhost:5174/login.html → redirect به `/login`
+   - [ ] http://localhost:5174/pricing.html → redirect به `/pricing`
+   - [ ] http://localhost:5174/about.html → redirect به `/about`
+
+---
+
+### 🧪 تست ۶: تست Protected Routes
+**مدت زمان:** ۳ دقیقه
+
+1. **Login کن** با یک account
+2. **انتخاب کن:** role "Entrepreneur"
+3. **چک کن URL:** باید بشه `http://localhost:5174/app` (نه `/entrepreneur.html`)
+4. **نتیجه مورد انتظار:** ✅ Clean URL بدون .html
+
+5. **Test Other Roles:**
+   - [ ] Investor → `/investor`
+   - [ ] Programmer → `/programmer`
+   - [ ] Consultant → `/consultant`
+   - [ ] Designer → `/designer`
+
+---
+
+### 🧪 تست ۷: بررسی index.html
+**مدت زمان:** ۱ دقیقه
+
+1. **باز کن:** فایل `index.html` در root
+2. **چک کن خط 15:** باید باشه:
+   ```html
+   <script type="module" src="/src/main.tsx"></script>
+   ```
+3. **نتیجه مورد انتظار:**
+   - ✅ باید `main.tsx` رو load کنه (نه `LandingPage.tsx`)
+
+---
+
+### 🧪 تست ۸: بررسی vite.config.ts
+**مدت زمان:** ۱ دقیقه
+
+1. **باز کن:** فایل `vite.config.ts`
+2. **چک کن:** build.rollupOptions.input
+3. **نتیجه مورد انتظار:**
+   ```typescript
+   input: {
+     main: resolve(__dirname, 'index.html'),
+   }
+   ```
+   - ✅ فقط `index.html` باید باشه
+   - ❌ نباید هیچ HTML دیگه‌ای باشه
+
+---
+
+### 🧪 تست ۹: تست Browser Back/Forward
+**مدت زمان:** ۲ دقیقه
+
+1. **باز کن:** http://localhost:5174
+2. **Navigate کن:** به `/login`
+3. **Navigate کن:** به `/pricing`
+4. **کلیک کن:** روی Browser Back button
+5. **نتیجه مورد انتظار:**
+   - ✅ باید برگرده به `/login`
+   - ✅ صفحه به درستی لود بشه
+   - ✅ هیچ full page reload نباشه (SPA behavior)
+
+6. **کلیک کن:** Browser Forward
+   - ✅ باید بره به `/pricing`
+
+---
+
+### 🧪 تست ۱۰: تست Console Errors
+**مدت زمان:** ۱ دقیقه
+
+1. **باز کن:** Browser Console (F12)
+2. **Navigate کن:** به صفحات مختلف
+3. **چک کن:** آیا error هست؟
+4. **نتیجه مورد انتظار:**
+   - ✅ هیچ error قرمز نباید باشه
+   - ✅ هیچ "404 Not Found" برای HTML files نباید باشه
+   - ✅ React Router بدون مشکل کار می‌کنه
+
+---
+
+## ✅ خلاصه تست‌های سریع Task 1.1 (۵ دقیقه):
+
+### چک‌لیست فوری:
+
+- [ ] **فقط index.html در root موجود است**
+- [ ] **13 فایل HTML در old/ منتقل شدند**
+- [ ] **Build موفق است** (`npm run build`)
+- [ ] **Dev server بدون خطا اجرا می‌شود** (`npm run dev`)
+- [ ] **Landing page لود می‌شود** (http://localhost:5174)
+- [ ] **Clean URLs کار می‌کنند** (/login, /pricing, /about)
+- [ ] **Backward compatibility redirects کار می‌کنند** (/login.html → /login)
+- [ ] **Protected routes کار می‌کنند** (/app, /investor, etc.)
+- [ ] **Browser back/forward کار می‌کند**
+- [ ] **هیچ Console Error نیست**
+- [ ] **index.html حالا main.tsx رو load می‌کنه**
+- [ ] **vite.config.ts فقط index.html داره**
+
+---
+
+**اگر همه این‌ها ✅ بودند → Task 1.1 کامل و موفق است!** 🎉
+
+**مزایای Migration:**
+- ✅ تنها یک entry point (index.html)
+- ✅ React Router به عنوان single source of truth
+- ✅ Clean URLs (بهتر برای SEO)
+- ✅ SPA behavior (no full page reloads)
+- ✅ Easier maintenance
+- ✅ Build سریع‌تر (فقط یک HTML)
+
+---
+
+# 📋 راهنمای تست تغییرات قبلی (Task 1.7, 1.8 & 1.10)
 
 ## 📌 Task 1.7: Security & API Keys - چطور تست کنیم؟
 
