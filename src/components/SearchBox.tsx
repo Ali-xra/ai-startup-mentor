@@ -21,7 +21,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
   locale,
   onNavigate,
   onHighlight,
-  onSearch
+  onSearch,
 }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -45,7 +45,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
             key,
             value: value.toString(),
             section: key.replace(/_/g, ' ').toUpperCase(),
-            stage: key
+            stage: key,
           });
         }
       }
@@ -90,15 +90,11 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex(prev =>
-          prev < results.length - 1 ? prev + 1 : 0
-        );
+        setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setSelectedIndex(prev =>
-          prev > 0 ? prev - 1 : results.length - 1
-        );
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
         break;
       case 'Enter':
         e.preventDefault();
@@ -138,7 +134,9 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
         <mark key={index} className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">
           {part}
         </mark>
-      ) : part
+      ) : (
+        part
+      )
     );
   };
 
@@ -157,8 +155,18 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
           className={`w-full px-3 py-2 pl-10 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent ${locale === 'fa' ? 'text-right' : 'text-left'}`}
         />
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            className="h-4 w-4 text-slate-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
         </div>
       </div>

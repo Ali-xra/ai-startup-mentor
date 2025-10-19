@@ -9,7 +9,7 @@ import type {
   ConnectionWithInvestor,
   ConnectionMessage,
   ConnectionMessageWithSender,
-  ConnectionStatus
+  ConnectionStatus,
 } from '../types/connection';
 
 export const connectionService = {
@@ -28,7 +28,7 @@ export const connectionService = {
     const { data, error } = await supabase.rpc('create_connection_request', {
       p_project_id: projectId,
       p_investor_id: investorId,
-      p_message: message
+      p_message: message,
     });
 
     if (error) throw error;
@@ -48,7 +48,7 @@ export const connectionService = {
       p_connection_id: connectionId,
       p_project_owner_id: projectOwnerId,
       p_status: status,
-      p_response: response || null
+      p_response: response || null,
     });
 
     if (error) throw error;
@@ -57,15 +57,12 @@ export const connectionService = {
   /**
    * آپدیت وضعیت Connection
    */
-  async updateConnectionStatus(
-    connectionId: string,
-    status: ConnectionStatus
-  ): Promise<void> {
+  async updateConnectionStatus(connectionId: string, status: ConnectionStatus): Promise<void> {
     const { error } = await supabase
       .from('connections')
       .update({
         status,
-        last_activity: new Date().toISOString()
+        last_activity: new Date().toISOString(),
       })
       .eq('id', connectionId);
 
@@ -108,8 +105,8 @@ export const connectionService = {
       project: {
         ...project,
         owner_name: owner?.name || owner?.email || 'Unknown',
-        owner_email: owner?.email || ''
-      }
+        owner_email: owner?.email || '',
+      },
     };
   },
 
@@ -127,7 +124,7 @@ export const connectionService = {
     if (!connections || connections.length === 0) return [];
 
     // دریافت اطلاعات پروژه‌ها
-    const projectIds = connections.map(c => c.project_id);
+    const projectIds = connections.map((c) => c.project_id);
     const { data: projects, error: projectsError } = await supabase
       .from('projects')
       .select('*')
@@ -136,7 +133,7 @@ export const connectionService = {
     if (projectsError) throw projectsError;
 
     // دریافت اطلاعات صاحبان پروژه
-    const userIds = projects?.map(p => p.user_id) || [];
+    const userIds = projects?.map((p) => p.user_id) || [];
     const { data: profiles, error: profilesError } = await supabase
       .from('profiles')
       .select('id, name, email, avatar_url')
@@ -145,17 +142,17 @@ export const connectionService = {
     if (profilesError) throw profilesError;
 
     // ترکیب داده‌ها
-    return connections.map(conn => {
-      const project = projects?.find(p => p.id === conn.project_id);
-      const owner = profiles?.find(p => p.id === project?.user_id);
+    return connections.map((conn) => {
+      const project = projects?.find((p) => p.id === conn.project_id);
+      const owner = profiles?.find((p) => p.id === project?.user_id);
 
       return {
         ...conn,
         project: {
           ...project,
           owner_name: owner?.name || owner?.email || 'Unknown',
-          owner_email: owner?.email || ''
-        }
+          owner_email: owner?.email || '',
+        },
       };
     });
   },
@@ -174,7 +171,7 @@ export const connectionService = {
     if (!connections || connections.length === 0) return [];
 
     // دریافت اطلاعات investor profiles
-    const investorIds = connections.map(c => c.investor_id);
+    const investorIds = connections.map((c) => c.investor_id);
     const { data: investorProfiles, error: investorError } = await supabase
       .from('investor_profiles')
       .select('*')
@@ -191,16 +188,16 @@ export const connectionService = {
     if (userError) throw userError;
 
     // ترکیب داده‌ها
-    return connections.map(conn => {
-      const investorProfile = investorProfiles?.find(ip => ip.user_id === conn.investor_id);
-      const userProfile = userProfiles?.find(up => up.id === conn.investor_id);
+    return connections.map((conn) => {
+      const investorProfile = investorProfiles?.find((ip) => ip.user_id === conn.investor_id);
+      const userProfile = userProfiles?.find((up) => up.id === conn.investor_id);
 
       return {
         ...conn,
         investor: {
           ...(investorProfile || {}),
-          user_profile: userProfile || {}
-        } as any
+          user_profile: userProfile || {},
+        } as any,
       };
     });
   },
@@ -213,22 +210,17 @@ export const connectionService = {
     userType: 'investor' | 'project_owner',
     status?: ConnectionStatus
   ): Promise<number> {
-    let query = supabase
-      .from('connections')
-      .select('*', { count: 'exact', head: true });
+    let query = supabase.from('connections').select('*', { count: 'exact', head: true });
 
     if (userType === 'investor') {
       query = query.eq('investor_id', userId);
     } else {
       // برای project owner باید بر اساس پروژه‌هایی که داره فیلتر کنیم
-      const { data: projects } = await supabase
-        .from('projects')
-        .select('id')
-        .eq('user_id', userId);
+      const { data: projects } = await supabase.from('projects').select('id').eq('user_id', userId);
 
       if (!projects || projects.length === 0) return 0;
 
-      const projectIds = projects.map(p => p.id);
+      const projectIds = projects.map((p) => p.id);
       query = query.in('project_id', projectIds);
     }
 
@@ -245,10 +237,7 @@ export const connectionService = {
   /**
    * چک کردن اینکه آیا قبلاً connection درخواست داده یا نه
    */
-  async hasExistingConnection(
-    projectId: string,
-    investorId: string
-  ): Promise<boolean> {
+  async hasExistingConnection(projectId: string, investorId: string): Promise<boolean> {
     const { data, error } = await supabase
       .from('connections')
       .select('id')
@@ -274,11 +263,13 @@ export const connectionService = {
   ): Promise<ConnectionMessage> {
     const { data, error } = await supabase
       .from('connection_messages')
-      .insert([{
-        connection_id: connectionId,
-        sender_id: senderId,
-        message
-      }])
+      .insert([
+        {
+          connection_id: connectionId,
+          sender_id: senderId,
+          message,
+        },
+      ])
       .select()
       .single();
 
@@ -307,7 +298,7 @@ export const connectionService = {
     if (!messages || messages.length === 0) return [];
 
     // دریافت اطلاعات فرستندگان
-    const senderIds = [...new Set(messages.map(m => m.sender_id))];
+    const senderIds = [...new Set(messages.map((m) => m.sender_id))];
     const { data: senders, error: sendersError } = await supabase
       .from('profiles')
       .select('id, name, email, avatar_url')
@@ -316,16 +307,16 @@ export const connectionService = {
     if (sendersError) throw sendersError;
 
     // ترکیب داده‌ها
-    return messages.map(msg => {
-      const sender = senders?.find(s => s.id === msg.sender_id);
+    return messages.map((msg) => {
+      const sender = senders?.find((s) => s.id === msg.sender_id);
       return {
         ...msg,
         sender: {
           id: msg.sender_id,
           name: sender?.name || sender?.email || 'Unknown',
           email: sender?.email || '',
-          avatar_url: sender?.avatar_url || null
-        }
+          avatar_url: sender?.avatar_url || null,
+        },
       };
     });
   },
@@ -338,7 +329,7 @@ export const connectionService = {
       .from('connection_messages')
       .update({
         read: true,
-        read_at: new Date().toISOString()
+        read_at: new Date().toISOString(),
       })
       .eq('id', messageId);
 
@@ -353,7 +344,7 @@ export const connectionService = {
       .from('connection_messages')
       .update({
         read: true,
-        read_at: new Date().toISOString()
+        read_at: new Date().toISOString(),
       })
       .eq('connection_id', connectionId)
       .neq('sender_id', userId) // فقط پیام‌های طرف مقابل
@@ -375,26 +366,20 @@ export const connectionService = {
       .eq('investor_id', userId);
 
     // 2. گرفتن connections به عنوان project owner
-    const { data: projects } = await supabase
-      .from('projects')
-      .select('id')
-      .eq('user_id', userId);
+    const { data: projects } = await supabase.from('projects').select('id').eq('user_id', userId);
 
     let ownerConns: any[] = [];
     if (projects && projects.length > 0) {
-      const projectIds = projects.map(p => p.id);
-      const { data } = await supabase
-        .from('connections')
-        .select('id')
-        .in('project_id', projectIds);
+      const projectIds = projects.map((p) => p.id);
+      const { data } = await supabase.from('connections').select('id').in('project_id', projectIds);
 
       ownerConns = data || [];
     }
 
     // ترکیب همه connection IDs
     const allConnectionIds = [
-      ...(investorConns?.map(c => c.id) || []),
-      ...(ownerConns?.map(c => c.id) || [])
+      ...(investorConns?.map((c) => c.id) || []),
+      ...(ownerConns?.map((c) => c.id) || []),
     ];
 
     if (allConnectionIds.length === 0) return 0;
@@ -443,10 +428,7 @@ export const connectionService = {
   /**
    * گرفتن Connection بین یک پروژه و سرمایه‌گذار (اگر وجود دارد)
    */
-  async getConnectionByProject(
-    projectId: string,
-    investorId: string
-  ): Promise<Connection | null> {
+  async getConnectionByProject(projectId: string, investorId: string): Promise<Connection | null> {
     const { data, error } = await supabase
       .from('connections')
       .select('*')
@@ -459,11 +441,11 @@ export const connectionService = {
   },
 
   // Alias برای سازگاری
-  createConnection: async function(
+  createConnection: async function (
     projectId: string,
     investorId: string,
     message: string
   ): Promise<string> {
     return this.createConnectionRequest(projectId, investorId, message);
-  }
+  },
 };

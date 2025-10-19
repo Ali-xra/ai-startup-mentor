@@ -4,12 +4,7 @@
 
 import type { InvestorProfile, UserProfile } from './investor';
 
-export type ConnectionStatus =
-  | 'pending'
-  | 'accepted'
-  | 'rejected'
-  | 'contacted'
-  | 'closed';
+export type ConnectionStatus = 'pending' | 'accepted' | 'rejected' | 'contacted' | 'closed';
 
 // Connection between investor and project
 export interface Connection {

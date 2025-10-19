@@ -30,9 +30,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetError 
           {/* پیام خطا (فقط در development) */}
           {process.env.NODE_ENV === 'development' && error && (
             <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg text-left">
-              <p className="text-sm font-mono text-red-800 dark:text-red-200">
-                {error.message}
-              </p>
+              <p className="text-sm font-mono text-red-800 dark:text-red-200">{error.message}</p>
             </div>
           )}
 
@@ -47,7 +45,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetError 
               </button>
             )}
             <button
-              onClick={() => window.location.href = '/'}
+              onClick={() => (window.location.href = '/')}
               className="w-full px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold rounded-lg transition-all"
             >
               🏠 بازگشت به خانه

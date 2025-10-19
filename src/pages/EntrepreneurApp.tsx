@@ -12,24 +12,24 @@ import ErrorBoundary from '../components/ErrorBoundary';
  * فقط برای entrepreneur dashboard
  */
 const EntrepreneurAppWithAuthCheck: React.FC = () => {
-    const [authChecked, setAuthChecked] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
-    useEffect(() => {
-        // چک کردن auth قبل از render - بدون redirect
-        checkAuth().then(() => {
-            setAuthChecked(true);
-        });
-    }, []);
+  useEffect(() => {
+    // چک کردن auth قبل از render - بدون redirect
+    checkAuth().then(() => {
+      setAuthChecked(true);
+    });
+  }, []);
 
-    if (!authChecked) {
-        return (
-            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
-                <Loader />
-            </div>
-        );
-    }
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
-    return <AppContent />;
+  return <AppContent />;
 };
 
 export default EntrepreneurAppWithAuthCheck;

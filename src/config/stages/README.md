@@ -27,8 +27,8 @@ import { PHASE_1, ALL_PHASES, getStageById } from '@/config/stages';
 // دریافت فاز ۱
 const phase1 = PHASE_1;
 
-console.log(phase1.title_en);  // "Core Concept & Validation"
-console.log(phase1.title_fa);  // "مفهوم اصلی و اعتبارسنجی ایده"
+console.log(phase1.title_en); // "Core Concept & Validation"
+console.log(phase1.title_fa); // "مفهوم اصلی و اعتبارسنجی ایده"
 ```
 
 ### ۳. دسترسی به زیربخش‌ها
@@ -37,8 +37,8 @@ console.log(phase1.title_fa);  // "مفهوم اصلی و اعتبارسنجی �
 // دریافت اولین زیربخش (Idea Definition)
 const ideaDefinition = PHASE_1.subsections[0];
 
-console.log(ideaDefinition.title_en);  // "Idea Definition"
-console.log(ideaDefinition.stages.length);  // 3 مرحله
+console.log(ideaDefinition.title_en); // "Idea Definition"
+console.log(ideaDefinition.stages.length); // 3 مرحله
 ```
 
 ### ۴. دسترسی به یک مرحله خاص
@@ -47,10 +47,10 @@ console.log(ideaDefinition.stages.length);  // 3 مرحله
 // دریافت مرحله Elevator Pitch
 const elevatorPitch = PHASE_1.subsections[0].stages[1];
 
-console.log(elevatorPitch.title_en);       // "Elevator Pitch"
-console.log(elevatorPitch.guidance_en);    // توضیحات
-console.log(elevatorPitch.question_en);    // سوال
-console.log(elevatorPitch.dataKey);        // "elevator_pitch"
+console.log(elevatorPitch.title_en); // "Elevator Pitch"
+console.log(elevatorPitch.guidance_en); // توضیحات
+console.log(elevatorPitch.question_en); // سوال
+console.log(elevatorPitch.dataKey); // "elevator_pitch"
 ```
 
 ### ۵. استفاده از Helper Functions
@@ -172,7 +172,7 @@ const buildAIPrompt = (stage: StageConfig, startupData: any, userInput: string) 
   // اضافه کردن Context
   if (config.contextKeys) {
     prompt += 'Context:\n';
-    config.contextKeys.forEach(key => {
+    config.contextKeys.forEach((key) => {
       if (startupData[key]) {
         prompt += `- ${key}: ${startupData[key]}\n`;
       }
@@ -239,25 +239,29 @@ goToNextStage();
 ## 📝 نکات مهم
 
 ### ۱. dataKey ها باید منحصر به فرد باشند
+
 ```typescript
 // ✅ درست
-dataKey: 'elevator_pitch'
+dataKey: 'elevator_pitch';
 
 // ❌ غلط - تکراری
-dataKey: 'pitch'
+dataKey: 'pitch';
 ```
 
 ### ۲. userInputRequired
+
 - `true`: کاربر باید چیزی بنویسه
 - `false`: اگه کاربر چیزی ننوشت، AI خودش تولید می‌کنه
 
 ### ۳. outputType تعیین‌کننده UI است
+
 - `text`: یک متن کامل
 - `selection`: لیست گزینه‌ها برای انتخاب
 - `list`: لیست bullet points
 - `analysis`: تحلیل چند بخشی
 
 ### ۴. promptConfig.contextKeys
+
 - باید به ترتیب مراحل قبلی باشن
 - مثلاً: `['initialIdea', 'elevator_pitch', 'executive_summary']`
 
@@ -273,7 +277,7 @@ import { PHASE_2 } from './phase2';
 export const ALL_PHASES: AllPhasesConfig = {
   phases: [
     PHASE_1,
-    PHASE_2,  // ← جدید
+    PHASE_2, // ← جدید
   ],
 };
 
@@ -301,19 +305,24 @@ console.log('Data key:', stage?.dataKey);
 ## 🆘 سوالات متداول
 
 ### چطور ترجمه‌ها کار می‌کنن؟
+
 هر فیلد دو نسخه داره: `_en` و `_fa`
 
 ### چطور prompts رو بعداً بهینه کنیم؟
+
 فقط `promptConfig` رو تو `phase1.ts` ویرایش کن.
 
 ### چطور مثال اضافه کنیم؟
+
 آرایه `examples` رو پر کن:
+
 ```typescript
 examples: [
   'Airbnb connects travelers with unique local accommodations...',
-  'Uber provides on-demand transportation...'
-]
+  'Uber provides on-demand transportation...',
+];
 ```
 
 ### چطور constraint جدید اضافه کنم؟
+
 در `PromptConstraints` (فایل `stage.types.ts`) فیلد جدید اضافه کن.

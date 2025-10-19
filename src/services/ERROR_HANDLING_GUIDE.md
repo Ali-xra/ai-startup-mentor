@@ -19,23 +19,23 @@
 import { useErrorHandler } from '../hooks/useErrorHandler';
 
 const MyComponent: React.FC = () => {
-    const { handleComponentError, getErrorMessage } = useErrorHandler({ locale: 'fa' });
+  const { handleComponentError, getErrorMessage } = useErrorHandler({ locale: 'fa' });
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch('/api/data');
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            const appError = handleComponentError(error, {
-                action: 'fetching data',
-                endpoint: '/api/data',
-            });
-            alert(getErrorMessage(appError));
-        }
-    };
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/data');
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      const appError = handleComponentError(error, {
+        action: 'fetching data',
+        endpoint: '/api/data',
+      });
+      alert(getErrorMessage(appError));
+    }
+  };
 
-    return <button onClick={fetchData}>بارگذاری داده</button>;
+  return <button onClick={fetchData}>بارگذاری داده</button>;
 };
 ```
 
@@ -45,25 +45,25 @@ const MyComponent: React.FC = () => {
 import { useErrorHandler } from '../hooks/useErrorHandler';
 
 const MyComponent: React.FC = () => {
-    const { handleAsyncError } = useErrorHandler({ locale: 'fa' });
+  const { handleAsyncError } = useErrorHandler({ locale: 'fa' });
 
-    const loadUserData = async (userId: string) => {
-        const [data, error] = await handleAsyncError(
-            fetchUserData(userId),
-            { userId, action: 'load user data' }
-        );
+  const loadUserData = async (userId: string) => {
+    const [data, error] = await handleAsyncError(fetchUserData(userId), {
+      userId,
+      action: 'load user data',
+    });
 
-        if (error) {
-            // خطا رخ داده - می‌توانید UI مناسب نمایش دهید
-            console.error('Failed to load user:', error);
-            return;
-        }
+    if (error) {
+      // خطا رخ داده - می‌توانید UI مناسب نمایش دهید
+      console.error('Failed to load user:', error);
+      return;
+    }
 
-        // داده با موفقیت دریافت شد
-        console.log('User data:', data);
-    };
+    // داده با موفقیت دریافت شد
+    console.log('User data:', data);
+  };
 
-    return <div>...</div>;
+  return <div>...</div>;
 };
 ```
 
@@ -73,19 +73,19 @@ const MyComponent: React.FC = () => {
 import { useSimpleErrorHandler } from '../hooks/useErrorHandler';
 
 const MyComponent: React.FC = () => {
-    const { handleSimpleError } = useSimpleErrorHandler('fa');
+  const { handleSimpleError } = useSimpleErrorHandler('fa');
 
-    const onButtonClick = () => {
-        try {
-            // some code that might throw
-            riskyOperation();
-        } catch (error) {
-            const message = handleSimpleError(error);
-            toast.error(message);
-        }
-    };
+  const onButtonClick = () => {
+    try {
+      // some code that might throw
+      riskyOperation();
+    } catch (error) {
+      const message = handleSimpleError(error);
+      toast.error(message);
+    }
+  };
 
-    return <button onClick={onButtonClick}>انجام عملیات</button>;
+  return <button onClick={onButtonClick}>انجام عملیات</button>;
 };
 ```
 
@@ -100,16 +100,16 @@ import { handleError, ErrorType, ErrorSeverity } from '../services/errorHandler'
 
 // در هر جای کد
 try {
-    await someAsyncOperation();
+  await someAsyncOperation();
 } catch (error) {
-    const appError = handleError(
-        error,
-        { operation: 'user login', userId: '123' },
-        ErrorType.AUTH,
-        ErrorSeverity.HIGH
-    );
+  const appError = handleError(
+    error,
+    { operation: 'user login', userId: '123' },
+    ErrorType.AUTH,
+    ErrorSeverity.HIGH
+  );
 
-    console.error('Login failed:', appError);
+  console.error('Login failed:', appError);
 }
 ```
 
@@ -119,13 +119,13 @@ try {
 
 ```typescript
 export enum ErrorType {
-    NETWORK = 'NETWORK',       // خطاهای شبکه
-    AUTH = 'AUTH',             // خطاهای احراز هویت
-    VALIDATION = 'VALIDATION', // خطاهای اعتبارسنجی
-    DATABASE = 'DATABASE',     // خطاهای دیتابیس
-    PERMISSION = 'PERMISSION', // خطاهای دسترسی
-    NOT_FOUND = 'NOT_FOUND',   // خطاهای یافت نشدن
-    UNKNOWN = 'UNKNOWN',       // خطاهای نامشخص
+  NETWORK = 'NETWORK', // خطاهای شبکه
+  AUTH = 'AUTH', // خطاهای احراز هویت
+  VALIDATION = 'VALIDATION', // خطاهای اعتبارسنجی
+  DATABASE = 'DATABASE', // خطاهای دیتابیس
+  PERMISSION = 'PERMISSION', // خطاهای دسترسی
+  NOT_FOUND = 'NOT_FOUND', // خطاهای یافت نشدن
+  UNKNOWN = 'UNKNOWN', // خطاهای نامشخص
 }
 ```
 
@@ -137,10 +137,10 @@ export enum ErrorType {
 
 ```typescript
 export enum ErrorSeverity {
-    LOW = 'LOW',           // خطاهای کم‌اهمیت
-    MEDIUM = 'MEDIUM',     // خطاهای متوسط
-    HIGH = 'HIGH',         // خطاهای مهم
-    CRITICAL = 'CRITICAL', // خطاهای بحرانی
+  LOW = 'LOW', // خطاهای کم‌اهمیت
+  MEDIUM = 'MEDIUM', // خطاهای متوسط
+  HIGH = 'HIGH', // خطاهای مهم
+  CRITICAL = 'CRITICAL', // خطاهای بحرانی
 }
 ```
 
@@ -172,11 +172,11 @@ ErrorBoundary باید در سطح بالای اپلیکیشن (یا بخش‌ه
 import ErrorBoundary from './src/components/ErrorBoundary';
 
 const App: React.FC = () => {
-    return (
-        <ErrorBoundary locale="fa">
-            <YourAppComponents />
-        </ErrorBoundary>
-    );
+  return (
+    <ErrorBoundary locale="fa">
+      <YourAppComponents />
+    </ErrorBoundary>
+  );
 };
 ```
 
@@ -187,11 +187,11 @@ import ErrorBoundary from './src/components/ErrorBoundary';
 import CustomErrorUI from './components/CustomErrorUI';
 
 const App: React.FC = () => {
-    return (
-        <ErrorBoundary locale="fa" fallback={<CustomErrorUI />}>
-            <YourAppComponents />
-        </ErrorBoundary>
-    );
+  return (
+    <ErrorBoundary locale="fa" fallback={<CustomErrorUI />}>
+      <YourAppComponents />
+    </ErrorBoundary>
+  );
 };
 ```
 
@@ -206,66 +206,61 @@ import { ErrorType } from '../services/errorHandler';
 import { supabase } from '../services/supabaseClient';
 
 const UserProfile: React.FC = () => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const { handleAsyncError, getErrorMessage } = useErrorHandler({ locale: 'fa' });
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { handleAsyncError, getErrorMessage } = useErrorHandler({ locale: 'fa' });
 
-    const loadProfile = async () => {
-        setLoading(true);
+  const loadProfile = async () => {
+    setLoading(true);
 
-        const [data, error] = await handleAsyncError(
-            supabase.from('profiles').select('*').single(),
-            {
-                component: 'UserProfile',
-                action: 'loadProfile',
-            }
-        );
+    const [data, error] = await handleAsyncError(supabase.from('profiles').select('*').single(), {
+      component: 'UserProfile',
+      action: 'loadProfile',
+    });
 
-        setLoading(false);
+    setLoading(false);
 
-        if (error) {
-            // نمایش پیام خطا به کاربر
-            alert(getErrorMessage(error));
-            return;
-        }
+    if (error) {
+      // نمایش پیام خطا به کاربر
+      alert(getErrorMessage(error));
+      return;
+    }
 
-        setUser(data);
-    };
+    setUser(data);
+  };
 
-    const updateProfile = async (updates: any) => {
-        const [result, error] = await handleAsyncError(
-            supabase.from('profiles').update(updates).eq('id', user.id),
-            {
-                component: 'UserProfile',
-                action: 'updateProfile',
-                updates,
-            }
-        );
-
-        if (error) {
-            alert(getErrorMessage(error));
-            return;
-        }
-
-        alert('پروفایل با موفقیت بروزرسانی شد');
-    };
-
-    return (
-        <div>
-            {loading ? (
-                <p>در حال بارگذاری...</p>
-            ) : user ? (
-                <div>
-                    <h1>{user.name}</h1>
-                    <button onClick={() => updateProfile({ name: 'New Name' })}>
-                        بروزرسانی
-                    </button>
-                </div>
-            ) : (
-                <button onClick={loadProfile}>بارگذاری پروفایل</button>
-            )}
-        </div>
+  const updateProfile = async (updates: any) => {
+    const [result, error] = await handleAsyncError(
+      supabase.from('profiles').update(updates).eq('id', user.id),
+      {
+        component: 'UserProfile',
+        action: 'updateProfile',
+        updates,
+      }
     );
+
+    if (error) {
+      alert(getErrorMessage(error));
+      return;
+    }
+
+    alert('پروفایل با موفقیت بروزرسانی شد');
+  };
+
+  return (
+    <div>
+      {loading ? (
+        <p>در حال بارگذاری...</p>
+      ) : user ? (
+        <div>
+          <h1>{user.name}</h1>
+          <button onClick={() => updateProfile({ name: 'New Name' })}>بروزرسانی</button>
+        </div>
+      ) : (
+        <button onClick={loadProfile}>بارگذاری پروفایل</button>
+      )}
+    </div>
+  );
 };
 
 export default UserProfile;
@@ -279,27 +274,27 @@ export default UserProfile;
 import { getErrors, getErrorStats, clearErrors } from '../services/errorHandler';
 
 const AdminErrorPanel: React.FC = () => {
-    const errors = getErrors();
-    const stats = getErrorStats();
+  const errors = getErrors();
+  const stats = getErrorStats();
 
-    return (
-        <div>
-            <h2>آمار خطاها</h2>
-            <p>تعداد کل: {stats.total}</p>
-            <p>خطاهای AUTH: {stats.byType.AUTH}</p>
-            <p>خطاهای CRITICAL: {stats.bySeverity.CRITICAL}</p>
+  return (
+    <div>
+      <h2>آمار خطاها</h2>
+      <p>تعداد کل: {stats.total}</p>
+      <p>خطاهای AUTH: {stats.byType.AUTH}</p>
+      <p>خطاهای CRITICAL: {stats.bySeverity.CRITICAL}</p>
 
-            <button onClick={clearErrors}>پاک کردن همه</button>
+      <button onClick={clearErrors}>پاک کردن همه</button>
 
-            <ul>
-                {errors.map((error, index) => (
-                    <li key={index}>
-                        {error.message} - {error.type} - {error.severity}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+      <ul>
+        {errors.map((error, index) => (
+          <li key={index}>
+            {error.message} - {error.type} - {error.severity}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 ```
 
@@ -310,21 +305,24 @@ const AdminErrorPanel: React.FC = () => {
 برای یکپارچه‌سازی با Sentry:
 
 1. نصب Sentry SDK:
+
 ```bash
 npm install @sentry/react
 ```
 
 2. فعال‌سازی در `errorHandler.ts`:
+
 ```typescript
 // در متد sendToSentry، کامنت را برداشته و Sentry را initialize کنید
 ```
 
 3. Initialize Sentry در `index.tsx`:
+
 ```typescript
-import * as Sentry from "@sentry/react";
+import * as Sentry from '@sentry/react';
 
 Sentry.init({
-  dsn: "YOUR_SENTRY_DSN",
+  dsn: 'YOUR_SENTRY_DSN',
   integrations: [new Sentry.BrowserTracing()],
   tracesSampleRate: 1.0,
 });
@@ -338,9 +336,9 @@ Sentry.init({
 
 ```typescript
 handleError(error, {
-    userId: user.id,
-    action: 'save project',
-    projectId: project.id,
+  userId: user.id,
+  action: 'save project',
+  projectId: project.id,
 });
 ```
 
@@ -367,11 +365,11 @@ handleError(error, context, ErrorType.AUTH, ErrorSeverity.CRITICAL);
 ```tsx
 // تست با خطای مصنوعی
 const testError = () => {
-    throw new Error('This is a test error');
+  throw new Error('This is a test error');
 };
 
 // فراخوانی در component
-<button onClick={testError}>Test Error Boundary</button>
+<button onClick={testError}>Test Error Boundary</button>;
 ```
 
 ---

@@ -45,7 +45,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     if (user) {
       try {
         await supabase.auth.updateUser({
-          data: { preferred_language: lang }
+          data: { preferred_language: lang },
         });
       } catch (error) {
         console.error('Failed to save language preference:', error);

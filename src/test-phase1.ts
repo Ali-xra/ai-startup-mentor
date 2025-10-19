@@ -199,7 +199,10 @@ console.log('🌍 Test 8: ALL_PHASES');
 console.log('----------------------------');
 
 console.log('Total Phases:', ALL_PHASES.phases.length);
-console.log('Phase IDs:', ALL_PHASES.phases.map(p => p.id));
+console.log(
+  'Phase IDs:',
+  ALL_PHASES.phases.map((p) => p.id)
+);
 
 console.log('\n✅ ALL_PHASES structure correct!\n');
 

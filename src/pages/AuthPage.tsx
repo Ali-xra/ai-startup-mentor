@@ -66,12 +66,12 @@ const AuthPage: React.FC = () => {
         if (profile && profile.role) {
           // User has a role, redirect to their dashboard
           const roleRoutes: Record<string, string> = {
-            'entrepreneur': '/entrepreneur',
-            'investor': '/investor',
-            'programmer': '/programmer',
-            'consultant': '/consultant',
-            'designer': '/designer',
-            'admin': '/admin'
+            entrepreneur: '/entrepreneur',
+            investor: '/investor',
+            programmer: '/programmer',
+            consultant: '/consultant',
+            designer: '/designer',
+            admin: '/admin',
           };
 
           const route = roleRoutes[profile.role];

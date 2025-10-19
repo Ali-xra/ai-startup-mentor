@@ -72,12 +72,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
     <LoadingContext.Provider value={value}>
       {children}
       {loadingState.isLoading && (
-        <LoadingSpinner
-          fullScreen
-          size="xl"
-          variant="primary"
-          text={loadingState.message}
-        />
+        <LoadingSpinner fullScreen size="xl" variant="primary" text={loadingState.message} />
       )}
     </LoadingContext.Provider>
   );

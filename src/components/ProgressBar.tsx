@@ -63,7 +63,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           </span>
         </div>
       )}
-      <div className={`w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden ${sizeClasses[size]}`}>
+      <div
+        className={`w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden ${sizeClasses[size]}`}
+      >
         <div
           className={`
             ${variantClasses[variant]}
@@ -203,7 +205,9 @@ export const StepProgress: React.FC<StepProgressProps> = ({
                 </div>
                 {/* Label */}
                 <div className="mt-2 text-center">
-                  <p className={`text-sm font-medium ${isCurrent ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>
+                  <p
+                    className={`text-sm font-medium ${isCurrent ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}
+                  >
                     {step.label}
                   </p>
                   {step.description && (

@@ -29,7 +29,10 @@ const getFromMemory = (stageId: string, languageCode: LanguageCode): StageTransl
 /**
  * Layer 2: Check database cache
  */
-const getFromDatabase = async (stageId: string, languageCode: LanguageCode): Promise<StageTranslation | null> => {
+const getFromDatabase = async (
+  stageId: string,
+  languageCode: LanguageCode
+): Promise<StageTranslation | null> => {
   try {
     const { data, error } = await supabase
       .from('stage_translations')
@@ -46,12 +49,12 @@ const getFromDatabase = async (stageId: string, languageCode: LanguageCode): Pro
     const key = getCacheKey(stageId, languageCode);
     translationCache.set(key, {
       title: data.title,
-      description: data.description || ''
+      description: data.description || '',
     });
 
     return {
       title: data.title,
-      description: data.description || ''
+      description: data.description || '',
     };
   } catch (err) {
     console.error('Database translation error:', err);
@@ -62,11 +65,16 @@ const getFromDatabase = async (stageId: string, languageCode: LanguageCode): Pro
 /**
  * Layer 3: Request translation from Gemini API
  */
-const getFromAPI = async (stageId: string, languageCode: LanguageCode, originalTitle: string, originalDescription: string): Promise<StageTranslation | null> => {
+const getFromAPI = async (
+  stageId: string,
+  languageCode: LanguageCode,
+  originalTitle: string,
+  originalDescription: string
+): Promise<StageTranslation | null> => {
   try {
     const languageNames: Record<LanguageCode, string> = {
       en: 'English',
-      fa: 'Persian (Farsi)'
+      fa: 'Persian (Farsi)',
     };
 
     const targetLanguage = languageNames[languageCode];
@@ -101,8 +109,8 @@ Important:
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }]
-          })
+            contents: [{ parts: [{ text: prompt }] }],
+          }),
         }
       );
 
@@ -114,8 +122,8 @@ Important:
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
-        })
+          contents: [{ parts: [{ text: prompt }] }],
+        }),
       });
 
       const data = await response.json();
@@ -133,7 +141,7 @@ Important:
 
     const translation: StageTranslation = {
       title: titleMatch[1].trim(),
-      description: descriptionMatch[1].trim()
+      description: descriptionMatch[1].trim(),
     };
 
     // Save to database (Layer 2)
@@ -153,19 +161,24 @@ Important:
 /**
  * Save translation to database
  */
-const saveToDatabase = async (stageId: string, languageCode: LanguageCode, translation: StageTranslation): Promise<void> => {
+const saveToDatabase = async (
+  stageId: string,
+  languageCode: LanguageCode,
+  translation: StageTranslation
+): Promise<void> => {
   try {
-    const { error } = await supabase
-      .from('stage_translations')
-      .upsert({
+    const { error } = await supabase.from('stage_translations').upsert(
+      {
         stage_id: stageId,
         language_code: languageCode,
         title: translation.title,
         description: translation.description,
-        updated_at: new Date().toISOString()
-      }, {
-        onConflict: 'stage_id,language_code'
-      });
+        updated_at: new Date().toISOString(),
+      },
+      {
+        onConflict: 'stage_id,language_code',
+      }
+    );
 
     if (error) {
       console.error('Failed to save translation:', error);
@@ -228,7 +241,7 @@ export const preloadTranslations = async (
   stages: Array<{ id: Stage | string; title: string; description: string }>,
   languageCode: LanguageCode
 ): Promise<void> => {
-  const promises = stages.map(stage =>
+  const promises = stages.map((stage) =>
     translateStage(stage.id, languageCode, stage.title, stage.description)
   );
   await Promise.all(promises);

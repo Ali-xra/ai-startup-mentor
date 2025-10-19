@@ -11,13 +11,18 @@ interface Language {
 
 const languages: Language[] = [
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
-  { code: 'fa', name: 'Persian', nativeName: 'فارسی', flag: '🇮🇷' }
+  { code: 'fa', name: 'Persian', nativeName: 'فارسی', flag: '🇮🇷' },
   // TODO: Add more languages (FR, ES, DE) when translations are ready
 ];
 
 const GlobeIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
   </svg>
 );
 
@@ -25,7 +30,7 @@ const LanguageSelector: React.FC = () => {
   const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const currentLanguage = languages.find(lang => lang.code === language) || languages[0];
+  const currentLanguage = languages.find((lang) => lang.code === language) || languages[0];
 
   const handleLanguageChange = (langCode: LanguageCode) => {
     setLanguage(langCode);
@@ -48,10 +53,7 @@ const LanguageSelector: React.FC = () => {
       {isOpen && (
         <>
           {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
 
           {/* Menu */}
           <div className="absolute top-full mt-2 right-0 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-20 min-w-[220px]">
@@ -65,7 +67,9 @@ const LanguageSelector: React.FC = () => {
               >
                 <span className="text-2xl">{lang.flag}</span>
                 <div className="flex flex-col items-start flex-1">
-                  <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{lang.nativeName}</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                    {lang.nativeName}
+                  </span>
                   <span className="text-xs text-slate-500 dark:text-slate-400">{lang.name}</span>
                 </div>
                 {lang.code === language && (

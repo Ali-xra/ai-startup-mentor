@@ -41,7 +41,7 @@ export const useLoading = (options: UseLoadingOptions = {}): UseLoadingReturn =>
   }, [onLoadingChange]);
 
   const toggleLoading = useCallback(() => {
-    setIsLoading(prev => {
+    setIsLoading((prev) => {
       const newValue = !prev;
       onLoadingChange?.(newValue);
       return newValue;
@@ -87,11 +87,11 @@ export const useMultipleLoading = (keys: string[]) => {
   );
 
   const startLoading = useCallback((key: string) => {
-    setLoadingStates(prev => ({ ...prev, [key]: true }));
+    setLoadingStates((prev) => ({ ...prev, [key]: true }));
   }, []);
 
   const stopLoading = useCallback((key: string) => {
-    setLoadingStates(prev => ({ ...prev, [key]: false }));
+    setLoadingStates((prev) => ({ ...prev, [key]: false }));
   }, []);
 
   const withLoading = useCallback(
@@ -107,10 +107,7 @@ export const useMultipleLoading = (keys: string[]) => {
     [startLoading, stopLoading]
   );
 
-  const isLoading = useCallback(
-    (key: string) => loadingStates[key] || false,
-    [loadingStates]
-  );
+  const isLoading = useCallback((key: string) => loadingStates[key] || false, [loadingStates]);
 
   const isAnyLoading = useCallback(
     () => Object.values(loadingStates).some(Boolean),
@@ -148,7 +145,7 @@ export const useProgress = (initialProgress = 0) => {
   }, []);
 
   const increment = useCallback((amount: number) => {
-    setProgress(prev => Math.min(prev + amount, 100));
+    setProgress((prev) => Math.min(prev + amount, 100));
   }, []);
 
   return {

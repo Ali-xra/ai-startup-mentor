@@ -128,7 +128,7 @@ const translations: Record<LanguageCode, Translations> = {
     chat_current_prompt: 'Current Prompt',
     chat_current_question: 'Current Question',
     chat_awaiting_input: 'Awaiting your input...',
-    chat_welcome_message: 'Welcome! Let\'s start building your startup idea.',
+    chat_welcome_message: "Welcome! Let's start building your startup idea.",
     chat_start_question: 'What is your startup idea?',
     chat_placeholder_default: 'Type your response...',
     chat_placeholder_awaiting_suggestion: 'Waiting for AI suggestion...',
@@ -175,7 +175,7 @@ const translations: Record<LanguageCode, Translations> = {
     export_excel: 'Export Excel',
 
     // Search
-    search_placeholder: 'Search business plan...'
+    search_placeholder: 'Search business plan...',
   },
 
   fa: {
@@ -263,8 +263,8 @@ const translations: Record<LanguageCode, Translations> = {
     export_excel: 'خروجی اکسل',
 
     // Search
-    search_placeholder: 'جستجو در طرح کسب و کار...'
-  }
+    search_placeholder: 'جستجو در طرح کسب و کار...',
+  },
 
   // TODO: Add FR, ES, DE translations when ready
   /*

@@ -8,7 +8,7 @@ import type {
   UserProfile,
   VerificationRequest,
   InvestorVerificationData,
-  InvestorDashboardStats
+  InvestorDashboardStats,
 } from '../types/investor';
 
 export const investorProfileService = {
@@ -37,7 +37,7 @@ export const investorProfileService = {
     const { data, error } = await supabase
       .from('investor_profiles')
       .select('*')
-      .eq('id', userId)  // تغییر از user_id به id
+      .eq('id', userId) // تغییر از user_id به id
       .single();
 
     if (error && error.code !== 'PGRST116') throw error; // PGRST116 = not found
@@ -54,7 +54,7 @@ export const investorProfileService = {
     const { data, error } = await supabase
       .from('investor_profiles')
       .update(updates)
-      .eq('id', userId)  // تغییر از user_id به id
+      .eq('id', userId) // تغییر از user_id به id
       .select()
       .single();
 
@@ -84,11 +84,7 @@ export const investorProfileService = {
    * گرفتن User Profile
    */
   async getUserProfile(userId: string): Promise<UserProfile | null> {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
+    const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
 
     if (error && error.code !== 'PGRST116') throw error;
     return data;
@@ -107,12 +103,14 @@ export const investorProfileService = {
   ): Promise<VerificationRequest> {
     const { data, error } = await supabase
       .from('verification_requests')
-      .insert([{
-        user_id: userId,
-        request_type: 'investor_verification',
-        submitted_data: verificationData,
-        status: 'pending'
-      }])
+      .insert([
+        {
+          user_id: userId,
+          request_type: 'investor_verification',
+          submitted_data: verificationData,
+          status: 'pending',
+        },
+      ])
       .select()
       .single();
 
@@ -160,10 +158,9 @@ export const investorProfileService = {
    * @returns true اگر کاربر میتونه پروژه رو ببینه، false در غیر اینصورت
    */
   async checkViewLimit(userId: string): Promise<boolean> {
-    const { data, error } = await supabase
-      .rpc('check_investor_view_limit', {
-        p_investor_id: userId
-      });
+    const { data, error } = await supabase.rpc('check_investor_view_limit', {
+      p_investor_id: userId,
+    });
 
     if (error) throw error;
     return data;
@@ -187,7 +184,7 @@ export const investorProfileService = {
     if (lastReset.getMonth() !== now.getMonth() || lastReset.getFullYear() !== now.getFullYear()) {
       await this.updateInvestorProfile(userId, {
         monthly_project_views: 0,
-        last_view_reset: now.toISOString()
+        last_view_reset: now.toISOString(),
       });
       return 10; // Free tier limit
     }
@@ -203,10 +200,9 @@ export const investorProfileService = {
    * گرفتن آمار Dashboard سرمایه‌گذار
    */
   async getDashboardStats(userId: string): Promise<InvestorDashboardStats> {
-    const { data, error } = await supabase
-      .rpc('get_investor_dashboard_stats', {
-        p_investor_id: userId
-      });
+    const { data, error } = await supabase.rpc('get_investor_dashboard_stats', {
+      p_investor_id: userId,
+    });
 
     if (error) throw error;
     return data;
@@ -222,12 +218,12 @@ export const investorProfileService = {
   async isInvestor(userId: string): Promise<boolean> {
     const { data, error } = await supabase
       .from('profiles')
-      .select('role')  // تغییر از user_type به role
+      .select('role') // تغییر از user_type به role
       .eq('id', userId)
       .single();
 
     if (error) return false;
-    return data?.role === 'investor';  // تغییر از user_type به role
+    return data?.role === 'investor'; // تغییر از user_type به role
   },
 
   /**
@@ -245,22 +241,22 @@ export const investorProfileService = {
     // 1. آپدیت role در profiles
     await supabase
       .from('profiles')
-      .update({ role: 'investor' })  // تغییر از user_type به role
+      .update({ role: 'investor' }) // تغییر از user_type به role
       .eq('id', userId);
 
     // 2. ایجاد investor_profile
     const existingProfile = await this.getInvestorProfile(userId);
     if (!existingProfile) {
       await this.createInvestorProfile({
-        id: userId,  // تغییر از user_id به id
+        id: userId, // تغییر از user_id به id
         tier: 'free',
         preferred_industries: [],
         preferred_stages: [],
         preferred_locations: [],
         portfolio: [],
         monthly_project_views: 0,
-        last_view_reset: new Date().toISOString()
+        last_view_reset: new Date().toISOString(),
       });
     }
-  }
+  },
 };

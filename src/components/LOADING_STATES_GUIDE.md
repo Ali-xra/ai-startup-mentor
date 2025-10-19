@@ -24,6 +24,7 @@ import { LoadingSpinner } from '@/components/LoadingSpinner';
 ```
 
 **Props:**
+
 - `size`: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 - `variant`: 'primary' | 'secondary' | 'white' | 'success' | 'warning' | 'error'
 - `fullScreen`: boolean
@@ -102,12 +103,7 @@ import { ProgressBar } from '@/components/ProgressBar';
 ```tsx
 import { CircularProgress } from '@/components/ProgressBar';
 
-<CircularProgress
-  value={75}
-  size={120}
-  variant="primary"
-  showLabel
-/>
+<CircularProgress value={75} size={120} variant="primary" showLabel />;
 ```
 
 #### Progress مرحله‌ای
@@ -122,7 +118,7 @@ const steps = [
   { label: 'تست', description: 'آزمایش' },
 ];
 
-<StepProgress steps={steps} currentStep={1} variant="primary" />
+<StepProgress steps={steps} currentStep={1} variant="primary" />;
 ```
 
 ---
@@ -149,11 +145,7 @@ const MyComponent = () => {
     stopLoading();
   };
 
-  return (
-    <div>
-      {isLoading ? <LoadingSpinner /> : <DataDisplay />}
-    </div>
-  );
+  return <div>{isLoading ? <LoadingSpinner /> : <DataDisplay />}</div>;
 };
 ```
 
@@ -229,11 +221,7 @@ const QuickComponent = () => {
     await withLoading(api.quickFetch());
   };
 
-  return (
-    <div>
-      {isLoading && <LoadingSpinner />}
-    </div>
-  );
+  return <div>{isLoading && <LoadingSpinner />}</div>;
 };
 ```
 
@@ -251,7 +239,7 @@ import { LoadingProvider } from '@/contexts/LoadingContext';
 
 <LoadingProvider>
   <App />
-</LoadingProvider>
+</LoadingProvider>;
 ```
 
 ### استفاده
@@ -269,10 +257,7 @@ const MyComponent = () => {
     hideLoading();
 
     // روش 2: خودکار
-    await withLoading(
-      api.fetchData(),
-      'در حال بارگذاری داده‌ها...'
-    );
+    await withLoading(api.fetchData(), 'در حال بارگذاری داده‌ها...');
   };
 
   return <button onClick={fetchData}>بارگذاری</button>;
@@ -280,6 +265,7 @@ const MyComponent = () => {
 ```
 
 **مزایا:**
+
 - Loading تمام صفحه به طور خودکار نمایش داده می‌شود
 - یک loading state واحد برای کل اپلیکیشن
 - کاربر نمی‌تواند با UI تعامل کند در حین loading
@@ -319,7 +305,7 @@ const ProjectsPage = () => {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      {projects.map(project => (
+      {projects.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}
     </div>
@@ -351,10 +337,7 @@ const ProjectForm = () => {
 
   return (
     <div>
-      <button
-        onClick={handleSave}
-        disabled={loading.isAnyLoading()}
-      >
+      <button onClick={handleSave} disabled={loading.isAnyLoading()}>
         {loading.isLoading('save') ? (
           <>
             <LoadingSpinner size="sm" variant="white" />
@@ -365,17 +348,11 @@ const ProjectForm = () => {
         )}
       </button>
 
-      <button
-        onClick={handleDelete}
-        disabled={loading.isAnyLoading()}
-      >
+      <button onClick={handleDelete} disabled={loading.isAnyLoading()}>
         {loading.isLoading('delete') ? 'در حال حذف...' : 'حذف'}
       </button>
 
-      <button
-        onClick={handleExport}
-        disabled={loading.isAnyLoading()}
-      >
+      <button onClick={handleExport} disabled={loading.isAnyLoading()}>
         {loading.isLoading('export') ? 'در حال خروجی...' : 'خروجی'}
       </button>
     </div>
@@ -423,13 +400,7 @@ const FileUpload = () => {
 
       {progress > 0 && !isComplete && (
         <div className="mt-4">
-          <ProgressBar
-            value={progress}
-            showLabel
-            label="در حال آپلود"
-            variant="primary"
-            animated
-          />
+          <ProgressBar value={progress} showLabel label="در حال آپلود" variant="primary" animated />
 
           <div className="mt-4 flex justify-center">
             <CircularProgress value={progress} size={100} />
@@ -437,9 +408,7 @@ const FileUpload = () => {
         </div>
       )}
 
-      {isComplete && (
-        <p className="text-green-600 mt-4">✓ آپلود با موفقیت انجام شد</p>
-      )}
+      {isComplete && <p className="text-green-600 mt-4">✓ آپلود با موفقیت انجام شد</p>}
     </div>
   );
 };
@@ -465,23 +434,15 @@ const StartupWizard = () => {
   ];
 
   const handleNext = async () => {
-    await withLoading(
-      api.saveStep(currentStep, formData)
-    );
-    setCurrentStep(prev => prev + 1);
+    await withLoading(api.saveStep(currentStep, formData));
+    setCurrentStep((prev) => prev + 1);
   };
 
   return (
     <div>
-      <StepProgress
-        steps={steps}
-        currentStep={currentStep}
-        variant="primary"
-      />
+      <StepProgress steps={steps} currentStep={currentStep} variant="primary" />
 
-      <div className="mt-8">
-        {/* Form content for current step */}
-      </div>
+      <div className="mt-8">{/* Form content for current step */}</div>
 
       <button onClick={handleNext} disabled={isLoading}>
         {isLoading ? 'در حال ذخیره...' : 'مرحله بعد'}
@@ -524,18 +485,20 @@ const loading = useMultipleLoading(['save', 'delete', 'export']);
 
 ```tsx
 // ❌ بد
-{isLoading ? <LoadingSpinner /> : <ProjectList />}
+{
+  isLoading ? <LoadingSpinner /> : <ProjectList />;
+}
 
 // ✅ خوب
-{isLoading ? <SkeletonCard /> : <ProjectList />}
+{
+  isLoading ? <SkeletonCard /> : <ProjectList />;
+}
 ```
 
 ### 5. Disable کردن دکمه‌ها در حین Loading
 
 ```tsx
-<button disabled={isLoading || isSaving}>
-  {isLoading ? 'در حال بارگذاری...' : 'ذخیره'}
-</button>
+<button disabled={isLoading || isSaving}>{isLoading ? 'در حال بارگذاری...' : 'ذخیره'}</button>
 ```
 
 ---
@@ -546,13 +509,21 @@ const loading = useMultipleLoading(['save', 'delete', 'export']);
 
 ```css
 @keyframes wave {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes progress {
-  0% { background-position: 0 0; }
-  100% { background-position: 40px 40px; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
 }
 
 .bg-stripe {

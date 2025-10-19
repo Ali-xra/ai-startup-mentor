@@ -14,36 +14,36 @@ import '../index.css';
 type AdminPage = 'dashboard' | 'features' | 'users' | 'upgrade-requests' | 'audit';
 
 const AdminPanelContent: React.FC = () => {
-    const { isAdmin, isLoading } = useAdminAuth();
-    const { user } = useAuth();
-    const [currentPage, setCurrentPage] = useState<AdminPage>('dashboard');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isAdmin, isLoading } = useAdminAuth();
+  const { user } = useAuth();
+  const [currentPage, setCurrentPage] = useState<AdminPage>('dashboard');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    if (isLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-                <Loader />
-            </div>
-        );
-    }
-
-    if (!isLoggedIn || !isAdmin) {
-        return <AdminLogin onLoginSuccess={() => setIsLoggedIn(true)} />;
-    }
-
+  if (isLoading) {
     return (
-        <AdminLayout currentPage={currentPage} onNavigate={setCurrentPage}>
-            {currentPage === 'dashboard' && <AdminDashboard />}
-            {currentPage === 'features' && <FeatureManagement />}
-            {currentPage === 'users' && <UsersManagement />}
-            {currentPage === 'upgrade-requests' && user && <UpgradeRequestsPanel adminId={user.id} />}
-            {currentPage === 'audit' && <AuditLog />}
-        </AdminLayout>
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+        <Loader />
+      </div>
     );
+  }
+
+  if (!isLoggedIn || !isAdmin) {
+    return <AdminLogin onLoginSuccess={() => setIsLoggedIn(true)} />;
+  }
+
+  return (
+    <AdminLayout currentPage={currentPage} onNavigate={setCurrentPage}>
+      {currentPage === 'dashboard' && <AdminDashboard />}
+      {currentPage === 'features' && <FeatureManagement />}
+      {currentPage === 'users' && <UsersManagement />}
+      {currentPage === 'upgrade-requests' && user && <UpgradeRequestsPanel adminId={user.id} />}
+      {currentPage === 'audit' && <AuditLog />}
+    </AdminLayout>
+  );
 };
 
 const AdminApp: React.FC = () => {
-    return <AdminPanelContent />;
+  return <AdminPanelContent />;
 };
 
 export default AdminApp;

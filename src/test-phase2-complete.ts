@@ -15,7 +15,7 @@ const colors = {
   red: '\x1b[31m',
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
-  cyan: '\x1b[36m'
+  cyan: '\x1b[36m',
 };
 
 function log(color: string, message: string) {
@@ -48,7 +48,7 @@ async function testPhase2Complete() {
       'connections',
       'connection_messages',
       'verification_requests',
-      'saved_projects'
+      'saved_projects',
     ];
 
     for (const table of tables) {
@@ -71,7 +71,7 @@ async function testPhase2Complete() {
       'get_investor_dashboard_stats',
       'is_project_saved',
       'approve_investor_verification',
-      'reject_investor_verification'
+      'reject_investor_verification',
     ];
 
     let functionsOk = 0;
@@ -80,10 +80,18 @@ async function testPhase2Complete() {
         // یک تست ساده برای هر function
         const testParams: any = {
           check_investor_view_limit: { p_investor_id: '00000000-0000-0000-0000-000000000000' },
-          get_public_projects_filtered: { p_industries: null, p_stages: null, p_investment_min: null, p_investment_max: null, p_seeking_investment: null, p_limit: 1, p_offset: 0 },
+          get_public_projects_filtered: {
+            p_industries: null,
+            p_stages: null,
+            p_investment_min: null,
+            p_investment_max: null,
+            p_seeking_investment: null,
+            p_limit: 1,
+            p_offset: 0,
+          },
           increment_project_view: { p_project_id: 1, p_viewer_id: null },
           get_investor_dashboard_stats: { p_investor_id: '00000000-0000-0000-0000-000000000000' },
-          is_project_saved: { p_project_id: 1, p_user_id: '00000000-0000-0000-0000-000000000000' }
+          is_project_saved: { p_project_id: 1, p_user_id: '00000000-0000-0000-0000-000000000000' },
         };
 
         if (testParams[func]) {
@@ -108,7 +116,9 @@ async function testPhase2Complete() {
     log(colors.blue, '━'.repeat(50));
 
     // گرفتن current user (اگر وجود داره)
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       log(colors.yellow, '⚠️  کاربری login نکرده است');
@@ -172,7 +182,10 @@ async function testPhase2Complete() {
       log(colors.cyan, `   پروژه‌های ذخیره شده: ${stats.saved_projects_count}`);
       log(colors.cyan, `   اتصالات pending: ${stats.pending_connections}`);
       log(colors.cyan, `   اتصالات accepted: ${stats.accepted_connections}`);
-      log(colors.cyan, `   بازدیدهای باقیمانده: ${stats.monthly_views_remaining === -1 ? 'نامحدود' : stats.monthly_views_remaining}`);
+      log(
+        colors.cyan,
+        `   بازدیدهای باقیمانده: ${stats.monthly_views_remaining === -1 ? 'نامحدود' : stats.monthly_views_remaining}`
+      );
     } catch (err: any) {
       log(colors.yellow, `⚠️  خطا در getDashboardStats(): ${err.message}`);
     }
@@ -204,7 +217,7 @@ async function testPhase2Complete() {
     try {
       const result = await investorProjectService.searchProjects({
         limit: 3,
-        offset: 0
+        offset: 0,
       });
       log(colors.green, `✅ جستجو موفق: ${result.total_count} پروژه`);
       log(colors.cyan, `   صفحه: ${result.page}`);
@@ -251,7 +264,10 @@ async function testPhase2Complete() {
         log(colors.cyan, `   اتصال اول:`);
         log(colors.cyan, `     پروژه: ${connections[0].project.project_name}`);
         log(colors.cyan, `     وضعیت: ${connections[0].status}`);
-        log(colors.cyan, `     تاریخ: ${new Date(connections[0].requested_at).toLocaleDateString('fa-IR')}`);
+        log(
+          colors.cyan,
+          `     تاریخ: ${new Date(connections[0].requested_at).toLocaleDateString('fa-IR')}`
+        );
       }
     } catch (err: any) {
       log(colors.yellow, `⚠️  خطا در getInvestorConnections(): ${err.message}`);
@@ -260,8 +276,16 @@ async function testPhase2Complete() {
     // 5.2: تست getConnectionsCount
     log(colors.blue, '\n5.2. تست getConnectionsCount():');
     try {
-      const pendingCount = await connectionService.getConnectionsCount(testUserId, 'investor', 'pending');
-      const acceptedCount = await connectionService.getConnectionsCount(testUserId, 'investor', 'accepted');
+      const pendingCount = await connectionService.getConnectionsCount(
+        testUserId,
+        'investor',
+        'pending'
+      );
+      const acceptedCount = await connectionService.getConnectionsCount(
+        testUserId,
+        'investor',
+        'accepted'
+      );
       log(colors.green, `✅ Pending: ${pendingCount}, Accepted: ${acceptedCount}`);
     } catch (err: any) {
       log(colors.yellow, `⚠️  خطا در getConnectionsCount(): ${err.message}`);
@@ -286,7 +310,10 @@ async function testPhase2Complete() {
         if (messages.length > 0) {
           log(colors.cyan, `   آخرین پیام:`);
           log(colors.cyan, `     فرستنده: ${messages[messages.length - 1].sender.name}`);
-          log(colors.cyan, `     متن: ${messages[messages.length - 1].message.substring(0, 50)}...`);
+          log(
+            colors.cyan,
+            `     متن: ${messages[messages.length - 1].message.substring(0, 50)}...`
+          );
         }
       } catch (err: any) {
         log(colors.yellow, `⚠️  خطا در getMessages(): ${err.message}`);
@@ -304,10 +331,7 @@ async function testPhase2Complete() {
 
     // تست دسترسی به investor_profiles
     try {
-      const { data, error } = await supabase
-        .from('investor_profiles')
-        .select('*')
-        .limit(5);
+      const { data, error } = await supabase.from('investor_profiles').select('*').limit(5);
 
       if (error) {
         log(colors.yellow, `⚠️  RLS برای investor_profiles: محدودیت فعال است (خوب)`);
@@ -338,7 +362,6 @@ async function testPhase2Complete() {
     log(colors.yellow, '   2. چند پروژه عمومی ایجاد کنید');
     log(colors.yellow, '   3. فرآیند کامل از ثبت‌نام تا ایجاد connection را تست کنید');
     log(colors.yellow, '   4. RLS policies را با کاربران مختلف تست کنید\n');
-
   } catch (error: any) {
     log(colors.red, `\n❌ خطای کلی در تست: ${error.message}\n`);
     console.error(error);

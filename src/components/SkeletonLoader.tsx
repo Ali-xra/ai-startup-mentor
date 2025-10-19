@@ -42,7 +42,10 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 
   const style: React.CSSProperties = {
     width: typeof width === 'number' ? `${width}px` : width,
-    height: typeof height === 'number' ? `${height}px` : height || (variant === 'text' ? '1rem' : undefined),
+    height:
+      typeof height === 'number'
+        ? `${height}px`
+        : height || (variant === 'text' ? '1rem' : undefined),
   };
 
   return (
@@ -92,7 +95,10 @@ export const SkeletonList: React.FC<{ count?: number }> = ({ count = 3 }) => {
   return (
     <div className="space-y-4">
       {Array.from({ length: count }).map((_, index) => (
-        <div key={index} className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg">
+        <div
+          key={index}
+          className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg"
+        >
           <Skeleton variant="circular" width={40} height={40} />
           <div className="flex-1 space-y-2">
             <Skeleton variant="text" width="70%" />
@@ -109,7 +115,7 @@ export const SkeletonList: React.FC<{ count?: number }> = ({ count = 3 }) => {
  */
 export const SkeletonTable: React.FC<{ rows?: number; cols?: number }> = ({
   rows = 5,
-  cols = 4
+  cols = 4,
 }) => {
   return (
     <div className="space-y-3">
@@ -138,11 +144,7 @@ export const SkeletonText: React.FC<{ lines?: number }> = ({ lines = 3 }) => {
   return (
     <div className="space-y-2">
       {Array.from({ length: lines }).map((_, index) => (
-        <Skeleton
-          key={index}
-          variant="text"
-          width={index === lines - 1 ? '60%' : '100%'}
-        />
+        <Skeleton key={index} variant="text" width={index === lines - 1 ? '60%' : '100%'} />
       ))}
     </div>
   );

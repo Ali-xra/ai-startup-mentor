@@ -16,7 +16,7 @@ export interface PortfolioItem {
 
 // Investor Profile
 export interface InvestorProfile {
-  id: string;  // Primary key - همان user ID
+  id: string; // Primary key - همان user ID
   investor_type: InvestorType | null;
   company_name: string | null;
   investment_min: number | null;
@@ -41,7 +41,7 @@ export interface UserProfile {
   id: string;
   name: string | null;
   email: string;
-  role: 'entrepreneur' | 'investor';  // تغییر از user_type به role
+  role: 'entrepreneur' | 'investor'; // تغییر از user_type به role
   created_at: string;
   updated_at: string;
 }

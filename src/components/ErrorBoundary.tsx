@@ -1,5 +1,10 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { handleError, getUserFriendlyMessage, ErrorType, ErrorSeverity } from '../services/errorHandler';
+import {
+  handleError,
+  getUserFriendlyMessage,
+  ErrorType,
+  ErrorSeverity,
+} from '../services/errorHandler';
 
 interface Props {
   children: ReactNode;
@@ -87,10 +92,10 @@ class ErrorBoundary extends Component<Props, State> {
                 {locale === 'fa' ? 'خطایی رخ داده است' : 'Something went wrong'}
               </h1>
               <p className="text-lg text-slate-600 dark:text-slate-400">
-                {this.state.userFriendlyMessage || (locale === 'fa'
-                  ? 'متأسفانه مشکلی پیش آمده است. لطفاً دوباره تلاش کنید.'
-                  : 'An unexpected error occurred. Please try again.'
-                )}
+                {this.state.userFriendlyMessage ||
+                  (locale === 'fa'
+                    ? 'متأسفانه مشکلی پیش آمده است. لطفاً دوباره تلاش کنید.'
+                    : 'An unexpected error occurred. Please try again.')}
               </p>
             </div>
 
@@ -118,7 +123,7 @@ class ErrorBoundary extends Component<Props, State> {
                 {locale === 'fa' ? 'تلاش مجدد' : 'Try Again'}
               </button>
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={() => (window.location.href = '/')}
                 className="px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold rounded-lg transition-colors"
               >
                 {locale === 'fa' ? 'بازگشت به صفحه اصلی' : 'Go Home'}

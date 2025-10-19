@@ -28,24 +28,24 @@ interface ChatInterfaceProps {
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
-    isLoading,
-    isComplete,
-    editingStage,
-    currentStage,
-    startupData,
-    isReadyForNextSection,
-    suggestionModalOpen,
-    currentSuggestion,
-    selectedStageForPreview,
-    locale,
-    onSendMessage,
-    onSuggestionModalAccept,
-    onRefineSuggestion,
-    onSuggestionModalClose,
-    onProceedToNextSection,
-    onUpdateStageData,
-    onCancelDirectEdit,
-    // onRefineEditedStage is unused but kept for future use
+  isLoading,
+  isComplete,
+  editingStage,
+  currentStage,
+  startupData,
+  isReadyForNextSection,
+  suggestionModalOpen,
+  currentSuggestion,
+  selectedStageForPreview,
+  locale,
+  onSendMessage,
+  onSuggestionModalAccept,
+  onRefineSuggestion,
+  onSuggestionModalClose,
+  onProceedToNextSection,
+  onUpdateStageData,
+  onCancelDirectEdit,
+  // onRefineEditedStage is unused but kept for future use
 }) => {
   const [input, setInput] = useState('');
   const [currentPrompt, setCurrentPrompt] = useState<string>('');
@@ -69,7 +69,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     if (editingStage) {
       const dataKey = STAGE_TO_DATA_KEY[editingStage];
       if (dataKey) {
-        setInput(startupData[dataKey] as string || '');
+        setInput((startupData[dataKey] as string) || '');
       }
     } else {
       setInput('');
@@ -104,7 +104,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     if (editingStage) {
       const stageConfig = getStageById(editingStage);
       if (stageConfig) {
-        const guidance = locale === 'fa' ? (stageConfig.guidance_fa || '') : (stageConfig.guidance_en || '');
+        const guidance =
+          locale === 'fa' ? stageConfig.guidance_fa || '' : stageConfig.guidance_en || '';
         const question = locale === 'fa' ? stageConfig.question_fa : stageConfig.question_en;
         setCurrentGuidance(guidance);
         setCurrentQuestion(question);
@@ -122,7 +123,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     if (stageToDisplay) {
       const stageConfig = getStageById(stageToDisplay);
       if (stageConfig) {
-        const guidance = locale === 'fa' ? (stageConfig.guidance_fa || '') : (stageConfig.guidance_en || '');
+        const guidance =
+          locale === 'fa' ? stageConfig.guidance_fa || '' : stageConfig.guidance_en || '';
         const question = locale === 'fa' ? stageConfig.question_fa : stageConfig.question_en;
         setCurrentGuidance(guidance);
         setCurrentQuestion(question);
@@ -170,7 +172,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             <div className="space-y-3">
               {currentGuidance && (
                 <div className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed p-3 bg-slate-100 dark:bg-slate-800/50 rounded-lg">
-                  <strong className="text-slate-700 dark:text-slate-300">{locale === 'fa' ? 'راهنمایی:' : 'Guidance:'}</strong> {currentGuidance}
+                  <strong className="text-slate-700 dark:text-slate-300">
+                    {locale === 'fa' ? 'راهنمایی:' : 'Guidance:'}
+                  </strong>{' '}
+                  {currentGuidance}
                 </div>
               )}
               {currentPrompt && (
@@ -196,7 +201,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               onKeyDown={handleKeyDown}
               placeholder={
                 editingStage
-                  ? (locale === 'fa' ? 'متن خود را ویرایش کنید...' : 'Edit your text...')
+                  ? locale === 'fa'
+                    ? 'متن خود را ویرایش کنید...'
+                    : 'Edit your text...'
                   : suggestionModalOpen
                     ? t('chat_placeholder_awaiting_suggestion', locale)
                     : t('chat_placeholder_default', locale)
@@ -218,7 +225,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     className="p-3 bg-slate-400 dark:bg-slate-600 text-white font-semibold rounded-lg hover:bg-slate-500 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     title={locale === 'fa' ? 'لغو' : 'Cancel'}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                     </svg>
                   </button>
@@ -229,8 +243,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     className="p-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     title={locale === 'fa' ? 'ذخیره' : 'Save'}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
                     </svg>
                   </button>
                   {/* دکمه کمک/AI Suggestion */}
@@ -244,8 +269,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     className="p-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     title={locale === 'fa' ? 'کمک هوش مصنوعی' : 'AI Help'}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                      />
                     </svg>
                   </button>
                 </>
@@ -258,8 +294,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     className="p-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     title={t('chat_send_button_tooltip', locale)}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                      />
                     </svg>
                   </button>
                   {/* دکمه کمک */}
@@ -273,8 +320,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     className="p-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     title={t('chat_suggest_button_tooltip', locale)}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                      />
                     </svg>
                   </button>
                 </>
@@ -300,8 +358,23 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 disabled={isLoading}
                 className="w-full max-w-sm px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2 transition-all"
               >
-                {isLoading ? <Loader/> : t('chat_continue_to_next_section', locale)}
-                {!isLoading && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>}
+                {isLoading ? <Loader /> : t('chat_continue_to_next_section', locale)}
+                {!isLoading && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                    />
+                  </svg>
+                )}
               </button>
             </div>
           </div>

@@ -24,7 +24,7 @@ export function useInvestorAuth() {
     investorProfile: null,
     loading: true,
     isAuthenticated: false,
-    isInvestor: false
+    isInvestor: false,
   });
 
   useEffect(() => {
@@ -32,22 +32,20 @@ export function useInvestorAuth() {
     checkSession();
 
     // Listen به تغییرات auth
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (event === 'SIGNED_IN' && session) {
-          await loadUserData(session.user.id);
-        } else if (event === 'SIGNED_OUT') {
-          setState({
-            user: null,
-            profile: null,
-            investorProfile: null,
-            loading: false,
-            isAuthenticated: false,
-            isInvestor: false
-          });
-        }
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        await loadUserData(session.user.id);
+      } else if (event === 'SIGNED_OUT') {
+        setState({
+          user: null,
+          profile: null,
+          investorProfile: null,
+          loading: false,
+          isAuthenticated: false,
+          isInvestor: false,
+        });
       }
-    );
+    });
 
     return () => {
       authListener?.subscription.unsubscribe();
@@ -56,22 +54,24 @@ export function useInvestorAuth() {
 
   const checkSession = async () => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
       if (session?.user) {
         await loadUserData(session.user.id);
       } else {
-        setState(prev => ({ ...prev, loading: false }));
+        setState((prev) => ({ ...prev, loading: false }));
       }
     } catch (error) {
       console.error('Error checking session:', error);
-      setState(prev => ({ ...prev, loading: false }));
+      setState((prev) => ({ ...prev, loading: false }));
     }
   };
 
   const loadUserData = async (userId: string) => {
     try {
-      setState(prev => ({ ...prev, loading: true }));
+      setState((prev) => ({ ...prev, loading: true }));
 
       // دریافت user profile
       const profile = await investorProfileService.getUserProfile(userId);
@@ -79,7 +79,9 @@ export function useInvestorAuth() {
       // دریافت investor profile (اگر وجود داشته باشه)
       const investorProfile = await investorProfileService.getInvestorProfile(userId);
 
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       setState({
         user: user,
@@ -87,18 +89,18 @@ export function useInvestorAuth() {
         investorProfile: investorProfile,
         loading: false,
         isAuthenticated: true,
-        isInvestor: profile?.role === 'investor'  // تغییر از user_type به role
+        isInvestor: profile?.role === 'investor', // تغییر از user_type به role
       });
     } catch (error) {
       console.error('Error loading user data:', error);
-      setState(prev => ({ ...prev, loading: false }));
+      setState((prev) => ({ ...prev, loading: false }));
     }
   };
 
   // ثبت‌نام سرمایه‌گذار جدید
   const signUpInvestor = async (email: string, password: string, name?: string) => {
     try {
-      setState(prev => ({ ...prev, loading: true }));
+      setState((prev) => ({ ...prev, loading: true }));
 
       // 1. ثبت‌نام در Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -106,10 +108,10 @@ export function useInvestorAuth() {
         password,
         options: {
           data: {
-            role: 'investor',  // تغییر از user_type به role
-            name: name || ''
-          }
-        }
+            role: 'investor', // تغییر از user_type به role
+            name: name || '',
+          },
+        },
       });
 
       if (authError) throw authError;
@@ -120,14 +122,14 @@ export function useInvestorAuth() {
         id: authData.user.id,
         email: email,
         name: name || null,
-        role: 'investor',  // تغییر از user_type به role
+        role: 'investor', // تغییر از user_type به role
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       });
 
       // 3. ایجاد investor profile
       await investorProfileService.createInvestorProfile({
-        id: authData.user.id,  // تغییر از user_id به id
+        id: authData.user.id, // تغییر از user_id به id
         tier: 'free',
         investor_type: null,
         company_name: null,
@@ -144,14 +146,14 @@ export function useInvestorAuth() {
         monthly_project_views: 0,
         last_view_reset: new Date().toISOString(),
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       } as any);
 
       await loadUserData(authData.user.id);
 
       return { success: true, user: authData.user };
     } catch (error: any) {
-      setState(prev => ({ ...prev, loading: false }));
+      setState((prev) => ({ ...prev, loading: false }));
       throw error;
     }
   };
@@ -159,11 +161,11 @@ export function useInvestorAuth() {
   // ورود
   const signIn = async (email: string, password: string) => {
     try {
-      setState(prev => ({ ...prev, loading: true }));
+      setState((prev) => ({ ...prev, loading: true }));
 
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password
+        password,
       });
 
       if (error) throw error;
@@ -173,7 +175,7 @@ export function useInvestorAuth() {
 
       return { success: true, user: data.user };
     } catch (error: any) {
-      setState(prev => ({ ...prev, loading: false }));
+      setState((prev) => ({ ...prev, loading: false }));
       throw error;
     }
   };
@@ -188,7 +190,7 @@ export function useInvestorAuth() {
         investorProfile: null,
         loading: false,
         isAuthenticated: false,
-        isInvestor: false
+        isInvestor: false,
       });
     } catch (error) {
       console.error('Error signing out:', error);
@@ -208,6 +210,6 @@ export function useInvestorAuth() {
     signUpInvestor,
     signIn,
     signOut,
-    refreshProfile
+    refreshProfile,
   };
 }

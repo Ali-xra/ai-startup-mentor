@@ -17,21 +17,15 @@ const INDUSTRIES = [
   'حمل و نقل',
   'انرژی',
   'مالی',
-  'سرگرمی'
+  'سرگرمی',
 ];
 
 // مراحل پروژه
-const STAGES = [
-  'ایده',
-  'MVP',
-  'رشد اولیه',
-  'رشد',
-  'بلوغ'
-];
+const STAGES = ['ایده', 'MVP', 'رشد اولیه', 'رشد', 'بلوغ'];
 
 export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
   onFiltersChange,
-  initialFilters = {}
+  initialFilters = {},
 }) => {
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -45,7 +39,7 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
   const handleIndustryToggle = (industry: string) => {
     const current = filters.industries || [];
     const updated = current.includes(industry)
-      ? current.filter(i => i !== industry)
+      ? current.filter((i) => i !== industry)
       : [...current, industry];
 
     setFilters({ ...filters, industries: updated });
@@ -55,7 +49,7 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
   const handleStageToggle = (stage: string) => {
     const current = filters.stages || [];
     const updated = current.includes(stage)
-      ? current.filter(s => s !== stage)
+      ? current.filter((s) => s !== stage)
       : [...current, stage];
 
     setFilters({ ...filters, stages: updated });
@@ -66,7 +60,7 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
     const numValue = value ? parseFloat(value) : undefined;
     setFilters({
       ...filters,
-      [type === 'min' ? 'investmentMin' : 'investmentMax']: numValue
+      [type === 'min' ? 'investmentMin' : 'investmentMax']: numValue,
     });
   };
 
@@ -88,8 +82,18 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
       {/* هدر فیلترها */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
-          <svg className="w-5 h-5 ml-2 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          <svg
+            className="w-5 h-5 ml-2 text-gray-600 dark:text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+            />
           </svg>
           <h3 className="font-semibold text-gray-900 dark:text-gray-100">
             فیلترها

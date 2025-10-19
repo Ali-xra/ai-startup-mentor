@@ -21,16 +21,7 @@ import { PHASE_8 } from './phase8';
  * All phases combined
  */
 export const ALL_PHASES: AllPhasesConfig = {
-  phases: [
-    PHASE_1,
-    PHASE_2,
-    PHASE_3,
-    PHASE_4,
-    PHASE_5,
-    PHASE_6,
-    PHASE_7,
-    PHASE_8,
-  ],
+  phases: [PHASE_1, PHASE_2, PHASE_3, PHASE_4, PHASE_5, PHASE_6, PHASE_7, PHASE_8],
 };
 
 /**

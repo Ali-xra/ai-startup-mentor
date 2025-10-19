@@ -13,17 +13,23 @@ const INVESTOR_TYPES: { value: InvestorType; label: string }[] = [
   { value: 'angel', label: 'سرمایه‌گذار فرشته (Angel Investor)' },
   { value: 'vc', label: 'سرمایه‌گذار خطرپذیر (VC)' },
   { value: 'corporate', label: 'سرمایه‌گذاری شرکتی' },
-  { value: 'partner', label: 'شریک استراتژیک' }
+  { value: 'partner', label: 'شریک استراتژیک' },
 ];
 
 const INDUSTRIES = [
-  'فناوری', 'سلامت و پزشکی', 'آموزش', 'املاک', 'خرده‌فروشی',
-  'غذا و نوشیدنی', 'حمل و نقل', 'انرژی', 'مالی', 'سرگرمی'
+  'فناوری',
+  'سلامت و پزشکی',
+  'آموزش',
+  'املاک',
+  'خرده‌فروشی',
+  'غذا و نوشیدنی',
+  'حمل و نقل',
+  'انرژی',
+  'مالی',
+  'سرگرمی',
 ];
 
-const STAGES = [
-  'ایده', 'MVP', 'رشد اولیه', 'رشد', 'بلوغ'
-];
+const STAGES = ['ایده', 'MVP', 'رشد اولیه', 'رشد', 'بلوغ'];
 
 export const InvestorProfileSetup: React.FC = () => {
   const navigate = useNavigate();
@@ -50,19 +56,22 @@ export const InvestorProfileSetup: React.FC = () => {
 
     // Step 4: تجربه
     years_of_experience: '',
-    bio: ''
+    bio: '',
   });
 
   const handleChange = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const toggleArrayItem = (field: 'preferred_industries' | 'preferred_stages' | 'preferred_locations', item: string) => {
-    setFormData(prev => ({
+  const toggleArrayItem = (
+    field: 'preferred_industries' | 'preferred_stages' | 'preferred_locations',
+    item: string
+  ) => {
+    setFormData((prev) => ({
       ...prev,
       [field]: prev[field].includes(item)
-        ? prev[field].filter(i => i !== item)
-        : [...prev[field], item]
+        ? prev[field].filter((i) => i !== item)
+        : [...prev[field], item],
     }));
   };
 
@@ -82,13 +91,15 @@ export const InvestorProfileSetup: React.FC = () => {
         preferred_industries: formData.preferred_industries,
         preferred_stages: formData.preferred_stages,
         preferred_locations: formData.preferred_locations,
-        years_of_experience: formData.years_of_experience ? parseInt(formData.years_of_experience) : null
+        years_of_experience: formData.years_of_experience
+          ? parseInt(formData.years_of_experience)
+          : null,
       } as any);
 
       // آپدیت user profile
       await investorProfileService.upsertUserProfile(user.id, {
         linkedin_url: formData.linkedin_url || null,
-        bio: formData.bio || null
+        bio: formData.bio || null,
       } as any);
 
       await refreshProfile();
@@ -119,8 +130,10 @@ export const InvestorProfileSetup: React.FC = () => {
           required
         >
           <option value="">انتخاب کنید...</option>
-          {INVESTOR_TYPES.map(type => (
-            <option key={type.value} value={type.value}>{type.label}</option>
+          {INVESTOR_TYPES.map((type) => (
+            <option key={type.value} value={type.value}>
+              {type.label}
+            </option>
           ))}
         </select>
       </div>
@@ -207,7 +220,7 @@ export const InvestorProfileSetup: React.FC = () => {
           صنعت‌های مورد علاقه
         </label>
         <div className="flex flex-wrap gap-2">
-          {INDUSTRIES.map(industry => (
+          {INDUSTRIES.map((industry) => (
             <button
               key={industry}
               type="button"
@@ -230,7 +243,7 @@ export const InvestorProfileSetup: React.FC = () => {
           مراحل مورد علاقه
         </label>
         <div className="flex flex-wrap gap-2">
-          {STAGES.map(stage => (
+          {STAGES.map((stage) => (
             <button
               key={stage}
               type="button"
@@ -350,9 +363,25 @@ export const InvestorProfileSetup: React.FC = () => {
               >
                 {loading ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     در حال ذخیره...
                   </>

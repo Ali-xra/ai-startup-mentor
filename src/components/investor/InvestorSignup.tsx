@@ -18,7 +18,7 @@ export const InvestorSignup: React.FC = () => {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -68,10 +68,10 @@ export const InvestorSignup: React.FC = () => {
   };
 
   const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     // پاک کردن خطای فیلد هنگام تغییر
     if (errors[field]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[field];
         return newErrors;
@@ -84,16 +84,17 @@ export const InvestorSignup: React.FC = () => {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            ثبت‌نام سرمایه‌گذار
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">ثبت‌نام سرمایه‌گذار</h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             برای دسترسی به پروژه‌های عمومی و ارتباط با سازندگان ایده
           </p>
         </div>
 
         {/* Form */}
-        <form className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg" onSubmit={handleSubmit}>
+        <form
+          className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+          onSubmit={handleSubmit}
+        >
           {/* Error Message */}
           {submitError && (
             <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg">
@@ -103,7 +104,10 @@ export const InvestorSignup: React.FC = () => {
 
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
               نام و نام خانوادگی
             </label>
             <input
@@ -112,9 +116,10 @@ export const InvestorSignup: React.FC = () => {
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none
-                ${errors.name
-                  ? 'border-red-300 dark:border-red-700'
-                  : 'border-gray-300 dark:border-gray-600'
+                ${
+                  errors.name
+                    ? 'border-red-300 dark:border-red-700'
+                    : 'border-gray-300 dark:border-gray-600'
                 }
                 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
               placeholder="نام شما"
@@ -126,7 +131,10 @@ export const InvestorSignup: React.FC = () => {
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
               ایمیل
             </label>
             <input
@@ -135,9 +143,10 @@ export const InvestorSignup: React.FC = () => {
               value={formData.email}
               onChange={(e) => handleChange('email', e.target.value)}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none
-                ${errors.email
-                  ? 'border-red-300 dark:border-red-700'
-                  : 'border-gray-300 dark:border-gray-600'
+                ${
+                  errors.email
+                    ? 'border-red-300 dark:border-red-700'
+                    : 'border-gray-300 dark:border-gray-600'
                 }
                 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
               placeholder="email@example.com"
@@ -150,7 +159,10 @@ export const InvestorSignup: React.FC = () => {
 
           {/* Password */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
               رمز عبور
             </label>
             <input
@@ -159,9 +171,10 @@ export const InvestorSignup: React.FC = () => {
               value={formData.password}
               onChange={(e) => handleChange('password', e.target.value)}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none
-                ${errors.password
-                  ? 'border-red-300 dark:border-red-700'
-                  : 'border-gray-300 dark:border-gray-600'
+                ${
+                  errors.password
+                    ? 'border-red-300 dark:border-red-700'
+                    : 'border-gray-300 dark:border-gray-600'
                 }
                 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
               placeholder="حداقل 6 کاراکتر"
@@ -174,7 +187,10 @@ export const InvestorSignup: React.FC = () => {
 
           {/* Confirm Password */}
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
               تکرار رمز عبور
             </label>
             <input
@@ -183,16 +199,19 @@ export const InvestorSignup: React.FC = () => {
               value={formData.confirmPassword}
               onChange={(e) => handleChange('confirmPassword', e.target.value)}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none
-                ${errors.confirmPassword
-                  ? 'border-red-300 dark:border-red-700'
-                  : 'border-gray-300 dark:border-gray-600'
+                ${
+                  errors.confirmPassword
+                    ? 'border-red-300 dark:border-red-700'
+                    : 'border-gray-300 dark:border-gray-600'
                 }
                 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
               placeholder="تکرار رمز عبور"
               dir="ltr"
             />
             {errors.confirmPassword && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.confirmPassword}</p>
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 
@@ -204,9 +223,25 @@ export const InvestorSignup: React.FC = () => {
           >
             {loading ? (
               <>
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 در حال ثبت‌نام...
               </>

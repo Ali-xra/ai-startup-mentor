@@ -37,14 +37,11 @@ async function testInvestorServices() {
       'connections',
       'connection_messages',
       'verification_requests',
-      'saved_projects'
+      'saved_projects',
     ];
 
     for (const table of tables) {
-      const { error } = await supabase
-        .from(table)
-        .select('*')
-        .limit(1);
+      const { error } = await supabase.from(table).select('*').limit(1);
 
       if (error && error.code !== 'PGRST116') {
         console.error(`❌ Table "${table}" check failed:`, error.message);
@@ -63,11 +60,13 @@ async function testInvestorServices() {
     try {
       const testUserId = '00000000-0000-0000-0000-000000000000';
       const { error } = await supabase.rpc('check_investor_view_limit', {
-        p_investor_id: testUserId
+        p_investor_id: testUserId,
       });
 
       if (error) {
-        console.log(`⚠️  Function "check_investor_view_limit" exists but returned error (expected for test UUID)`);
+        console.log(
+          `⚠️  Function "check_investor_view_limit" exists but returned error (expected for test UUID)`
+        );
       } else {
         console.log(`✅ Function "check_investor_view_limit" exists and works`);
       }
@@ -84,13 +83,15 @@ async function testInvestorServices() {
         p_investment_max: null,
         p_seeking_investment: null,
         p_limit: 5,
-        p_offset: 0
+        p_offset: 0,
       });
 
       if (error) {
         console.error(`❌ Function "get_public_projects_filtered" failed:`, error.message);
       } else {
-        console.log(`✅ Function "get_public_projects_filtered" works (returned ${data?.length || 0} projects)`);
+        console.log(
+          `✅ Function "get_public_projects_filtered" works (returned ${data?.length || 0} projects)`
+        );
       }
     } catch (err: any) {
       console.error(`❌ Function "get_public_projects_filtered" failed:`, err.message);
@@ -106,7 +107,9 @@ async function testInvestorServices() {
     // Test getPublicProjects
     try {
       const projects = await investorProjectService.getPublicProjects({ limit: 5 });
-      console.log(`✅ investorProjectService.getPublicProjects() works (found ${projects.length} projects)`);
+      console.log(
+        `✅ investorProjectService.getPublicProjects() works (found ${projects.length} projects)`
+      );
     } catch (err: any) {
       console.error(`❌ investorProjectService.getPublicProjects() failed:`, err.message);
     }
@@ -114,7 +117,9 @@ async function testInvestorServices() {
     // Test getFeaturedProjects
     try {
       const featured = await investorProjectService.getFeaturedProjects(3);
-      console.log(`✅ investorProjectService.getFeaturedProjects() works (found ${featured.length} featured)`);
+      console.log(
+        `✅ investorProjectService.getFeaturedProjects() works (found ${featured.length} featured)`
+      );
     } catch (err: any) {
       console.error(`❌ investorProjectService.getFeaturedProjects() failed:`, err.message);
     }
@@ -129,7 +134,7 @@ async function testInvestorServices() {
     // Check if RLS is enabled
     for (const table of tables) {
       const { data, error } = await supabase
-        .rpc('pg_table_is_visible', { 'table_name': table } as any)
+        .rpc('pg_table_is_visible', { table_name: table } as any)
         .single();
 
       // این یک تست ساده است - در production باید دقیق‌تر تست کنیم
@@ -148,7 +153,6 @@ async function testInvestorServices() {
     console.log('   2. Test creating connections');
     console.log('   3. Test verification workflow');
     console.log('   4. Build the UI components');
-
   } catch (error: any) {
     console.error('❌ Test failed:', error.message);
   }

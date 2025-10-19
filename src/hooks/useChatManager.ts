@@ -19,201 +19,201 @@ import { t } from '../i18n';
  */
 
 interface UseChatManagerProps {
-    locale: Locale;
+  locale: Locale;
 }
 
 interface UseChatManagerReturn {
-    isLoading: boolean;
-    messages: ChatMessage[];
-    suggestionModalOpen: boolean;
-    currentSuggestion: string;
-    addMessage: (message: Omit<ChatMessage, 'id'>) => void;
-    setMessages: (messages: ChatMessage[]) => void;
-    requestSuggestion: (
-        currentStage: Stage,
-        currentData: Partial<StartupData>,
-        currentMessages: ChatMessage[]
-    ) => Promise<void>;
-    refineSuggestion: (
-        originalSuggestion: string,
-        instruction: string,
-        currentData: Partial<StartupData>
-    ) => Promise<void>;
-    acceptSuggestion: (acceptedText: string) => string;
-    closeSuggestionModal: () => void;
-    refineEditedStage: (
-        stageToRefine: Stage,
-        instruction: string,
-        currentData: Partial<StartupData>,
-        dataKey: keyof StartupData
-    ) => Promise<string>;
+  isLoading: boolean;
+  messages: ChatMessage[];
+  suggestionModalOpen: boolean;
+  currentSuggestion: string;
+  addMessage: (message: Omit<ChatMessage, 'id'>) => void;
+  setMessages: (messages: ChatMessage[]) => void;
+  requestSuggestion: (
+    currentStage: Stage,
+    currentData: Partial<StartupData>,
+    currentMessages: ChatMessage[]
+  ) => Promise<void>;
+  refineSuggestion: (
+    originalSuggestion: string,
+    instruction: string,
+    currentData: Partial<StartupData>
+  ) => Promise<void>;
+  acceptSuggestion: (acceptedText: string) => string;
+  closeSuggestionModal: () => void;
+  refineEditedStage: (
+    stageToRefine: Stage,
+    instruction: string,
+    currentData: Partial<StartupData>,
+    dataKey: keyof StartupData
+  ) => Promise<string>;
 }
 
 export const useChatManager = ({ locale }: UseChatManagerProps): UseChatManagerReturn => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [messages, setMessages] = useState<ChatMessage[]>([]);
-    const [suggestionModalOpen, setSuggestionModalOpen] = useState(false);
-    const [currentSuggestion, setCurrentSuggestion] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [suggestionModalOpen, setSuggestionModalOpen] = useState(false);
+  const [currentSuggestion, setCurrentSuggestion] = useState('');
 
-    /**
-     * Add a new message to the chat
-     */
-    const addMessage = (message: Omit<ChatMessage, 'id'>) => {
-        const newMessage: ChatMessage = {
-            ...message,
-            id: uuidv4(),
-        };
-        setMessages(prev => [...prev, newMessage]);
+  /**
+   * Add a new message to the chat
+   */
+  const addMessage = (message: Omit<ChatMessage, 'id'>) => {
+    const newMessage: ChatMessage = {
+      ...message,
+      id: uuidv4(),
     };
+    setMessages((prev) => [...prev, newMessage]);
+  };
 
-    /**
-     * Request AI suggestion for current stage
-     */
-    const requestSuggestion = async (
-        currentStage: Stage,
-        currentData: Partial<StartupData>,
-        currentMessages: ChatMessage[]
-    ) => {
-        // Clear previous suggestion before opening modal
-        setCurrentSuggestion('');
-        setIsLoading(true);
-        setSuggestionModalOpen(true);
+  /**
+   * Request AI suggestion for current stage
+   */
+  const requestSuggestion = async (
+    currentStage: Stage,
+    currentData: Partial<StartupData>,
+    currentMessages: ChatMessage[]
+  ) => {
+    // Clear previous suggestion before opening modal
+    setCurrentSuggestion('');
+    setIsLoading(true);
+    setSuggestionModalOpen(true);
 
-        try {
-            // Get last user message as userInput for context
-            const lastUserMessage = currentMessages.filter(m => m.sender === 'user').pop();
-            const userInput = lastUserMessage?.text || '';
+    try {
+      // Get last user message as userInput for context
+      const lastUserMessage = currentMessages.filter((m) => m.sender === 'user').pop();
+      const userInput = lastUserMessage?.text || '';
 
-            const suggestion = await geminiService.generateSuggestion(
-                currentStage,
-                currentData,
-                locale,
-                userInput
-            );
-            setCurrentSuggestion(suggestion);
+      const suggestion = await geminiService.generateSuggestion(
+        currentStage,
+        currentData,
+        locale,
+        userInput
+      );
+      setCurrentSuggestion(suggestion);
 
-            console.log('[useChatManager] Suggestion generated successfully');
-        } catch (error) {
-            console.error('[useChatManager] Error generating suggestion:', error);
-            addMessage({
-                text: "Sorry, I couldn't generate a suggestion right now.",
-                sender: 'system'
-            });
-            setSuggestionModalOpen(false);
-            setCurrentSuggestion('');
-        } finally {
-            setIsLoading(false);
-        }
-    };
+      console.log('[useChatManager] Suggestion generated successfully');
+    } catch (error) {
+      console.error('[useChatManager] Error generating suggestion:', error);
+      addMessage({
+        text: "Sorry, I couldn't generate a suggestion right now.",
+        sender: 'system',
+      });
+      setSuggestionModalOpen(false);
+      setCurrentSuggestion('');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    /**
-     * Refine an existing suggestion based on user instruction
-     */
-    const refineSuggestion = async (
-        originalSuggestion: string,
-        instruction: string,
-        currentData: Partial<StartupData>
-    ) => {
-        setIsLoading(true);
-        try {
-            const refinedText = await geminiService.refineText(
-                originalSuggestion,
-                instruction,
-                currentData,
-                locale
-            );
-            setCurrentSuggestion(refinedText);
+  /**
+   * Refine an existing suggestion based on user instruction
+   */
+  const refineSuggestion = async (
+    originalSuggestion: string,
+    instruction: string,
+    currentData: Partial<StartupData>
+  ) => {
+    setIsLoading(true);
+    try {
+      const refinedText = await geminiService.refineText(
+        originalSuggestion,
+        instruction,
+        currentData,
+        locale
+      );
+      setCurrentSuggestion(refinedText);
 
-            console.log('[useChatManager] Suggestion refined successfully');
-        } catch (error) {
-            console.error('[useChatManager] Error refining suggestion:', error);
-            addMessage({
-                text: 'Sorry, an error occurred while refining.',
-                sender: 'system'
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
+      console.log('[useChatManager] Suggestion refined successfully');
+    } catch (error) {
+      console.error('[useChatManager] Error refining suggestion:', error);
+      addMessage({
+        text: 'Sorry, an error occurred while refining.',
+        sender: 'system',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    /**
-     * Accept the current suggestion
-     * Returns the accepted text for the parent to handle
-     */
-    const acceptSuggestion = (acceptedText: string): string => {
-        setSuggestionModalOpen(false);
-        setCurrentSuggestion('');
+  /**
+   * Accept the current suggestion
+   * Returns the accepted text for the parent to handle
+   */
+  const acceptSuggestion = (acceptedText: string): string => {
+    setSuggestionModalOpen(false);
+    setCurrentSuggestion('');
 
-        console.log('[useChatManager] Suggestion accepted');
-        return acceptedText;
-    };
+    console.log('[useChatManager] Suggestion accepted');
+    return acceptedText;
+  };
 
-    /**
-     * Close the suggestion modal without accepting
-     */
-    const closeSuggestionModal = () => {
-        setSuggestionModalOpen(false);
-        setCurrentSuggestion('');
+  /**
+   * Close the suggestion modal without accepting
+   */
+  const closeSuggestionModal = () => {
+    setSuggestionModalOpen(false);
+    setCurrentSuggestion('');
 
-        console.log('[useChatManager] Suggestion modal closed');
-    };
+    console.log('[useChatManager] Suggestion modal closed');
+  };
 
-    /**
-     * Refine an edited stage based on user instruction
-     */
-    const refineEditedStage = async (
-        stageToRefine: Stage,
-        instruction: string,
-        currentData: Partial<StartupData>,
-        dataKey: keyof StartupData
-    ): Promise<string> => {
-        setIsLoading(true);
-        addMessage({
-            text: `${t('system_refining_edited_stage', locale)} "${t(stageToRefine, locale)}" ${t('system_refine_edited_stage_based_on_command', locale)}`,
-            sender: 'system'
-        });
+  /**
+   * Refine an edited stage based on user instruction
+   */
+  const refineEditedStage = async (
+    stageToRefine: Stage,
+    instruction: string,
+    currentData: Partial<StartupData>,
+    dataKey: keyof StartupData
+  ): Promise<string> => {
+    setIsLoading(true);
+    addMessage({
+      text: `${t('system_refining_edited_stage', locale)} "${t(stageToRefine, locale)}" ${t('system_refine_edited_stage_based_on_command', locale)}`,
+      sender: 'system',
+    });
 
-        try {
-            const originalText = (currentData[dataKey] as string) || '';
-            const refinedText = await geminiService.refineText(
-                originalText,
-                instruction,
-                currentData,
-                locale
-            );
+    try {
+      const originalText = (currentData[dataKey] as string) || '';
+      const refinedText = await geminiService.refineText(
+        originalText,
+        instruction,
+        currentData,
+        locale
+      );
 
-            addMessage({
-                text: t('system_refine_edited_stage_success', locale),
-                sender: 'system'
-            });
+      addMessage({
+        text: t('system_refine_edited_stage_success', locale),
+        sender: 'system',
+      });
 
-            console.log('[useChatManager] Edited stage refined successfully:', stageToRefine);
-            return refinedText;
-        } catch (error) {
-            console.error('[useChatManager] Error refining edited stage:', error);
-            addMessage({
-                text: t('system_refine_edited_stage_error', locale),
-                sender: 'system'
-            });
-            throw error;
-        } finally {
-            setIsLoading(false);
-        }
-    };
+      console.log('[useChatManager] Edited stage refined successfully:', stageToRefine);
+      return refinedText;
+    } catch (error) {
+      console.error('[useChatManager] Error refining edited stage:', error);
+      addMessage({
+        text: t('system_refine_edited_stage_error', locale),
+        sender: 'system',
+      });
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    return {
-        isLoading,
-        messages,
-        suggestionModalOpen,
-        currentSuggestion,
-        addMessage,
-        setMessages,
-        requestSuggestion,
-        refineSuggestion,
-        acceptSuggestion,
-        closeSuggestionModal,
-        refineEditedStage,
-    };
+  return {
+    isLoading,
+    messages,
+    suggestionModalOpen,
+    currentSuggestion,
+    addMessage,
+    setMessages,
+    requestSuggestion,
+    refineSuggestion,
+    acceptSuggestion,
+    closeSuggestionModal,
+    refineEditedStage,
+  };
 };
 
 export default useChatManager;

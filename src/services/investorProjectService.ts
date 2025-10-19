@@ -8,7 +8,7 @@ import type {
   PublicProject,
   ProjectFilters,
   ProjectSearchResult,
-  ProjectAnalytics
+  ProjectAnalytics,
 } from '../types/project';
 import type { SavedProject, SavedProjectWithDetails } from '../types/connection';
 
@@ -54,7 +54,9 @@ export const investorProjectService = {
 
     // جستجو در متن (اگر searchQuery وجود داره)
     if (filters.searchQuery && filters.searchQuery.trim()) {
-      query = query.or(`project_name.ilike.%${filters.searchQuery}%,initial_idea.ilike.%${filters.searchQuery}%`);
+      query = query.or(
+        `project_name.ilike.%${filters.searchQuery}%,initial_idea.ilike.%${filters.searchQuery}%`
+      );
     }
 
     // Pagination
@@ -69,24 +71,24 @@ export const investorProjectService = {
         total_count: 0,
         page: Math.floor(offset / limit) + 1,
         page_size: limit,
-        has_more: false
+        has_more: false,
       };
     }
 
     // دریافت اطلاعات صاحبان پروژه
-    const userIds = projects.map(p => p.user_id);
+    const userIds = projects.map((p) => p.user_id);
     const { data: profiles } = await supabase
       .from('profiles')
       .select('id, name, email, avatar_url')
       .in('id', userIds);
 
     // ترکیب پروژه‌ها با اطلاعات صاحبان
-    const projectsWithOwners = projects.map(project => {
-      const owner = profiles?.find(p => p.id === project.user_id);
+    const projectsWithOwners = projects.map((project) => {
+      const owner = profiles?.find((p) => p.id === project.user_id);
       return {
         ...project,
         owner_name: owner?.name || owner?.email || 'Unknown',
-        owner_email: owner?.email || ''
+        owner_email: owner?.email || '',
       };
     });
 
@@ -95,16 +97,14 @@ export const investorProjectService = {
       total_count: projectsWithOwners.length,
       page: Math.floor(offset / limit) + 1,
       page_size: limit,
-      has_more: projects.length === limit
+      has_more: projects.length === limit,
     };
   },
 
   /**
    * جستجوی پروژه‌ها با pagination (alias)
    */
-  async searchProjects(
-    filters: ProjectFilters = {}
-  ): Promise<ProjectSearchResult> {
+  async searchProjects(filters: ProjectFilters = {}): Promise<ProjectSearchResult> {
     return this.getPublicProjects(filters);
   },
 
@@ -134,7 +134,7 @@ export const investorProjectService = {
     return {
       ...project,
       owner_name: owner?.name || owner?.email || 'Unknown',
-      owner_email: owner?.email || ''
+      owner_email: owner?.email || '',
     };
   },
 
@@ -154,7 +154,7 @@ export const investorProjectService = {
     if (!projects || projects.length === 0) return [];
 
     // دریافت اطلاعات صاحبان پروژه
-    const userIds = projects.map(p => p.user_id);
+    const userIds = projects.map((p) => p.user_id);
     const { data: profiles, error: profilesError } = await supabase
       .from('profiles')
       .select('id, name, email, avatar_url')
@@ -163,12 +163,12 @@ export const investorProjectService = {
     if (profilesError) throw profilesError;
 
     // ترکیب پروژه‌ها با اطلاعات صاحبان
-    return projects.map(project => {
-      const owner = profiles?.find(p => p.id === project.user_id);
+    return projects.map((project) => {
+      const owner = profiles?.find((p) => p.id === project.user_id);
       return {
         ...project,
         owner_name: owner?.name || owner?.email || 'Unknown',
-        owner_email: owner?.email || ''
+        owner_email: owner?.email || '',
       };
     });
   },
@@ -190,7 +190,7 @@ export const investorProjectService = {
       p_project_id: projectId,
       p_viewer_id: userId || null,
       p_ip_address: ipAddress || null,
-      p_user_agent: userAgent || null
+      p_user_agent: userAgent || null,
     });
 
     if (error) throw error;
@@ -203,18 +203,16 @@ export const investorProjectService = {
   /**
    * Save کردن پروژه
    */
-  async saveProject(
-    projectId: string,
-    userId: string,
-    notes?: string
-  ): Promise<SavedProject> {
+  async saveProject(projectId: string, userId: string, notes?: string): Promise<SavedProject> {
     const { data, error } = await supabase
       .from('saved_projects')
-      .insert([{
-        user_id: userId,
-        project_id: projectId,
-        notes: notes || null
-      }])
+      .insert([
+        {
+          user_id: userId,
+          project_id: projectId,
+          notes: notes || null,
+        },
+      ])
       .select()
       .single();
 
@@ -238,11 +236,7 @@ export const investorProjectService = {
   /**
    * آپدیت یادداشت‌های پروژه ذخیره شده
    */
-  async updateSavedProjectNotes(
-    projectId: string,
-    userId: string,
-    notes: string
-  ): Promise<void> {
+  async updateSavedProjectNotes(projectId: string, userId: string, notes: string): Promise<void> {
     const { error } = await supabase
       .from('saved_projects')
       .update({ notes })
@@ -266,7 +260,7 @@ export const investorProjectService = {
     if (!savedProjects || savedProjects.length === 0) return [];
 
     // دریافت اطلاعات پروژه‌ها
-    const projectIds = savedProjects.map(sp => sp.project_id);
+    const projectIds = savedProjects.map((sp) => sp.project_id);
     const { data: projects, error: projectsError } = await supabase
       .from('projects')
       .select('*')
@@ -276,7 +270,7 @@ export const investorProjectService = {
     if (!projects || projects.length === 0) return [];
 
     // دریافت اطلاعات صاحبان پروژه
-    const userIds = projects.map(p => p.user_id);
+    const userIds = projects.map((p) => p.user_id);
     const { data: profiles, error: profilesError } = await supabase
       .from('profiles')
       .select('id, name, email, avatar_url')
@@ -285,12 +279,12 @@ export const investorProjectService = {
     if (profilesError) throw profilesError;
 
     // ترکیب داده‌ها
-    return projects.map(project => {
-      const owner = profiles?.find(p => p.id === project.user_id);
+    return projects.map((project) => {
+      const owner = profiles?.find((p) => p.id === project.user_id);
       return {
         ...project,
         owner_name: owner?.name || owner?.email || 'Unknown',
-        owner_email: owner?.email || ''
+        owner_email: owner?.email || '',
       };
     });
   },
@@ -365,9 +359,9 @@ export const investorProjectService = {
     if (connectionsError) throw connectionsError;
 
     const connectionStats = {
-      pending: connections?.filter(c => c.status === 'pending').length || 0,
-      accepted: connections?.filter(c => c.status === 'accepted').length || 0,
-      rejected: connections?.filter(c => c.status === 'rejected').length || 0
+      pending: connections?.filter((c) => c.status === 'pending').length || 0,
+      accepted: connections?.filter((c) => c.status === 'accepted').length || 0,
+      rejected: connections?.filter((c) => c.status === 'rejected').length || 0,
     };
 
     // Get recent viewers
@@ -381,21 +375,21 @@ export const investorProjectService = {
     if (recentViewsError) throw recentViewsError;
 
     // دریافت اطلاعات viewers
-        // @ts-ignore - Type inference issue with viewers
+    // @ts-ignore - Type inference issue with viewers
     let recentViewersWithNames = [];
     if (recentViews && recentViews.length > 0) {
-      const viewerIds = recentViews.map(v => v.viewer_id);
+      const viewerIds = recentViews.map((v) => v.viewer_id);
       const { data: viewers } = await supabase
         .from('profiles')
         .select('id, name, email')
         .in('id', viewerIds);
 
-      recentViewersWithNames = recentViews.map(v => {
-        const viewer = viewers?.find(vr => vr.id === v.viewer_id);
+      recentViewersWithNames = recentViews.map((v) => {
+        const viewer = viewers?.find((vr) => vr.id === v.viewer_id);
         return {
           viewer_id: v.viewer_id,
           viewer_name: viewer?.name || viewer?.email || 'Unknown',
-          viewed_at: v.viewed_at
+          viewed_at: v.viewed_at,
         };
       });
     }
@@ -409,7 +403,7 @@ export const investorProjectService = {
       connections_pending: connectionStats.pending,
       connections_accepted: connectionStats.accepted,
       connections_rejected: connectionStats.rejected,
-      recent_viewers: recentViewersWithNames
+      recent_viewers: recentViewersWithNames,
     };
   },
 
@@ -443,5 +437,5 @@ export const investorProjectService = {
 
     if (error) return false;
     return data?.seeking_investment || false;
-  }
+  },
 };

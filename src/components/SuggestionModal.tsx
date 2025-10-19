@@ -50,7 +50,14 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
             disabled={isLoading}
             className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
           </button>
@@ -61,7 +68,9 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
           {isLoading && !editedText ? (
             <div className="flex flex-col items-center justify-center h-64 space-y-3">
               <Loader />
-              <span className="text-slate-600 dark:text-slate-400">{t('chat_thinking', locale)}</span>
+              <span className="text-slate-600 dark:text-slate-400">
+                {t('chat_thinking', locale)}
+              </span>
             </div>
           ) : (
             <>
@@ -113,7 +122,14 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
             className="px-6 py-3 bg-slate-300 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-400 dark:hover:bg-slate-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {t('direct_editor_cancel_button', locale)}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
           </button>
@@ -124,7 +140,14 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
           >
             {isLoading ? <Loader /> : t('chat_bubble_accept_button', locale)}
             {!isLoading && (
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
             )}

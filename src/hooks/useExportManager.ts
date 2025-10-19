@@ -15,31 +15,31 @@ import { t } from '../i18n';
  */
 
 interface ExportData {
-    version: string;
-    stage: Stage;
-    data: Partial<StartupData>;
-    messages: ChatMessage[];
+  version: string;
+  stage: Stage;
+  data: Partial<StartupData>;
+  messages: ChatMessage[];
 }
 
 interface UseExportManagerProps {
-    locale: Locale;
+  locale: Locale;
 }
 
 interface UseExportManagerReturn {
-    exportProject: (
-        stage: Stage,
-        startupData: Partial<StartupData>,
-        messages: ChatMessage[],
-        format?: 'json' | 'pdf' | 'word' | 'csv' | 'excel'
-    ) => void;
+  exportProject: (
+    stage: Stage,
+    startupData: Partial<StartupData>,
+    messages: ChatMessage[],
+    format?: 'json' | 'pdf' | 'word' | 'csv' | 'excel'
+  ) => void;
 }
 
 export const useExportManager = ({ locale }: UseExportManagerProps): UseExportManagerReturn => {
-    /**
-     * Generate HTML content for PDF export
-     */
-    const generatePDFContent = (data: ExportData): string => {
-        return `
+  /**
+   * Generate HTML content for PDF export
+   */
+  const generatePDFContent = (data: ExportData): string => {
+    return `
         <!DOCTYPE html>
         <html>
         <head>
@@ -58,21 +58,25 @@ export const useExportManager = ({ locale }: UseExportManagerProps): UseExportMa
             <p><strong>Stage:</strong> ${data.stage}</p>
             <p><strong>Export Date:</strong> ${new Date().toLocaleDateString()}</p>
 
-            ${Object.entries(data.data).map(([key, value]) => `
+            ${Object.entries(data.data)
+              .map(
+                ([key, value]) => `
                 <div class="section">
                     <h2>${key.replace(/_/g, ' ').toUpperCase()}</h2>
                     <div class="field-value">${value || 'Not completed'}</div>
                 </div>
-            `).join('')}
+            `
+              )
+              .join('')}
         </body>
         </html>`;
-    };
+  };
 
-    /**
-     * Generate HTML content for Word export
-     */
-    const generateWordContent = (data: ExportData): string => {
-        return `
+  /**
+   * Generate HTML content for Word export
+   */
+  const generateWordContent = (data: ExportData): string => {
+    return `
         <!DOCTYPE html>
         <html>
         <head>
@@ -91,150 +95,148 @@ export const useExportManager = ({ locale }: UseExportManagerProps): UseExportMa
             <p><strong>Stage:</strong> ${data.stage}</p>
             <p><strong>Export Date:</strong> ${new Date().toLocaleDateString()}</p>
 
-            ${Object.entries(data.data).map(([key, value]) => `
+            ${Object.entries(data.data)
+              .map(
+                ([key, value]) => `
                 <div class="section">
                     <h2>${key.replace(/_/g, ' ').toUpperCase()}</h2>
                     <div class="field-value">${value || 'Not completed'}</div>
                 </div>
-            `).join('')}
+            `
+              )
+              .join('')}
         </body>
         </html>`;
-    };
+  };
 
-    /**
-     * Generate CSV content for CSV export
-     */
-    const generateCSVContent = (data: ExportData): string => {
-        const rows = [
-            ['Field', 'Value'],
-            ['Project Name', data.data.projectName || ''],
-            ['Stage', data.stage],
-            ['Export Date', new Date().toLocaleDateString()],
-            ...Object.entries(data.data).map(([key, value]) => [
-                key.replace(/_/g, ' '),
-                value || ''
-            ])
-        ];
-        return rows.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
-    };
+  /**
+   * Generate CSV content for CSV export
+   */
+  const generateCSVContent = (data: ExportData): string => {
+    const rows = [
+      ['Field', 'Value'],
+      ['Project Name', data.data.projectName || ''],
+      ['Stage', data.stage],
+      ['Export Date', new Date().toLocaleDateString()],
+      ...Object.entries(data.data).map(([key, value]) => [key.replace(/_/g, ' '), value || '']),
+    ];
+    return rows.map((row) => row.map((cell) => `"${cell}"`).join(',')).join('\n');
+  };
 
-    /**
-     * Generate Excel-formatted CSV content
-     */
-    const generateExcelContent = (data: ExportData): string => {
-        // Create a more structured format for Excel
-        const sections = [
-            ['Project Information'],
-            ['Field', 'Value'],
-            ['Project Name', data.data.projectName || ''],
-            ['Stage', data.stage],
-            ['Export Date', new Date().toLocaleDateString()],
-            [''],
-            ['Project Data'],
-            ['Section', 'Content'],
-            ...Object.entries(data.data).map(([key, value]) => [
-                key.replace(/_/g, ' '),
-                value || ''
-            ])
-        ];
-        return sections.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
-    };
+  /**
+   * Generate Excel-formatted CSV content
+   */
+  const generateExcelContent = (data: ExportData): string => {
+    // Create a more structured format for Excel
+    const sections = [
+      ['Project Information'],
+      ['Field', 'Value'],
+      ['Project Name', data.data.projectName || ''],
+      ['Stage', data.stage],
+      ['Export Date', new Date().toLocaleDateString()],
+      [''],
+      ['Project Data'],
+      ['Section', 'Content'],
+      ...Object.entries(data.data).map(([key, value]) => [key.replace(/_/g, ' '), value || '']),
+    ];
+    return sections.map((row) => row.map((cell) => `"${cell}"`).join(',')).join('\n');
+  };
 
-    /**
-     * Download a file with given content
-     */
-    const downloadFile = (content: string, fileName: string, mimeType: string) => {
-        const blob = new Blob([content], { type: mimeType });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        link.click();
-        URL.revokeObjectURL(url);
+  /**
+   * Download a file with given content
+   */
+  const downloadFile = (content: string, fileName: string, mimeType: string) => {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(url);
 
-        console.log('[useExportManager] File downloaded:', fileName);
-    };
+    console.log('[useExportManager] File downloaded:', fileName);
+  };
 
-    /**
-     * Download JSON file
-     */
-    const downloadJSON = (data: ExportData, projectName: string) => {
-        const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
-            JSON.stringify(data, null, 2)
-        )}`;
-        const link = document.createElement('a');
-        link.href = jsonString;
-        link.download = `${projectName}-export.json`;
-        link.click();
+  /**
+   * Download JSON file
+   */
+  const downloadJSON = (data: ExportData, projectName: string) => {
+    const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(data, null, 2)
+    )}`;
+    const link = document.createElement('a');
+    link.href = jsonString;
+    link.download = `${projectName}-export.json`;
+    link.click();
 
-        console.log('[useExportManager] JSON downloaded:', projectName);
-    };
+    console.log('[useExportManager] JSON downloaded:', projectName);
+  };
 
-    /**
-     * Export project in various formats
-     */
-    const exportProject = (
-        stage: Stage,
-        startupData: Partial<StartupData>,
-        messages: ChatMessage[],
-        format: 'json' | 'pdf' | 'word' | 'csv' | 'excel' = 'json'
-    ) => {
-        try {
-            const projectData: ExportData = {
-                version: '1.0',
-                stage,
-                data: startupData,
-                messages,
-            };
+  /**
+   * Export project in various formats
+   */
+  const exportProject = (
+    stage: Stage,
+    startupData: Partial<StartupData>,
+    messages: ChatMessage[],
+    format: 'json' | 'pdf' | 'word' | 'csv' | 'excel' = 'json'
+  ) => {
+    try {
+      const projectData: ExportData = {
+        version: '1.0',
+        stage,
+        data: startupData,
+        messages,
+      };
 
-            const projectName = startupData.projectName || 'unnamed-project';
-            const safeProjectName = projectName.toLowerCase().replace(/\s+/g, '-');
+      const projectName = startupData.projectName || 'unnamed-project';
+      const safeProjectName = projectName.toLowerCase().replace(/\s+/g, '-');
 
-            switch (format) {
-                case 'pdf': {
-                    const htmlContent = generatePDFContent(projectData);
-                    downloadFile(htmlContent, `${safeProjectName}-export.html`, 'text/html');
-                    break;
-                }
-
-                case 'word': {
-                    const htmlContent = generateWordContent(projectData);
-                    downloadFile(htmlContent, `${safeProjectName}-export.html`, 'text/html');
-                    break;
-                }
-
-                case 'csv': {
-                    const csvContent = generateCSVContent(projectData);
-                    downloadFile(csvContent, `${safeProjectName}-export.csv`, 'text/csv');
-                    break;
-                }
-
-                case 'excel': {
-                    const csvContent = generateExcelContent(projectData);
-                    downloadFile(csvContent, `${safeProjectName}-export.csv`, 'text/csv');
-                    break;
-                }
-
-                case 'json':
-                default: {
-                    downloadJSON(projectData, safeProjectName);
-                    break;
-                }
-            }
-
-            console.log('[useExportManager] Export completed successfully:', {
-                format,
-                projectName: safeProjectName,
-            });
-        } catch (error) {
-            console.error('[useExportManager] Export error:', error);
-            alert(t('export_error', locale));
+      switch (format) {
+        case 'pdf': {
+          const htmlContent = generatePDFContent(projectData);
+          downloadFile(htmlContent, `${safeProjectName}-export.html`, 'text/html');
+          break;
         }
-    };
 
-    return {
-        exportProject,
-    };
+        case 'word': {
+          const htmlContent = generateWordContent(projectData);
+          downloadFile(htmlContent, `${safeProjectName}-export.html`, 'text/html');
+          break;
+        }
+
+        case 'csv': {
+          const csvContent = generateCSVContent(projectData);
+          downloadFile(csvContent, `${safeProjectName}-export.csv`, 'text/csv');
+          break;
+        }
+
+        case 'excel': {
+          const csvContent = generateExcelContent(projectData);
+          downloadFile(csvContent, `${safeProjectName}-export.csv`, 'text/csv');
+          break;
+        }
+
+        case 'json':
+        default: {
+          downloadJSON(projectData, safeProjectName);
+          break;
+        }
+      }
+
+      console.log('[useExportManager] Export completed successfully:', {
+        format,
+        projectName: safeProjectName,
+      });
+    } catch (error) {
+      console.error('[useExportManager] Export error:', error);
+      alert(t('export_error', locale));
+    }
+  };
+
+  return {
+    exportProject,
+  };
 };
 
 export default useExportManager;
