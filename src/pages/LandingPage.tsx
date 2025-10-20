@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageSelector from '../components/LanguageSelector';
 import { Locale } from '../i18n';
@@ -7,6 +8,8 @@ import {
   PublicProject as PublicProjectType,
   ProjectFilter,
 } from '../services/publicProjectsService';
+import { ProjectCard } from '../components/marketplace/ProjectCard';
+import { ProjectFilters } from '../components/marketplace/ProjectFilters';
 import '../index.css';
 
 interface PublicProject extends PublicProjectType {
@@ -16,22 +19,28 @@ interface PublicProject extends PublicProjectType {
 const LandingPageContent: React.FC = () => {
   const { language } = useLanguage();
   const locale: Locale = language === 'fa' ? 'fa' : 'en';
+  const navigate = useNavigate();
   const [theme, setTheme] = useState<'light' | 'dark'>(
     () => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark'
   );
   const [selectedFilter, setSelectedFilter] = useState<ProjectFilter>('all');
   const [publicProjects, setPublicProjects] = useState<PublicProject[]>([]);
+  const [totalProjects, setTotalProjects] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // دریافت پروژه‌ها از backend
+  // دریافت پروژه‌ها از backend - محدود به 8 پروژه برای LandingPage
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
         setError(null);
-        const projects = await PublicProjectsService.getPublicProjects(selectedFilter, 20, 0);
+        // فقط 8 پروژه برای نمایش در LandingPage
+        const projects = await PublicProjectsService.getPublicProjects(selectedFilter, 8, 0);
         setPublicProjects(projects);
+        // برای نمایش دکمه "View All" باید بدانیم که آیا پروژه بیشتری وجود دارد
+        const allProjects = await PublicProjectsService.getPublicProjects(selectedFilter, 100, 0);
+        setTotalProjects(allProjects.length);
       } catch (err) {
         console.error('Error fetching projects:', err);
         setError('Failed to load projects');
@@ -177,10 +186,6 @@ const LandingPageContent: React.FC = () => {
     window.location.href = '/login';
   };
 
-  const getPhasePercentage = (completed: number, total: number) => {
-    return (completed / total) * 100;
-  };
-
   return (
     <div
       className={`min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50 dark:from-slate-900 dark:via-purple-900/20 dark:to-indigo-900/20 transition-colors duration-300`}
@@ -216,6 +221,12 @@ const LandingPageContent: React.FC = () => {
                 {theme === 'dark' ? '☀️' : '🌙'}
               </button>
               <a
+                href="/marketplace"
+                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors hidden sm:block"
+              >
+                🎯 {locale === 'fa' ? 'بازار پروژه‌ها' : 'Marketplace'}
+              </a>
+              <a
                 href="/pricing"
                 className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
               >
@@ -223,7 +234,7 @@ const LandingPageContent: React.FC = () => {
               </a>
               <a
                 href="/about"
-                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors hidden sm:block"
               >
                 {t('about_us')}
               </a>
@@ -296,142 +307,65 @@ const LandingPageContent: React.FC = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {(['all', 'trending', 'completed', 'recent'] as const).map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setSelectedFilter(filter)}
-              className={`px-6 py-2 rounded-full font-semibold transition-all ${
-                selectedFilter === filter
-                  ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
-              }`}
-            >
-              {t(`filter_${filter}`)}
-            </button>
-          ))}
-        </div>
+        <ProjectFilters activeFilter={selectedFilter} onFilterChange={setSelectedFilter} />
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {loading ? (
-            // Loading State
-            <div className="col-span-full text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-600 border-t-transparent"></div>
-              <p className="mt-4 text-slate-600 dark:text-slate-400">
-                {locale === 'fa' ? 'در حال بارگذاری...' : 'Loading...'}
-              </p>
+        {/* Projects Grid - Limited to 8 projects */}
+        {loading ? (
+          // Loading State
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-600 border-t-transparent"></div>
+            <p className="mt-4 text-slate-600 dark:text-slate-400">
+              {locale === 'fa' ? 'در حال بارگذاری...' : 'Loading...'}
+            </p>
+          </div>
+        ) : error ? (
+          // Error State
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">⚠️</div>
+            <p className="text-slate-600 dark:text-slate-400">
+              {locale === 'fa' ? 'خطا در بارگذاری پروژه‌ها' : 'Error loading projects'}
+            </p>
+          </div>
+        ) : publicProjects.length === 0 ? (
+          // Empty State
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">📂</div>
+            <p className="text-slate-600 dark:text-slate-400">
+              {locale === 'fa' ? 'هنوز پروژه‌ای منتشر نشده است' : 'No projects published yet'}
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {publicProjects.slice(0, 8).map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  isClickable={false}
+                  onClick={() => navigate('/marketplace')}
+                  showStats={true}
+                />
+              ))}
             </div>
-          ) : error ? (
-            // Error State
-            <div className="col-span-full text-center py-12">
-              <div className="text-6xl mb-4">⚠️</div>
-              <p className="text-slate-600 dark:text-slate-400">
-                {locale === 'fa' ? 'خطا در بارگذاری پروژه‌ها' : 'Error loading projects'}
-              </p>
-            </div>
-          ) : publicProjects.length === 0 ? (
-            // Empty State
-            <div className="col-span-full text-center py-12">
-              <div className="text-6xl mb-4">📂</div>
-              <p className="text-slate-600 dark:text-slate-400">
-                {locale === 'fa' ? 'هنوز پروژه‌ای منتشر نشده است' : 'No projects published yet'}
-              </p>
-            </div>
-          ) : (
-            publicProjects.map((project) => (
-              <div
-                key={project.id}
-                className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:scale-[1.02] border border-slate-200 dark:border-slate-700"
-              >
-                {/* Project Header */}
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                        {project.title}
-                      </h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
-                        {project.description}
-                      </p>
-                    </div>
-                  </div>
 
-                  {/* Owner Info */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-indigo-400 rounded-full flex items-center justify-center text-white font-bold">
-                      {project.owner_name[0]}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        {project.owner_name}
-                      </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">
-                        {new Date(project.created_at).toLocaleDateString(
-                          locale === 'fa' ? 'fa-IR' : 'en-US'
-                        )}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                        {t('phase_of')
-                          .replace('%s', String(project.phase_completed))
-                          .replace('%s', String(project.total_phases))}
-                      </span>
-                      <span className="text-sm font-bold text-purple-600 dark:text-purple-400">
-                        {Math.round(
-                          getPhasePercentage(project.phase_completed, project.total_phases)
-                        )}
-                        %
-                      </span>
-                    </div>
-                    <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-purple-600 to-indigo-600 transition-all"
-                        style={{
-                          width: `${getPhasePercentage(project.phase_completed, project.total_phases)}%`,
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-semibold rounded-full"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <button className="flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                        <span>❤️</span>
-                        <span className="text-sm font-medium">{project.likes_count}</span>
-                      </button>
-                      <button className="flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                        <span>💬</span>
-                        <span className="text-sm font-medium">{project.comments_count}</span>
-                      </button>
-                    </div>
-                    <button className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-sm font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all">
-                      {t('view_project')} →
-                    </button>
-                  </div>
-                </div>
+            {/* View All Button */}
+            {totalProjects > 8 && (
+              <div className="text-center mt-12">
+                <button
+                  onClick={() => navigate('/marketplace')}
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-lg font-bold rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                  <span>🔍</span>
+                  <span>{locale === 'fa' ? 'مشاهده همه پروژه‌ها' : 'View All Projects'}</span>
+                  <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
+                    +{totalProjects - 8}
+                  </span>
+                  <span>→</span>
+                </button>
               </div>
-            ))
-          )}
-        </div>
+            )}
+          </>
+        )}
       </section>
 
       {/* Testimonials Section */}
@@ -483,7 +417,7 @@ const LandingPageContent: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-slate-700 dark:text-slate-300 italic">"{t(testimonial.text)}"</p>
+              <p className="text-slate-700 dark:text-slate-300 italic">&ldquo;{t(testimonial.text)}&rdquo;</p>
               <div className="flex text-yellow-400 mt-4">{'⭐'.repeat(5)}</div>
             </div>
           ))}

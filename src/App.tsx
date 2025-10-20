@@ -14,6 +14,7 @@ import DesignerApp from './pages/DesignerApp';
 import AdminApp from './pages/AdminApp';
 import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
+import MarketplacePage from './pages/MarketplacePage';
 
 // Protected Route Component
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -29,6 +30,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<AuthPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/marketplace" element={<MarketplacePage />} />
 
           {/* Protected Routes */}
           <Route

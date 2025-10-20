@@ -16,6 +16,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { Locale, t } from '../i18n';
 import { Loader } from '../components/Loader';
 import { supabase } from '../services/supabaseClient';
+import { PublicProjectsService } from '../services/publicProjectsService';
 
 const AppContent: React.FC = () => {
   const { session, loading, user } = useAuth();
@@ -28,11 +29,29 @@ const AppContent: React.FC = () => {
   const [profileCheckDone, setProfileCheckDone] = useState(false);
   const [needsRoleSelection, setNeedsRoleSelection] = useState(false);
   const [checkingProfile, setCheckingProfile] = useState(true); // شروع با true تا profile رو چک کنه
+  const [isPublished, setIsPublished] = useState(false);
 
   // Map LanguageCode to Locale for backwards compatibility
   const locale: Locale = language === 'fa' ? 'fa' : 'en';
 
   const journey = useStartupJourney(selectedProjectId, locale);
+
+  // چک کردن وضعیت انتشار پروژه
+  useEffect(() => {
+    const checkPublishStatus = async () => {
+      if (!selectedProjectId) return;
+
+      try {
+        const userProjects = await PublicProjectsService.getUserProjects();
+        const currentProject = userProjects.find((p) => p.project_id === selectedProjectId);
+        setIsPublished(!!currentProject?.is_published);
+      } catch (error) {
+        console.error('Error checking publish status:', error);
+      }
+    };
+
+    checkPublishStatus();
+  }, [selectedProjectId]);
 
   // چک کردن profile بعد از login/signup
   useEffect(() => {
@@ -166,6 +185,51 @@ const AppContent: React.FC = () => {
     journey.exportProject();
   };
 
+  const handleExportPDF = () => {
+    alert(locale === 'fa' ? 'قابلیت Export PDF بزودی اضافه خواهد شد' : 'PDF Export coming soon');
+  };
+
+  const handleExportWord = () => {
+    alert(locale === 'fa' ? 'قابلیت Export Word بزودی اضافه خواهد شد' : 'Word Export coming soon');
+  };
+
+  const handleExportCSV = () => {
+    alert(locale === 'fa' ? 'قابلیت Export CSV بزودی اضافه خواهد شد' : 'CSV Export coming soon');
+  };
+
+  const handleExportExcel = () => {
+    alert(locale === 'fa' ? 'قابلیت Export Excel بزودی اضافه خواهد شد' : 'Excel Export coming soon');
+  };
+
+  const handlePublishToggle = async () => {
+    if (!selectedProjectId || !journey.startupData.projectName) return;
+
+    try {
+      if (isPublished) {
+        // خصوصی کردن
+        await PublicProjectsService.unpublishProject(selectedProjectId);
+        setIsPublished(false);
+        alert(locale === 'fa' ? 'پروژه خصوصی شد' : 'Project is now private');
+      } else {
+        // منتشر کردن
+        const title = journey.startupData.projectName || journey.startupData.initialIdea || 'پروژه بدون نام';
+        const description = journey.startupData.initialIdea || journey.startupData.problemSolution || '';
+        const tags: string[] = [];
+
+        // استخراج تگ‌ها از داده‌های پروژه
+        if (journey.startupData.targetAudience) tags.push(journey.startupData.targetAudience);
+        if (journey.startupData.industry) tags.push(journey.startupData.industry);
+
+        await PublicProjectsService.publishProject(selectedProjectId, title, description, tags);
+        setIsPublished(true);
+        alert(locale === 'fa' ? '✅ پروژه در بازار منتشر شد!' : '✅ Project published to marketplace!');
+      }
+    } catch (error) {
+      console.error('Error toggling publish:', error);
+      alert(locale === 'fa' ? 'خطا در انتشار پروژه' : 'Error publishing project');
+    }
+  };
+
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
@@ -213,11 +277,22 @@ const AppContent: React.FC = () => {
         locale={locale}
         projectName={journey.startupData.projectName}
         initialIdea={journey.startupData.initialIdea}
+        startupData={journey.startupData}
         onThemeToggle={toggleTheme}
         onLocaleToggle={toggleLocale}
         onRestart={handleRestart}
         onSwitchProjects={handleSwitchProjects}
         onExportProject={handleExportProject}
+        onExportPDF={handleExportPDF}
+        onExportWord={handleExportWord}
+        onExportCSV={handleExportCSV}
+        onExportExcel={handleExportExcel}
+        onToggleTheme={toggleTheme}
+        onPublishToggle={handlePublishToggle}
+        currentTheme={theme}
+        isPublished={isPublished}
+        onNavigate={(section) => setSelectedStageForPreview(section)}
+        onSearch={(term) => console.log('Search:', term)}
       />
       <main className="flex-1 w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-0">
         <div className="lg:col-span-2 overflow-y-auto">
