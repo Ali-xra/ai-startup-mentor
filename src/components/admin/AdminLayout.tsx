@@ -4,8 +4,8 @@ import { useAdminAuth } from '../../hooks/useAdminAuth';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
-  currentPage: 'dashboard' | 'features' | 'users' | 'upgrade-requests' | 'audit';
-  onNavigate: (page: 'dashboard' | 'features' | 'users' | 'upgrade-requests' | 'audit') => void;
+  currentPage: 'dashboard' | 'users' | 'upgrade-requests' | 'audit';
+  onNavigate: (page: 'dashboard' | 'users' | 'upgrade-requests' | 'audit') => void;
 }
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage, onNavigate }) => {
@@ -13,7 +13,9 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
   const { isSuperAdmin } = useAdminAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const menuItems = [
+  type AdminPage = 'dashboard' | 'users' | 'upgrade-requests' | 'audit';
+
+  const menuItems: Array<{ id: AdminPage; icon: string; label: string; enabled: boolean }> = [
     { id: 'dashboard', icon: '📊', label: 'Dashboard', enabled: true },
     { id: 'users', icon: '👥', label: 'Users', enabled: true },
     { id: 'upgrade-requests', icon: '🎉', label: 'Upgrade Requests (Beta)', enabled: true },
@@ -51,7 +53,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
             .map((item) => (
               <button
                 key={item.id}
-                onClick={() => onNavigate(item.id as any)}
+                onClick={() => onNavigate(item.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                   currentPage === item.id
                     ? 'bg-indigo-700 dark:bg-indigo-800'

@@ -1,5 +1,5 @@
 // FIX: Moved translation logic here and fixed imports to resolve circular dependencies.
-import { Stage, MajorSection, Locale } from './types';
+import { Stage, MajorSection, Locale } from './src/types';
 
 // FIX: Re-export `Locale` to make it available to other modules importing from this file.
 export type { Locale };

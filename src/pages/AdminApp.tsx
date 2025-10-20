@@ -42,8 +42,15 @@ const AdminPanelContent: React.FC = () => {
     setCurrentPage('users');
   };
 
+  const handleNavigate = (page: 'dashboard' | 'users' | 'upgrade-requests' | 'audit') => {
+    setCurrentPage(page);
+  };
+
   return (
-    <AdminLayout currentPage={currentPage === 'user-details' ? 'users' : currentPage} onNavigate={setCurrentPage}>
+    <AdminLayout
+      currentPage={currentPage === 'user-details' ? 'users' : currentPage}
+      onNavigate={handleNavigate}
+    >
       {currentPage === 'dashboard' && <AdminDashboard />}
       {currentPage === 'users' && <UsersManagement onViewUserDetails={handleViewUserDetails} />}
       {currentPage === 'user-details' && selectedUserId && (
