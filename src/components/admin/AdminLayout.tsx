@@ -15,7 +15,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
 
   const menuItems = [
     { id: 'dashboard', icon: '📊', label: 'Dashboard', enabled: true },
-    { id: 'features', icon: '🎛️', label: 'Feature Management', enabled: true },
     { id: 'users', icon: '👥', label: 'Users', enabled: true },
     { id: 'upgrade-requests', icon: '🎉', label: 'Upgrade Requests (Beta)', enabled: true },
     { id: 'audit', icon: '📋', label: 'Audit Log', enabled: isSuperAdmin },

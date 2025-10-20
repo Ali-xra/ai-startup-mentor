@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../services/supabaseClient';
+import { featureFlagsService } from '../../services/featureFlagsService';
 import { Loader } from '../Loader';
 
 interface User {
@@ -7,9 +8,15 @@ interface User {
   email: string;
   created_at: string;
   last_sign_in_at?: string;
+  plan?: string;
+  role?: string;
 }
 
-export const UsersManagement: React.FC = () => {
+interface UsersManagementProps {
+  onViewUserDetails?: (userId: string) => void;
+}
+
+export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDetails }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,20 +51,52 @@ export const UsersManagement: React.FC = () => {
         throw error;
       }
 
-      setUsers(data || []);
-      setFilteredUsers(data || []);
+      // گرفتن پلن و role برای هر کاربر
+      const usersWithDetails = await Promise.all(
+        (data || []).map(async (user: User) => {
+          const userWithFeatures = await featureFlagsService.getUserById(user.id);
+
+          // گرفتن role از profiles
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+
+          return {
+            ...user,
+            plan: userWithFeatures?.current_plan || 'free',
+            role: profile?.role || 'entrepreneur',
+          };
+        })
+      );
+
+      setUsers(usersWithDetails);
+      setFilteredUsers(usersWithDetails);
     } catch (error) {
       console.error('Error loading users:', error);
       // اگر function وجود نداشت، از profiles استفاده کن
       try {
         const { data: profilesData, error: profilesError } = await supabase
           .from('profiles')
-          .select('id, email, created_at')
+          .select('id, email, created_at, role')
           .order('created_at', { ascending: false });
 
         if (!profilesError && profilesData) {
-          setUsers(profilesData || []);
-          setFilteredUsers(profilesData || []);
+          // گرفتن پلن برای هر کاربر
+          const usersWithDetails = await Promise.all(
+            (profilesData || []).map(async (user: User) => {
+              const userWithFeatures = await featureFlagsService.getUserById(user.id);
+              return {
+                ...user,
+                plan: userWithFeatures?.current_plan || 'free',
+                role: user.role || 'entrepreneur',
+              };
+            })
+          );
+
+          setUsers(usersWithDetails);
+          setFilteredUsers(usersWithDetails);
         }
       } catch (fallbackError) {
         console.error('Fallback error:', fallbackError);
@@ -70,6 +109,99 @@ export const UsersManagement: React.FC = () => {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     alert('کپی شد! ✓');
+  };
+
+  const getPlanBadge = (plan: string) => {
+    const planConfig: Record<
+      string,
+      { label: string; bgClass: string; textClass: string }
+    > = {
+      free: {
+        label: 'رایگان',
+        bgClass: 'bg-gray-100 dark:bg-gray-800',
+        textClass: 'text-gray-700 dark:text-gray-300',
+      },
+      starter: {
+        label: 'شروع',
+        bgClass: 'bg-blue-100 dark:bg-blue-900/30',
+        textClass: 'text-blue-700 dark:text-blue-300',
+      },
+      pro: {
+        label: 'حرفه‌ای',
+        bgClass: 'bg-purple-100 dark:bg-purple-900/30',
+        textClass: 'text-purple-700 dark:text-purple-300',
+      },
+      enterprise: {
+        label: 'سازمانی',
+        bgClass: 'bg-amber-100 dark:bg-amber-900/30',
+        textClass: 'text-amber-700 dark:text-amber-300',
+      },
+    };
+
+    const config = planConfig[plan] || planConfig.free;
+
+    return (
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-semibold ${config.bgClass} ${config.textClass}`}
+      >
+        {config.label}
+      </span>
+    );
+  };
+
+  const getRoleBadge = (role: string) => {
+    const roleConfig: Record<
+      string,
+      { label: string; icon: string; bgClass: string; textClass: string }
+    > = {
+      entrepreneur: {
+        label: 'کارآفرین',
+        icon: '💡',
+        bgClass: 'bg-green-100 dark:bg-green-900/30',
+        textClass: 'text-green-700 dark:text-green-300',
+      },
+      investor: {
+        label: 'سرمایه‌گذار',
+        icon: '💰',
+        bgClass: 'bg-emerald-100 dark:bg-emerald-900/30',
+        textClass: 'text-emerald-700 dark:text-emerald-300',
+      },
+      programmer: {
+        label: 'برنامه‌نویس',
+        icon: '💻',
+        bgClass: 'bg-cyan-100 dark:bg-cyan-900/30',
+        textClass: 'text-cyan-700 dark:text-cyan-300',
+      },
+      consultant: {
+        label: 'مشاور',
+        icon: '🎯',
+        bgClass: 'bg-orange-100 dark:bg-orange-900/30',
+        textClass: 'text-orange-700 dark:text-orange-300',
+      },
+      designer: {
+        label: 'طراح',
+        icon: '🎨',
+        bgClass: 'bg-pink-100 dark:bg-pink-900/30',
+        textClass: 'text-pink-700 dark:text-pink-300',
+      },
+      admin: {
+        label: 'ادمین',
+        icon: '👑',
+        bgClass: 'bg-red-100 dark:bg-red-900/30',
+        textClass: 'text-red-700 dark:text-red-300',
+      },
+    };
+
+    const config = roleConfig[role] || roleConfig.entrepreneur;
+
+    return (
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-semibold ${config.bgClass} ${config.textClass} flex items-center gap-1.5 w-fit`}
+      >
+        <span>{config.icon}</span>
+        <span>{config.label}</span>
+      </span>
+    );
   };
 
   const handleDeleteUser = async (userId: string) => {
@@ -189,7 +321,10 @@ export const UsersManagement: React.FC = () => {
                   ایمیل
                 </th>
                 <th className="px-6 py-4 text-right text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-                  User ID
+                  نوع کاربر
+                </th>
+                <th className="px-6 py-4 text-right text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider">
+                  پلن
                 </th>
                 <th className="px-6 py-4 text-right text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider">
                   تاریخ ثبت‌نام
@@ -220,16 +355,10 @@ export const UsersManagement: React.FC = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <button
-                      onClick={() => copyToClipboard(user.id)}
-                      className="font-mono text-sm text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-2 group"
-                      title="کلیک کنید تا کپی شود"
-                    >
-                      <span>{user.id.slice(0, 8)}...</span>
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        📋
-                      </span>
-                    </button>
+                    {getRoleBadge(user.role || 'entrepreneur')}
+                  </td>
+                  <td className="px-6 py-4">
+                    {getPlanBadge(user.plan || 'free')}
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
                     {new Date(user.created_at).toLocaleDateString('fa-IR')}
@@ -237,19 +366,10 @@ export const UsersManagement: React.FC = () => {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => {
-                          setSearchQuery(user.id);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
+                        onClick={() => onViewUserDetails?.(user.id)}
                         className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors text-sm font-medium"
                       >
                         مشاهده جزئیات
-                      </button>
-                      <button
-                        onClick={() => copyToClipboard(user.id)}
-                        className="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm font-medium"
-                      >
-                        کپی ID
                       </button>
                       <button
                         onClick={() => setDeleteConfirmUserId(user.id)}
