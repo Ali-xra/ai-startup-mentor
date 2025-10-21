@@ -188,25 +188,15 @@ export class PublicProjectsService {
     } = await supabase.auth.getUser();
     if (!user) throw new Error('User not authenticated');
 
-    const { data, error } = await supabase
-      .from('project_comments')
-      .insert({
-        project_id: projectId,
-        user_id: user.id,
-        comment_text: commentText,
-      })
-      .select(
-        `
-                *,
-                user_name:auth.users!project_comments_user_id_fkey(raw_user_meta_data->>full_name),
-                user_avatar:auth.users!project_comments_user_id_fkey(raw_user_meta_data->>avatar_url)
-            `
-      )
-      .single();
+    const { data, error } = await supabase.rpc('add_project_comment', {
+      p_project_id: projectId,
+      p_comment_text: commentText,
+    });
 
-    if (error || !data) throw error || new Error('No data returned');
+    if (error) throw error;
+    if (!data || data.length === 0) throw new Error('No data returned');
 
-    const commentData = data as any;
+    const commentData = data[0];
     return {
       id: commentData.id,
       project_id: commentData.project_id,
@@ -214,7 +204,7 @@ export class PublicProjectsService {
       comment_text: commentData.comment_text,
       created_at: commentData.created_at,
       updated_at: commentData.updated_at,
-      user_name: commentData.user_name || user.email?.split('@')[0] || 'Unknown User',
+      user_name: commentData.user_name || 'Unknown User',
       user_avatar: commentData.user_avatar,
     };
   }
@@ -223,17 +213,9 @@ export class PublicProjectsService {
    * دریافت کامنت‌های پروژه
    */
   static async getComments(projectId: string): Promise<ProjectComment[]> {
-    const { data, error } = await supabase
-      .from('project_comments')
-      .select(
-        `
-                *,
-                user_name:auth.users!project_comments_user_id_fkey(raw_user_meta_data->>full_name),
-                user_avatar:auth.users!project_comments_user_id_fkey(raw_user_meta_data->>avatar_url)
-            `
-      )
-      .eq('project_id', projectId)
-      .order('created_at', { ascending: true });
+    const { data, error } = await supabase.rpc('get_project_comments', {
+      p_project_id: projectId,
+    });
 
     if (error) throw error;
 
@@ -258,11 +240,9 @@ export class PublicProjectsService {
     } = await supabase.auth.getUser();
     if (!user) throw new Error('User not authenticated');
 
-    const { error } = await supabase
-      .from('project_comments')
-      .delete()
-      .eq('id', commentId)
-      .eq('user_id', user.id);
+    const { error } = await supabase.rpc('delete_project_comment', {
+      p_comment_id: commentId,
+    });
 
     if (error) throw error;
   }

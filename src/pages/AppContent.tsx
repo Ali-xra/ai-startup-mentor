@@ -270,7 +270,7 @@ const AppContent: React.FC = () => {
     <div
       className={`h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 ${locale === 'fa' ? 'font-vazir' : 'font-sans'}`}
     >
-      // @ts-ignore - HeaderProps will be updated in refactoring
+      {/* @ts-ignore - HeaderProps will be updated in refactoring */}
       <Header
         progress={journey.progress}
         theme={theme}
@@ -307,7 +307,7 @@ const AppContent: React.FC = () => {
           />
         </div>
         <div className="lg:col-span-5 flex flex-col overflow-hidden">
-          // @ts-ignore - ChatInterfaceProps will be updated in refactoring
+          {/* @ts-ignore - ChatInterfaceProps will be updated in refactoring */}
           <ChatInterface
             messages={journey.messages}
             isLoading={journey.isLoading}
