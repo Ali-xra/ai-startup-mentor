@@ -37,13 +37,13 @@ export const PlanBadge: React.FC<PlanBadgeProps> = ({ locale }) => {
   const getPlanEmoji = (plan: string) => {
     switch (plan) {
       case 'Starter':
-        return '🚀';
+        return '';
       case 'Pro':
-        return '💎';
+        return '';
       case 'Enterprise':
-        return '👑';
+        return '';
       default:
-        return '🆓';
+        return '';
     }
   };
 
@@ -63,23 +63,21 @@ export const PlanBadge: React.FC<PlanBadgeProps> = ({ locale }) => {
 
       <div className="space-y-1 text-sm">
         <div className="flex items-center justify-between">
-          <span className="opacity-75">{locale === 'fa' ? '📁 پروژه‌ها:' : '📁 Projects:'}</span>
+          <span className="opacity-75">{locale === 'fa' ? ' پروژه‌ها:' : ' Projects:'}</span>
           <span className="font-semibold">
             {maxProjects === Infinity ? (locale === 'fa' ? 'نامحدود' : 'Unlimited') : maxProjects}
           </span>
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="opacity-75">{locale === 'fa' ? '🤖 پیام AI:' : '🤖 AI Messages:'}</span>
+          <span className="opacity-75">{locale === 'fa' ? ' پیام AI:' : ' AI Messages:'}</span>
           <span className="font-semibold">
             {aiCredits === Infinity ? (locale === 'fa' ? 'نامحدود' : 'Unlimited') : aiCredits}
           </span>
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="opacity-75">
-            {locale === 'fa' ? '👥 اعضای تیم:' : '👥 Team Members:'}
-          </span>
+          <span className="opacity-75">{locale === 'fa' ? ' اعضای تیم:' : ' Team Members:'}</span>
           <span className="font-semibold">
             {maxTeamMembers === Infinity
               ? locale === 'fa'
@@ -90,7 +88,7 @@ export const PlanBadge: React.FC<PlanBadgeProps> = ({ locale }) => {
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="opacity-75">{locale === 'fa' ? '🎯 مراحل:' : '🎯 Phases:'}</span>
+          <span className="opacity-75">{locale === 'fa' ? ' مراحل:' : ' Phases:'}</span>
           <span className="font-semibold">
             {locale === 'fa' ? `تا مرحله ${maxPhase}` : `Up to Phase ${maxPhase}`}
           </span>
@@ -103,7 +101,7 @@ export const PlanBadge: React.FC<PlanBadgeProps> = ({ locale }) => {
             href="/pricing"
             className="block text-center px-3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-sm font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg"
           >
-            {locale === 'fa' ? '⬆️ ارتقای پلن' : '⬆️ Upgrade Plan'}
+            {locale === 'fa' ? '⬆ ارتقای پلن' : '⬆ Upgrade Plan'}
           </a>
         </div>
       )}

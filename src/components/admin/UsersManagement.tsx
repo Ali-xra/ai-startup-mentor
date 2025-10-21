@@ -108,14 +108,11 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert('کپی شد! ✓');
+    alert('کپی شد! ');
   };
 
   const getPlanBadge = (plan: string) => {
-    const planConfig: Record<
-      string,
-      { label: string; bgClass: string; textClass: string }
-    > = {
+    const planConfig: Record<string, { label: string; bgClass: string; textClass: string }> = {
       free: {
         label: 'رایگان',
         bgClass: 'bg-gray-100 dark:bg-gray-800',
@@ -156,37 +153,37 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
     > = {
       entrepreneur: {
         label: 'کارآفرین',
-        icon: '💡',
+        icon: '',
         bgClass: 'bg-green-100 dark:bg-green-900/30',
         textClass: 'text-green-700 dark:text-green-300',
       },
       investor: {
         label: 'سرمایه‌گذار',
-        icon: '💰',
+        icon: '',
         bgClass: 'bg-emerald-100 dark:bg-emerald-900/30',
         textClass: 'text-emerald-700 dark:text-emerald-300',
       },
       programmer: {
         label: 'برنامه‌نویس',
-        icon: '💻',
+        icon: '',
         bgClass: 'bg-cyan-100 dark:bg-cyan-900/30',
         textClass: 'text-cyan-700 dark:text-cyan-300',
       },
       consultant: {
         label: 'مشاور',
-        icon: '🎯',
+        icon: '',
         bgClass: 'bg-orange-100 dark:bg-orange-900/30',
         textClass: 'text-orange-700 dark:text-orange-300',
       },
       designer: {
         label: 'طراح',
-        icon: '🎨',
+        icon: '',
         bgClass: 'bg-pink-100 dark:bg-pink-900/30',
         textClass: 'text-pink-700 dark:text-pink-300',
       },
       admin: {
         label: 'ادمین',
-        icon: '👑',
+        icon: '',
         bgClass: 'bg-red-100 dark:bg-red-900/30',
         textClass: 'text-red-700 dark:text-red-300',
       },
@@ -222,14 +219,14 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
         setUsers(users.filter((u) => u.id !== userId));
         setFilteredUsers(filteredUsers.filter((u) => u.id !== userId));
 
-        alert('✅ کاربر با موفقیت حذف شد');
+        alert(' کاربر با موفقیت حذف شد');
         setDeleteConfirmUserId(null);
       } else {
         throw new Error(data?.message || 'Failed to delete user');
       }
     } catch (error) {
       console.error('Error deleting user:', error);
-      alert('❌ خطا در حذف کاربر: ' + (error as any).message);
+      alert(' خطا در حذف کاربر: ' + (error as any).message);
     } finally {
       setIsDeleting(false);
     }
@@ -255,7 +252,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                 {users.length}
               </p>
             </div>
-            <div className="text-4xl">👥</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
 
@@ -267,7 +264,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                 {filteredUsers.length}
               </p>
             </div>
-            <div className="text-4xl">🔍</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
 
@@ -284,7 +281,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                 }
               </p>
             </div>
-            <div className="text-4xl">✨</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
       </div>
@@ -292,7 +289,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
       {/* Search Box */}
       <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="text-2xl">🔍</div>
+          <div className="text-2xl"></div>
           <input
             type="text"
             value={searchQuery}
@@ -354,12 +351,8 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    {getRoleBadge(user.role || 'entrepreneur')}
-                  </td>
-                  <td className="px-6 py-4">
-                    {getPlanBadge(user.plan || 'free')}
-                  </td>
+                  <td className="px-6 py-4">{getRoleBadge(user.role || 'entrepreneur')}</td>
+                  <td className="px-6 py-4">{getPlanBadge(user.plan || 'free')}</td>
                   <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
                     {new Date(user.created_at).toLocaleDateString('fa-IR')}
                   </td>
@@ -375,7 +368,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                         onClick={() => setDeleteConfirmUserId(user.id)}
                         className="px-3 py-1.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-sm font-medium"
                       >
-                        🗑️ حذف
+                        حذف
                       </button>
                     </div>
                   </td>
@@ -387,7 +380,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
 
         {filteredUsers.length === 0 && (
           <div className="p-12 text-center">
-            <div className="text-6xl mb-4">🔍</div>
+            <div className="text-6xl mb-4"></div>
             <p className="text-slate-600 dark:text-slate-400 text-lg">
               {searchQuery ? 'کاربری یافت نشد' : 'هیچ کاربری وجود ندارد'}
             </p>
@@ -400,7 +393,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="text-center">
-              <div className="text-6xl mb-4">⚠️</div>
+              <div className="text-6xl mb-4"></div>
               <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
                 تایید حذف کاربر
               </h3>
@@ -412,7 +405,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
               </p>
               <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 mb-6">
                 <p className="text-sm text-red-800 dark:text-red-400">
-                  ⚠️ این عمل غیرقابل بازگشت است و تمام اطلاعات کاربر حذف خواهد شد.
+                  این عمل غیرقابل بازگشت است و تمام اطلاعات کاربر حذف خواهد شد.
                 </p>
               </div>
               <div className="flex gap-3">
@@ -428,7 +421,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                   disabled={isDeleting}
                   className="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50"
                 >
-                  {isDeleting ? 'در حال حذف...' : '✓ تایید حذف'}
+                  {isDeleting ? 'در حال حذف...' : ' تایید حذف'}
                 </button>
               </div>
             </div>
@@ -439,11 +432,12 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
       {/* Help Text */}
       <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
         <div className="flex items-start gap-3">
-          <div className="text-2xl">💡</div>
+          <div className="text-2xl"></div>
           <div className="flex-1">
             <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-1">راهنما</h4>
             <p className="text-sm text-blue-800 dark:text-blue-400">
-              برای مدیریت فیچرهای هر کاربر، User ID را کپی کرده و به بخش "Feature Management" بروید.
+              برای مدیریت فیچرهای هر کاربر، User ID را کپی کرده و به بخش &quot;Feature
+              Management&quot; بروید.
             </p>
           </div>
         </div>

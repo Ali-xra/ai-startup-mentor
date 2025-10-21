@@ -87,7 +87,7 @@ class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center p-4">
           <div className="max-w-2xl w-full bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8">
             <div className="text-center mb-6">
-              <div className="text-8xl mb-4">⚠️</div>
+              <div className="text-8xl mb-4"></div>
               <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
                 {locale === 'fa' ? 'خطایی رخ داده است' : 'Something went wrong'}
               </h1>

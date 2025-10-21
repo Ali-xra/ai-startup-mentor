@@ -24,7 +24,9 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
 
     try {
       // گرفتن اطلاعات کاربر از auth.users
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (!user) {
         throw new Error('User not found');
@@ -44,7 +46,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
           .update({
             role: selectedRole,
             email: user.email || '',
-            name: user.user_metadata?.full_name || user.email?.split('@')[0] || ''
+            name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
           })
           .eq('id', userId);
 
@@ -55,7 +57,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
           id: userId,
           role: selectedRole,
           email: user.email || '',
-          name: user.user_metadata?.full_name || user.email?.split('@')[0] || ''
+          name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
         });
 
         if (insertError) throw insertError;
@@ -153,7 +155,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             )}
 
             <div className="text-center">
-              <div className="text-6xl mb-4">💡</div>
+              <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
                 {locale === 'fa' ? 'کارآفرین' : 'Entrepreneur'}
               </h3>
@@ -190,7 +192,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             )}
 
             <div className="text-center">
-              <div className="text-6xl mb-4">💰</div>
+              <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
                 {locale === 'fa' ? 'سرمایه‌گذار' : 'Investor'}
               </h3>
@@ -227,7 +229,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             )}
 
             <div className="text-center">
-              <div className="text-6xl mb-4">💻</div>
+              <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
                 {locale === 'fa' ? 'برنامه‌نویس' : 'Programmer'}
               </h3>
@@ -264,7 +266,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             )}
 
             <div className="text-center">
-              <div className="text-6xl mb-4">🎯</div>
+              <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
                 {locale === 'fa' ? 'مشاور' : 'Consultant'}
               </h3>
@@ -301,7 +303,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             )}
 
             <div className="text-center">
-              <div className="text-6xl mb-4">🎨</div>
+              <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
                 {locale === 'fa' ? 'طراح' : 'Designer'}
               </h3>

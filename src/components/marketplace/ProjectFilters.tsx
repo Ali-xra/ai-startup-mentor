@@ -6,38 +6,36 @@ interface ProjectFiltersProps {
   onFilterChange: (filter: ProjectFilter) => void;
 }
 
-export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
-  activeFilter,
-  onFilterChange,
-}) => {
+export const ProjectFilters: React.FC<ProjectFiltersProps> = ({ activeFilter, onFilterChange }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const filters: Array<{ value: ProjectFilter; label: string; icon: string; description: string }> = [
-    {
-      value: 'all',
-      label: 'همه پروژه‌ها',
-      icon: '📋',
-      description: 'نمایش تمام پروژه‌های عمومی',
-    },
-    {
-      value: 'trending',
-      label: 'پرطرفدار',
-      icon: '🔥',
-      description: 'پروژه‌هایی با بیشترین لایک',
-    },
-    {
-      value: 'completed',
-      label: 'تکمیل شده',
-      icon: '✅',
-      description: 'پروژه‌هایی که تمام فازها را طی کرده‌اند',
-    },
-    {
-      value: 'recent',
-      label: 'جدیدترین',
-      icon: '🆕',
-      description: 'پروژه‌های اخیراً اضافه شده',
-    },
-  ];
+  const filters: Array<{ value: ProjectFilter; label: string; icon: string; description: string }> =
+    [
+      {
+        value: 'all',
+        label: 'همه پروژه‌ها',
+        icon: '',
+        description: 'نمایش تمام پروژه‌های عمومی',
+      },
+      {
+        value: 'trending',
+        label: 'پرطرفدار',
+        icon: '',
+        description: 'پروژه‌هایی با بیشترین لایک',
+      },
+      {
+        value: 'completed',
+        label: 'تکمیل شده',
+        icon: '',
+        description: 'پروژه‌هایی که تمام فازها را طی کرده‌اند',
+      },
+      {
+        value: 'recent',
+        label: 'جدیدترین',
+        icon: '',
+        description: 'پروژه‌های اخیراً اضافه شده',
+      },
+    ];
 
   const handleFilterClick = (filter: ProjectFilter) => {
     onFilterChange(filter);
@@ -75,9 +73,7 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
           className="w-full flex items-center justify-between px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-lg text-gray-900 dark:text-gray-100 font-medium"
         >
           <span className="flex items-center gap-2">
-            <span className="text-xl">
-              {filters.find((f) => f.value === activeFilter)?.icon}
-            </span>
+            <span className="text-xl">{filters.find((f) => f.value === activeFilter)?.icon}</span>
             <span>{filters.find((f) => f.value === activeFilter)?.label}</span>
           </span>
           <svg
@@ -86,12 +82,7 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </button>
 
@@ -113,9 +104,7 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({
                 <span className="text-2xl">{filter.icon}</span>
                 <div className="flex-1 text-right">
                   <p className="font-medium">{filter.label}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {filter.description}
-                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{filter.description}</p>
                 </div>
                 {activeFilter === filter.value && (
                   <svg

@@ -16,9 +16,9 @@ interface AdminProtectedRouteProps {
  *
  * @example
  * <Route path="/admin" element={
- *   <AdminProtectedRoute>
- *     <AdminDashboard />
- *   </AdminProtectedRoute>
+ * <AdminProtectedRoute>
+ * <AdminDashboard />
+ * </AdminProtectedRoute>
  * } />
  */
 export const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ children }) => {
@@ -73,10 +73,10 @@ export const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ childr
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-100">
         <div className="max-w-md rounded-lg bg-white p-8 text-center shadow-lg">
-          <div className="mb-4 text-6xl">🚫</div>
+          <div className="mb-4 text-6xl"></div>
           <h1 className="mb-2 text-2xl font-bold text-gray-800">Access Denied</h1>
           <p className="mb-6 text-gray-600">
-            You don't have permission to access this page. Admin access required.
+            You don&apos;t have permission to access this page. Admin access required.
           </p>
           <button
             onClick={() => (window.location.href = '/')}

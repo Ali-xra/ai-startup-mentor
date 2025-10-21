@@ -46,7 +46,7 @@ const PricingPage: React.FC = () => {
       cta_upgrade_pro: { fa: 'ارتقا به Pro', en: 'Upgrade to Pro' },
 
       // Pricing Section
-      title: { fa: 'قیمت‌گذاری ساده و شفاف 💰', en: 'Simple and Transparent Pricing 💰' },
+      title: { fa: 'قیمت‌گذاری ساده و شفاف ', en: 'Simple and Transparent Pricing ' },
       subtitle: {
         fa: 'پلنی که متناسب با نیاز شماست را انتخاب کنید',
         en: 'Choose the plan that fits your needs',
@@ -58,12 +58,12 @@ const PricingPage: React.FC = () => {
       per_month: { fa: 'ماه', en: 'month' },
       per_year: { fa: 'سال', en: 'year' },
       save_per_year: { fa: 'صرفه‌جویی $%s در سال', en: 'Save $%s per year' },
-      current_plan: { fa: '✓ پلن فعلی شما', en: '✓ Your Current Plan' },
+      current_plan: { fa: ' پلن فعلی شما', en: ' Your Current Plan' },
       start_free: { fa: 'شروع رایگان', en: 'Start Free' },
       buy_plan: { fa: 'خرید پلن', en: 'Buy Plan' },
 
       // FAQ Section
-      faq_title: { fa: 'سوالات متداول ❓', en: 'Frequently Asked Questions ❓' },
+      faq_title: { fa: 'سوالات متداول ', en: 'Frequently Asked Questions ' },
       faq_q1: { fa: 'آیا می‌توانم پلنم را تغییر دهم؟', en: 'Can I change my plan?' },
       faq_a1: {
         fa: 'بله! شما می‌توانید هر زمان که بخواهید پلن خود را ارتقا یا کاهش دهید.',
@@ -86,13 +86,13 @@ const PricingPage: React.FC = () => {
       },
 
       // Contact Section
-      contact_title: { fa: 'نیاز به راهنمایی دارید? 🤝', en: 'Need Help? 🤝' },
+      contact_title: { fa: 'نیاز به راهنمایی دارید? ', en: 'Need Help? ' },
       contact_subtitle: {
         fa: 'تیم ما آماده است تا به شما کمک کند بهترین پلن را انتخاب کنید',
         en: 'Our team is ready to help you choose the best plan',
       },
-      email_us: { fa: '📧 ایمیل به ما', en: '📧 Email Us' },
-      call_us: { fa: '📱 تماس با ما', en: '📱 Call Us' },
+      email_us: { fa: ' ایمیل به ما', en: ' Email Us' },
+      call_us: { fa: ' تماس با ما', en: ' Call Us' },
 
       // Header
       sign_out: { fa: 'خروج', en: 'Sign Out' },
@@ -100,7 +100,7 @@ const PricingPage: React.FC = () => {
       current_plan_label: { fa: 'پلن فعلی:', en: 'Current Plan:' },
 
       // Showcase Section
-      showcase_title: { fa: '🌟 پروژه‌های عمومی', en: '🌟 Public Projects Showcase' },
+      showcase_title: { fa: ' پروژه‌های عمومی', en: ' Public Projects Showcase' },
       showcase_subtitle: {
         fa: 'ایده‌های الهام‌بخش از جامعه ما',
         en: 'Inspiring ideas from our community',
@@ -113,33 +113,33 @@ const PricingPage: React.FC = () => {
       view_project: { fa: 'مشاهده پروژه', en: 'View Project' },
       likes: { fa: 'پسند', en: 'Likes' },
       comments: { fa: 'نظر', en: 'Comments' },
-      testimonials_title: { fa: '💬 نظرات کاربران', en: '💬 User Testimonials' },
+      testimonials_title: { fa: ' نظرات کاربران', en: ' User Testimonials' },
 
       // Features Section
-      features_title: { fa: '✨ ویژگی‌های کلیدی', en: '✨ Key Features' },
-      feature1_title: { fa: '🤖 هوش مصنوعی پیشرفته', en: '🤖 Advanced AI' },
+      features_title: { fa: ' ویژگی‌های کلیدی', en: ' Key Features' },
+      feature1_title: { fa: ' هوش مصنوعی پیشرفته', en: ' Advanced AI' },
       feature1_desc: {
         fa: 'راهنمایی هوشمند در هر مرحله از مسیر استارتاپ',
         en: 'Smart guidance at every stage of your startup journey',
       },
-      feature2_title: { fa: '📊 8 مرحله جامع', en: '📊 8 Comprehensive Phases' },
+      feature2_title: { fa: ' 8 مرحله جامع', en: ' 8 Comprehensive Phases' },
       feature2_desc: {
         fa: 'از تعریف ایده تا آماده‌سازی پیچ برای سرمایه‌گذار',
         en: 'From idea definition to investor pitch preparation',
       },
-      feature3_title: { fa: '👥 همکاری تیمی', en: '👥 Team Collaboration' },
+      feature3_title: { fa: ' همکاری تیمی', en: ' Team Collaboration' },
       feature3_desc: {
         fa: 'به اشتراک‌گذاری و کار تیمی روی پروژه',
         en: 'Share and collaborate on projects with your team',
       },
-      feature4_title: { fa: '📤 خروجی حرفه‌ای', en: '📤 Professional Export' },
+      feature4_title: { fa: ' خروجی حرفه‌ای', en: ' Professional Export' },
       feature4_desc: {
         fa: 'دریافت بیزنس پلن و پیچ دک به فرمت‌های مختلف',
         en: 'Get business plan and pitch deck in various formats',
       },
 
       // Stats Section
-      stats_title: { fa: '📈 آمار پلتفرم', en: '📈 Platform Stats' },
+      stats_title: { fa: ' آمار پلتفرم', en: ' Platform Stats' },
       stat_users: { fa: '+ کاربر فعال', en: '+ Active Users' },
       stat_projects: { fa: '+ پروژه ایجاد شده', en: '+ Projects Created' },
       stat_completed: { fa: '+ بیزنس پلن کامل', en: '+ Completed Business Plans' },
@@ -147,8 +147,8 @@ const PricingPage: React.FC = () => {
 
       // Footer
       footer_tagline: {
-        fa: 'ساخته شده با ❤️ برای استارتاپ‌های آینده',
-        en: 'Made with ❤️ for future startups',
+        fa: 'ساخته شده با برای استارتاپ‌های آینده',
+        en: 'Made with for future startups',
       },
       footer_rights: { fa: 'تمامی حقوق محفوظ است.', en: 'All rights reserved.' },
       home: { fa: 'خانه', en: 'Home' },
@@ -162,21 +162,21 @@ const PricingPage: React.FC = () => {
       id: 'free',
       name: 'Free',
       nameFa: 'رایگان',
-      emoji: '🆓',
+      emoji: '',
       price: 0,
       priceYearly: 0,
       description: { fa: 'برای شروع و آزمایش', en: 'To get started and test' },
       features: [
-        { icon: '📁', fa: '1 پروژه', en: '1 Project' },
-        { icon: '🤖', fa: '50 پیام AI در ماه', en: '50 AI Messages/month' },
-        { icon: '👥', fa: 'بدون اشتراک‌گذاری تیمی', en: 'No Team Sharing' },
-        { icon: '🎯', fa: 'دسترسی تا مرحله 1', en: 'Access up to Phase 1' },
-        { icon: '📤', fa: 'Export غیرفعال', en: 'Export Disabled' },
-        { icon: '💾', fa: '50MB فضای ذخیره‌سازی', en: '50MB Storage' },
+        { icon: '', fa: '1 پروژه', en: '1 Project' },
+        { icon: '', fa: '50 پیام AI در ماه', en: '50 AI Messages/month' },
+        { icon: '', fa: 'بدون اشتراک‌گذاری تیمی', en: 'No Team Sharing' },
+        { icon: '', fa: 'دسترسی تا مرحله 1', en: 'Access up to Phase 1' },
+        { icon: '', fa: 'Export غیرفعال', en: 'Export Disabled' },
+        { icon: '', fa: '50MB فضای ذخیره‌سازی', en: '50MB Storage' },
       ],
       limitations: [
-        { icon: '❌', fa: 'بدون پشتیبانی اولویت‌دار', en: 'No Priority Support' },
-        { icon: '❌', fa: 'بدون دسترسی به مراحل پیشرفته', en: 'No Advanced Phases' },
+        { icon: '', fa: 'بدون پشتیبانی اولویت‌دار', en: 'No Priority Support' },
+        { icon: '', fa: 'بدون دسترسی به مراحل پیشرفته', en: 'No Advanced Phases' },
       ],
       color: { button: 'bg-slate-600 hover:bg-slate-700' },
     },
@@ -184,18 +184,18 @@ const PricingPage: React.FC = () => {
       id: 'starter',
       name: 'Starter',
       nameFa: 'استارتر',
-      emoji: '🚀',
+      emoji: '',
       price: 29,
       priceYearly: 290,
       description: { fa: 'برای استارتاپ‌های کوچک', en: 'For small startups' },
       features: [
-        { icon: '📁', fa: '3 پروژه', en: '3 Projects' },
-        { icon: '🤖', fa: '500 پیام AI در ماه', en: '500 AI Messages/month' },
-        { icon: '👥', fa: 'اشتراک با 2 عضو', en: 'Share with 2 Members' },
-        { icon: '🎯', fa: 'دسترسی به تمام 8 مرحله', en: 'Access to All 8 Phases' },
-        { icon: '📤', fa: 'Export پایه (PDF)', en: 'Basic Export (PDF)' },
-        { icon: '💾', fa: '500MB فضای ذخیره‌سازی', en: '500MB Storage' },
-        { icon: '📧', fa: 'پشتیبانی ایمیلی', en: 'Email Support' },
+        { icon: '', fa: '3 پروژه', en: '3 Projects' },
+        { icon: '', fa: '500 پیام AI در ماه', en: '500 AI Messages/month' },
+        { icon: '', fa: 'اشتراک با 2 عضو', en: 'Share with 2 Members' },
+        { icon: '', fa: 'دسترسی به تمام 8 مرحله', en: 'Access to All 8 Phases' },
+        { icon: '', fa: 'Export پایه (PDF)', en: 'Basic Export (PDF)' },
+        { icon: '', fa: '500MB فضای ذخیره‌سازی', en: '500MB Storage' },
+        { icon: '', fa: 'پشتیبانی ایمیلی', en: 'Email Support' },
       ],
       color: { button: 'bg-blue-600 hover:bg-blue-700' },
       popular: false,
@@ -204,23 +204,23 @@ const PricingPage: React.FC = () => {
       id: 'pro',
       name: 'Pro',
       nameFa: 'حرفه‌ای',
-      emoji: '💎',
+      emoji: '',
       price: 79,
       priceYearly: 790,
       description: { fa: 'برای کسب‌وکارهای در حال رشد', en: 'For growing businesses' },
       features: [
-        { icon: '📁', fa: 'پروژه نامحدود', en: 'Unlimited Projects' },
-        { icon: '🤖', fa: '2000 پیام AI در ماه', en: '2000 AI Messages/month' },
-        { icon: '👥', fa: 'اشتراک با 10 عضو', en: 'Share with 10 Members' },
-        { icon: '🎯', fa: 'دسترسی به تمام مراحل', en: 'Access to All Phases' },
+        { icon: '', fa: 'پروژه نامحدود', en: 'Unlimited Projects' },
+        { icon: '', fa: '2000 پیام AI در ماه', en: '2000 AI Messages/month' },
+        { icon: '', fa: 'اشتراک با 10 عضو', en: 'Share with 10 Members' },
+        { icon: '', fa: 'دسترسی به تمام مراحل', en: 'Access to All Phases' },
         {
-          icon: '📤',
+          icon: '',
           fa: 'Export پیشرفته (PDF, Word, Excel)',
           en: 'Advanced Export (PDF, Word, Excel)',
         },
-        { icon: '💾', fa: '5GB فضای ذخیره‌سازی', en: '5GB Storage' },
-        { icon: '⚡', fa: 'پشتیبانی اولویت‌دار', en: 'Priority Support' },
-        { icon: '📊', fa: 'تحلیل و گزارش پیشرفته', en: 'Advanced Analytics' },
+        { icon: '', fa: '5GB فضای ذخیره‌سازی', en: '5GB Storage' },
+        { icon: '', fa: 'پشتیبانی اولویت‌دار', en: 'Priority Support' },
+        { icon: '', fa: 'تحلیل و گزارش پیشرفته', en: 'Advanced Analytics' },
       ],
       color: { button: 'bg-purple-600 hover:bg-purple-700' },
       popular: true,
@@ -229,20 +229,20 @@ const PricingPage: React.FC = () => {
       id: 'enterprise',
       name: 'Enterprise',
       nameFa: 'سازمانی',
-      emoji: '👑',
+      emoji: '',
       price: 199,
       priceYearly: 1990,
       description: { fa: 'برای سازمان‌های بزرگ', en: 'For large organizations' },
       features: [
-        { icon: '📁', fa: 'پروژه نامحدود', en: 'Unlimited Projects' },
-        { icon: '🤖', fa: 'AI نامحدود', en: 'Unlimited AI' },
-        { icon: '👥', fa: 'تیم نامحدود', en: 'Unlimited Team' },
-        { icon: '🎯', fa: 'تمام امکانات Pro', en: 'All Pro Features' },
-        { icon: '📤', fa: 'Export نامحدود', en: 'Unlimited Export' },
-        { icon: '💾', fa: 'فضای نامحدود', en: 'Unlimited Storage' },
-        { icon: '🎨', fa: 'سفارشی‌سازی کامل', en: 'Full Customization' },
-        { icon: '👨‍💼', fa: 'مشاور اختصاصی', en: 'Dedicated Consultant' },
-        { icon: '🔒', fa: 'امنیت سازمانی', en: 'Enterprise Security' },
+        { icon: '', fa: 'پروژه نامحدود', en: 'Unlimited Projects' },
+        { icon: '', fa: 'AI نامحدود', en: 'Unlimited AI' },
+        { icon: '', fa: 'تیم نامحدود', en: 'Unlimited Team' },
+        { icon: '', fa: 'تمام امکانات Pro', en: 'All Pro Features' },
+        { icon: '', fa: 'Export نامحدود', en: 'Unlimited Export' },
+        { icon: '', fa: 'فضای نامحدود', en: 'Unlimited Storage' },
+        { icon: '', fa: 'سفارشی‌سازی کامل', en: 'Full Customization' },
+        { icon: '', fa: 'مشاور اختصاصی', en: 'Dedicated Consultant' },
+        { icon: '', fa: 'امنیت سازمانی', en: 'Enterprise Security' },
       ],
       color: { button: 'bg-yellow-600 hover:bg-yellow-700' },
       popular: false,
@@ -267,8 +267,8 @@ const PricingPage: React.FC = () => {
 
     const msg =
       locale === 'fa'
-        ? `برای خرید پلن ${planId.toUpperCase()} با پشتیبانی تماس بگیرید:\n📧 support@yourstartup.com\n📱 09123456789`
-        : `To purchase the ${planId.toUpperCase()} plan, contact support:\n📧 support@yourstartup.com\n📱 +989123456789`;
+        ? `برای خرید پلن ${planId.toUpperCase()} با پشتیبانی تماس بگیرید:\n support@yourstartup.com\n 09123456789`
+        : `To purchase the ${planId.toUpperCase()} plan, contact support:\n support@yourstartup.com\n +989123456789`;
     alert(msg);
   };
 
@@ -296,7 +296,7 @@ const PricingPage: React.FC = () => {
             {/* Logo */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">🚀</span>
+                <span className="text-2xl"></span>
               </div>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
@@ -325,7 +325,7 @@ const PricingPage: React.FC = () => {
                 className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               >
-                {theme === 'dark' ? '☀️' : '🌙'}
+                {theme === 'dark' ? '' : ''}
               </button>
               {user && (
                 <div
@@ -378,13 +378,13 @@ const PricingPage: React.FC = () => {
               onClick={handleStartFree}
               className="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-lg rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all font-bold shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105"
             >
-              {t('cta_start')} 🚀
+              {t('cta_start')}
             </button>
             <button
               onClick={handleUpgradePro}
               className="px-8 py-4 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-lg rounded-xl border-2 border-purple-600 dark:border-purple-400 hover:bg-purple-50 dark:hover:bg-slate-700 transition-all font-bold shadow-lg"
             >
-              {t('cta_upgrade_pro')} 💎
+              {t('cta_upgrade_pro')}
             </button>
           </div>
         </div>
@@ -472,7 +472,7 @@ const PricingPage: React.FC = () => {
               >
                 {plan.popular && (
                   <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-center py-2 text-sm font-bold">
-                    ⭐ {t('popular')}
+                    {t('popular')}
                   </div>
                 )}
 
@@ -649,22 +649,22 @@ const PricingPage: React.FC = () => {
       </footer>
 
       <style>{`
-                @keyframes blob {
-                    0%, 100% { transform: translate(0, 0) scale(1); }
-                    25% { transform: translate(20px, -50px) scale(1.1); }
-                    50% { transform: translate(-20px, 20px) scale(0.9); }
-                    75% { transform: translate(50px, 50px) scale(1.05); }
-                }
-                .animate-blob {
-                    animation: blob 7s infinite;
-                }
-                .animation-delay-2000 {
-                    animation-delay: 2s;
-                }
-                .animation-delay-4000 {
-                    animation-delay: 4s;
-                }
-            `}</style>
+ @keyframes blob {
+ 0%, 100% { transform: translate(0, 0) scale(1); }
+ 25% { transform: translate(20px, -50px) scale(1.1); }
+ 50% { transform: translate(-20px, 20px) scale(0.9); }
+ 75% { transform: translate(50px, 50px) scale(1.05); }
+ }
+ .animate-blob {
+ animation: blob 7s infinite;
+ }
+ .animation-delay-2000 {
+ animation-delay: 2s;
+ }
+ .animation-delay-4000 {
+ animation-delay: 4s;
+ }
+ `}</style>
     </div>
   );
 };

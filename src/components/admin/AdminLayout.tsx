@@ -16,10 +16,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
   type AdminPage = 'dashboard' | 'users' | 'upgrade-requests' | 'audit';
 
   const menuItems: Array<{ id: AdminPage; icon: string; label: string; enabled: boolean }> = [
-    { id: 'dashboard', icon: '📊', label: 'Dashboard', enabled: true },
-    { id: 'users', icon: '👥', label: 'Users', enabled: true },
-    { id: 'upgrade-requests', icon: '🎉', label: 'Upgrade Requests (Beta)', enabled: true },
-    { id: 'audit', icon: '📋', label: 'Audit Log', enabled: isSuperAdmin },
+    { id: 'dashboard', icon: '', label: 'Dashboard', enabled: true },
+    { id: 'users', icon: '', label: 'Users', enabled: true },
+    { id: 'upgrade-requests', icon: '', label: 'Upgrade Requests (Beta)', enabled: true },
+    { id: 'audit', icon: '', label: 'Audit Log', enabled: isSuperAdmin },
   ];
 
   return (
@@ -70,7 +70,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
         <div className="p-4 border-t border-indigo-500">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center">
-              <span className="text-xl">👤</span>
+              <span className="text-xl"></span>
             </div>
             {isSidebarOpen && (
               <div className="flex-1 min-w-0">

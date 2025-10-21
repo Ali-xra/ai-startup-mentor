@@ -64,7 +64,7 @@ const SessionManagerContent: React.FC = () => {
         throw error;
       }
 
-      setMessage('✅ Session با موفقیت پاک شد! در حال انتقال به صفحه ورود...');
+      setMessage(' Session با موفقیت پاک شد! در حال انتقال به صفحه ورود...');
       setSessionInfo(null);
 
       // مستقیم به صفحه لاگین بره
@@ -73,14 +73,14 @@ const SessionManagerContent: React.FC = () => {
       }, 500);
     } catch (error: any) {
       console.error('Error clearing session:', error);
-      setMessage(`❌ خطا در پاک کردن session: ${error.message}`);
+      setMessage(` خطا در پاک کردن session: ${error.message}`);
       setClearing(false);
     }
   };
 
   const handleClearAllSessions = async () => {
     if (
-      !confirm('⚠️ این عملیات تمام session های شما را در تمام دستگاه‌ها پاک می‌کند. ادامه می‌دهید؟')
+      !confirm(' این عملیات تمام session های شما را در تمام دستگاه‌ها پاک می‌کند. ادامه می‌دهید؟')
     ) {
       return;
     }
@@ -95,7 +95,7 @@ const SessionManagerContent: React.FC = () => {
       } = await supabase.auth.getSession();
 
       if (!session) {
-        setMessage('❌ هیچ session فعالی وجود ندارد!');
+        setMessage(' هیچ session فعالی وجود ندارد!');
         setClearing(false);
         return;
       }
@@ -107,7 +107,7 @@ const SessionManagerContent: React.FC = () => {
         throw error;
       }
 
-      setMessage('✅ تمام session ها با موفقیت پاک شدند! در حال انتقال به صفحه ورود...');
+      setMessage(' تمام session ها با موفقیت پاک شدند! در حال انتقال به صفحه ورود...');
       setSessionInfo(null);
 
       // مستقیم به صفحه لاگین بره
@@ -116,7 +116,7 @@ const SessionManagerContent: React.FC = () => {
       }, 500);
     } catch (error: any) {
       console.error('Error clearing all sessions:', error);
-      setMessage(`❌ خطا در پاک کردن session ها: ${error.message}`);
+      setMessage(` خطا در پاک کردن session ها: ${error.message}`);
       setClearing(false);
     }
   };
@@ -173,7 +173,7 @@ const SessionManagerContent: React.FC = () => {
           {message && (
             <div
               className={`p-4 rounded-lg mb-6 ${
-                message.includes('✅')
+                message.includes('')
                   ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                   : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
               }`}
@@ -330,19 +330,19 @@ const SessionManagerContent: React.FC = () => {
               onClick={() => loadSessionInfo()}
               className="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm"
             >
-              🔄 بارگذاری مجدد
+              بارگذاری مجدد
             </button>
             <button
               onClick={() => (window.location.href = '/')}
               className="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm"
             >
-              🏠 صفحه اصلی
+              صفحه اصلی
             </button>
             <button
               onClick={() => (window.location.href = '/login')}
               className="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm"
             >
-              🔐 صفحه ورود
+              صفحه ورود
             </button>
           </div>
         </div>

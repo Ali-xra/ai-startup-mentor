@@ -58,9 +58,7 @@ const ProgrammerDashboard: React.FC = () => {
         <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
           داشبورد برنامه‌نویس
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 mt-2">
-          به پنل خود خوش آمدید! 👨‍💻
-        </p>
+        <p className="text-slate-600 dark:text-slate-400 mt-2">به پنل خود خوش آمدید!</p>
       </div>
 
       {/* Stats */}
@@ -73,7 +71,7 @@ const ProgrammerDashboard: React.FC = () => {
                 {stats.availableProjects}
               </p>
             </div>
-            <span className="text-3xl">💼</span>
+            <span className="text-3xl"></span>
           </div>
         </div>
 
@@ -85,7 +83,7 @@ const ProgrammerDashboard: React.FC = () => {
                 {stats.myApplications}
               </p>
             </div>
-            <span className="text-3xl">📝</span>
+            <span className="text-3xl"></span>
           </div>
         </div>
 
@@ -97,7 +95,7 @@ const ProgrammerDashboard: React.FC = () => {
                 {stats.acceptedProjects}
               </p>
             </div>
-            <span className="text-3xl">✅</span>
+            <span className="text-3xl"></span>
           </div>
         </div>
 
@@ -109,7 +107,7 @@ const ProgrammerDashboard: React.FC = () => {
                 {stats.totalEarnings} ت
               </p>
             </div>
-            <span className="text-3xl">💰</span>
+            <span className="text-3xl"></span>
           </div>
         </div>
       </div>
@@ -117,9 +115,7 @@ const ProgrammerDashboard: React.FC = () => {
       {/* Recent Projects */}
       <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
         <div className="p-6 border-b border-slate-200 dark:border-slate-700">
-          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
-            پروژه‌های جدید
-          </h2>
+          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">پروژه‌های جدید</h2>
         </div>
         <div className="p-6 space-y-4">
           {projects.map((project) => (
@@ -129,16 +125,14 @@ const ProgrammerDashboard: React.FC = () => {
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h3 className="font-bold text-slate-800 dark:text-slate-100">
-                    {project.title}
-                  </h3>
+                  <h3 className="font-bold text-slate-800 dark:text-slate-100">{project.title}</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
                     {project.company}
                   </p>
                   <div className="flex items-center gap-4 mt-3 text-sm text-slate-600 dark:text-slate-400">
-                    <span>💰 {project.budget}</span>
-                    <span>⏱️ {project.duration}</span>
-                    <span>👥 {project.applicants} نفر</span>
+                    <span> {project.budget}</span>
+                    <span> {project.duration}</span>
+                    <span> {project.applicants} نفر</span>
                   </div>
                   <div className="flex gap-2 mt-3">
                     {project.tech.map((tech) => (
@@ -164,11 +158,9 @@ const ProgrammerDashboard: React.FC = () => {
 
   const renderBrowse = () => (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
-        مرور پروژه‌ها
-      </h1>
+      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">مرور پروژه‌ها</h1>
       <div className="bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
-        <span className="text-6xl">🔍</span>
+        <span className="text-6xl"></span>
         <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-4">
           لیست کامل پروژه‌ها
         </h2>
@@ -181,11 +173,9 @@ const ProgrammerDashboard: React.FC = () => {
 
   const renderApplications = () => (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
-        درخواست‌های من
-      </h1>
+      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">درخواست‌های من</h1>
       <div className="bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
-        <span className="text-6xl">📝</span>
+        <span className="text-6xl"></span>
         <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-4">
           درخواست‌های ارسالی
         </h2>
@@ -198,9 +188,7 @@ const ProgrammerDashboard: React.FC = () => {
 
   const renderProfile = () => (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
-        پروفایل من
-      </h1>
+      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">پروفایل من</h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Profile Info */}
         <div className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
@@ -253,9 +241,7 @@ const ProgrammerDashboard: React.FC = () => {
             تصویر پروفایل
           </h2>
           <div className="flex flex-col items-center">
-            <div className="w-32 h-32 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-5xl">
-              👤
-            </div>
+            <div className="w-32 h-32 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-5xl"></div>
             <button className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
               تغییر عکس
             </button>
@@ -294,18 +280,16 @@ const ProgrammerDashboard: React.FC = () => {
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-2">
           {[
-            { id: 'dashboard', icon: '📊', label: 'داشبورد' },
-            { id: 'browse', icon: '🔍', label: 'مرور پروژه‌ها' },
-            { id: 'applications', icon: '📝', label: 'درخواست‌ها' },
-            { id: 'profile', icon: '👤', label: 'پروفایل' },
+            { id: 'dashboard', icon: '', label: 'داشبورد' },
+            { id: 'browse', icon: '', label: 'مرور پروژه‌ها' },
+            { id: 'applications', icon: '', label: 'درخواست‌ها' },
+            { id: 'profile', icon: '', label: 'پروفایل' },
           ].map((item) => (
             <button
               key={item.id}
               onClick={() => setCurrentPage(item.id as ProgrammerPage)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                currentPage === item.id
-                  ? 'bg-indigo-700 dark:bg-indigo-800'
-                  : 'hover:bg-indigo-500'
+                currentPage === item.id ? 'bg-indigo-700 dark:bg-indigo-800' : 'hover:bg-indigo-500'
               }`}
             >
               <span className="text-2xl">{item.icon}</span>
@@ -320,7 +304,7 @@ const ProgrammerDashboard: React.FC = () => {
             onClick={handleLogout}
             className="w-full px-4 py-2 bg-indigo-500 hover:bg-indigo-400 rounded-lg text-sm"
           >
-            {isSidebarOpen ? 'خروج' : '🚪'}
+            {isSidebarOpen ? 'خروج' : ''}
           </button>
         </div>
       </div>

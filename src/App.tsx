@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 // Import pages
 import LandingPage from './pages/LandingPage';
@@ -21,84 +22,86 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <LanguageProvider>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/login" element={<AuthPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
+    <ThemeProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/login" element={<AuthPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/marketplace" element={<MarketplacePage />} />
 
-          {/* Protected Routes */}
-          <Route
-            path="/entrepreneur/*"
-            element={
-              <ProtectedRoute requiredRole="entrepreneur">
-                <EntrepreneurApp />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/investor/*"
-            element={
-              <ProtectedRoute requiredRole="investor">
-                <InvestorApp />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/programmer/*"
-            element={
-              <ProtectedRoute requiredRole="programmer">
-                <ProgrammerApp />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/consultant/*"
-            element={
-              <ProtectedRoute requiredRole="consultant">
-                <ConsultantApp />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/designer/*"
-            element={
-              <ProtectedRoute requiredRole="designer">
-                <DesignerApp />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/*"
-            element={
-              <ProtectedRoute requiredRole="admin">
-                <AdminApp />
-              </ProtectedRoute>
-            }
-          />
+            {/* Protected Routes */}
+            <Route
+              path="/entrepreneur/*"
+              element={
+                <ProtectedRoute requiredRole="entrepreneur">
+                  <EntrepreneurApp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/investor/*"
+              element={
+                <ProtectedRoute requiredRole="investor">
+                  <InvestorApp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/programmer/*"
+              element={
+                <ProtectedRoute requiredRole="programmer">
+                  <ProgrammerApp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/consultant/*"
+              element={
+                <ProtectedRoute requiredRole="consultant">
+                  <ConsultantApp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/designer/*"
+              element={
+                <ProtectedRoute requiredRole="designer">
+                  <DesignerApp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/*"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminApp />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Redirect old paths */}
-          <Route path="/app/*" element={<Navigate to="/entrepreneur" replace />} />
-          <Route path="/login.html" element={<Navigate to="/login" replace />} />
-          <Route path="/entrepreneur.html" element={<Navigate to="/entrepreneur" replace />} />
-          <Route path="/investor.html" element={<Navigate to="/investor" replace />} />
-          <Route path="/programmer.html" element={<Navigate to="/programmer" replace />} />
-          <Route path="/consultant.html" element={<Navigate to="/consultant" replace />} />
-          <Route path="/designer.html" element={<Navigate to="/designer" replace />} />
-          <Route path="/admin.html" element={<Navigate to="/admin" replace />} />
-          <Route path="/pricing.html" element={<Navigate to="/pricing" replace />} />
-          <Route path="/about.html" element={<Navigate to="/about" replace />} />
+            {/* Redirect old paths */}
+            <Route path="/app/*" element={<Navigate to="/entrepreneur" replace />} />
+            <Route path="/login.html" element={<Navigate to="/login" replace />} />
+            <Route path="/entrepreneur.html" element={<Navigate to="/entrepreneur" replace />} />
+            <Route path="/investor.html" element={<Navigate to="/investor" replace />} />
+            <Route path="/programmer.html" element={<Navigate to="/programmer" replace />} />
+            <Route path="/consultant.html" element={<Navigate to="/consultant" replace />} />
+            <Route path="/designer.html" element={<Navigate to="/designer" replace />} />
+            <Route path="/admin.html" element={<Navigate to="/admin" replace />} />
+            <Route path="/pricing.html" element={<Navigate to="/pricing" replace />} />
+            <Route path="/about.html" element={<Navigate to="/about" replace />} />
 
-          {/* Catch all - 404 */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </LanguageProvider>
-    </AuthProvider>
+            {/* Catch all - 404 */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </LanguageProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 

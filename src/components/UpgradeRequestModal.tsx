@@ -20,16 +20,16 @@ export const UpgradeRequestModal: React.FC<UpgradeRequestModalProps> = ({
   const t = (key: string) => {
     const translations: Record<string, { fa: string; en: string }> = {
       title: {
-        fa: '🚀 به محدودیت نسخه رایگان رسیدید!',
-        en: "🚀 You've reached the free version limit!",
+        fa: ' به محدودیت نسخه رایگان رسیدید!',
+        en: " You've reached the free version limit!",
       },
       message_line1: {
         fa: 'این پلتفرم در حال حاضر در مرحله Beta قرار دارد و ما در حال جمع‌آوری بازخورد کاربران هستیم.',
         en: 'This platform is currently in Beta stage and we are collecting user feedback.',
       },
       message_line2: {
-        fa: '✨ خبر خوب: تا پایان دوره بتا، استفاده از تمامی امکانات رایگان است!',
-        en: '✨ Good news: Until the end of the beta period, all features are free!',
+        fa: ' خبر خوب: تا پایان دوره بتا، استفاده از تمامی امکانات رایگان است!',
+        en: ' Good news: Until the end of the beta period, all features are free!',
       },
       message_line3: {
         fa: 'برای دریافت دسترسی کامل به تمام مراحل و ابزارها به مدت ۱ ماه، کافیست درخواست خود را ثبت کنید.',
@@ -40,20 +40,20 @@ export const UpgradeRequestModal: React.FC<UpgradeRequestModalProps> = ({
         en: 'Requests will be reviewed and activated as soon as possible.',
       },
       submit_button: {
-        fa: '✅ ارسال درخواست دسترسی رایگان',
-        en: '✅ Request Free Access',
+        fa: ' ارسال درخواست دسترسی رایگان',
+        en: ' Request Free Access',
       },
       cancel_button: {
         fa: 'بستن',
         en: 'Close',
       },
       success_message: {
-        fa: '✅ درخواست شما با موفقیت ارسال شد! تیم ما به زودی آن را بررسی خواهد کرد.',
-        en: '✅ Your request has been successfully submitted! Our team will review it soon.',
+        fa: ' درخواست شما با موفقیت ارسال شد! تیم ما به زودی آن را بررسی خواهد کرد.',
+        en: ' Your request has been successfully submitted! Our team will review it soon.',
       },
       error_message: {
-        fa: '❌ خطا در ارسال درخواست. لطفاً دوباره تلاش کنید.',
-        en: '❌ Error submitting request. Please try again.',
+        fa: ' خطا در ارسال درخواست. لطفاً دوباره تلاش کنید.',
+        en: ' Error submitting request. Please try again.',
       },
     };
     return translations[key]?.[locale] || key;
@@ -103,19 +103,19 @@ export const UpgradeRequestModal: React.FC<UpgradeRequestModalProps> = ({
             </p>
             <ul className="space-y-1 text-sm text-slate-700 dark:text-slate-300">
               <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-green-500"></span>
                 {locale === 'fa' ? 'دسترسی به تمام 8 مرحله' : 'Access to all 8 phases'}
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-green-500"></span>
                 {locale === 'fa' ? 'AI نامحدود' : 'Unlimited AI'}
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-green-500"></span>
                 {locale === 'fa' ? 'Export پیشرفته' : 'Advanced Export'}
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-green-500"></span>
                 {locale === 'fa' ? 'پشتیبانی اولویت‌دار' : 'Priority Support'}
               </li>
             </ul>

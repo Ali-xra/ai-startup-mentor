@@ -28,12 +28,12 @@ const LimitReachedModal: React.FC<LimitReachedModalProps> = ({
 
   const translations = {
     title: {
-      fa: '🚫 محدودیت نسخه رایگان',
-      en: '🚫 Free Plan Limit Reached',
+      fa: ' محدودیت نسخه رایگان',
+      en: ' Free Plan Limit Reached',
     },
     beta_message: {
-      fa: '🎉 خبر خوب! ما در حال حاضر نسخه بتا را ارائه می‌دهیم',
-      en: '🎉 Good News! We are currently in Beta',
+      fa: ' خبر خوب! ما در حال حاضر نسخه بتا را ارائه می‌دهیم',
+      en: ' Good News! We are currently in Beta',
     },
     beta_description: {
       fa: 'در دوره بتا، شما می‌توانید **رایگان** نسخه Pro یا Enterprise را دریافت کنید! ما به دنبال بازخورد کاربران هستیم تا محصول را بهبود دهیم.',
@@ -62,8 +62,8 @@ const LimitReachedModal: React.FC<LimitReachedModalProps> = ({
       },
     },
     pro_features: {
-      fa: '✨ مزایای نسخه Pro (رایگان در دوره بتا):',
-      en: '✨ Pro Plan Benefits (FREE during Beta):',
+      fa: ' مزایای نسخه Pro (رایگان در دوره بتا):',
+      en: ' Pro Plan Benefits (FREE during Beta):',
     },
     features: {
       projects: { fa: '• تا 10 پروژه همزمان', en: '• Up to 10 concurrent projects' },
@@ -74,8 +74,8 @@ const LimitReachedModal: React.FC<LimitReachedModalProps> = ({
       priority: { fa: '• پشتیبانی اولویت‌دار', en: '• Priority support' },
     },
     enterprise_features: {
-      fa: '🚀 مزایای نسخه Enterprise (رایگان در دوره بتا):',
-      en: '🚀 Enterprise Plan Benefits (FREE during Beta):',
+      fa: ' مزایای نسخه Enterprise (رایگان در دوره بتا):',
+      en: ' Enterprise Plan Benefits (FREE during Beta):',
     },
     enterprise_list: {
       unlimited: { fa: '• پروژه و AI نامحدود', en: '• Unlimited projects & AI' },
@@ -86,15 +86,15 @@ const LimitReachedModal: React.FC<LimitReachedModalProps> = ({
       dedicated: { fa: '• پشتیبانی اختصاصی', en: '• Dedicated support' },
     },
     request_button: {
-      fa: '🎁 درخواست ارتقا رایگان',
-      en: '🎁 Request Free Upgrade',
+      fa: ' درخواست ارتقا رایگان',
+      en: ' Request Free Upgrade',
     },
     feedback_note: {
-      fa: '📝 توجه: پس از استفاده، لطفاً بازخورد خود را با ما به اشتراک بگذارید.',
-      en: '📝 Note: After using, please share your feedback with us.',
+      fa: ' توجه: پس از استفاده، لطفاً بازخورد خود را با ما به اشتراک بگذارید.',
+      en: ' Note: After using, please share your feedback with us.',
     },
     close: { fa: 'بستن', en: 'Close' },
-    success_title: { fa: '✅ درخواست شما ارسال شد!', en: '✅ Request Submitted!' },
+    success_title: { fa: ' درخواست شما ارسال شد!', en: ' Request Submitted!' },
     success_message: {
       fa: 'درخواست شما با موفقیت ثبت شد. ما در اسرع وقت آن را بررسی و فعال خواهیم کرد. ایمیل تاییدیه برای شما ارسال می‌شود.',
       en: 'Your request has been submitted successfully. We will review and activate it as soon as possible. You will receive a confirmation email.',
@@ -103,7 +103,7 @@ const LimitReachedModal: React.FC<LimitReachedModalProps> = ({
   };
 
   const t = (key: keyof typeof translations) => {
-    // @ts-ignore - Complex union type indexing
+    // @ts-expect-error - Complex union type indexing
     return translations[key][language as 'fa' | 'en'];
   };
 
@@ -231,7 +231,7 @@ const LimitReachedModal: React.FC<LimitReachedModalProps> = ({
             <>
               {/* Success Message */}
               <div className="text-center py-8">
-                <div className="text-6xl mb-4">✅</div>
+                <div className="text-6xl mb-4"></div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
                   {t('success_title')}
                 </h3>

@@ -34,15 +34,15 @@ export const AuditLog: React.FC = () => {
 
   const getActionLabel = (action: string): { text: string; color: string; icon: string } => {
     const actions: Record<string, { text: string; color: string; icon: string }> = {
-      grant_feature: { text: 'فعال‌سازی فیچر', color: 'green', icon: '✅' },
-      revoke_feature: { text: 'غیرفعال‌سازی فیچر', color: 'red', icon: '❌' },
-      revoke_all_features: { text: 'حذف تمام فیچرها', color: 'red', icon: '🗑️' },
-      grant_plan: { text: 'فعال‌سازی پلن', color: 'blue', icon: '💎' },
-      create_admin: { text: 'ایجاد ادمین', color: 'purple', icon: '👑' },
-      delete_admin: { text: 'حذف ادمین', color: 'red', icon: '🚫' },
+      grant_feature: { text: 'فعال‌سازی فیچر', color: 'green', icon: '' },
+      revoke_feature: { text: 'غیرفعال‌سازی فیچر', color: 'red', icon: '' },
+      revoke_all_features: { text: 'حذف تمام فیچرها', color: 'red', icon: '' },
+      grant_plan: { text: 'فعال‌سازی پلن', color: 'blue', icon: '' },
+      create_admin: { text: 'ایجاد ادمین', color: 'purple', icon: '' },
+      delete_admin: { text: 'حذف ادمین', color: 'red', icon: '' },
     };
 
-    return actions[action] || { text: action, color: 'slate', icon: '📝' };
+    return actions[action] || { text: action, color: 'slate', icon: '' };
   };
 
   const filteredLogs =
@@ -70,7 +70,7 @@ export const AuditLog: React.FC = () => {
                 {logs.length}
               </p>
             </div>
-            <div className="text-4xl">📋</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
 
@@ -82,7 +82,7 @@ export const AuditLog: React.FC = () => {
                 {logs.filter((l) => l.action === 'grant_feature').length}
               </p>
             </div>
-            <div className="text-4xl">✅</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
 
@@ -94,7 +94,7 @@ export const AuditLog: React.FC = () => {
                 {logs.filter((l) => l.action === 'revoke_feature').length}
               </p>
             </div>
-            <div className="text-4xl">❌</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
 
@@ -106,7 +106,7 @@ export const AuditLog: React.FC = () => {
                 {logs.filter((l) => l.action.includes('plan')).length}
               </p>
             </div>
-            <div className="text-4xl">💎</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@ export const AuditLog: React.FC = () => {
 
       {filteredLogs.length === 0 && (
         <div className="bg-white dark:bg-slate-800 rounded-lg p-12 text-center">
-          <div className="text-6xl mb-4">📋</div>
+          <div className="text-6xl mb-4"></div>
           <p className="text-slate-600 dark:text-slate-400 text-lg">
             {filterAction === 'all' ? 'هیچ لاگی ثبت نشده است' : 'لاگی با این فیلتر یافت نشد'}
           </p>
@@ -212,7 +212,7 @@ export const AuditLog: React.FC = () => {
       {/* Info Box */}
       <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
         <div className="flex items-start gap-3">
-          <div className="text-2xl">ℹ️</div>
+          <div className="text-2xl">ℹ</div>
           <div className="flex-1">
             <h4 className="font-semibold text-amber-900 dark:text-amber-300 mb-1">Audit Log</h4>
             <p className="text-sm text-amber-800 dark:text-amber-400">

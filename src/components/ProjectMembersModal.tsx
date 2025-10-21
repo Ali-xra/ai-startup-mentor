@@ -11,7 +11,7 @@ interface ProjectMembersModalProps {
   projectId: string;
   projectName: string;
   locale: Locale;
-  isOwner: boolean; // ✅ prop جدید برای چک کردن صاحب پروژه
+  isOwner: boolean; // prop جدید برای چک کردن صاحب پروژه
 }
 
 export const ProjectMembersModal: React.FC<ProjectMembersModalProps> = ({
@@ -20,7 +20,7 @@ export const ProjectMembersModal: React.FC<ProjectMembersModalProps> = ({
   projectId,
   projectName,
   locale,
-  isOwner, // ✅ دریافت prop
+  isOwner, // دریافت prop
 }) => {
   const { user } = useAuth();
   const [members, setMembers] = useState<ProjectMember[]>([]);
@@ -104,16 +104,16 @@ export const ProjectMembersModal: React.FC<ProjectMembersModalProps> = ({
 
   // Get role display name (unused but kept for future use)
   // const getRoleDisplayName = (role: ProjectMemberRole) => {
-  //     switch (role) {
-  //         case ProjectMemberRole.OWNER:
-  //             return locale === 'fa' ? 'صاحب پروژه' : 'Owner';
-  //         case ProjectMemberRole.EDITOR:
-  //             return locale === 'fa' ? 'ویرایشگر' : 'Editor';
-  //         case ProjectMemberRole.VIEWER:
-  //             return locale === 'fa' ? 'مشاهده‌گر' : 'Viewer';
-  //         default:
-  //             return role;
-  //     }
+  // switch (role) {
+  // case ProjectMemberRole.OWNER:
+  // return locale === 'fa' ? 'صاحب پروژه' : 'Owner';
+  // case ProjectMemberRole.EDITOR:
+  // return locale === 'fa' ? 'ویرایشگر' : 'Editor';
+  // case ProjectMemberRole.VIEWER:
+  // return locale === 'fa' ? 'مشاهده‌گر' : 'Viewer';
+  // default:
+  // return role;
+  // }
   // };
 
   // Get status display name

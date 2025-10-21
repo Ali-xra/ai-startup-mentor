@@ -55,12 +55,8 @@ const ConsultantDashboard: React.FC = () => {
   const renderDashboard = () => (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
-          داشبورد مشاور
-        </h1>
-        <p className="text-slate-600 dark:text-slate-400 mt-2">
-          به پنل خود خوش آمدید! 🎯
-        </p>
+        <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">داشبورد مشاور</h1>
+        <p className="text-slate-600 dark:text-slate-400 mt-2">به پنل خود خوش آمدید!</p>
       </div>
 
       {/* Stats */}
@@ -73,7 +69,7 @@ const ConsultantDashboard: React.FC = () => {
                 {stats.totalRequests}
               </p>
             </div>
-            <span className="text-3xl">📬</span>
+            <span className="text-3xl"></span>
           </div>
         </div>
 
@@ -85,7 +81,7 @@ const ConsultantDashboard: React.FC = () => {
                 {stats.activeConsultations}
               </p>
             </div>
-            <span className="text-3xl">💼</span>
+            <span className="text-3xl"></span>
           </div>
         </div>
 
@@ -97,7 +93,7 @@ const ConsultantDashboard: React.FC = () => {
                 {stats.completedSessions}
               </p>
             </div>
-            <span className="text-3xl">✅</span>
+            <span className="text-3xl"></span>
           </div>
         </div>
 
@@ -109,7 +105,7 @@ const ConsultantDashboard: React.FC = () => {
                 {stats.totalEarnings} ت
               </p>
             </div>
-            <span className="text-3xl">💰</span>
+            <span className="text-3xl"></span>
           </div>
         </div>
       </div>
@@ -148,8 +144,8 @@ const ConsultantDashboard: React.FC = () => {
                     کارآفرین: {consultation.entrepreneur} • {consultation.requestDate}
                   </p>
                   <div className="flex items-center gap-4 mt-3 text-sm text-slate-600 dark:text-slate-400">
-                    <span>📋 {consultation.topic}</span>
-                    <span>💰 {consultation.budget}</span>
+                    <span> {consultation.topic}</span>
+                    <span> {consultation.budget}</span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -179,11 +175,9 @@ const ConsultantDashboard: React.FC = () => {
 
   const renderConsultations = () => (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
-        درخواست‌های مشاوره
-      </h1>
+      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">درخواست‌های مشاوره</h1>
       <div className="bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
-        <span className="text-6xl">📬</span>
+        <span className="text-6xl"></span>
         <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-4">
           تمام درخواست‌های مشاوره
         </h2>
@@ -196,26 +190,20 @@ const ConsultantDashboard: React.FC = () => {
 
   const renderSessions = () => (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
-        جلسات من
-      </h1>
+      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">جلسات من</h1>
       <div className="bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
-        <span className="text-6xl">📅</span>
+        <span className="text-6xl"></span>
         <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-4">
           جلسات برنامه‌ریزی شده
         </h2>
-        <p className="text-slate-600 dark:text-slate-400 mt-2">
-          تقویم و زمان‌بندی جلسات مشاوره
-        </p>
+        <p className="text-slate-600 dark:text-slate-400 mt-2">تقویم و زمان‌بندی جلسات مشاوره</p>
       </div>
     </div>
   );
 
   const renderProfile = () => (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
-        پروفایل من
-      </h1>
+      <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">پروفایل من</h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Profile Info */}
         <div className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
@@ -278,16 +266,14 @@ const ConsultantDashboard: React.FC = () => {
             تصویر پروفایل
           </h2>
           <div className="flex flex-col items-center">
-            <div className="w-32 h-32 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-5xl">
-              👨‍💼
-            </div>
+            <div className="w-32 h-32 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-5xl"></div>
             <button className="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm">
               تغییر عکس
             </button>
             <div className="mt-6 w-full space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-slate-600 dark:text-slate-400">امتیاز</span>
-                <span className="font-bold text-yellow-600">⭐ 4.9/5.0</span>
+                <span className="font-bold text-yellow-600"> 4.9/5.0</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-600 dark:text-slate-400">نظرات</span>
@@ -329,10 +315,10 @@ const ConsultantDashboard: React.FC = () => {
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-2">
           {[
-            { id: 'dashboard', icon: '📊', label: 'داشبورد' },
-            { id: 'consultations', icon: '📬', label: 'درخواست‌ها' },
-            { id: 'sessions', icon: '📅', label: 'جلسات' },
-            { id: 'profile', icon: '👤', label: 'پروفایل' },
+            { id: 'dashboard', icon: '', label: 'داشبورد' },
+            { id: 'consultations', icon: '', label: 'درخواست‌ها' },
+            { id: 'sessions', icon: '', label: 'جلسات' },
+            { id: 'profile', icon: '', label: 'پروفایل' },
           ].map((item) => (
             <button
               key={item.id}
@@ -355,7 +341,7 @@ const ConsultantDashboard: React.FC = () => {
             onClick={handleLogout}
             className="w-full px-4 py-2 bg-emerald-500 hover:bg-emerald-400 rounded-lg text-sm"
           >
-            {isSidebarOpen ? 'خروج' : '🚪'}
+            {isSidebarOpen ? 'خروج' : ''}
           </button>
         </div>
       </div>

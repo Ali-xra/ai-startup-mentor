@@ -1,4 +1,4 @@
-// @ts-nocheck - Legacy file, will be refactored with new routing system
+/* Legacy file, will be refactored with new routing system */
 import React, { useState, useEffect } from 'react';
 import { AuthScreen } from '../components/AuthScreen';
 import { RoleSelection } from '../components/RoleSelection';
@@ -198,7 +198,9 @@ const AppContent: React.FC = () => {
   };
 
   const handleExportExcel = () => {
-    alert(locale === 'fa' ? 'قابلیت Export Excel بزودی اضافه خواهد شد' : 'Excel Export coming soon');
+    alert(
+      locale === 'fa' ? 'قابلیت Export Excel بزودی اضافه خواهد شد' : 'Excel Export coming soon'
+    );
   };
 
   const handlePublishToggle = async () => {
@@ -212,8 +214,10 @@ const AppContent: React.FC = () => {
         alert(locale === 'fa' ? 'پروژه خصوصی شد' : 'Project is now private');
       } else {
         // منتشر کردن
-        const title = journey.startupData.projectName || journey.startupData.initialIdea || 'پروژه بدون نام';
-        const description = journey.startupData.initialIdea || journey.startupData.problemSolution || '';
+        const title =
+          journey.startupData.projectName || journey.startupData.initialIdea || 'پروژه بدون نام';
+        const description =
+          journey.startupData.initialIdea || journey.startupData.problemSolution || '';
         const tags: string[] = [];
 
         // استخراج تگ‌ها از داده‌های پروژه
@@ -222,7 +226,7 @@ const AppContent: React.FC = () => {
 
         await PublicProjectsService.publishProject(selectedProjectId, title, description, tags);
         setIsPublished(true);
-        alert(locale === 'fa' ? '✅ پروژه در بازار منتشر شد!' : '✅ Project published to marketplace!');
+        alert(locale === 'fa' ? ' پروژه در بازار منتشر شد!' : ' Project published to marketplace!');
       }
     } catch (error) {
       console.error('Error toggling publish:', error);
@@ -270,7 +274,7 @@ const AppContent: React.FC = () => {
     <div
       className={`h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 ${locale === 'fa' ? 'font-vazir' : 'font-sans'}`}
     >
-      {/* @ts-ignore - HeaderProps will be updated in refactoring */}
+      {/* @ts-expect-error - HeaderProps will be updated in refactoring */}
       <Header
         progress={journey.progress}
         theme={theme}
@@ -307,7 +311,7 @@ const AppContent: React.FC = () => {
           />
         </div>
         <div className="lg:col-span-5 flex flex-col overflow-hidden">
-          {/* @ts-ignore - ChatInterfaceProps will be updated in refactoring */}
+          {/* @ts-expect-error - ChatInterfaceProps will be updated in refactoring */}
           <ChatInterface
             messages={journey.messages}
             isLoading={journey.isLoading}
@@ -332,7 +336,7 @@ const AppContent: React.FC = () => {
         <div className="lg:col-span-5 overflow-y-auto">
           <BlueprintPreview
             startupData={journey.startupData}
-            // @ts-ignore - Type mismatch will be fixed in refactoring
+            // @ts-expect-error - Type mismatch will be fixed in refactoring
             locale={locale}
             selectedStage={selectedStageForPreview}
             onEditStage={journey.editStage}

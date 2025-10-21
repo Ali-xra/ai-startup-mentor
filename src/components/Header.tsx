@@ -20,9 +20,7 @@ interface HeaderProps {
   onExportCSV: () => void;
   onExportExcel: () => void;
   onToggleTheme: () => void;
-  onPublishToggle?: () => void;
   currentTheme: 'light' | 'dark';
-  isPublished?: boolean;
   onNavigate?: (section: string) => void;
   onSearch?: (term: string) => void;
 }
@@ -41,9 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
   onExportCSV,
   onExportExcel,
   onToggleTheme,
-  onPublishToggle,
   currentTheme,
-  isPublished,
   onNavigate,
   onSearch,
 }) => {
@@ -98,9 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
               onExportCSV={onExportCSV}
               onExportExcel={onExportExcel}
               onToggleTheme={onToggleTheme}
-              onPublishToggle={onPublishToggle}
               currentTheme={currentTheme}
-              isPublished={isPublished}
               locale={locale}
             />
           </div>

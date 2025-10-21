@@ -73,20 +73,20 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
         .from('project_members')
         .select(
           `
-                    project_id,
-                    user_email,
-                    invited_by,
-                    status,
-                    projects!project_id (
-                        id,
-                        project_name,
-                        initial_idea,
-                        updated_at,
-                        stage,
-                        startup_data,
-                        user_id
-                    )
-                `
+ project_id,
+ user_email,
+ invited_by,
+ status,
+ projects!project_id (
+ id,
+ project_name,
+ initial_idea,
+ updated_at,
+ stage,
+ startup_data,
+ user_id
+ )
+ `
         )
         .eq('user_id', user.id)
         .eq('status', 'accepted');
@@ -517,14 +517,14 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <p className="text-sm text-slate-600 dark:text-slate-400">
-                      👋 خوش آمدید،{' '}
+                      خوش آمدید،{' '}
                       <span className="font-semibold text-purple-600 dark:text-purple-400">
                         {userProfile.name}
                       </span>
                       !
                     </p>
                     <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">
-                      📧 {userProfile.email}
+                      {userProfile.email}
                     </p>
                   </div>
                   <button
@@ -564,7 +564,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
           {pendingInvitations.length > 0 && (
             <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
               <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-3">
-                📧 دعوت‌نامه‌های جدید
+                دعوت‌نامه‌های جدید
               </h3>
               <div className="space-y-3">
                 {pendingInvitations.map((invitation) => (

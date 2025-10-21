@@ -14,7 +14,9 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
   const [selectedUser, setSelectedUser] = useState<UserWithFeatures | null>(null);
   const [loading, setLoading] = useState(true);
   const [copySuccess, setCopySuccess] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'free' | 'starter' | 'pro' | 'enterprise'>('free');
+  const [selectedPlan, setSelectedPlan] = useState<'free' | 'starter' | 'pro' | 'enterprise'>(
+    'free'
+  );
 
   // Load user data on mount
   useEffect(() => {
@@ -75,12 +77,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
       }
 
       // Turn on the selected feature
-      await featureFlagsService.toggleUserFeature(
-        selectedUser.id,
-        featureKey,
-        true,
-        adminUser.id
-      );
+      await featureFlagsService.toggleUserFeature(selectedUser.id, featureKey, true, adminUser.id);
 
       await loadUserData();
     } catch (error) {
@@ -93,11 +90,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
 
   // Feature categories (same as FeatureManagement)
   const featuresByCategory: Record<string, FeatureKey[]> = {
-    projects: [
-      FeatureKey.MAX_PROJECTS_1,
-      FeatureKey.MAX_PROJECTS_3,
-      FeatureKey.UNLIMITED_PROJECTS,
-    ],
+    projects: [FeatureKey.MAX_PROJECTS_1, FeatureKey.MAX_PROJECTS_3, FeatureKey.UNLIMITED_PROJECTS],
     ai: [
       FeatureKey.AI_CREDITS_50,
       FeatureKey.AI_CREDITS_500,
@@ -110,16 +103,8 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
       FeatureKey.TEAM_SHARING_10,
       FeatureKey.TEAM_SHARING_UNLIMITED,
     ],
-    export: [
-      FeatureKey.EXPORT_DISABLED,
-      FeatureKey.EXPORT_BASIC,
-      FeatureKey.EXPORT_ADVANCED,
-    ],
-    phases: [
-      FeatureKey.PHASE_3_LIMIT,
-      FeatureKey.PHASE_5_LIMIT,
-      FeatureKey.ALL_PHASES,
-    ],
+    export: [FeatureKey.EXPORT_DISABLED, FeatureKey.EXPORT_BASIC, FeatureKey.EXPORT_ADVANCED],
+    phases: [FeatureKey.PHASE_3_LIMIT, FeatureKey.PHASE_5_LIMIT, FeatureKey.ALL_PHASES],
     storage: [
       FeatureKey.STORAGE_50MB,
       FeatureKey.STORAGE_500MB,
@@ -129,12 +114,12 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
   };
 
   const categoryLabels: Record<string, string> = {
-    projects: '📁 پروژه‌ها',
-    ai: '🤖 AI',
-    team: '👥 تیم',
-    export: '📤 خروجی',
-    phases: '🎯 مراحل',
-    storage: '💾 فضای ذخیره‌سازی',
+    projects: ' پروژه‌ها',
+    ai: ' AI',
+    team: ' تیم',
+    export: ' خروجی',
+    phases: ' مراحل',
+    storage: ' فضای ذخیره‌سازی',
   };
 
   const featureLabels: Record<string, string> = {
@@ -170,12 +155,12 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
 
   const getRoleName = (role: string) => {
     const roleNames: Record<string, string> = {
-      entrepreneur: '💡 کارآفرین',
-      investor: '💰 سرمایه‌گذار',
-      programmer: '💻 برنامه‌نویس',
-      consultant: '🎯 مشاور',
-      designer: '🎨 طراح',
-      admin: '👑 ادمین',
+      entrepreneur: ' کارآفرین',
+      investor: ' سرمایه‌گذار',
+      programmer: ' برنامه‌نویس',
+      consultant: ' مشاور',
+      designer: ' طراح',
+      admin: ' ادمین',
     };
     return roleNames[role] || role;
   };
@@ -210,7 +195,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
           onClick={onBack}
           className="mb-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
         >
-          ← بازگشت به لیست کاربران
+          بازگشت به لیست کاربران
         </button>
         <h2 className="text-2xl font-bold text-white mb-4">جزئیات کاربر</h2>
       </div>
@@ -224,7 +209,9 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
           </div>
           <div>
             <label className="text-gray-400 text-sm">پلن فعلی:</label>
-            <p className="text-white font-medium">{planLabels[selectedUser.current_plan || 'free']}</p>
+            <p className="text-white font-medium">
+              {planLabels[selectedUser.current_plan || 'free']}
+            </p>
           </div>
           <div className="md:col-span-2">
             <label className="text-gray-400 text-sm mb-2 block">شناسه کاربر (User ID):</label>
@@ -256,14 +243,14 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
             <label
               key={plan}
               className={`
-                relative flex items-center justify-center p-4 rounded-lg border-2 cursor-pointer transition-all
-                ${
-                  selectedPlan === plan
-                    ? 'border-blue-500 bg-blue-500/10'
-                    : 'border-gray-600 hover:border-gray-500'
-                }
-                ${loading ? 'opacity-50 cursor-not-allowed' : ''}
-              `}
+ relative flex items-center justify-center p-4 rounded-lg border-2 cursor-pointer transition-all
+ ${
+   selectedPlan === plan
+     ? 'border-blue-500 bg-blue-500/10'
+     : 'border-gray-600 hover:border-gray-500'
+ }
+ ${loading ? 'opacity-50 cursor-not-allowed' : ''}
+ `}
             >
               <input
                 type="radio"
@@ -277,13 +264,9 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
               <div className="text-center">
                 <div
                   className={`
-                    w-4 h-4 rounded-full border-2 mx-auto mb-2
-                    ${
-                      selectedPlan === plan
-                        ? 'border-blue-500 bg-blue-500'
-                        : 'border-gray-500'
-                    }
-                  `}
+ w-4 h-4 rounded-full border-2 mx-auto mb-2
+ ${selectedPlan === plan ? 'border-blue-500 bg-blue-500' : 'border-gray-500'}
+ `}
                 >
                   {selectedPlan === plan && (
                     <div className="w-full h-full rounded-full bg-white scale-50"></div>
@@ -317,14 +300,10 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
                     <label
                       key={`${categoryKey}-${featureKey}`}
                       className={`
-                        relative flex items-center justify-center p-3 rounded-lg border-2 cursor-pointer transition-all
-                        ${
-                          isEnabled
-                            ? 'border-green-500 bg-green-500/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }
-                        ${loading ? 'opacity-50 cursor-not-allowed' : ''}
-                      `}
+ relative flex items-center justify-center p-3 rounded-lg border-2 cursor-pointer transition-all
+ ${isEnabled ? 'border-green-500 bg-green-500/10' : 'border-gray-600 hover:border-gray-500'}
+ ${loading ? 'opacity-50 cursor-not-allowed' : ''}
+ `}
                     >
                       <input
                         type="radio"
@@ -338,21 +317,15 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
                       <div className="text-center">
                         <div
                           className={`
-                            w-4 h-4 rounded-full border-2 mx-auto mb-2
-                            ${
-                              isEnabled
-                                ? 'border-green-500 bg-green-500'
-                                : 'border-gray-500'
-                            }
-                          `}
+ w-4 h-4 rounded-full border-2 mx-auto mb-2
+ ${isEnabled ? 'border-green-500 bg-green-500' : 'border-gray-500'}
+ `}
                         >
                           {isEnabled && (
                             <div className="w-full h-full rounded-full bg-white scale-50"></div>
                           )}
                         </div>
-                        <span className="text-white text-sm">
-                          {featureLabels[featureKey]}
-                        </span>
+                        <span className="text-white text-sm">{featureLabels[featureKey]}</span>
                       </div>
                     </label>
                   );

@@ -147,12 +147,12 @@ export const FeatureManagement: React.FC = () => {
   );
 
   const categoryLabels: Record<string, { fa: string; icon: string }> = {
-    projects: { fa: 'پروژه‌ها', icon: '📁' },
-    ai: { fa: 'AI', icon: '🤖' },
-    team: { fa: 'تیم', icon: '👥' },
-    export: { fa: 'Export', icon: '📤' },
-    phases: { fa: 'مراحل', icon: '🎯' },
-    storage: { fa: 'ذخیره‌سازی', icon: '💾' },
+    projects: { fa: 'پروژه‌ها', icon: '' },
+    ai: { fa: 'AI', icon: '' },
+    team: { fa: 'تیم', icon: '' },
+    export: { fa: 'Export', icon: '' },
+    phases: { fa: 'مراحل', icon: '' },
+    storage: { fa: 'ذخیره‌سازی', icon: '' },
   };
 
   if (isLoadingFeatures) {
@@ -175,7 +175,7 @@ export const FeatureManagement: React.FC = () => {
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          👥 مدیریت کاربران
+          مدیریت کاربران
         </button>
         <button
           onClick={() => setActiveTab('plans')}
@@ -185,7 +185,7 @@ export const FeatureManagement: React.FC = () => {
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          💎 پلن‌ها
+          پلن‌ها
         </button>
         <button
           onClick={() => setActiveTab('global')}
@@ -195,7 +195,7 @@ export const FeatureManagement: React.FC = () => {
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          🌍 تنظیمات Global
+          تنظیمات Global
         </button>
       </div>
 
@@ -208,7 +208,7 @@ export const FeatureManagement: React.FC = () => {
               جستجوی کاربر با User ID
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-              💡 برای پیدا کردن User ID: Supabase → Authentication → Users → کپی User ID
+              برای پیدا کردن User ID: Supabase Authentication Users کپی User ID
             </p>
             <div className="flex gap-3">
               <input
@@ -224,7 +224,7 @@ export const FeatureManagement: React.FC = () => {
                 disabled={isLoadingUsers || !searchQuery.trim()}
                 className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium flex items-center gap-2"
               >
-                {isLoadingUsers ? <Loader /> : '🔍'}
+                {isLoadingUsers ? <Loader /> : ''}
                 <span>جستجو</span>
               </button>
             </div>
@@ -304,12 +304,12 @@ export const FeatureManagement: React.FC = () => {
                             />
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300 capitalize">
                               {planName === 'free'
-                                ? '🆓 Free'
+                                ? ' Free'
                                 : planName === 'starter'
-                                  ? '🚀 Starter'
+                                  ? ' Starter'
                                   : planName === 'pro'
-                                    ? '💎 Pro'
-                                    : '👑 Enterprise'}
+                                    ? ' Pro'
+                                    : ' Enterprise'}
                             </span>
                           </label>
                         ))}
@@ -387,7 +387,7 @@ export const FeatureManagement: React.FC = () => {
 
           {!isLoadingUsers && users.length === 0 && searchQuery && (
             <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-8 text-center">
-              <div className="text-4xl mb-2">🔍</div>
+              <div className="text-4xl mb-2"></div>
               <p className="text-slate-600 dark:text-slate-400">کاربری با این ایمیل پیدا نشد</p>
             </div>
           )}
@@ -430,7 +430,7 @@ export const FeatureManagement: React.FC = () => {
                       key={index}
                       className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300"
                     >
-                      <span className="text-green-500">✓</span>
+                      <span className="text-green-500"></span>
                       <span>{feature}</span>
                     </li>
                   ))}

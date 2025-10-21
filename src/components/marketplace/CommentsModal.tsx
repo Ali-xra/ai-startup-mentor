@@ -81,12 +81,8 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
         {/* هدر */}
         <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-              💬 نظرات
-            </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {project.title}
-            </p>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">نظرات</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{project.title}</p>
           </div>
           <button
             onClick={onClose}
@@ -118,11 +114,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
 
           {loading ? (
             <div className="flex justify-center items-center py-12">
-              <svg
-                className="animate-spin h-10 w-10 text-blue-600"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
+              <svg className="animate-spin h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24">
                 <circle
                   className="opacity-25"
                   cx="12"
@@ -205,7 +197,12 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
                       className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                       title="حذف نظر"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -259,11 +256,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
               >
                 {submitting ? (
                   <span className="flex items-center gap-2">
-                    <svg
-                      className="animate-spin h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
                       <circle
                         className="opacity-25"
                         cx="12"

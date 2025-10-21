@@ -68,13 +68,13 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       >
         <div
           className={`
-            ${variantClasses[variant]}
-            ${sizeClasses[size]}
-            ${striped ? 'bg-stripe' : ''}
-            ${animated ? 'animate-progress' : ''}
-            transition-all duration-300 ease-out
-            rounded-full
-          `}
+ ${variantClasses[variant]}
+ ${sizeClasses[size]}
+ ${striped ? 'bg-stripe' : ''}
+ ${animated ? 'animate-progress' : ''}
+ transition-all duration-300 ease-out
+ rounded-full
+ `}
           style={{ width: `${percentage}%` }}
           role="progressbar"
           aria-valuenow={value}
@@ -194,14 +194,14 @@ export const StepProgress: React.FC<StepProgressProps> = ({
                 {/* Circle */}
                 <div
                   className={`
-                    w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm
-                    transition-all duration-300
-                    ${isCompleted ? `${variantClasses[variant]} text-white` : ''}
-                    ${isCurrent ? `border-2 ${variantClasses[variant].replace('bg-', 'border-')} text-slate-700 dark:text-white` : ''}
-                    ${isPending ? 'bg-slate-200 dark:bg-slate-700 text-slate-500' : ''}
-                  `}
+ w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm
+ transition-all duration-300
+ ${isCompleted ? `${variantClasses[variant]} text-white` : ''}
+ ${isCurrent ? `border-2 ${variantClasses[variant].replace('bg-', 'border-')} text-slate-700 dark:text-white` : ''}
+ ${isPending ? 'bg-slate-200 dark:bg-slate-700 text-slate-500' : ''}
+ `}
                 >
-                  {isCompleted ? '✓' : index + 1}
+                  {isCompleted ? '' : index + 1}
                 </div>
                 {/* Label */}
                 <div className="mt-2 text-center">

@@ -37,7 +37,7 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
     setProcessingId(requestId);
     try {
       await upgradeRequestService.approveUpgradeRequest(requestId, adminId, durationMonths);
-      alert('✅ Request approved successfully!');
+      alert(' Request approved successfully!');
       await loadRequests();
     } catch (error: any) {
       console.error('Error approving request:', error);
@@ -54,7 +54,7 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
     setProcessingId(requestId);
     try {
       await upgradeRequestService.rejectUpgradeRequest(requestId, adminId, reason || undefined);
-      alert('❌ Request rejected');
+      alert(' Request rejected');
       await loadRequests();
     } catch (error: any) {
       console.error('Error rejecting request:', error);
@@ -77,7 +77,7 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
     setProcessingId(requestId);
     try {
       await upgradeRequestService.extendUpgradeRequest(requestId, adminId, additionalMonths);
-      alert(`✅ Extended by ${additionalMonths} month(s)`);
+      alert(` Extended by ${additionalMonths} month(s)`);
       await loadRequests();
     } catch (error: any) {
       console.error('Error extending request:', error);
@@ -129,14 +129,14 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-          🎉 Upgrade Requests (Beta Access)
+          Upgrade Requests (Beta Access)
         </h2>
         <button
           onClick={loadRequests}
           disabled={isLoading}
           className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 transition-colors"
         >
-          🔄 Refresh
+          Refresh
         </button>
       </div>
 
@@ -251,14 +251,14 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
                               disabled={isProcessing}
                               className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 transition-colors"
                             >
-                              ✅ Approve
+                              Approve
                             </button>
                             <button
                               onClick={() => handleReject(request.id)}
                               disabled={isProcessing}
                               className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 transition-colors"
                             >
-                              ❌ Reject
+                              Reject
                             </button>
                           </>
                         )}
@@ -268,7 +268,7 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
                             disabled={isProcessing}
                             className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 transition-colors"
                           >
-                            ⏰ Extend
+                            Extend
                           </button>
                         )}
                       </div>

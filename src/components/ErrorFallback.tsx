@@ -15,7 +15,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetError 
       <div className="max-w-md w-full text-center">
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8">
           {/* آیکون خطا */}
-          <div className="text-8xl mb-6 animate-pulse">💥</div>
+          <div className="text-8xl mb-6 animate-pulse"></div>
 
           {/* عنوان */}
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">
@@ -41,14 +41,14 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetError 
                 onClick={resetError}
                 className="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
               >
-                🔄 تلاش مجدد
+                تلاش مجدد
               </button>
             )}
             <button
               onClick={() => (window.location.href = '/')}
               className="w-full px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold rounded-lg transition-all"
             >
-              🏠 بازگشت به خانه
+              بازگشت به خانه
             </button>
           </div>
 

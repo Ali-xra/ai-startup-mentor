@@ -49,7 +49,7 @@ class ErrorHandlerService {
   private logError(error: AppError): void {
     // Log در development
     if (this.isDevelopment) {
-      console.group(`🔴 Error [${error.type}] - ${error.severity}`);
+      console.group(` Error [${error.type}] - ${error.severity}`);
       console.error('Message:', error.message);
       console.error('Original Error:', error.originalError);
       console.error('Context:', error.context);
@@ -74,13 +74,13 @@ class ErrorHandlerService {
    */
   private _sendToSentry(_error: AppError): void {
     // if (window.Sentry) {
-    //     window.Sentry.captureException(error.originalError, {
-    //         level: this.mapSeverityToSentry(error.severity),
-    //         tags: {
-    //             errorType: error.type,
-    //         },
-    //         extra: error.context,
-    //     });
+    // window.Sentry.captureException(error.originalError, {
+    // level: this.mapSeverityToSentry(error.severity),
+    // tags: {
+    // errorType: error.type,
+    // },
+    // extra: error.context,
+    // });
     // }
   }
 

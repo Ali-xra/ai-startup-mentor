@@ -48,7 +48,7 @@ export const PHASE_3: PhaseConfig = {
             'مهم‌ترین گروه‌های مشتریانی که هدف قرار می‌دهید چه کسانی هستند؟ آن‌ها را به تفکیک لیست کنید.',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'bmc_customer_segments', // ✅ Correct
+          dataKey: 'bmc_customer_segments',
           promptConfig: {
             role: 'You are a startup mentor helping entrepreneurs summarize their key customer segments for the Business Model Canvas.',
             contextKeys: ['customer_segments', 'early_adopter_persona', 'userInput'],
@@ -74,7 +74,7 @@ export const PHASE_3: PhaseConfig = {
             'به هر بخش از مشتریان خود چه قول یا ارزشی می‌دهید؟ چرا آن‌ها باید شما را انتخاب کنند؟',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'bmc_value_propositions', // ✅ Correct
+          dataKey: 'bmc_value_propositions',
           promptConfig: {
             role: 'You are a startup mentor helping to articulate clear value propositions for the BMC.',
             contextKeys: ['uvp_statement', 'how_it_works', 'bmc_customer_segments', 'userInput'],
@@ -100,7 +100,7 @@ export const PHASE_3: PhaseConfig = {
             'از چه راهی (وب‌سایت، اپلیکیشن، فروش مستقیم، شرکا و...) می‌خواهید به مشتریان خود دسترسی پیدا کنید و محصولتان را به دستشان برسانید؟',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'bmc_channels', // ✅ Correct
+          dataKey: 'bmc_channels',
           promptConfig: {
             role: 'You are a startup mentor helping define effective customer channels for the BMC.',
             contextKeys: ['bmc_customer_segments', 'product_description', 'userInput'],
@@ -126,7 +126,7 @@ export const PHASE_3: PhaseConfig = {
             'چه نوع رابطه‌ای با مشتریان خود خواهید داشت? (مثلاً پشتیبانی آنلاین، مدیریت حساب شخصی، انجمن‌های کاربری و...).',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'bmc_customer_relationships', // ✅ Correct
+          dataKey: 'bmc_customer_relationships',
           promptConfig: {
             role: 'You are a startup mentor helping define appropriate customer relationships for the BMC.',
             contextKeys: ['bmc_customer_segments', 'bmc_value_propositions', 'userInput'],
@@ -143,30 +143,24 @@ export const PHASE_3: PhaseConfig = {
           title_en: 'Revenue Streams',
           title_fa: 'جریان‌های درآمدی',
           guidance_en:
-            'This block shows how your business earns money from each customer segment. There are various revenue models, such as direct sales, subscriptions, commissions, etc.',
+            'Define how your business will earn money. If you use a tiered model, specify the name, price, and key difference for each plan.',
           guidance_fa:
-            'این بخش نشان می‌دهد که کسب‌وکار شما چگونه از هر بخش از مشتریان خود کسب درآمد می‌کند. مدل‌های درآمدی مختلفی مانند فروش مستقیم، حق اشتراک، کارمزد، تبلیغات و... وجود دارد.',
+            'نحوه کسب درآمد کسب‌وکارتان را مشخص کنید. اگر از مدل پلکانی استفاده می‌کنید، نام، قیمت و تفاوت اصلی هر پلن را مشخص کنید.',
           question_en:
-            'How and how much will customers pay for your value proposition? What is your primary revenue model?',
+            'What is your primary revenue model? If you have different plans (e.g., Basic, Pro), what are their prices and main features?',
           question_fa:
-            'مشتریان برای ارزش پیشنهادی شما چگونه و چقدر پول پرداخت خواهند کرد؟ مدل اصلی درآمدزایی شما چیست؟',
-          userInputRequired: false,
+            'مدل اصلی درآمدزایی شما چیست؟ اگر پلن‌های مختلفی (مثلاً: پایه، حرفه‌ای) دارید، قیمت و ویژگی‌های اصلی آن‌ها چیست؟',
+          userInputRequired: true,
           outputType: 'list',
-          dataKey: 'bmc_revenue_streams', // ✅ Correct
+          dataKey: 'bmc_revenue_streams',
           promptConfig: {
-            role: 'You are a startup mentor helping to identify viable revenue streams for the BMC.',
-            contextKeys: [
-              'bmc_value_propositions',
-              'bmc_customer_segments',
-              'competitor_analysis',
-              'userInput',
-            ],
-            goal: 'Identify the primary revenue stream and potential secondary streams, with justification.',
+            role: 'You are a business model consultant helping a founder detail their revenue streams for development.',
+            contextKeys: ['bmc_value_propositions', 'how_it_works', 'userInput'],
+            goal: "Structure the founder's revenue model into a clear, developer-friendly format.",
             outputFormat:
-              'A bulleted list detailing the recommended primary revenue model (e.g., Subscription - SaaS) and any potential secondary streams.',
-            constraints: { tone: 'business-oriented', complexity: 'simple' },
-            tools: { webSearch: true },
-            prompt: `You are a startup mentor identifying revenue streams for a BMC.\nFor a startup offering: {bmc_value_propositions}\nTo customers: {bmc_customer_segments}\nWith competitors: {competitor_analysis}\nAnd user input: {userInput}\n\nWhat are the most suitable revenue streams? Your response should include:\n1. **Primary Revenue Stream:** Recommend the single best model to start with (e.g., Tiered Subscription, Freemium, One-Time Purchase) and justify your choice.\n2. **Potential Secondary Streams:** Suggest at least one other potential stream to consider in the future (e.g., Add-on services, Data monetization).`,
+              'A clear description of the revenue model, including a structured breakdown of any pricing tiers.',
+            constraints: { tone: 'business-oriented', complexity: 'moderate' },
+            prompt: `You are a business model consultant clarifying a startup's revenue model.\nBased on:\n- The value offered: {bmc_value_propositions}\n- The product's features: {how_it_works}\n- The user's input: {userInput}\n\nYour task is to structure the revenue model clearly. Follow these steps:\n1. **Identify the Core Model:** State the primary model (e.g., "Subscription-based SaaS," "One-time Purchase," "Freemium").\n2. **Detail the Tiers:** If the model is tiered (including Freemium), create a breakdown for each plan provided by the user. For each plan, specify:\n   - **Plan Name:** (e.g., "Free," "Pro," "Enterprise")\n   - **Price:** (e.g., "$0/month," "$29/month")\n   - **Key Features/Limitations:** (What are the 2-3 main differentiators for this plan? e.g., "Access to core features," "Advanced analytics," "Priority support").`,
           },
         },
         {
@@ -184,7 +178,7 @@ export const PHASE_3: PhaseConfig = {
             'مهم‌ترین منابعی که برای ارائه ارزش پیشنهادی و کارکرد کسب‌وکارتان نیاز دارید چیست؟ (مثلاً پلتفرم نرم‌افزاری، تیم توسعه‌دهنده، سرمایه اولیه).',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'bmc_key_resources', // ✅ Correct
+          dataKey: 'bmc_key_resources',
           promptConfig: {
             role: 'You are a startup mentor helping identify key resources for the BMC.',
             contextKeys: [
@@ -215,7 +209,7 @@ export const PHASE_3: PhaseConfig = {
             'ضروری‌ترین فعالیت‌هایی که باید هر روز انجام دهید تا کسب‌وکارتان موفق شود کدامند؟ (مثلاً توسعه محصول، جذب مشتری، پشتیبانی فنی).',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'bmc_key_activities', // ✅ Correct
+          dataKey: 'bmc_key_activities',
           promptConfig: {
             role: 'You are a startup mentor helping define key activities for the BMC.',
             contextKeys: ['bmc_value_propositions', 'product_description', 'userInput'],
@@ -240,7 +234,7 @@ export const PHASE_3: PhaseConfig = {
           question_fa: 'چه شرکت‌ها، تامین‌کنندگان یا شرکایی برای موفقیت کسب‌وکار شما حیاتی هستند؟',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'bmc_key_partnerships', // ✅ Correct
+          dataKey: 'bmc_key_partnerships',
           promptConfig: {
             role: 'You are a startup mentor helping identify strategic partnerships for the BMC.',
             contextKeys: ['bmc_key_resources', 'bmc_key_activities', 'userInput'],
@@ -266,7 +260,7 @@ export const PHASE_3: PhaseConfig = {
             'بزرگ‌ترین و مهم‌ترین هزینه‌های کسب‌وکار شما چه خواهد بود؟ (مثلاً حقوق تیم، هزینه سرورها، بودجه بازاریابی).',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'bmc_cost_structure', // ✅ Correct
+          dataKey: 'bmc_cost_structure',
           promptConfig: {
             role: 'You are a startup mentor helping to outline the cost structure for the BMC.',
             contextKeys: ['bmc_key_resources', 'bmc_key_activities', 'userInput'],

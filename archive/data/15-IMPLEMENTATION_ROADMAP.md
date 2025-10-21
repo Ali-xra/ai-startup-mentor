@@ -1,6 +1,7 @@
 # 🗺️ نقشه راه پیاده‌سازی پروژه AI Startup Mentor
 
 ## 📅 **تاریخ ایجاد: ۱۷ اکتبر ۲۰۲۵**
+
 ## 📝 **آخرین به‌روزرسانی: ۱۷ اکتبر ۲۰۲۵**
 
 ---
@@ -8,9 +9,11 @@
 ## 📖 **راهنمای استفاده از این فایل**
 
 ### **این فایل چیست؟**
+
 این فایل یک **نقشه راه کامل** برای تکمیل و بهبود پروژه AI Startup Mentor است. شامل ۶ فاز اصلی که به ترتیب اولویت مرتب شده‌اند.
 
 ### **چطور از این فایل استفاده کنیم؟**
+
 1. **هر فاز یک checkbox دارد** - وقتی فاز کامل شد، ☐ را به ✅ تبدیل کنید
 2. **هر task یک checkbox دارد** - وقتی task انجام شد، ☐ را به ✅ تبدیل کنید
 3. **تاریخ شروع و پایان** را در هر فاز یادداشت کنید
@@ -18,6 +21,7 @@
 5. **به‌روزرسانی تاریخ** بالای فایل را فراموش نکنید
 
 ### **وضعیت فعلی پروژه:**
+
 - ✅ تحلیل و بررسی مستندات انجام شده
 - ✅ فایل تحلیل جامع ایجاد شده (00-COMPREHENSIVE_ANALYSIS_AND_IMPROVEMENTS.md)
 - ⏳ آماده برای شروع پیاده‌سازی
@@ -27,16 +31,17 @@
 
 ## 📊 **نمای کلی فازها**
 
-| فاز | عنوان | مدت زمان | اولویت | وضعیت |
-|-----|--------|----------|---------|--------|
-| **۱** | معماری و Navigation | ۱-۲ هفته | 🔴 بالا | ☐ در انتظار |
-| **۲** | راه‌اندازی تست‌ها | ۳-۴ هفته | 🔴 بالا | ☐ در انتظار |
-| **۳** | Performance و Caching | ۲-۳ هفته | 🟡 متوسط | ☐ در انتظار |
-| **۴** | Design System و UI/UX | ۲-۳ هفته | 🟡 متوسط | ☐ در انتظار |
-| **۵** | امنیت و Deployment | ۱-۲ هفته | 🔴 بالا | ☐ در انتظار |
-| **۶** | مستندات نهایی | ۱ هفته | 🟢 پایین | ☐ در انتظار |
+| فاز     | عنوان                 | مدت زمان | اولویت   | وضعیت       |
+| ------- | --------------------- | -------- | -------- | ----------- |
+| **۱**   | معماری و Navigation   | ۱-۲ هفته | 🔴 بالا  | ☐ در انتظار |
+| **۱.۵** | سیستم چندزبانه (i18n) | ۴-۵ روز  | 🔴 بالا  | ☐ در انتظار |
+| **۲**   | راه‌اندازی تست‌ها     | ۳-۴ هفته | 🔴 بالا  | ☐ در انتظار |
+| **۳**   | Performance و Caching | ۲-۳ هفته | 🟡 متوسط | ☐ در انتظار |
+| **۴**   | Design System و UI/UX | ۲-۳ هفته | 🟡 متوسط | ☐ در انتظار |
+| **۵**   | امنیت و Deployment    | ۱-۲ هفته | 🔴 بالا  | ☐ در انتظار |
+| **۶**   | مستندات نهایی         | ۱ هفته   | 🟢 پایین | ☐ در انتظار |
 
-**جمع کل:** ۱۰-۱۵ هفته (۲.۵-۳.۵ ماه)
+**جمع کل:** ۱۱-۱۶ هفته (۲.۷۵-۴ ماه)
 
 **درصد پیشرفت کلی:** ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0%
 
@@ -45,6 +50,7 @@
 # 🚀 **فاز ۱: اصلاح معماری و Navigation**
 
 ## ☐ **وضعیت:** در انتظار شروع
+
 **اولویت:** 🔴 بالا (CRITICAL)
 **مدت زمان:** ۱-۲ هفته
 **تاریخ شروع:** -
@@ -53,11 +59,13 @@
 ---
 
 ## 🎯 **هدف این فاز:**
+
 اصلاح مشکلات اساسی معماری، حذف navigation پیچیده، و پیاده‌سازی error handling حرفه‌ای.
 
 ## 📋 **Tasks این فاز:**
 
 ### **۱.۱ حذف Navigation پیچیده** ⏱️ ۲-۳ روز
+
 - ☐ بررسی فایل‌های HTML موجود (auth.html, app.html, investor.html)
 - ☐ ایجاد یک فایل index.html واحد
 - ☐ پیاده‌سازی React Router DOM یکپارچه
@@ -65,6 +73,7 @@
 - ☐ تست navigation در تمام صفحات
 
 **فایل‌های تغییر داده شده:**
+
 ```
 - index.html (جدید - واحد)
 - src/App.tsx (اصلاح شده)
@@ -73,6 +82,7 @@
 ```
 
 **کد نمونه:**
+
 ```typescript
 // src/App.tsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -95,6 +105,7 @@ function App() {
 ---
 
 ### **۱.۲ پیاده‌سازی Error Boundaries** ⏱️ ۱-۲ روز
+
 - ☐ ایجاد کامپوننت ErrorBoundary
 - ☐ ایجاد کامپوننت ErrorFallback
 - ☐ اضافه کردن ErrorBoundary به App.tsx
@@ -102,12 +113,14 @@ function App() {
 - ☐ تست با throw error در کامپوننت‌ها
 
 **فایل‌های جدید:**
+
 ```
 - src/components/ErrorBoundary.tsx
 - src/components/ErrorFallback.tsx
 ```
 
 **کد نمونه:**
+
 ```typescript
 // src/components/ErrorBoundary.tsx
 import React, { Component, ErrorInfo, ReactNode } from 'react';
@@ -152,6 +165,7 @@ export default ErrorBoundary;
 ---
 
 ### **۱.۳ پیاده‌سازی Error Handler متمرکز** ⏱️ ۱-۲ روز
+
 - ☐ ایجاد error handler service
 - ☐ پیاده‌سازی error logging
 - ☐ پیاده‌سازی user-friendly error messages
@@ -159,12 +173,14 @@ export default ErrorBoundary;
 - ☐ تست با انواع خطاهای مختلف
 
 **فایل‌های جدید:**
+
 ```
 - src/services/errorHandler.ts
 - src/utils/errorMessages.ts
 ```
 
 **کد نمونه:**
+
 ```typescript
 // src/services/errorHandler.ts
 export class AppError extends Error {
@@ -183,11 +199,7 @@ export const handleApiError = (error: any): AppError => {
 
   // Supabase errors
   if (error.code) {
-    return new AppError(
-      getErrorMessage(error.code),
-      error.code,
-      error.status || 500
-    );
+    return new AppError(getErrorMessage(error.code), error.code, error.status || 500);
   }
 
   // Network errors
@@ -200,11 +212,7 @@ export const handleApiError = (error: any): AppError => {
   }
 
   // Generic error
-  return new AppError(
-    'خطای غیرمنتظره. لطفاً دوباره تلاش کنید.',
-    'UNKNOWN_ERROR',
-    500
-  );
+  return new AppError('خطای غیرمنتظره. لطفاً دوباره تلاش کنید.', 'UNKNOWN_ERROR', 500);
 };
 
 const getErrorMessage = (code: string): string => {
@@ -223,18 +231,21 @@ const getErrorMessage = (code: string): string => {
 ---
 
 ### **۱.۴ اضافه کردن Loading States** ⏱️ ۱ روز
+
 - ☐ ایجاد کامپوننت LoadingSpinner
 - ☐ ایجاد کامپوننت Skeleton Loading
 - ☐ اضافه کردن loading state به همه API calls
 - ☐ تست loading states در صفحات مختلف
 
 **فایل‌های جدید:**
+
 ```
 - src/components/LoadingSpinner.tsx
 - src/components/SkeletonLoader.tsx
 ```
 
 **کد نمونه:**
+
 ```typescript
 // src/components/LoadingSpinner.tsx
 import { Loader } from 'lucide-react';
@@ -263,6 +274,7 @@ export const LoadingSpinner = ({ size = 'md', text }: LoadingSpinnerProps) => {
 ---
 
 ### **۱.۵ بهبود State Management** ⏱️ ۱-۲ روز
+
 - ☐ بررسی Context‌های موجود
 - ☐ رفع prop drilling در کامپوننت‌های بزرگ
 - ☐ اضافه کردن error state به همه Context‌ها
@@ -270,6 +282,7 @@ export const LoadingSpinner = ({ size = 'md', text }: LoadingSpinnerProps) => {
 - ☐ تست state management
 
 **فایل‌های اصلاح شده:**
+
 ```
 - src/contexts/AuthContext.tsx
 - src/contexts/LanguageContext.tsx
@@ -279,6 +292,7 @@ export const LoadingSpinner = ({ size = 'md', text }: LoadingSpinnerProps) => {
 ---
 
 ### **۱.۶ اضافه کردن ESLint و Prettier** ⏱️ ۱ روز
+
 - ☐ نصب ESLint و Prettier
 - ☐ پیکربندی .eslintrc.json
 - ☐ پیکربندی .prettierrc
@@ -286,6 +300,7 @@ export const LoadingSpinner = ({ size = 'md', text }: LoadingSpinnerProps) => {
 - ☐ اضافه کردن scripts به package.json
 
 **دستورات:**
+
 ```bash
 npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
@@ -297,6 +312,7 @@ npx husky add .husky/pre-commit "npx lint-staged"
 ```
 
 **فایل‌های جدید:**
+
 ```
 - .eslintrc.json
 - .prettierrc
@@ -309,16 +325,19 @@ npx husky add .husky/pre-commit "npx lint-staged"
 ## ✅ **Checklist نهایی فاز ۱:**
 
 ### **قبل از شروع:**
+
 - ☐ بررسی کامل فایل‌های موجود
 - ☐ ایجاد branch جدید: `feature/phase1-architecture`
 - ☐ Backup از کدهای فعلی
 
 ### **حین کار:**
+
 - ☐ Commit منظم با پیام‌های واضح
 - ☐ تست هر بخش بعد از پیاده‌سازی
 - ☐ به‌روزرسانی این فایل
 
 ### **بعد از اتمام:**
+
 - ☐ تست کامل تمام صفحات
 - ☐ بررسی console برای errors
 - ☐ Code review
@@ -329,9 +348,9 @@ npx husky add .husky/pre-commit "npx lint-staged"
 
 ## 📝 **Notes و مشکلات فاز ۱:**
 
-**تاریخ** | **نکته/مشکل** | **راه‌حل**
-----------|----------------|------------
-- | - | -
+| **تاریخ** | **نکته/مشکل** | **راه‌حل** |
+| --------- | ------------- | ---------- |
+| -         | -             | -          |
 
 ---
 
@@ -350,9 +369,457 @@ npx husky add .husky/pre-commit "npx lint-staged"
 
 ---
 
+# 🌍 **فاز ۱.۵: پیاده‌سازی سیستم چندزبانه (i18n)**
+
+## ☐ **وضعیت:** در انتظار شروع
+
+**اولویت:** 🔴 بالا (CRITICAL)
+**مدت زمان:** ۴-۵ روز
+**تاریخ شروع:** -
+**تاریخ پایان:** -
+
+---
+
+## 🎯 **هدف این فاز:**
+
+پیاده‌سازی سیستم ترجمه حرفه‌ای با i18next برای پشتیبانی از چندین زبان (en, fa, is و بعداً زبان‌های بیشتر) با قابلیت استفاده در Web و Mobile.
+
+---
+
+## 📋 **Tasks این فاز:**
+
+### **۱.۵.۱ نصب و Setup i18next** ⏱️ 2-3 ساعت
+
+- ☐ نصب i18next و کتابخانه‌های مرتبط
+- ☐ ساخت فولدر `public/locales/`
+- ☐ ساخت فایل `src/i18n/config.ts`
+- ☐ اتصال i18next به React در `App.tsx`
+- ☐ تست با یک کامپوننت sample
+
+**دستورات:**
+
+```bash
+npm install i18next react-i18next i18next-http-backend
+npm install i18next-browser-languagedetector
+```
+
+**فایل‌های جدید:**
+
+```
+public/
+└── locales/
+    ├── en/
+    │   ├── common.json
+    │   ├── auth.json
+    │   ├── marketplace.json
+    │   └── entrepreneur.json
+    ├── fa/
+    │   └── ... (same structure)
+    └── is/
+        └── ... (same structure)
+
+src/
+└── i18n/
+    ├── config.ts
+    └── types.ts
+```
+
+**کد نمونه:**
+
+```typescript
+// src/i18n/config.ts
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import HttpBackend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+i18next
+  .use(HttpBackend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: 'en',
+    supportedLngs: ['en', 'fa', 'is'],
+
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+    },
+
+    ns: ['common', 'auth', 'marketplace', 'entrepreneur', 'investor', 'admin', 'consultant'],
+    defaultNS: 'common',
+
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+export default i18next;
+```
+
+---
+
+### **۱.۵.۲ ساخت اسکریپت تبدیل ترجمه‌ها** ⏱️ 3-4 ساعت
+
+- ☐ ساخت اسکریپت `scripts/convert-i18n.ts`
+- ☐ خواندن فایل `src/i18n.ts` موجود
+- ☐ تبدیل به فرمت JSON
+- ☐ تقسیم به namespaceهای مختلف
+- ☐ اجرا و تست
+
+**فایل جدید:**
+
+```
+scripts/
+└── convert-i18n.ts
+```
+
+**کد نمونه:**
+
+```typescript
+// scripts/convert-i18n.ts
+import fs from 'fs';
+import path from 'path';
+
+// Read src/i18n.ts
+const i18nContent = fs.readFileSync('src/i18n.ts', 'utf-8');
+
+// Parse translations object
+const enTranslations = extractTranslations(i18nContent, 'en');
+const faTranslations = extractTranslations(i18nContent, 'fa');
+
+// Split by namespace
+const namespaces = ['common', 'auth', 'marketplace', 'entrepreneur', 'investor', 'admin'];
+
+namespaces.forEach((ns) => {
+  const enData = filterByNamespace(enTranslations, ns);
+  const faData = filterByNamespace(faTranslations, ns);
+
+  // Write JSON files
+  writeJSON(`public/locales/en/${ns}.json`, enData);
+  writeJSON(`public/locales/fa/${ns}.json`, faData);
+});
+
+console.log('✅ Conversion complete!');
+```
+
+---
+
+### **۱.۵.۳ ساخت اسکریپت ترجمه خودکار با Google Translate** ⏱️ 2-3 ساعت
+
+- ☐ ساخت اسکریپت `scripts/translate-to-language.ts`
+- ☐ اتصال به Google Translate API
+- ☐ ترجمه فایل‌های انگلیسی به ایسلندی
+- ☐ ذخیره در `public/locales/is/`
+- ☐ تست و بررسی کیفیت
+
+**دستورات:**
+
+```bash
+npm install @google-cloud/translate
+# یا
+npm install google-translate-api-x
+```
+
+**فایل جدید:**
+
+```
+scripts/
+└── translate-to-language.ts
+```
+
+**کد نمونه:**
+
+```typescript
+// scripts/translate-to-language.ts
+import { Translate } from '@google-cloud/translate/v2';
+import fs from 'fs';
+
+const translate = new Translate({ key: process.env.GOOGLE_TRANSLATE_API_KEY });
+
+async function translateFile(sourceLang: string, targetLang: string, namespace: string) {
+  // Read source JSON
+  const sourceFile = `public/locales/${sourceLang}/${namespace}.json`;
+  const sourceData = JSON.parse(fs.readFileSync(sourceFile, 'utf-8'));
+
+  // Translate all values
+  const translatedData = {};
+  for (const [key, value] of Object.entries(sourceData)) {
+    if (typeof value === 'string') {
+      const [translation] = await translate.translate(value, targetLang);
+      translatedData[key] = translation;
+    }
+  }
+
+  // Write target JSON
+  const targetFile = `public/locales/${targetLang}/${namespace}.json`;
+  fs.writeFileSync(targetFile, JSON.stringify(translatedData, null, 2));
+
+  console.log(`✅ Translated ${namespace} to ${targetLang}`);
+}
+
+// Translate all namespaces to Icelandic
+const namespaces = ['common', 'auth', 'marketplace', 'entrepreneur'];
+for (const ns of namespaces) {
+  await translateFile('en', 'is', ns);
+}
+```
+
+---
+
+### **۱.۵.۴ Migration کامپوننت‌های Common UI** ⏱️ 4-5 ساعت
+
+- ☐ Migrate `Header.tsx`
+- ☐ Migrate `SettingsMenu.tsx`
+- ☐ Migrate `AuthScreen.tsx`
+- ☐ Migrate `LanguageSelector.tsx`
+- ☐ تست تغییر زبان
+
+**قبل:**
+
+```typescript
+// Old way
+import { t } from '../i18n';
+const text = t('key', locale);
+```
+
+**بعد:**
+
+```typescript
+// New way
+import { useTranslation } from 'react-i18next';
+
+function Component() {
+  const { t } = useTranslation('common');
+  return <h1>{t('title')}</h1>;
+}
+```
+
+---
+
+### **۱.۵.۵ Migration صفحه Marketplace** ⏱️ 3-4 ساعت
+
+- ☐ استخراج تمام متن‌های hard-coded
+- ☐ ساخت `public/locales/en/marketplace.json`
+- ☐ ساخت `public/locales/fa/marketplace.json`
+- ☐ Migrate `MarketplacePage.tsx`
+- ☐ Migrate `ProjectCard.tsx`
+- ☐ Migrate `ProjectFilters.tsx`
+- ☐ Migrate `CommentsModal.tsx`
+- ☐ تست کامل
+
+**مثال فایل JSON:**
+
+```json
+{
+  "title": "Marketplace",
+  "subtitle": "Discover innovative startup ideas",
+  "searchPlaceholder": "Search projects...",
+  "filters": {
+    "all": "All Projects",
+    "trending": "Trending",
+    "completed": "Completed",
+    "recent": "Recent"
+  },
+  "project": {
+    "owner": "Project Owner",
+    "progress": "Project Progress",
+    "phase": "Phase {{current}} of {{total}}",
+    "comments": "Comments",
+    "like": "Like"
+  }
+}
+```
+
+---
+
+### **۱.۵.۶ Migration صفحه Entrepreneur Dashboard** ⏱️ 3-4 ساعت
+
+- ☐ استخراج متن‌ها
+- ☐ ساخت `entrepreneur.json`
+- ☐ Migrate `EntrepreneurDashboard.tsx`
+- ☐ Migrate `ProjectsList.tsx`
+- ☐ Migrate `SimpleNewProjectPage.tsx`
+- ☐ تست
+
+---
+
+### **۱.۵.۷ Migration صفحات Landing/Pricing/About** ⏱️ 4-5 ساعت
+
+- ☐ استخراج ترجمه‌های inline از `LandingPage.tsx`
+- ☐ استخراج ترجمه‌های inline از `PricingPage.tsx`
+- ☐ استخراج ترجمه‌های inline از `AboutPage.tsx`
+- ☐ ساخت JSON files
+- ☐ Migration کامپوننت‌ها
+- ☐ تست
+
+---
+
+### **۱.۵.۸ Migration بقیه صفحات** ⏱️ 4-5 ساعت
+
+- ☐ Admin panels
+- ☐ Investor dashboard
+- ☐ Consultant dashboard
+- ☐ تست همه صفحات
+
+---
+
+### **۱.۵.۹ بهینه‌سازی و Cleanup** ⏱️ 2-3 ساعت
+
+- ☐ حذف فایل‌های قدیمی (`src/i18n.ts`, `src/i18n/translations.ts`)
+- ☐ حذف `translationService.ts` (اگر دیگه لازم نیست)
+- ☐ به‌روزرسانی imports
+- ☐ تست build production
+- ☐ بررسی bundle size
+
+---
+
+### **۱.۵.۱۰ مستندسازی** ⏱️ 1-2 ساعت
+
+- ☐ راهنمای اضافه کردن زبان جدید
+- ☐ راهنمای اضافه کردن ترجمه جدید
+- ☐ راهنمای استفاده در کامپوننت‌ها
+- ☐ مثال‌های کد
+
+**فایل جدید:**
+
+```
+I18N_GUIDE.md
+```
+
+---
+
+## ✅ **Checklist نهایی فاز ۱.۵:**
+
+### **قبل از شروع:**
+
+- ☐ بررسی کامل ساختار فعلی i18n
+- ☐ ایجاد branch جدید: `feature/i18n-implementation`
+- ☐ Backup از کدهای فعلی
+
+### **حین کار:**
+
+- ☐ اجرای اسکریپت تبدیل ترجمه‌ها
+- ☐ اجرای اسکریپت ترجمه خودکار برای ایسلندی
+- ☐ Migration تدریجی کامپوننت‌ها
+- ☐ تست هر بخش بعد از migration
+
+### **بعد از اتمام:**
+
+- ☐ تست تغییر زبان در تمام صفحات
+- ☐ بررسی RTL/LTR switching
+- ☐ بررسی lazy loading
+- ☐ تست production build
+- ☐ Code review
+- ☐ Merge به main branch
+- ☐ تغییر وضعیت به ✅
+
+---
+
+## 📝 **Notes و مشکلات فاز ۱.۵:**
+
+| **تاریخ** | **نکته/مشکل** | **راه‌حل** |
+| --------- | ------------- | ---------- |
+| -         | -             | -          |
+
+---
+
+## 📊 **معیارهای موفقیت فاز ۱.۵:**
+
+- ✅ i18next راه‌اندازی شده و کار می‌کند
+- ✅ حداقل 3 زبان پشتیبانی می‌شود (en, fa, is)
+- ✅ تمام صفحات migrate شده‌اند
+- ✅ هیچ متن hard-coded وجود ندارد
+- ✅ تغییر زبان در تمام صفحات کار می‌کند
+- ✅ RTL/LTR switching صحیح است
+- ✅ Bundle size افزایش قابل توجه نداشته
+- ✅ مستندات کامل است
+
+**درصد پیشرفت فاز ۱.۵:** ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0%
+
+---
+
+## 🎯 **خروجی‌های این فاز:**
+
+### **فایل‌های جدید:**
+
+```
+public/locales/
+├── en/
+│   ├── common.json
+│   ├── auth.json
+│   ├── marketplace.json
+│   ├── entrepreneur.json
+│   ├── investor.json
+│   ├── admin.json
+│   └── consultant.json
+├── fa/
+│   └── ... (same)
+└── is/
+    └── ... (same)
+
+src/i18n/
+├── config.ts
+└── types.ts
+
+scripts/
+├── convert-i18n.ts
+└── translate-to-language.ts
+
+I18N_GUIDE.md
+```
+
+### **فایل‌های حذف شده:**
+
+```
+src/i18n.ts (قدیمی)
+src/i18n/translations.ts (شاید)
+src/services/translationService.ts (اگر لازم نباشه)
+```
+
+### **فایل‌های ویرایش شده:**
+
+```
+src/App.tsx
+src/components/Header.tsx
+src/components/SettingsMenu.tsx
+src/components/AuthScreen.tsx
+src/pages/MarketplacePage.tsx
+src/pages/EntrepreneurApp.tsx
+... (50+ فایل)
+```
+
+---
+
+## 💡 **نکات مهم:**
+
+1. **اسکریپت ترجمه خودکار:**
+   - Google Translate برای draft اولیه خوبه
+   - بعداً باید مترجم انسانی review کنه
+   - کیفیت برای زبان‌های اروپایی بهتره
+
+2. **Lazy Loading:**
+   - فقط زبان فعلی لود میشه
+   - Bundle size زیاد نمیشه
+   - تغییر زبان سریع هست
+
+3. **Mobile App:**
+   - همین ساختار در React Native کار می‌کنه
+   - فقط backend رو عوض می‌کنیم
+   - JSON files مشترک هستن
+
+4. **افزودن زبان جدید:**
+   - فقط اسکریپت ترجمه رو اجرا کن
+   - یک خط به `supportedLngs` اضافه کن
+   - یک آیتم به `LanguageSelector` اضافه کن
+
+---
+
+---
+
 # 🧪 **فاز ۲: راه‌اندازی تست‌ها**
 
 ## ☐ **وضعیت:** در انتظار
+
 **اولویت:** 🔴 بالا (CRITICAL)
 **مدت زمان:** ۳-۴ هفته
 **تاریخ شروع:** -
@@ -361,11 +828,13 @@ npx husky add .husky/pre-commit "npx lint-staged"
 ---
 
 ## 🎯 **هدف این فاز:**
+
 راه‌اندازی سیستم تست کامل شامل Unit Tests، Integration Tests، و E2E Tests.
 
 ## 📋 **Tasks این فاز:**
 
 ### **۲.۱ راه‌اندازی Jest و React Testing Library** ⏱️ ۱-۲ روز
+
 - ☐ نصب dependencies تست
 - ☐ پیکربندی jest.config.js
 - ☐ پیکربندی test setup
@@ -373,6 +842,7 @@ npx husky add .husky/pre-commit "npx lint-staged"
 - ☐ اجرای تست و بررسی
 
 **دستورات:**
+
 ```bash
 npm install --save-dev jest jest-environment-jsdom
 npm install --save-dev @testing-library/react @testing-library/jest-dom
@@ -381,6 +851,7 @@ npm install --save-dev @types/jest
 ```
 
 **فایل‌های جدید:**
+
 ```
 - jest.config.js
 - jest.setup.js
@@ -388,6 +859,7 @@ npm install --save-dev @types/jest
 ```
 
 **کد نمونه:**
+
 ```javascript
 // jest.config.js
 module.exports = {
@@ -397,11 +869,7 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
-  collectCoverageFrom: [
-    'src/**/*.{js,jsx,ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/index.tsx',
-  ],
+  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts', '!src/index.tsx'],
   coverageThreshold: {
     global: {
       branches: 70,
@@ -416,6 +884,7 @@ module.exports = {
 ---
 
 ### **۲.۲ تست کامپوننت‌های اصلی** ⏱️ ۱-۲ هفته
+
 - ☐ تست AuthScreen.tsx
 - ☐ تست RoleSelection.tsx
 - ☐ تست Header.tsx
@@ -427,6 +896,7 @@ module.exports = {
 - ☐ تست 12+ کامپوننت دیگر
 
 **فایل‌های جدید:**
+
 ```
 - src/components/__tests__/AuthScreen.test.tsx
 - src/components/__tests__/RoleSelection.test.tsx
@@ -435,6 +905,7 @@ module.exports = {
 ```
 
 **مثال تست:**
+
 ```typescript
 // src/components/__tests__/AuthScreen.test.tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
@@ -479,6 +950,7 @@ describe('AuthScreen', () => {
 ---
 
 ### **۲.۳ تست Custom Hooks** ⏱️ ۲-۳ روز
+
 - ☐ تست useAuth
 - ☐ تست useStartupJourney
 - ☐ تست useAdminAuth
@@ -487,6 +959,7 @@ describe('AuthScreen', () => {
 - ☐ تست useFeatureFlags
 
 **فایل‌های جدید:**
+
 ```
 - src/hooks/__tests__/useAuth.test.ts
 - src/hooks/__tests__/useStartupJourney.test.ts
@@ -496,6 +969,7 @@ describe('AuthScreen', () => {
 ---
 
 ### **۲.۴ تست Services** ⏱️ ۲-۳ روز
+
 - ☐ تست supabaseClient
 - ☐ تست investorService
 - ☐ تست investorProfileService
@@ -504,6 +978,7 @@ describe('AuthScreen', () => {
 - ☐ تست upgradeRequestService
 
 **فایل‌های جدید:**
+
 ```
 - src/services/__tests__/supabaseClient.test.ts
 - src/services/__tests__/investorService.test.ts
@@ -513,6 +988,7 @@ describe('AuthScreen', () => {
 ---
 
 ### **۲.۵ راه‌اندازی Cypress E2E Tests** ⏱️ ۳-۵ روز
+
 - ☐ نصب Cypress
 - ☐ پیکربندی cypress.config.ts
 - ☐ نوشتن تست ثبت‌نام کامل
@@ -522,12 +998,14 @@ describe('AuthScreen', () => {
 - ☐ نوشتن تست سناریوی admin
 
 **دستورات:**
+
 ```bash
 npm install --save-dev cypress
 npx cypress open
 ```
 
 **فایل‌های جدید:**
+
 ```
 - cypress.config.ts
 - cypress/e2e/auth.cy.ts
@@ -537,6 +1015,7 @@ npx cypress open
 ```
 
 **مثال E2E Test:**
+
 ```typescript
 // cypress/e2e/auth.cy.ts
 describe('Authentication Flow', () => {
@@ -576,6 +1055,7 @@ describe('Authentication Flow', () => {
 ---
 
 ### **۲.۶ راه‌اندازی CI/CD Pipeline** ⏱️ ۱-۲ روز
+
 - ☐ ایجاد GitHub Actions workflow
 - ☐ تنظیم اجرای خودکار تست‌ها
 - ☐ تنظیم لینت و type checking
@@ -583,53 +1063,55 @@ describe('Authentication Flow', () => {
 - ☐ تست pipeline
 
 **فایل جدید:**
+
 ```
 - .github/workflows/ci.yml
 ```
 
 **کد نمونه:**
+
 ```yaml
 # .github/workflows/ci.yml
 name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Run ESLint
-      run: npm run lint
+      - name: Run ESLint
+        run: npm run lint
 
-    - name: Run TypeScript check
-      run: npm run type-check
+      - name: Run TypeScript check
+        run: npm run type-check
 
-    - name: Run tests
-      run: npm run test:coverage
+      - name: Run tests
+        run: npm run test:coverage
 
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
-      with:
-        files: ./coverage/lcov.info
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
 
-    - name: Run E2E tests
-      run: npm run test:e2e
+      - name: Run E2E tests
+        run: npm run test:e2e
 ```
 
 ---
@@ -649,9 +1131,9 @@ jobs:
 
 ## 📝 **Notes و مشکلات فاز ۲:**
 
-**تاریخ** | **نکته/مشکل** | **راه‌حل**
-----------|----------------|------------
-- | - | -
+| **تاریخ** | **نکته/مشکل** | **راه‌حل** |
+| --------- | ------------- | ---------- |
+| -         | -             | -          |
 
 ---
 
@@ -672,6 +1154,7 @@ jobs:
 # ⚡ **فاز ۳: بهبود Performance و Caching**
 
 ## ☐ **وضعیت:** در انتظار
+
 **اولویت:** 🟡 متوسط
 **مدت زمان:** ۲-۳ هفته
 **تاریخ شروع:** -
@@ -680,11 +1163,13 @@ jobs:
 ---
 
 ## 🎯 **هدف این فاز:**
+
 بهینه‌سازی عملکرد اپلیکیشن، کاهش زمان بارگذاری، و پیاده‌سازی caching.
 
 ## 📋 **Tasks این فاز:**
 
 ### **۳.۱ پیاده‌سازی React Query** ⏱️ ۳-۴ روز
+
 - ☐ نصب React Query
 - ☐ پیکربندی QueryClient
 - ☐ تبدیل API calls به queries
@@ -693,12 +1178,14 @@ jobs:
 - ☐ تست caching
 
 **دستورات:**
+
 ```bash
 npm install @tanstack/react-query
 npm install @tanstack/react-query-devtools
 ```
 
 **کد نمونه:**
+
 ```typescript
 // src/lib/queryClient.ts
 import { QueryClient } from '@tanstack/react-query';
@@ -730,6 +1217,7 @@ export const useProjects = () => {
 ---
 
 ### **۳.۲ Code Splitting و Lazy Loading** ⏱️ ۲-۳ روز
+
 - ☐ پیاده‌سازی React.lazy برای صفحات
 - ☐ پیاده‌سازی Suspense
 - ☐ Lazy load کامپوننت‌های سنگین
@@ -737,11 +1225,13 @@ export const useProjects = () => {
 - ☐ بررسی bundle analyzer
 
 **دستورات:**
+
 ```bash
 npm install --save-dev webpack-bundle-analyzer
 ```
 
 **کد نمونه:**
+
 ```typescript
 // src/App.tsx
 import { lazy, Suspense } from 'react';
@@ -775,6 +1265,7 @@ function App() {
 ---
 
 ### **۳.۳ Image Optimization** ⏱️ ۱-۲ روز
+
 - ☐ پیاده‌سازی lazy loading تصاویر
 - ☐ استفاده از modern formats (WebP)
 - ☐ اضافه کردن placeholder images
@@ -782,6 +1273,7 @@ function App() {
 - ☐ تست با Lighthouse
 
 **کد نمونه:**
+
 ```typescript
 // src/components/OptimizedImage.tsx
 import { useState } from 'react';
@@ -815,6 +1307,7 @@ export const OptimizedImage = ({ src, alt, className }: OptimizedImageProps) => 
 ---
 
 ### **۳.۴ Bundle Size Optimization** ⏱️ ۱-۲ روز
+
 - ☐ بررسی bundle size با analyzer
 - ☐ حذف dependencies غیرضروری
 - ☐ Tree shaking
@@ -824,6 +1317,7 @@ export const OptimizedImage = ({ src, alt, className }: OptimizedImageProps) => 
 ---
 
 ### **۳.۵ Database Query Optimization** ⏱️ ۲-۳ روز
+
 - ☐ بررسی queryهای کند
 - ☐ اضافه کردن indexes جدید
 - ☐ بهینه‌سازی queryهای پیچیده
@@ -831,6 +1325,7 @@ export const OptimizedImage = ({ src, alt, className }: OptimizedImageProps) => 
 - ☐ تست عملکرد
 
 **کد نمونه:**
+
 ```typescript
 // src/services/projectService.ts
 export const getProjectsPaginated = async (page = 1, limit = 20) => {
@@ -860,6 +1355,7 @@ export const getProjectsPaginated = async (page = 1, limit = 20) => {
 ---
 
 ### **۳.۶ Performance Monitoring** ⏱️ ۱ روز
+
 - ☐ اضافه کردن performance metrics
 - ☐ تنظیم Lighthouse CI
 - ☐ بررسی Core Web Vitals
@@ -895,6 +1391,7 @@ export const getProjectsPaginated = async (page = 1, limit = 20) => {
 # 🎨 **فاز ۴: ایجاد Design System و بهبود UI/UX**
 
 ## ☐ **وضعیت:** در انتظار
+
 **اولویت:** 🟡 متوسط
 **مدت زمان:** ۲-۳ هفته
 **تاریخ شروع:** -
@@ -903,11 +1400,13 @@ export const getProjectsPaginated = async (page = 1, limit = 20) => {
 ---
 
 ## 🎯 **هدف این فاز:**
+
 ایجاد Design System یکپارچ، بهبود Accessibility، و تکمیل UI/UX.
 
 ## 📋 **Tasks این فاز:**
 
 ### **۴.۱ ایجاد کامپوننت‌های پایه** ⏱️ ۴-۵ روز
+
 - ☐ Button component
 - ☐ Input component
 - ☐ Select component
@@ -920,6 +1419,7 @@ export const getProjectsPaginated = async (page = 1, limit = 20) => {
 - ☐ Tooltip component
 
 **ساختار پوشه:**
+
 ```
 src/components/ui/
 ├── Button.tsx
@@ -935,6 +1435,7 @@ src/components/ui/
 ```
 
 **مثال Button:**
+
 ```typescript
 // src/components/ui/Button.tsx
 import { ButtonHTMLAttributes, ReactNode } from 'react';
@@ -989,6 +1490,7 @@ export const Button = ({
 ---
 
 ### **۴.۲ راه‌اندازی Storybook** ⏱️ ۲-۳ روز
+
 - ☐ نصب Storybook
 - ☐ پیکربندی Storybook
 - ☐ نوشتن stories برای کامپوننت‌های پایه
@@ -996,6 +1498,7 @@ export const Button = ({
 - ☐ Deploy Storybook
 
 **دستورات:**
+
 ```bash
 npx storybook@latest init
 npm run storybook
@@ -1004,6 +1507,7 @@ npm run storybook
 ---
 
 ### **۴.۳ پیاده‌سازی Theme System** ⏱️ ۲-۳ روز
+
 - ☐ ایجاد theme configuration
 - ☐ پیاده‌سازی ThemeProvider
 - ☐ اضافه کردن CSS variables
@@ -1013,6 +1517,7 @@ npm run storybook
 ---
 
 ### **۴.۴ بهبود Accessibility** ⏱️ ۳-۴ روز
+
 - ☐ اضافه کردن ARIA labels به همه کامپوننت‌ها
 - ☐ پیاده‌سازی keyboard navigation
 - ☐ بهبود color contrast
@@ -1021,6 +1526,7 @@ npm run storybook
 - ☐ تست با Lighthouse Accessibility
 
 **کد نمونه:**
+
 ```typescript
 // ARIA labels example
 <button
@@ -1043,6 +1549,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
 ---
 
 ### **۴.۵ اضافه کردن Animations** ⏱️ ۱-۲ روز
+
 - ☐ پیاده‌سازی transition‌های smooth
 - ☐ اضافه کردن loading animations
 - ☐ اضافه کردن hover effects
@@ -1052,6 +1559,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
 ---
 
 ### **۴.۶ بهبود Responsive Design** ⏱️ ۲-۳ روز
+
 - ☐ تست در سایزهای مختلف
 - ☐ اصلاح breakpoints
 - ☐ بهینه‌سازی برای موبایل
@@ -1088,6 +1596,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
 # 🔒 **فاز ۵: امنیت و Deployment**
 
 ## ☐ **وضعیت:** در انتظار
+
 **اولویت:** 🔴 بالا
 **مدت زمان:** ۱-۲ هفته
 **تاریخ شروع:** -
@@ -1096,31 +1605,37 @@ const handleKeyDown = (e: KeyboardEvent) => {
 ---
 
 ## 🎯 **هدف این فاز:**
+
 تقویت امنیت، آماده‌سازی برای production، و deployment.
 
 ## 📋 **Tasks این فاز:**
 
 ### **۵.۱ پیاده‌سازی Input Validation** ⏱️ ۲-۳ روز
+
 - ☐ نصب Zod
 - ☐ ایجاد validation schemas
 - ☐ پیاده‌سازی validation در فرم‌ها
 - ☐ تست validation
 
 **دستورات:**
+
 ```bash
 npm install zod react-hook-form
 ```
 
 **کد نمونه:**
+
 ```typescript
 // src/schemas/projectSchema.ts
 import { z } from 'zod';
 
 export const projectSchema = z.object({
-  title: z.string()
+  title: z
+    .string()
     .min(3, 'عنوان باید حداقل ۳ کاراکتر باشد')
     .max(100, 'عنوان نباید بیشتر از ۱۰۰ کاراکتر باشد'),
-  description: z.string()
+  description: z
+    .string()
     .min(10, 'توضیحات باید حداقل ۱۰ کاراکتر باشد')
     .max(5000, 'توضیحات نباید بیشتر از ۵۰۰۰ کاراکتر باشد'),
   email: z.string().email('ایمیل نامعتبر است'),
@@ -1132,6 +1647,7 @@ export type ProjectFormData = z.infer<typeof projectSchema>;
 ---
 
 ### **۵.۲ پیاده‌سازی Rate Limiting** ⏱️ ۱ روز
+
 - ☐ پیاده‌سازی client-side rate limiting
 - ☐ تنظیم rate limiting برای API calls
 - ☐ نمایش پیام مناسب به کاربر
@@ -1140,12 +1656,14 @@ export type ProjectFormData = z.infer<typeof projectSchema>;
 ---
 
 ### **۵.۳ XSS و CSRF Protection** ⏱️ ۱-۲ روز
+
 - ☐ نصب DOMPurify
 - ☐ Sanitize user inputs
 - ☐ تنظیم CSRF tokens
 - ☐ تست security
 
 **دستورات:**
+
 ```bash
 npm install dompurify
 npm install --save-dev @types/dompurify
@@ -1154,6 +1672,7 @@ npm install --save-dev @types/dompurify
 ---
 
 ### **۵.۴ Security Audit** ⏱️ ۱ روز
+
 - ☐ اجرای npm audit
 - ☐ اصلاح vulnerabilities
 - ☐ بررسی OWASP Top 10
@@ -1162,6 +1681,7 @@ npm install --save-dev @types/dompurify
 ---
 
 ### **۵.۵ Performance Testing** ⏱️ ۱ روز
+
 - ☐ Load testing
 - ☐ Stress testing
 - ☐ بررسی نقاط ضعف
@@ -1170,6 +1690,7 @@ npm install --save-dev @types/dompurify
 ---
 
 ### **۵.۶ Deployment به Production** ⏱️ ۲-۳ روز
+
 - ☐ انتخاب hosting (Vercel, Netlify, ...)
 - ☐ تنظیم environment variables
 - ☐ تنظیم domain و SSL
@@ -1207,6 +1728,7 @@ npm install --save-dev @types/dompurify
 # 📚 **فاز ۶: تکمیل مستندات نهایی**
 
 ## ☐ **وضعیت:** در انتظار
+
 **اولویت:** 🟢 پایین
 **مدت زمان:** ۱ هفته
 **تاریخ شروع:** -
@@ -1215,11 +1737,13 @@ npm install --save-dev @types/dompurify
 ---
 
 ## 🎯 **هدف این فاز:**
+
 تکمیل مستندات برای developers، users، و maintainers.
 
 ## 📋 **Tasks این فاز:**
 
 ### **۶.۱ مستندات API** ⏱️ ۲ روز
+
 - ☐ ایجاد OpenAPI spec
 - ☐ راه‌اندازی Swagger UI
 - ☐ مستندسازی تمام endpoints
@@ -1228,6 +1752,7 @@ npm install --save-dev @types/dompurify
 ---
 
 ### **۶.۲ راهنمای Developer** ⏱️ ۱ روز
+
 - ☐ راهنمای شروع کار
 - ☐ راهنمای ساختار پروژه
 - ☐ راهنمای Code Style
@@ -1236,6 +1761,7 @@ npm install --save-dev @types/dompurify
 ---
 
 ### **۶.۳ راهنمای User** ⏱️ ۱ روز
+
 - ☐ راهنمای استفاده
 - ☐ FAQ
 - ☐ Troubleshooting guide
@@ -1244,6 +1770,7 @@ npm install --save-dev @types/dompurify
 ---
 
 ### **۶.۴ به‌روزرسانی README** ⏱️ ۱ روز
+
 - ☐ به‌روزرسانی README.md
 - ☐ اضافه کردن badges
 - ☐ اضافه کردن screenshots
@@ -1277,14 +1804,15 @@ npm install --save-dev @types/dompurify
 
 ## **وضعیت فازها:**
 
-| فاز | عنوان | وضعیت | پیشرفت |
-|-----|--------|--------|---------|
-| ۱ | معماری و Navigation | ☐ | 0% |
-| ۲ | راه‌اندازی تست‌ها | ☐ | 0% |
-| ۳ | Performance و Caching | ☐ | 0% |
-| ۴ | Design System و UI/UX | ☐ | 0% |
-| ۵ | امنیت و Deployment | ☐ | 0% |
-| ۶ | مستندات نهایی | ☐ | 0% |
+| فاز | عنوان                 | وضعیت | پیشرفت |
+| --- | --------------------- | ----- | ------ |
+| ۱   | معماری و Navigation   | ☐     | 0%     |
+| ۱.۵ | سیستم چندزبانه (i18n) | ☐     | 0%     |
+| ۲   | راه‌اندازی تست‌ها     | ☐     | 0%     |
+| ۳   | Performance و Caching | ☐     | 0%     |
+| ۴   | Design System و UI/UX | ☐     | 0%     |
+| ۵   | امنیت و Deployment    | ☐     | 0%     |
+| ۶   | مستندات نهایی         | ☐     | 0%     |
 
 **پیشرفت کلی پروژه:** 0%
 
@@ -1294,11 +1822,12 @@ npm install --save-dev @types/dompurify
 
 ```
 هفته ۱-۲:   فاز ۱ (معماری)
-هفته ۳-۶:   فاز ۲ (تست‌ها)
-هفته ۷-۹:   فاز ۳ (Performance)
-هفته ۱۰-۱۲: فاز ۴ (Design System)
-هفته ۱۳-۱۴: فاز ۵ (امنیت)
-هفته ۱۵:    فاز ۶ (مستندات)
+هفته ۲-۳:   فاز ۱.۵ (i18n - سیستم چندزبانه)
+هفته ۴-۷:   فاز ۲ (تست‌ها)
+هفته ۸-۱۰:  فاز ۳ (Performance)
+هفته ۱۱-۱۳: فاز ۴ (Design System)
+هفته ۱۴-۱۵: فاز ۵ (امنیت)
+هفته ۱۶:    فاز ۶ (مستندات)
 ```
 
 **تاریخ شروع پروژه:** -
@@ -1309,9 +1838,9 @@ npm install --save-dev @types/dompurify
 
 ## 📝 **یادداشت‌های کلی:**
 
-**تاریخ** | **یادداشت**
------------|-------------
-۱۷ اکتبر ۲۰۲۵ | فایل roadmap ایجاد شد - آماده برای شروع فاز ۱
+| **تاریخ**     | **یادداشت**                                   |
+| ------------- | --------------------------------------------- |
+| ۱۷ اکتبر ۲۰۲۵ | فایل roadmap ایجاد شد - آماده برای شروع فاز ۱ |
 
 ---
 
@@ -1331,6 +1860,7 @@ npm install --save-dev @types/dompurify
 ## ✨ **موفق باشید!**
 
 این فایل یک **نقشه راه زنده** است. لطفاً:
+
 - ✅ به‌روزرسانی منظم کنید
 - ✅ مشکلات را یادداشت کنید
 - ✅ بهبودها را اضافه کنید

@@ -88,9 +88,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   // محاسبه درصد پیشرفت
-  const progressPercentage = project.total_phases > 0
-    ? Math.round((project.phase_completed / project.total_phases) * 100)
-    : 0;
+  const progressPercentage =
+    project.total_phases > 0
+      ? Math.round((project.phase_completed / project.total_phases) * 100)
+      : 0;
 
   return (
     <div
@@ -244,12 +245,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               }`}
               title={isClickable ? 'نظرات' : 'غیرفعال'}
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"

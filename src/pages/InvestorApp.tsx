@@ -35,15 +35,57 @@ const InvestorDashboard: React.FC = () => {
   };
 
   const mockStartups = [
-    { id: 1, name: 'تک‌سان', sector: 'فین‌تک', stage: 'رشد اولیه', fundingNeeded: '2,000,000,000', status: 'نیازمند بررسی' },
-    { id: 2, name: 'نوآوران', sector: 'هوش مصنوعی', stage: 'ایده', fundingNeeded: '500,000,000', status: 'نیازمند بررسی' },
-    { id: 3, name: 'سلامت آنلاین', sector: 'سلامت', stage: 'MVP', fundingNeeded: '1,000,000,000', status: 'تحت بررسی' },
+    {
+      id: 1,
+      name: 'تک‌سان',
+      sector: 'فین‌تک',
+      stage: 'رشد اولیه',
+      fundingNeeded: '2,000,000,000',
+      status: 'نیازمند بررسی',
+    },
+    {
+      id: 2,
+      name: 'نوآوران',
+      sector: 'هوش مصنوعی',
+      stage: 'ایده',
+      fundingNeeded: '500,000,000',
+      status: 'نیازمند بررسی',
+    },
+    {
+      id: 3,
+      name: 'سلامت آنلاین',
+      sector: 'سلامت',
+      stage: 'MVP',
+      fundingNeeded: '1,000,000,000',
+      status: 'تحت بررسی',
+    },
   ];
 
   const portfolioCompanies = [
-    { id: 1, name: 'فروشگاه آنلاین', invested: '100,000,000', currentValue: '150,000,000', growth: '+50%', stage: 'رشد' },
-    { id: 2, name: 'اپلیکیشن حمل و نقل', invested: '200,000,000', currentValue: '300,000,000', growth: '+50%', stage: 'رشد' },
-    { id: 3, name: 'پلتفرم آموزشی', invested: '100,000,000', currentValue: '120,000,000', growth: '+20%', stage: 'اولیه' },
+    {
+      id: 1,
+      name: 'فروشگاه آنلاین',
+      invested: '100,000,000',
+      currentValue: '150,000,000',
+      growth: '+50%',
+      stage: 'رشد',
+    },
+    {
+      id: 2,
+      name: 'اپلیکیشن حمل و نقل',
+      invested: '200,000,000',
+      currentValue: '300,000,000',
+      growth: '+50%',
+      stage: 'رشد',
+    },
+    {
+      id: 3,
+      name: 'پلتفرم آموزشی',
+      invested: '100,000,000',
+      currentValue: '120,000,000',
+      growth: '+20%',
+      stage: 'اولیه',
+    },
   ];
 
   // Render Functions
@@ -55,9 +97,11 @@ const InvestorDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-600 dark:text-slate-400">مجموع سرمایه‌گذاری‌ها</p>
-              <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">{stats.totalInvestments}</p>
+              <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">
+                {stats.totalInvestments}
+              </p>
             </div>
-            <div className="text-4xl">📊</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
 
@@ -65,9 +109,11 @@ const InvestorDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-600 dark:text-slate-400">استارتاپ‌های فعال</p>
-              <p className="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">{stats.activeStartups}</p>
+              <p className="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">
+                {stats.activeStartups}
+              </p>
             </div>
-            <div className="text-4xl">🚀</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
 
@@ -75,9 +121,11 @@ const InvestorDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-600 dark:text-slate-400">سرمایه‌گذاری شده</p>
-              <p className="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-2">{stats.totalInvested} تومان</p>
+              <p className="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-2">
+                {stats.totalInvested} تومان
+              </p>
             </div>
-            <div className="text-4xl">💰</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
 
@@ -85,35 +133,51 @@ const InvestorDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-600 dark:text-slate-400">ارزش پورتفولیو</p>
-              <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-2">{stats.portfolioValue} تومان</p>
+              <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-2">
+                {stats.portfolioValue} تومان
+              </p>
             </div>
-            <div className="text-4xl">📈</div>
+            <div className="text-4xl"></div>
           </div>
         </div>
       </div>
 
       {/* Investment Opportunities */}
       <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">فرصت‌های سرمایه‌گذاری جدید</h2>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
+          فرصت‌های سرمایه‌گذاری جدید
+        </h2>
         <div className="space-y-3">
           {mockStartups.map((startup) => (
-            <div key={startup.id} className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div
+              key={startup.id}
+              className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md transition-shadow"
+            >
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{startup.name}</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">{startup.sector} • {startup.stage}</p>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    {startup.name}
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                    {startup.sector} • {startup.stage}
+                  </p>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  startup.status === 'نیازمند بررسی'
-                    ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400'
-                    : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                }`}>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    startup.status === 'نیازمند بررسی'
+                      ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400'
+                      : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
+                  }`}
+                >
                   {startup.status}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-slate-600 dark:text-slate-400 text-sm">
-                  نیاز به سرمایه: <span className="font-semibold text-slate-900 dark:text-white">{startup.fundingNeeded} تومان</span>
+                  نیاز به سرمایه:{' '}
+                  <span className="font-semibold text-slate-900 dark:text-white">
+                    {startup.fundingNeeded} تومان
+                  </span>
                 </p>
                 <div className="flex gap-2">
                   <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm transition-colors">
@@ -136,21 +200,42 @@ const InvestorDashboard: React.FC = () => {
           <table className="w-full">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700">
-                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">شرکت</th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">سرمایه‌گذاری</th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">ارزش فعلی</th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">رشد</th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">مرحله</th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  شرکت
+                </th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  سرمایه‌گذاری
+                </th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  ارزش فعلی
+                </th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  رشد
+                </th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  مرحله
+                </th>
               </tr>
             </thead>
             <tbody>
               {portfolioCompanies.map((company) => (
-                <tr key={company.id} className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50">
-                  <td className="py-3 px-4 text-slate-900 dark:text-white font-medium">{company.name}</td>
-                  <td className="py-3 px-4 text-slate-600 dark:text-slate-400">{company.invested} تومان</td>
-                  <td className="py-3 px-4 text-slate-900 dark:text-white font-semibold">{company.currentValue} تومان</td>
+                <tr
+                  key={company.id}
+                  className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                >
+                  <td className="py-3 px-4 text-slate-900 dark:text-white font-medium">
+                    {company.name}
+                  </td>
+                  <td className="py-3 px-4 text-slate-600 dark:text-slate-400">
+                    {company.invested} تومان
+                  </td>
+                  <td className="py-3 px-4 text-slate-900 dark:text-white font-semibold">
+                    {company.currentValue} تومان
+                  </td>
                   <td className="py-3 px-4">
-                    <span className="text-green-600 dark:text-green-400 font-semibold">{company.growth}</span>
+                    <span className="text-green-600 dark:text-green-400 font-semibold">
+                      {company.growth}
+                    </span>
                   </td>
                   <td className="py-3 px-4">
                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
@@ -187,10 +272,15 @@ const InvestorDashboard: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {mockStartups.map((startup) => (
-          <div key={startup.id} className="border border-slate-200 dark:border-slate-700 rounded-lg p-5 hover:shadow-lg transition-shadow">
+          <div
+            key={startup.id}
+            className="border border-slate-200 dark:border-slate-700 rounded-lg p-5 hover:shadow-lg transition-shadow"
+          >
             <div className="flex items-start justify-between mb-3">
               <div>
-                <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-1">{startup.name}</h3>
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-1">
+                  {startup.name}
+                </h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400">{startup.sector}</p>
               </div>
               <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
@@ -199,7 +289,9 @@ const InvestorDashboard: React.FC = () => {
             </div>
             <div className="mb-4">
               <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">نیاز به سرمایه:</p>
-              <p className="text-2xl font-bold text-slate-900 dark:text-white">{startup.fundingNeeded} تومان</p>
+              <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                {startup.fundingNeeded} تومان
+              </p>
             </div>
             <div className="flex gap-2">
               <button className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm transition-colors">
@@ -220,29 +312,44 @@ const InvestorDashboard: React.FC = () => {
       <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">پورتفولیو من</h2>
       <div className="space-y-4">
         {portfolioCompanies.map((company) => (
-          <div key={company.id} className="border border-slate-200 dark:border-slate-700 rounded-lg p-5 hover:shadow-md transition-shadow">
+          <div
+            key={company.id}
+            className="border border-slate-200 dark:border-slate-700 rounded-lg p-5 hover:shadow-md transition-shadow"
+          >
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">{company.name}</h3>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
+                  {company.name}
+                </h3>
                 <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
                   {company.stage}
                 </span>
               </div>
-              <span className="text-2xl font-bold text-green-600 dark:text-green-400">{company.growth}</span>
+              <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                {company.growth}
+              </span>
             </div>
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-500 mb-1">سرمایه‌گذاری اولیه</p>
-                <p className="text-sm font-semibold text-slate-900 dark:text-white">{company.invested} تومان</p>
+                <p className="text-xs text-slate-500 dark:text-slate-500 mb-1">
+                  سرمایه‌گذاری اولیه
+                </p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                  {company.invested} تومان
+                </p>
               </div>
               <div>
                 <p className="text-xs text-slate-500 dark:text-slate-500 mb-1">ارزش فعلی</p>
-                <p className="text-sm font-semibold text-slate-900 dark:text-white">{company.currentValue} تومان</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                  {company.currentValue} تومان
+                </p>
               </div>
               <div>
                 <p className="text-xs text-slate-500 dark:text-slate-500 mb-1">سود</p>
                 <p className="text-sm font-semibold text-green-600 dark:text-green-400">
-                  {parseInt(company.currentValue.replace(/,/g, '')) - parseInt(company.invested.replace(/,/g, ''))} تومان
+                  {parseInt(company.currentValue.replace(/,/g, '')) -
+                    parseInt(company.invested.replace(/,/g, ''))}{' '}
+                  تومان
                 </p>
               </div>
             </div>
@@ -265,7 +372,9 @@ const InvestorDashboard: React.FC = () => {
       <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">پروفایل من</h2>
       <div className="space-y-6 max-w-2xl">
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">نام و نام خانوادگی</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+            نام و نام خانوادگی
+          </label>
           <input
             type="text"
             defaultValue="امیر حسینی"
@@ -275,7 +384,9 @@ const InvestorDashboard: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">ایمیل</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+            ایمیل
+          </label>
           <input
             type="email"
             defaultValue="amir.investor@example.com"
@@ -285,7 +396,9 @@ const InvestorDashboard: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">نوع سرمایه‌گذار</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+            نوع سرمایه‌گذار
+          </label>
           <select
             defaultValue="angel"
             className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
@@ -297,19 +410,25 @@ const InvestorDashboard: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">حوزه‌های علاقه‌مندی</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+            حوزه‌های علاقه‌مندی
+          </label>
           <div className="grid grid-cols-2 gap-3">
-            {['فین‌تک', 'هوش مصنوعی', 'سلامت', 'آموزش', 'حمل و نقل', 'تجارت الکترونیک'].map((sector) => (
-              <label key={sector} className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" defaultChecked className="rounded" />
-                <span className="text-slate-700 dark:text-slate-300">{sector}</span>
-              </label>
-            ))}
+            {['فین‌تک', 'هوش مصنوعی', 'سلامت', 'آموزش', 'حمل و نقل', 'تجارت الکترونیک'].map(
+              (sector) => (
+                <label key={sector} className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" defaultChecked className="rounded" />
+                  <span className="text-slate-700 dark:text-slate-300">{sector}</span>
+                </label>
+              )
+            )}
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">محدوده سرمایه‌گذاری (تومان)</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+            محدوده سرمایه‌گذاری (تومان)
+          </label>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">حداقل</label>
@@ -321,7 +440,9 @@ const InvestorDashboard: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">حداکثر</label>
+              <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">
+                حداکثر
+              </label>
               <input
                 type="text"
                 defaultValue="500,000,000"
@@ -333,7 +454,9 @@ const InvestorDashboard: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">درباره من</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+            درباره من
+          </label>
           <textarea
             rows={4}
             defaultValue="سرمایه‌گذار با 10 سال تجربه در حوزه استارتاپ‌های فناوری. علاقه‌مند به ایده‌های نوآورانه و تیم‌های با انگیزه."
@@ -354,11 +477,13 @@ const InvestorDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex">
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-gradient-to-b from-blue-600 to-indigo-600 dark:from-blue-800 dark:to-indigo-900 text-white transition-all duration-300 flex flex-col`}>
+      <aside
+        className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-gradient-to-b from-blue-600 to-indigo-600 dark:from-blue-800 dark:to-indigo-900 text-white transition-all duration-300 flex flex-col`}
+      >
         {/* Header */}
         <div className="p-4 border-b border-blue-500/30">
           <div className="flex items-center justify-between">
-            {sidebarOpen && <h1 className="text-xl font-bold">پنل سرمایه‌گذار 💰</h1>}
+            {sidebarOpen && <h1 className="text-xl font-bold">پنل سرمایه‌گذار </h1>}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="p-2 hover:bg-blue-700/50 rounded-lg transition-colors"
@@ -371,18 +496,16 @@ const InvestorDashboard: React.FC = () => {
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-2">
           {[
-            { id: 'dashboard', icon: '📊', label: 'داشبورد' },
-            { id: 'startups', icon: '🚀', label: 'استارتاپ‌ها' },
-            { id: 'portfolio', icon: '💼', label: 'پورتفولیو' },
-            { id: 'profile', icon: '👤', label: 'پروفایل' },
+            { id: 'dashboard', icon: '', label: 'داشبورد' },
+            { id: 'startups', icon: '', label: 'استارتاپ‌ها' },
+            { id: 'portfolio', icon: '', label: 'پورتفولیو' },
+            { id: 'profile', icon: '', label: 'پروفایل' },
           ].map((item) => (
             <button
               key={item.id}
               onClick={() => setCurrentPage(item.id as InvestorPage)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                currentPage === item.id
-                  ? 'bg-white/20 font-semibold'
-                  : 'hover:bg-white/10'
+                currentPage === item.id ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'
               }`}
             >
               <span className="text-xl">{item.icon}</span>
@@ -397,7 +520,7 @@ const InvestorDashboard: React.FC = () => {
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors text-red-200"
           >
-            <span className="text-xl">🚪</span>
+            <span className="text-xl"></span>
             {sidebarOpen && <span>خروج</span>}
           </button>
         </div>

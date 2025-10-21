@@ -48,7 +48,7 @@ const AboutPage: React.FC = () => {
       },
 
       // Story Section
-      story_title: { fa: '📖 داستان ما', en: '📖 Our Story' },
+      story_title: { fa: ' داستان ما', en: ' Our Story' },
       story_text1: {
         fa: 'همه چیز از یک ایده ساده شروع شد - چطور می‌توانیم کارآفرینان را در مسیر راه‌اندازی استارتاپ‌های موفق همراهی کنیم؟',
         en: 'It all started with a simple idea - how can we help entrepreneurs on their journey to build successful startups?',
@@ -63,21 +63,21 @@ const AboutPage: React.FC = () => {
       },
 
       // Mission Section
-      mission_title: { fa: '🎯 ماموریت ما', en: '🎯 Our Mission' },
+      mission_title: { fa: ' ماموریت ما', en: ' Our Mission' },
       mission_text: {
         fa: 'دموکراتیک کردن فرآیند راه‌اندازی استارتاپ و کمک به کارآفرینان برای تبدیل ایده‌های نوآورانه به کسب‌وکارهای موفق.',
         en: 'Democratizing the startup process and helping entrepreneurs turn innovative ideas into successful businesses.',
       },
 
       // Vision Section
-      vision_title: { fa: '🚀 چشم‌انداز ما', en: '🚀 Our Vision' },
+      vision_title: { fa: ' چشم‌انداز ما', en: ' Our Vision' },
       vision_text: {
         fa: 'ساختن آینده‌ای که در آن هر کسی با یک ایده خوب بتواند استارتاپ موفقی راه‌اندازی کند، بدون توجه به پیشینه یا منابع مالی.',
         en: 'Building a future where anyone with a good idea can launch a successful startup, regardless of their background or financial resources.',
       },
 
       // Values Section
-      values_title: { fa: '💎 ارزش‌های ما', en: '💎 Our Values' },
+      values_title: { fa: ' ارزش‌های ما', en: ' Our Values' },
       value1_title: { fa: 'نوآوری', en: 'Innovation' },
       value1_desc: {
         fa: 'همیشه در جستجوی راه‌های جدید برای حل مشکلات کارآفرینان',
@@ -100,7 +100,7 @@ const AboutPage: React.FC = () => {
       },
 
       // Team Section
-      team_title: { fa: '👥 تیم ما', en: '👥 Our Team' },
+      team_title: { fa: ' تیم ما', en: ' Our Team' },
       team_subtitle: {
         fa: 'تیم متنوعی از کارآفرینان، مهندسان و متخصصان حوزه کسب‌وکار',
         en: 'A diverse team of entrepreneurs, engineers, and business experts',
@@ -136,7 +136,7 @@ const AboutPage: React.FC = () => {
       },
 
       // Contact Section
-      contact_title: { fa: '📧 با ما در تماس باشید', en: '📧 Get in Touch' },
+      contact_title: { fa: ' با ما در تماس باشید', en: ' Get in Touch' },
       contact_subtitle: {
         fa: 'برای همکاری، پیشنهادها یا سوالات با ما تماس بگیرید',
         en: 'Contact us for partnerships, suggestions, or questions',
@@ -146,8 +146,8 @@ const AboutPage: React.FC = () => {
 
       // Footer
       footer_tagline: {
-        fa: 'ساخته شده با ❤️ برای استارتاپ‌های آینده',
-        en: 'Made with ❤️ for future startups',
+        fa: 'ساخته شده با برای استارتاپ‌های آینده',
+        en: 'Made with for future startups',
       },
       footer_rights: { fa: 'تمامی حقوق محفوظ است.', en: 'All rights reserved.' },
     };
@@ -197,7 +197,7 @@ const AboutPage: React.FC = () => {
             {/* Logo */}
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-xl sm:text-2xl">🚀</span>
+                <span className="text-xl sm:text-2xl"></span>
               </div>
               <div>
                 <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
@@ -217,7 +217,7 @@ const AboutPage: React.FC = () => {
                 className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               >
-                {theme === 'dark' ? '☀️' : '🌙'}
+                {theme === 'dark' ? '' : ''}
               </button>
               <a
                 href="/"
@@ -315,10 +315,10 @@ const AboutPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { title: 'value1_title', desc: 'value1_desc', icon: '💡' },
-            { title: 'value2_title', desc: 'value2_desc', icon: '🌍' },
-            { title: 'value3_title', desc: 'value3_desc', icon: '🔍' },
-            { title: 'value4_title', desc: 'value4_desc', icon: '⭐' },
+            { title: 'value1_title', desc: 'value1_desc', icon: '' },
+            { title: 'value2_title', desc: 'value2_desc', icon: '' },
+            { title: 'value3_title', desc: 'value3_desc', icon: '' },
+            { title: 'value4_title', desc: 'value4_desc', icon: '' },
           ].map((value, index) => (
             <div
               key={index}
@@ -365,15 +365,11 @@ const AboutPage: React.FC = () => {
                 <a
                   href={member.social.linkedin}
                   className="text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                >
-                  💼
-                </a>
+                ></a>
                 <a
                   href={member.social.twitter}
                   className="text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                >
-                  🐦
-                </a>
+                ></a>
               </div>
             </div>
           ))}
@@ -390,9 +386,9 @@ const AboutPage: React.FC = () => {
               href="mailto:info@aistartupmentor.com"
               className="px-8 py-3 bg-white text-purple-600 rounded-xl font-bold hover:bg-gray-100 transition-all shadow-lg"
             >
-              📧 {t('email_us')}
+              {t('email_us')}
             </a>
-            <div className="px-8 py-3 bg-purple-700 rounded-xl font-bold">📱 {t('follow_us')}</div>
+            <div className="px-8 py-3 bg-purple-700 rounded-xl font-bold"> {t('follow_us')}</div>
           </div>
         </div>
       </section>
@@ -426,22 +422,22 @@ const AboutPage: React.FC = () => {
       </footer>
 
       <style>{`
-                @keyframes blob {
-                    0%, 100% { transform: translate(0, 0) scale(1); }
-                    25% { transform: translate(20px, -50px) scale(1.1); }
-                    50% { transform: translate(-20px, 20px) scale(0.9); }
-                    75% { transform: translate(50px, 50px) scale(1.05); }
-                }
-                .animate-blob {
-                    animation: blob 7s infinite;
-                }
-                .animation-delay-2000 {
-                    animation-delay: 2s;
-                }
-                .animation-delay-4000 {
-                    animation-delay: 4s;
-                }
-            `}</style>
+ @keyframes blob {
+ 0%, 100% { transform: translate(0, 0) scale(1); }
+ 25% { transform: translate(20px, -50px) scale(1.1); }
+ 50% { transform: translate(-20px, 20px) scale(0.9); }
+ 75% { transform: translate(50px, 50px) scale(1.05); }
+ }
+ .animate-blob {
+ animation: blob 7s infinite;
+ }
+ .animation-delay-2000 {
+ animation-delay: 2s;
+ }
+ .animation-delay-4000 {
+ animation-delay: 4s;
+ }
+ `}</style>
     </div>
   );
 };

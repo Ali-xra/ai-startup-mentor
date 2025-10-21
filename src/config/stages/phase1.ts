@@ -4,6 +4,10 @@ import { PhaseConfig } from '../../types/stage.types';
  * ========================================
  * PHASE 1: Core Concept & Validation
  * ========================================
+ *
+ * This phase is the foundation of your startup. Answering these questions
+ * accurately and honestly will define your future path and prevent wasting
+ * resources down the line.
  */
 export const PHASE_1: PhaseConfig = {
   id: 'CORE_CONCEPT_VALIDATION',
@@ -40,7 +44,7 @@ export const PHASE_1: PhaseConfig = {
           question_fa: 'عنوان ایده شما چیست؟',
           userInputRequired: true,
           outputType: 'text',
-          dataKey: 'idea_title', // ✅ Correct
+          dataKey: 'idea_title',
           promptConfig: {
             role: 'You are an expert startup branding and naming consultant. Your goal is to help founders find a powerful and memorable working title for their project.',
             contextKeys: ['initialIdea', 'userInput'],
@@ -62,20 +66,12 @@ export const PHASE_1: PhaseConfig = {
             'خلاصه اجرایی یا «ارائه آسانسوری»، توضیحی ۳۰ ثانیه‌ای و جذاب از استارت‌آپ شماست. باید بتوانید در این زمان کوتاه، مشکل، راه‌حل، مخاطب و وجه تمایز خود را برای یک فرد غریبه به طور کامل توضیح دهید.',
           question_en: "Write your startup's elevator pitch in one or two sentences.",
           question_fa: 'خلاصه اجرایی استارت‌آپ خود را در یک یا دو جمله بنویسید.',
-          userInputRequired: true,
+          userInputRequired: false,
           outputType: 'text',
-          dataKey: 'elevator_pitch', // ✅ Correct
+          dataKey: 'elevator_pitch',
           promptConfig: {
             role: 'You are an expert startup mentor specialized in crafting compelling 30-second elevator pitches.',
-            contextKeys: [
-              'initialIdea',
-              'idea_title',
-              'problem_description',
-              'early_adopter_persona',
-              'product_description',
-              'uvp_statement',
-              'userInput',
-            ],
+            contextKeys: ['initialIdea', 'idea_title', 'userInput'],
             goal: 'Generate or refine a compelling 30-second elevator pitch.',
             outputFormat: 'A single, powerful paragraph (50-75 words).',
             constraints: {
@@ -83,7 +79,7 @@ export const PHASE_1: PhaseConfig = {
               tone: 'persuasive_and_concise',
               complexity: 'simple',
             },
-            prompt: `You are an expert in crafting compelling 30-second elevator pitches.\nYour task is to either generate an elevator pitch or refine the user's input, based on the following context:\n- Initial Idea: {initialIdea}\n- Project Title: {idea_title}\n- Problem: {problem_description}\n- Target User: {early_adopter_persona}\n- Solution: {product_description}\n- UVP: {uvp_statement}\n- User's Draft Pitch: {userInput}\n\nFollow these steps:\n1. **Synthesize Core Elements:** Extract the most critical points from the context provided.\n2. **Craft the Pitch:** Construct a single, powerful paragraph (50-75 words) that flows naturally and includes:\n    a. **The Problem:** Clearly state the pain point.\n    b. **The Target Audience:** Identify who experiences this pain.\n    c. **The Solution:** Briefly introduce what your startup does.\n    d. **The Key Differentiator/UVP:** Explain why your solution is unique.\n3. **Refinement:** If \`{userInput}\` was provided, use it as a base and make targeted improvements. If not, generate a pitch from scratch.\n4. **Final Output:** Present only the refined or newly generated elevator pitch paragraph. Adhere strictly to the word count.`,
+            prompt: `You are an expert in crafting compelling 30-second elevator pitches.\nYour task is to either generate an elevator pitch or refine the user's input, based on the following context:\n- Initial Idea: {initialIdea}\n- Project Title: {idea_title}\n- User's Draft Pitch: {userInput}\n\nFollow these steps:\n1. **Synthesize Core Elements:** Extract the most critical points from the initial idea.\n2. **Craft the Pitch:** Construct a single, powerful paragraph (50-75 words) that flows naturally and includes:\n    a. **The Problem/Audience:** Who is it for and what pain do they have?\n    b. **The Solution:** What is your startup and what does it do?\n    c. **The Differentiator:** Why is it unique or better?\n3. **Refinement:** If \`{userInput}\` was provided, use it as a base and make targeted improvements. If not, generate a pitch from scratch.\n4. **Final Output:** Present only the refined or newly generated elevator pitch paragraph. Adhere strictly to the word count.`,
           },
         },
         {
@@ -97,23 +93,16 @@ export const PHASE_1: PhaseConfig = {
             'این بخش یک پاراگراف کامل‌تر از خلاصه اجرایی است که تصویر واضح‌تری از کسب‌وکار شما ارائه می‌دهد. این چکیده باید به قدری قانع‌کننده باشد که خواننده را ترغیب به خواندن ادامه متن کند.',
           question_en: "Write your idea's executive summary in one paragraph.",
           question_fa: 'چکیده ایده خود را در یک پاراگراف بنویسید.',
-          userInputRequired: true,
+          userInputRequired: false,
           outputType: 'text',
-          dataKey: 'executive_summary', // ✅ Correct
+          dataKey: 'executive_summary',
           promptConfig: {
             role: 'You are a startup mentor helping entrepreneurs write compelling executive summaries.',
-            contextKeys: [
-              'idea_title',
-              'elevator_pitch',
-              'problem_description',
-              'product_description',
-              'bmc_revenue_streams',
-              'userInput',
-            ],
+            contextKeys: ['idea_title', 'elevator_pitch', 'userInput'],
             goal: 'Create a comprehensive one-paragraph executive summary.',
             outputFormat: 'One detailed paragraph (100-150 words).',
             constraints: { length: '100-150 words', tone: 'professional', complexity: 'moderate' },
-            prompt: `You are an expert mentor writing an executive summary.\nYour task is to create a compelling summary based on the following context:\n- Project Title: {idea_title}\n- Elevator Pitch: {elevator_pitch}\n- Problem: {problem_description}\n- Solution: {product_description}\n- Revenue Model: {bmc_revenue_streams}\n- User's Draft: {userInput}\n\nFollow these steps:\n1. **Structure the Narrative:** Begin with the core mission from the elevator pitch, then expand.\n2. **Incorporate Key Details:** Weave in the specifics of the problem, the solution, the target market (implicitly), and how the business will make money ({bmc_revenue_streams}).\n3. **Add a Forward-Looking Statement:** Conclude with a brief, inspiring sentence about the company's vision or potential.\n4. **Refine:** If \`{userInput}\` exists, improve it. Otherwise, write from scratch.\n5. **Final Output:** Present a single, polished paragraph (100-150 words) that serves as a powerful introduction to the business.`,
+            prompt: `You are an expert mentor writing an executive summary.\nYour task is to create a compelling summary based on the following context:\n- Project Title: {idea_title}\n- Elevator Pitch: {elevator_pitch}\n- User's Draft: {userInput}\n\nFollow these steps:\n1. **Structure the Narrative:** Begin with the core mission from the elevator pitch, then expand on the problem, solution, target market, and the core business model idea.\n2. **Add a Forward-Looking Statement:** Conclude with a brief, inspiring sentence about the company's vision or potential.\n3. **Refine:** If \`{userInput}\` exists, improve it. Otherwise, write from scratch.\n4. **Final Output:** Present a single, polished paragraph (100-150 words) that serves as a powerful introduction to the business.`,
           },
         },
       ],
@@ -140,7 +129,7 @@ export const PHASE_1: PhaseConfig = {
           question_fa: 'مشکلی که استارت‌آپ شما قصد حل آن را دارد به وضوح شرح دهید.',
           userInputRequired: true,
           outputType: 'text',
-          dataKey: 'problem_description', // ✅ Correct
+          dataKey: 'problem_description',
           promptConfig: {
             role: 'You are a startup mentor helping entrepreneurs articulate clear problem statements.',
             contextKeys: ['initialIdea', 'userInput'],
@@ -166,7 +155,7 @@ export const PHASE_1: PhaseConfig = {
             'این مشکل چه تعداد از افراد را تحت تاثیر قرار می‌دهد؟ این تاثیر (از نظر هزینه، زمان یا نارضایتی) چقدر در زندگی آن‌ها جدی است؟',
           userInputRequired: false,
           outputType: 'analysis',
-          dataKey: 'problem_magnitude', // ✅ Correct
+          dataKey: 'problem_magnitude',
           promptConfig: {
             role: 'You are a market research analyst AI helping entrepreneurs quantify market problems.',
             contextKeys: ['problem_description', 'userInput'],
@@ -187,13 +176,9 @@ export const PHASE_1: PhaseConfig = {
             'It is rare for a problem to have no existing solution. People are currently dealing with this issue in some way, even if it\'s inefficient. Identify these "alternative" solutions and explain why yours is superior.',
           guidance_fa:
             'به ندرت پیش می‌آید که برای یک مشکل هیچ راه‌حلی وجود نداشته باشد. مردم در حال حاضر به روشی (هرچند ناکارآمد) با این مشکل کنار می‌آیند. این روش‌ها را شناسایی کرده و توضیح دهید چرا راه‌حل شما برتر است.',
-          question_en:
-            'How are people solving this problem right now? What are the weaknesses and shortcomings of these existing solutions?',
-          question_fa:
-            'در حال حاضر مردم چگونه این مشکل را حل می‌کنند؟ نقاط ضعف و کاستی‌های این راه‌حل‌های موجود چیست؟',
           userInputRequired: false,
           outputType: 'analysis',
-          dataKey: 'current_solutions', // ✅ Correct
+          dataKey: 'current_solutions',
           promptConfig: {
             role: 'You are a competitive analyst AI helping entrepreneurs identify gaps in the market.',
             contextKeys: ['problem_description', 'userInput'],
@@ -224,13 +209,9 @@ export const PHASE_1: PhaseConfig = {
             'You cannot sell your product to "everyone." Segment your target market into smaller groups with shared characteristics so you can tailor your message more effectively.',
           guidance_fa:
             'شما نمی‌توانید محصول خود را به "همه" بفروشید. بازار هدف خود را به گروه‌های کوچکتر با ویژگی‌های مشترک تقسیم کنید تا بتوانید پیام خود را دقیق‌تر به آن‌ها برسانید.',
-          question_en:
-            'What groups of people or businesses can benefit from your solution? List your primary customer segments.',
-          question_fa:
-            'چه گروه‌هایی از افراد یا کسب‌وکارها می‌توانند از راه‌حل شما بهره‌مند شوند؟ بخش‌های اصلی مشتریان خود را لیست کنید.',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'customer_segments', // ✅ Correct
+          dataKey: 'customer_segments',
           promptConfig: {
             role: 'You are a marketing strategist AI helping entrepreneurs identify their ideal customer segments.',
             contextKeys: ['problem_description', 'initialIdea', 'userInput'],
@@ -250,13 +231,9 @@ export const PHASE_1: PhaseConfig = {
             'Focus on one specific group as your very first customers. Create a fictional character for this group with a name, age, job, goals, and specific challenges. This persona will guide your decisions.',
           guidance_fa:
             'روی یک گروه خاص به عنوان اولین مشتریان خود تمرکز کنید. برای این گروه یک شخصیت خیالی با اسم، سن، شغل، اهداف و دغدغه‌های مشخص بسازید. این پرسونا در تمام تصمیم‌گیری‌های آینده راهنمای شما خواهد بود.',
-          question_en:
-            'Describe your ideal first customer (Early Adopter) in detail. What is their name, age, job, daily challenges, and motivations?',
-          question_fa:
-            'مشتری ایده‌آل و اولیه خود (Early Adopter) را با جزئیات توصیف کنید. نام، سن، شغل، چالش‌های روزمره و انگیزه‌های او چیست؟',
           userInputRequired: false,
           outputType: 'text',
-          dataKey: 'early_adopter_persona', // ✅ Correct
+          dataKey: 'early_adopter_persona',
           promptConfig: {
             role: 'You are a UX researcher and marketer AI skilled at creating detailed customer personas.',
             contextKeys: ['customer_segments', 'problem_description', 'userInput'],
@@ -287,12 +264,9 @@ export const PHASE_1: PhaseConfig = {
             'In simple terms, explain what your product or service is and what it does. Avoid using overly technical jargon.',
           guidance_fa:
             'به زبان ساده توضیح دهید که محصول یا خدمت شما چیست و دقیقاً چه کاری انجام می‌دهد. از به کار بردن اصطلاحات فنی و پیچیده خودداری کنید.',
-          question_en:
-            'In simple language, what is your product or service? Describe exactly what you are building.',
-          question_fa: 'به زبان ساده، محصول یا خدمت شما چیست؟ دقیقاً شرح دهید چه چیزی می‌سازید.',
           userInputRequired: true,
           outputType: 'text',
-          dataKey: 'product_description', // ✅ Correct
+          dataKey: 'product_description',
           promptConfig: {
             role: 'You are a product manager AI helping entrepreneurs articulate their solutions clearly.',
             contextKeys: ['problem_description', 'early_adopter_persona', 'userInput'],
@@ -311,26 +285,25 @@ export const PHASE_1: PhaseConfig = {
           id: 'HOW_IT_WORKS',
           order: 2,
           title_en: 'How It Works and Its Core Functionality',
-          title_fa: 'نحوه عملکرد و کارکرد اصلی آن',
+          title_fa: 'نحوه عملکرد و ویژگی‌های اصلی',
           guidance_en:
-            'Go a little deeper and explain the process of using your product. What are the main features and capabilities of your solution?',
+            'Describe the primary features of your solution. For each, explain what goal the user achieves and what actions they can take. This detail is crucial for development.',
           guidance_fa:
-            'کمی عمیق‌تر شوید و فرآیند کار با محصولتان را توضیح دهید. کاربر چه مراحلی را طی می‌کند تا مشکلش حل شود؟ اصلی‌ترین ویژگی‌ها و قابلیت‌های راه‌حل شما کدامند؟',
+            'ویژگی‌های اصلی راه‌حل خود را شرح دهید. برای هر کدام، توضیح دهید که کاربر به چه هدفی می‌رسد و چه اقداماتی می‌تواند انجام دهد. این جزئیات برای توسعه محصول حیاتی است.',
           question_en:
-            "What are the core features and functionalities of your solution? How does it directly solve the problem you've stated?",
-          question_fa:
-            'ویژگی‌ها و کارکردهای اصلی راه‌حل شما چیست؟ این راه‌حل چگونه به طور مستقیم مشکل بیان‌شده را حل می‌کند؟',
-          userInputRequired: false,
+            "For your 3-5 main features, what is the user's goal and what are their key actions?",
+          question_fa: 'برای ۳ تا ۵ ویژگی اصلی خود، هدف کاربر چیست و اقدامات کلیدی او کدامند؟',
+          userInputRequired: true,
           outputType: 'list',
-          dataKey: 'how_it_works', // ✅ CORRECTED from 'core_features'
+          dataKey: 'how_it_works',
           promptConfig: {
-            role: 'You are a product manager AI helping entrepreneurs define their core features.',
+            role: 'You are a Product Manager helping a founder detail their core product features for a development team.',
             contextKeys: ['product_description', 'problem_description', 'userInput'],
-            goal: 'List the 3-5 core features and link each to a specific problem it solves.',
+            goal: "Structure the user's ideas about features into a clear, actionable format for developers.",
             outputFormat:
-              'A bulleted list of features, with each item explaining the feature and the benefit it provides.',
-            constraints: { tone: 'functional', complexity: 'simple', count: 5 },
-            prompt: `You are a product manager defining core features.\nBased on:\n- Product: {product_description}\n- Problem: "{problem_description}"\n- User input: {userInput}\n\nIdentify the 3-5 most essential features of this product. For each feature, use the format:\n- **Feature Name:** [Briefly describe the feature and the direct benefit it provides to the user in solving their problem].`,
+              'A bulleted list of 3-5 core features, each with a clear "User Goal" and "Key Actions" section.',
+            constraints: { tone: 'functional', complexity: 'moderate' },
+            prompt: `You are a Product Manager translating a founder's vision into developer-friendly feature descriptions.\nBased on:\n- Product: {product_description}\n- Problem: "{problem_description}"\n- User input: {userInput}\n\nYour task is to structure the user's input into a clear list of core features. For each of the 3-5 main features mentioned, use the following format:\n- **Feature:** [Name of the Feature]\n  - **User Goal:** (What is the user trying to accomplish with this feature?)\n  - **Key Actions:** (List the 2-4 most important things a user can DO within this feature, e.g., "Create a new X," "Assign Y to Z," "Filter the list by A").`,
           },
         },
       ],
@@ -359,7 +332,7 @@ export const PHASE_1: PhaseConfig = {
             'چرا یک مشتری باید شما را به جای هر رقیب دیگری انتخاب کند؟ ارزش پیشنهادی منحصر به فرد خود را در یک جمله واضح بنویسید.',
           userInputRequired: false,
           outputType: 'text',
-          dataKey: 'uvp_statement', // ✅ Correct
+          dataKey: 'uvp_statement',
           promptConfig: {
             role: 'You are a marketing strategist AI specialized in crafting powerful UVPs.',
             contextKeys: [
@@ -384,13 +357,9 @@ export const PHASE_1: PhaseConfig = {
             'This is your "secret weapon"—something that cannot be easily copied or bought by your competitors. It could be an expert team, proprietary technology, or exclusive data access.',
           guidance_fa:
             'این "سلاح مخفی" شماست؛ چیزی که رقبا نمی‌توانند به سادگی آن را کپی کرده یا بخرند. این مزیت می‌تواند یک تیم متخصص، یک تکنولوژی انحصاری یا دسترسی به داده‌های خاص باشد.',
-          question_en:
-            'What is the one thing you have that your competitors cannot easily buy or copy? What is your unfair advantage?',
-          question_fa:
-            'آن یک چیزی که شما دارید و رقبایتان نمی‌توانند به راحتی آن را بخرند یا کپی کنند چیست؟ مزیت رقابتی ناعادلانه شما چیست؟',
           userInputRequired: false,
           outputType: 'text',
-          dataKey: 'unfair_advantage', // ✅ Correct
+          dataKey: 'unfair_advantage',
           promptConfig: {
             role: 'You are a startup strategist AI helping founders identify their core defensible advantage.',
             contextKeys: ['uvp_statement', 'how_it_works', 'founding_team', 'userInput'],
@@ -427,7 +396,7 @@ export const PHASE_1: PhaseConfig = {
             'خلاصه‌ای از یافته‌های کلیدی گفتگوهای خود با مشتریان بالقوه، نتایج تست صفحه فرود یا هر آزمون دیگری که انجام داده‌اید را بیان کنید. بر اساس این بازخوردها چه تغییراتی در ایده خود ایجاد کردید؟',
           userInputRequired: true,
           outputType: 'text',
-          dataKey: 'validation_summary', // ✅ Correct
+          dataKey: 'validation_summary',
           promptConfig: {
             role: 'You are a Lean Startup coach helping entrepreneurs summarize their validation learnings.',
             contextKeys: ['problem_description', 'uvp_statement', 'userInput'],
@@ -464,7 +433,7 @@ export const PHASE_1: PhaseConfig = {
             'مهم‌ترین هدفی که می‌خواهید در ۳ ماه آینده، ۱ سال آینده و ۳ سال آینده به آن برسید چیست؟',
           userInputRequired: false,
           outputType: 'list',
-          dataKey: 'business_goals_timeline', // ✅ CORRECTED from 'business_goals'
+          dataKey: 'business_goals_timeline',
           promptConfig: {
             role: 'You are a business strategist AI helping entrepreneurs set clear, actionable goals.',
             contextKeys: ['validation_summary', 'initialIdea', 'userInput'],

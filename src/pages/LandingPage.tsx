@@ -85,28 +85,28 @@ const LandingPageContent: React.FC = () => {
       cta_start: { fa: 'شروع رایگان', en: 'Start Free' },
       cta_login: { fa: 'ورود', en: 'Login' },
       cta_pricing: { fa: 'قیمت‌گذاری', en: 'Pricing' },
-      features_title: { fa: '✨ ویژگی‌های کلیدی', en: '✨ Key Features' },
-      feature1_title: { fa: '🤖 هوش مصنوعی پیشرفته', en: '🤖 Advanced AI' },
+      features_title: { fa: ' ویژگی‌های کلیدی', en: ' Key Features' },
+      feature1_title: { fa: ' هوش مصنوعی پیشرفته', en: ' Advanced AI' },
       feature1_desc: {
         fa: 'راهنمایی هوشمند در هر مرحله از مسیر استارتاپ',
         en: 'Smart guidance at every stage of your startup journey',
       },
-      feature2_title: { fa: '📊 8 مرحله جامع', en: '📊 8 Comprehensive Phases' },
+      feature2_title: { fa: ' 8 مرحله جامع', en: ' 8 Comprehensive Phases' },
       feature2_desc: {
         fa: 'از تعریف ایده تا آماده‌سازی پیچ برای سرمایه‌گذار',
         en: 'From idea definition to investor pitch preparation',
       },
-      feature3_title: { fa: '👥 همکاری تیمی', en: '👥 Team Collaboration' },
+      feature3_title: { fa: ' همکاری تیمی', en: ' Team Collaboration' },
       feature3_desc: {
         fa: 'به اشتراک‌گذاری و کار تیمی روی پروژه',
         en: 'Share and collaborate on projects with your team',
       },
-      feature4_title: { fa: '📤 خروجی حرفه‌ای', en: '📤 Professional Export' },
+      feature4_title: { fa: ' خروجی حرفه‌ای', en: ' Professional Export' },
       feature4_desc: {
         fa: 'دریافت بیزنس پلن و پیچ دک به فرمت‌های مختلف',
         en: 'Get business plan and pitch deck in various formats',
       },
-      showcase_title: { fa: '🌟 پروژه‌های عمومی', en: '🌟 Public Projects Showcase' },
+      showcase_title: { fa: ' پروژه‌های عمومی', en: ' Public Projects Showcase' },
       showcase_subtitle: {
         fa: 'ایده‌های الهام‌بخش از جامعه ما',
         en: 'Inspiring ideas from our community',
@@ -119,12 +119,12 @@ const LandingPageContent: React.FC = () => {
       view_project: { fa: 'مشاهده پروژه', en: 'View Project' },
       likes: { fa: 'پسند', en: 'Likes' },
       comments: { fa: 'نظر', en: 'Comments' },
-      stats_title: { fa: '📈 آمار پلتفرم', en: '📈 Platform Stats' },
+      stats_title: { fa: ' آمار پلتفرم', en: ' Platform Stats' },
       stat_users: { fa: '+ کاربر فعال', en: '+ Active Users' },
       stat_projects: { fa: '+ پروژه ایجاد شده', en: '+ Projects Created' },
       stat_completed: { fa: '+ بیزنس پلن کامل', en: '+ Completed Business Plans' },
       stat_funding: { fa: 'میلیون دلار سرمایه جذب شده', en: 'Million $ Funding Raised' },
-      testimonials_title: { fa: '💬 نظرات کاربران', en: '💬 User Testimonials' },
+      testimonials_title: { fa: ' نظرات کاربران', en: ' User Testimonials' },
       testimonial1_name: { fa: 'سارا احمدی', en: 'Sarah Johnson' },
       testimonial1_role: { fa: 'بنیان‌گذار TechStart', en: 'Founder of TechStart' },
       testimonial1_text: {
@@ -145,7 +145,7 @@ const LandingPageContent: React.FC = () => {
       },
 
       // FAQ Section
-      faq_title: { fa: 'سوالات متداول ❓', en: 'Frequently Asked Questions ❓' },
+      faq_title: { fa: 'سوالات متداول ', en: 'Frequently Asked Questions ' },
       faq_q1: { fa: 'چطور می‌توانم شروع کنم؟', en: 'How do I get started?' },
       faq_a1: {
         fa: 'کافی است روی "شروع رایگان" کلیک کنید و حساب کاربری بسازید. سپس می‌توانید اولین پروژه استارتاپی خود را شروع کنید.',
@@ -173,8 +173,8 @@ const LandingPageContent: React.FC = () => {
         en: 'You can get your business plan and pitch deck in PDF, Word, and Excel formats.',
       },
       footer_tagline: {
-        fa: 'ساخته شده با ❤️ برای استارتاپ‌های آینده',
-        en: 'Made with ❤️ for future startups',
+        fa: 'ساخته شده با برای استارتاپ‌های آینده',
+        en: 'Made with for future startups',
       },
       footer_rights: { fa: 'تمامی حقوق محفوظ است.', en: 'All rights reserved.' },
       about_us: { fa: 'درباره ما', en: 'About Us' },
@@ -198,7 +198,7 @@ const LandingPageContent: React.FC = () => {
             {/* Logo */}
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-xl sm:text-2xl">🚀</span>
+                <span className="text-xl sm:text-2xl"></span>
               </div>
               <div>
                 <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
@@ -218,13 +218,13 @@ const LandingPageContent: React.FC = () => {
                 className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               >
-                {theme === 'dark' ? '☀️' : '🌙'}
+                {theme === 'dark' ? '' : ''}
               </button>
               <a
                 href="/marketplace"
                 className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors hidden sm:block"
               >
-                🎯 {locale === 'fa' ? 'بازار پروژه‌ها' : 'Marketplace'}
+                {locale === 'fa' ? 'بازار پروژه‌ها' : 'Marketplace'}
               </a>
               <a
                 href="/pricing"
@@ -263,7 +263,7 @@ const LandingPageContent: React.FC = () => {
               onClick={handleLogin}
               className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-base sm:text-lg rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all font-bold shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105 w-full sm:w-auto"
             >
-              {t('cta_start')} 🚀
+              {t('cta_start')}
             </button>
           </div>
         </div>
@@ -321,7 +321,7 @@ const LandingPageContent: React.FC = () => {
         ) : error ? (
           // Error State
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">⚠️</div>
+            <div className="text-6xl mb-4"></div>
             <p className="text-slate-600 dark:text-slate-400">
               {locale === 'fa' ? 'خطا در بارگذاری پروژه‌ها' : 'Error loading projects'}
             </p>
@@ -329,7 +329,7 @@ const LandingPageContent: React.FC = () => {
         ) : publicProjects.length === 0 ? (
           // Empty State
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">📂</div>
+            <div className="text-6xl mb-4"></div>
             <p className="text-slate-600 dark:text-slate-400">
               {locale === 'fa' ? 'هنوز پروژه‌ای منتشر نشده است' : 'No projects published yet'}
             </p>
@@ -355,12 +355,12 @@ const LandingPageContent: React.FC = () => {
                   onClick={() => navigate('/marketplace')}
                   className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-lg font-bold rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
-                  <span>🔍</span>
+                  <span></span>
                   <span>{locale === 'fa' ? 'مشاهده همه پروژه‌ها' : 'View All Projects'}</span>
                   <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
                     +{totalProjects - 8}
                   </span>
-                  <span>→</span>
+                  <span></span>
                 </button>
               </div>
             )}
@@ -417,8 +417,10 @@ const LandingPageContent: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-slate-700 dark:text-slate-300 italic">&ldquo;{t(testimonial.text)}&rdquo;</p>
-              <div className="flex text-yellow-400 mt-4">{'⭐'.repeat(5)}</div>
+              <p className="text-slate-700 dark:text-slate-300 italic">
+                &ldquo;{t(testimonial.text)}&rdquo;
+              </p>
+              <div className="flex text-yellow-400 mt-4">{''.repeat(5)}</div>
             </div>
           ))}
         </div>
@@ -508,84 +510,84 @@ const LandingPageContent: React.FC = () => {
       </footer>
 
       <style>{`
-                @keyframes blob {
-                    0%, 100% { transform: translate(0, 0) scale(1); }
-                    25% { transform: translate(20px, -50px) scale(1.1); }
-                    50% { transform: translate(-20px, 20px) scale(0.9); }
-                    75% { transform: translate(50px, 50px) scale(1.05); }
-                }
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(30px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                @keyframes slideInLeft {
-                    from {
-                        opacity: 0;
-                        transform: translateX(-50px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateX(0);
-                    }
-                }
-                @keyframes slideInRight {
-                    from {
-                        opacity: 0;
-                        transform: translateX(50px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateX(0);
-                    }
-                }
-                @keyframes bounce {
-                    0%, 20%, 53%, 80%, 100% {
-                        transform: translate3d(0,0,0);
-                    }
-                    40%, 43% {
-                        transform: translate3d(0, -20px, 0);
-                    }
-                    70% {
-                        transform: translate3d(0, -10px, 0);
-                    }
-                    90% {
-                        transform: translate3d(0, -4px, 0);
-                    }
-                }
-                .animate-blob {
-                    animation: blob 7s infinite;
-                }
-                .animation-delay-2000 {
-                    animation-delay: 2s;
-                }
-                .animation-delay-4000 {
-                    animation-delay: 4s;
-                }
-                .animate-fade-in-up {
-                    animation: fadeInUp 0.8s ease-out;
-                }
-                .animate-slide-in-left {
-                    animation: slideInLeft 0.8s ease-out;
-                }
-                .animate-slide-in-right {
-                    animation: slideInRight 0.8s ease-out;
-                }
-                .animate-bounce {
-                    animation: bounce 2s infinite;
-                }
-                .line-clamp-2 {
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                }
-            `}</style>
+ @keyframes blob {
+ 0%, 100% { transform: translate(0, 0) scale(1); }
+ 25% { transform: translate(20px, -50px) scale(1.1); }
+ 50% { transform: translate(-20px, 20px) scale(0.9); }
+ 75% { transform: translate(50px, 50px) scale(1.05); }
+ }
+ @keyframes fadeInUp {
+ from {
+ opacity: 0;
+ transform: translateY(30px);
+ }
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+ @keyframes slideInLeft {
+ from {
+ opacity: 0;
+ transform: translateX(-50px);
+ }
+ to {
+ opacity: 1;
+ transform: translateX(0);
+ }
+ }
+ @keyframes slideInRight {
+ from {
+ opacity: 0;
+ transform: translateX(50px);
+ }
+ to {
+ opacity: 1;
+ transform: translateX(0);
+ }
+ }
+ @keyframes bounce {
+ 0%, 20%, 53%, 80%, 100% {
+ transform: translate3d(0,0,0);
+ }
+ 40%, 43% {
+ transform: translate3d(0, -20px, 0);
+ }
+ 70% {
+ transform: translate3d(0, -10px, 0);
+ }
+ 90% {
+ transform: translate3d(0, -4px, 0);
+ }
+ }
+ .animate-blob {
+ animation: blob 7s infinite;
+ }
+ .animation-delay-2000 {
+ animation-delay: 2s;
+ }
+ .animation-delay-4000 {
+ animation-delay: 4s;
+ }
+ .animate-fade-in-up {
+ animation: fadeInUp 0.8s ease-out;
+ }
+ .animate-slide-in-left {
+ animation: slideInLeft 0.8s ease-out;
+ }
+ .animate-slide-in-right {
+ animation: slideInRight 0.8s ease-out;
+ }
+ .animate-bounce {
+ animation: bounce 2s infinite;
+ }
+ .line-clamp-2 {
+ display: -webkit-box;
+ -webkit-line-clamp: 2;
+ -webkit-box-orient: vertical;
+ overflow: hidden;
+ }
+ `}</style>
     </div>
   );
 };

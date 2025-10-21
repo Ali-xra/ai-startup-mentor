@@ -110,105 +110,105 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
       <div className="min-h-screen flex items-center justify-center p-4 pt-24">
         <div className="w-full max-w-md mx-auto">
           <div className="text-center mb-10">
-          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600 mb-2">
-            {t('welcome_title', locale)}
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-300">
-            {t('welcome_subtitle', locale)}
-          </p>
-        </div>
-
-        <div className="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl shadow-black/10">
-          <div className="mb-6 flex justify-center border border-slate-200 dark:border-slate-700 rounded-lg p-1">
-            <button
-              onClick={() => setIsLogin(true)}
-              className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors ${isLogin ? 'bg-purple-500 text-white shadow' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
-            >
-              {t('auth_sign_in_tab', locale)}
-            </button>
-            <button
-              onClick={() => setIsLogin(false)}
-              className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors ${!isLogin ? 'bg-purple-500 text-white shadow' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
-            >
-              {t('auth_sign_up_tab', locale)}
-            </button>
+            <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600 mb-2">
+              {t('welcome_title', locale)}
+            </h1>
+            <p className="text-lg text-slate-600 dark:text-slate-300">
+              {t('welcome_subtitle', locale)}
+            </p>
           </div>
 
-          <form onSubmit={handleAuth} className="space-y-4">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-slate-600 dark:text-slate-300"
+          <div className="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl shadow-black/10">
+            <div className="mb-6 flex justify-center border border-slate-200 dark:border-slate-700 rounded-lg p-1">
+              <button
+                onClick={() => setIsLogin(true)}
+                className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors ${isLogin ? 'bg-purple-500 text-white shadow' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
               >
-                {t('auth_email_label', locale)}
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="mt-1 w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-slate-600 dark:text-slate-300"
+                {t('auth_sign_in_tab', locale)}
+              </button>
+              <button
+                onClick={() => setIsLogin(false)}
+                className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors ${!isLogin ? 'bg-purple-500 text-white shadow' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
               >
-                {t('auth_password_label', locale)}
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="mt-1 w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
-                required
-              />
+                {t('auth_sign_up_tab', locale)}
+              </button>
             </div>
 
-            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            <form onSubmit={handleAuth} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-slate-600 dark:text-slate-300"
+                >
+                  {t('auth_email_label', locale)}
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="mt-1 w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-slate-600 dark:text-slate-300"
+                >
+                  {t('auth_password_label', locale)}
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="mt-1 w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
+                  required
+                />
+              </div>
 
+              {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 transition-all shadow-md hover:shadow-lg flex justify-center items-center"
+              >
+                {loading ? (
+                  <Loader />
+                ) : isLogin ? (
+                  t('auth_sign_in_button', locale)
+                ) : (
+                  t('auth_sign_up_button', locale)
+                )}
+              </button>
+            </form>
+            <div className="relative flex py-5 items-center">
+              <div className="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
+              <span className="flex-shrink mx-4 text-slate-400 dark:text-slate-500 text-sm">
+                {t('auth_or_divider', locale)}
+              </span>
+              <div className="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
+            </div>
             <button
-              type="submit"
+              type="button"
+              onClick={handleGoogleLogin}
               disabled={loading}
-              className="w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 transition-all shadow-md hover:shadow-lg flex justify-center items-center"
+              className="w-full py-3 px-4 flex justify-center items-center gap-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-semibold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50 transition-all shadow-sm"
             >
               {loading ? (
                 <Loader />
-              ) : isLogin ? (
-                t('auth_sign_in_button', locale)
               ) : (
-                t('auth_sign_up_button', locale)
+                <>
+                  <GoogleIcon />
+                  {t('auth_google_button', locale)}
+                </>
               )}
             </button>
-          </form>
-          <div className="relative flex py-5 items-center">
-            <div className="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
-            <span className="flex-shrink mx-4 text-slate-400 dark:text-slate-500 text-sm">
-              {t('auth_or_divider', locale)}
-            </span>
-            <div className="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
           </div>
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            disabled={loading}
-            className="w-full py-3 px-4 flex justify-center items-center gap-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-semibold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50 transition-all shadow-sm"
-          >
-            {loading ? (
-              <Loader />
-            ) : (
-              <>
-                <GoogleIcon />
-                {t('auth_google_button', locale)}
-              </>
-            )}
-          </button>
-        </div>
         </div>
       </div>
     </div>
