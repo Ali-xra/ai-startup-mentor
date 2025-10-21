@@ -1,0 +1,19 @@
+{
+  "appName": "AI Startup Mentor",
+  "welcome": "Welcome",
+  "language": {
+    "english": "English",
+    "persian": "فارسی (Persian)",
+    "icelandic": "Íslenska (Icelandic)"
+  },
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next"
+  }
+}

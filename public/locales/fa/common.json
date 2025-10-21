@@ -1,0 +1,19 @@
+{
+  "appName": "راهنمای هوشمند استارتاپ",
+  "welcome": "خوش آمدید",
+  "language": {
+    "english": "English (انگلیسی)",
+    "persian": "فارسی",
+    "icelandic": "Íslenska (ایسلندی)"
+  },
+  "buttons": {
+    "save": "ذخیره",
+    "cancel": "لغو",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "close": "بستن",
+    "submit": "ارسال",
+    "back": "بازگشت",
+    "next": "بعدی"
+  }
+}

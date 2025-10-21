@@ -12,13 +12,14 @@
 ```
 فاز ۱: معماری و Navigation          [██████████] 100% ✅ 🎊
 فاز ۲: بازار پروژه‌ها (Marketplace)  [██████████] 100% ✅ 🎉
+فاز ۱.۵: سیستم چندزبانه (i18n)      [░░░░░░░░░░]   0% ⏳ در حال کار
 فاز ۳: راه‌اندازی تست‌ها            [░░░░░░░░░░]   0%
 فاز ۴: Performance و Caching         [░░░░░░░░░░]   0%
 فاز ۵: Design System و UI/UX         [░░░░░░░░░░]   0%
 فاز ۶: امنیت و Deployment            [░░░░░░░░░░]   0%
 فاز ۷: مستندات نهایی                [░░░░░░░░░░]   0%
 
-پیشرفت کلی پروژه: 28.57% (2/7 فاز کامل)
+پیشرفت کلی پروژه: 25% (2/8 فاز کامل)
 ```
 
 ### 📊 محاسبه پیشرفت فاز ۱:
@@ -679,19 +680,17 @@ interface ProjectCardProps {
 ### 📝 طراحی UI پیشنهادی:
 
 ```tsx
-{/* در بخش Share کنار سایر گزینه‌های اشتراک‌گذاری */}
+{
+  /* در بخش Share کنار سایر گزینه‌های اشتراک‌گذاری */
+}
 <div className="border-t pt-4 mt-4">
   <h3 className="text-sm font-semibold mb-2">📢 وضعیت انتشار پروژه</h3>
 
   <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
     <div className="flex-1">
-      <p className="text-sm font-medium">
-        {isPublished ? '🌐 عمومی' : '🔒 خصوصی'}
-      </p>
+      <p className="text-sm font-medium">{isPublished ? '🌐 عمومی' : '🔒 خصوصی'}</p>
       <p className="text-xs text-slate-500">
-        {isPublished
-          ? 'پروژه در بازار نمایش داده می‌شود'
-          : 'فقط شما می‌توانید این پروژه را ببینید'}
+        {isPublished ? 'پروژه در بازار نمایش داده می‌شود' : 'فقط شما می‌توانید این پروژه را ببینید'}
       </p>
     </div>
 
@@ -706,7 +705,7 @@ interface ProjectCardProps {
       {isPublished ? 'خصوصی کردن' : 'انتشار عمومی'}
     </button>
   </div>
-</div>
+</div>;
 ```
 
 ### 🎯 نتیجه مورد انتظار:
@@ -761,32 +760,40 @@ interface ProjectCardProps {
 ### 📝 کد پیشنهادی:
 
 ```tsx
-{/* LandingPage.tsx */}
-{/* Projects Grid - محدود به 8 پروژه */}
+{
+  /* LandingPage.tsx */
+}
+{
+  /* Projects Grid - محدود به 8 پروژه */
+}
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
   {publicProjects.slice(0, 8).map((project) => (
     <ProjectCard
       key={project.id}
       project={project}
-      isClickable={false}        // دکمه‌های لایک/کامنت غیرفعال
+      isClickable={false} // دکمه‌های لایک/کامنت غیرفعال
       onClick={() => navigate('/marketplace')}
     />
   ))}
-</div>
+</div>;
 
-{/* دکمه مشاهده همه */}
-{publicProjects.length > 8 && (
-  <div className="text-center mt-8">
-    <Link
-      to="/marketplace"
-      className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-lg font-bold rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
-    >
-      <span>🔍</span>
-      <span>{locale === 'fa' ? 'مشاهده همه پروژه‌ها' : 'View All Projects'}</span>
-      <span>→</span>
-    </Link>
-  </div>
-)}
+{
+  /* دکمه مشاهده همه */
+}
+{
+  publicProjects.length > 8 && (
+    <div className="text-center mt-8">
+      <Link
+        to="/marketplace"
+        className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-lg font-bold rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+      >
+        <span>🔍</span>
+        <span>{locale === 'fa' ? 'مشاهده همه پروژه‌ها' : 'View All Projects'}</span>
+        <span>→</span>
+      </Link>
+    </div>
+  );
+}
 ```
 
 ### 🎯 نتیجه مورد انتظار:
@@ -1075,6 +1082,246 @@ Task 2.6: Documentation & Commit       [100%] ✅
 یا:
 
 فایل PROJECT_PROGRESS.md رو بخون، از Task 2.1 شروع کن و به ترتیب جلو برو. بعد از هر subtask فایل رو آپدیت کن.
+```
+
+---
+
+# 📋 فاز ۱.۵: سیستم چندزبانه (i18n - Internationalization)
+
+**اولویت:** 🔴 بالا
+**مدت زمان تخمینی:** ۴-۵ روز
+**تاریخ شروع:** 2025-10-21
+**تاریخ اتمام:** -
+**پیشرفت:** 0%
+
+## هدف کلی این فاز
+
+پیاده‌سازی سیستم چندزبانه حرفه‌ای با i18next برای پشتیبانی از زبان‌های مختلف (انگلیسی، فارسی، و قابلیت افزودن زبان‌های دیگر). هدف: حذف کامل متن‌های hard-coded و امکان تغییر زبان بدون مشکل.
+
+## معماری سیستم
+
+```
+public/locales/
+├── en/                      # انگلیسی
+│   ├── common.json
+│   ├── auth.json
+│   ├── marketplace.json
+│   ├── entrepreneur.json
+│   ├── investor.json
+│   ├── admin.json
+│   └── consultant.json
+├── fa/                      # فارسی
+│   └── ... (همین ساختار)
+└── is/                      # ایسلندی (یا زبان دیگه)
+    └── ... (همین ساختار)
+
+src/i18n/
+├── config.ts               # تنظیمات i18next
+└── types.ts                # Type definitions
+
+scripts/
+├── convert-i18n-to-json.js      # تبدیل i18n.ts به JSON
+└── translate-to-language.js      # ترجمه خودکار با Google Translate
+```
+
+---
+
+## Task 1.5.1: راه‌اندازی i18next
+
+**وضعیت:** ✅ کامل (80%) - تست نهایی باقی مونده
+**زمان تخمینی:** ۲-۳ ساعت
+**اولویت:** 🔴 بالا
+
+### Subtasks:
+
+- [x] نصب پکیج‌های لازم
+  - `npm install i18next react-i18next i18next-http-backend i18next-browser-languagedetector`
+- [x] ایجاد ساختار فولدر `public/locales/{lang}/{namespace}.json`
+- [x] ایجاد `src/i18n/config.ts` با تنظیمات i18next
+- [x] اضافه کردن import i18n config به main.tsx
+- [x] ایجاد فایل‌های JSON نمونه (common.json) برای en و fa
+- [ ] تست اولیه با یک کامپوننت ساده
+
+### 📝 یادداشت‌ها:
+
+```typescript
+// src/i18n/config.ts
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import HttpBackend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+i18n
+  .use(HttpBackend) // Lazy load translations
+  .use(LanguageDetector) // Auto-detect language
+  .use(initReactI18next)
+  .init({
+    fallbackLng: 'en',
+    supportedLngs: ['en', 'fa', 'is'],
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+    },
+    ns: ['common', 'auth', 'marketplace', 'entrepreneur', 'investor', 'admin', 'consultant'],
+    defaultNS: 'common',
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+```
+
+---
+
+## Task 1.5.2: ساخت اسکریپت‌های ترجمه
+
+**وضعیت:** ❌ انجام نشده (0%)
+**زمان تخمینی:** ۲-۳ ساعت
+**اولویت:** 🔴 بالا
+
+### Subtasks:
+
+- [ ] ایجاد `scripts/convert-i18n-to-json.js`
+  - تبدیل src/i18n.ts موجود به ساختار JSON
+  - ساخت خودکار فایل‌های JSON برای en و fa
+- [ ] ایجاد `scripts/translate-to-language.js`
+  - اتصال به Google Translate API
+  - ترجمه خودکار از انگلیسی به زبان‌های دیگر
+  - استفاده از API key از .env
+- [ ] تست اسکریپت‌ها
+  - اجرا برای زبان ایسلندی (is) به عنوان تست
+- [ ] مستندسازی نحوه استفاده
+
+### 📝 یادداشت‌ها:
+
+```bash
+# نحوه استفاده:
+node scripts/convert-i18n-to-json.js          # تبدیل i18n.ts به JSON
+node scripts/translate-to-language.js is      # ترجمه به ایسلندی
+node scripts/translate-to-language.js ar      # ترجمه به عربی
+```
+
+---
+
+## Task 1.5.3: Migration کامپوننت‌های اصلی
+
+**وضعیت:** ❌ انجام نشده (0%)
+**زمان تخمینی:** ۴-۵ ساعت
+**اولویت:** 🔴 بالا
+
+### Subtasks:
+
+- [ ] Migration Header.tsx
+- [ ] Migration SettingsMenu.tsx
+- [ ] Migration AuthScreen.tsx و RoleSelection.tsx
+- [ ] Migration LanguageSelector.tsx
+- [ ] تست تغییر زبان
+
+### 📝 مثال Migration:
+
+```typescript
+// قبل:
+<h1>بازار پروژه‌ها</h1>
+
+// بعد:
+import { useTranslation } from 'react-i18next';
+
+function MarketplacePage() {
+  const { t } = useTranslation('marketplace');
+  return <h1>{t('title')}</h1>;
+}
+```
+
+---
+
+## Task 1.5.4: Migration صفحات Marketplace
+
+**وضعیت:** ❌ انجام نشده (0%)
+**زمان تخمینی:** ۳-۴ ساعت
+**اولویت:** 🟡 متوسط
+
+### Subtasks:
+
+- [ ] استخراج متن‌های MarketplacePage.tsx
+- [ ] ساخت marketplace.json برای en و fa
+- [ ] Migration کامپوننت‌های مرتبط
+- [ ] تست کامل
+
+---
+
+## Task 1.5.5: Migration صفحات Entrepreneur
+
+**وضعیت:** ❌ انجام نشده (0%)
+**زمان تخمینی:** ۳-۴ ساعت
+**اولویت:** 🟡 متوسط
+
+### Subtasks:
+
+- [ ] Migration EntrepreneurDashboard
+- [ ] Migration ProjectsList
+- [ ] Migration SimpleNewProjectPage
+- [ ] تست
+
+---
+
+## Task 1.5.6: Migration صفحات Landing/Pricing/About
+
+**وضعیت:** ❌ انجام نشده (0%)
+**زمان تخمینی:** ۴-۵ ساعت
+**اولویت:** 🟡 متوسط
+
+### Subtasks:
+
+- [ ] Migration LandingPage.tsx
+- [ ] Migration PricingPage.tsx
+- [ ] Migration AboutPage.tsx
+- [ ] تست
+
+---
+
+## Task 1.5.7: بهینه‌سازی و Cleanup
+
+**وضعیت:** ❌ انجام نشده (0%)
+**زمان تخمینی:** ۲-۳ ساعت
+**اولویت:** 🟢 پایین
+
+### Subtasks:
+
+- [ ] حذف src/i18n.ts قدیمی
+- [ ] بررسی و حذف translationService.ts (اگر لازم نباشد)
+- [ ] تست production build
+- [ ] بررسی bundle size
+
+---
+
+## Task 1.5.8: مستندسازی و Commit
+
+**وضعیت:** ❌ انجام نشده (0%)
+**زمان تخمینی:** ۱-۲ ساعت
+**اولویت:** 🟢 پایین
+
+### Subtasks:
+
+- [ ] نوشتن I18N_GUIDE.md
+  - راهنمای اضافه کردن زبان جدید
+  - راهنمای اضافه کردن ترجمه جدید
+  - مثال‌های کد
+- [ ] به‌روزرسانی PROJECT_PROGRESS.md
+- [ ] Git Commit با پیام کامل
+
+---
+
+## 📊 محاسبه پیشرفت فاز ۱.۵:
+
+```
+Task 1.5.1: i18next Setup              [0%] ❌
+Task 1.5.2: اسکریپت‌های ترجمه         [0%] ❌
+Task 1.5.3: Migration کامپوننت‌های اصلی [0%] ❌
+Task 1.5.4: Migration Marketplace       [0%] ❌
+Task 1.5.5: Migration Entrepreneur      [0%] ❌
+Task 1.5.6: Migration Landing/Pricing   [0%] ❌
+Task 1.5.7: بهینه‌سازی و Cleanup       [0%] ❌
+Task 1.5.8: مستندسازی                 [0%] ❌
+
+میانگین: 0%
 ```
 
 ---
