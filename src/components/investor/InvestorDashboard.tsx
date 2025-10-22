@@ -99,17 +99,19 @@ export const InvestorDashboard: React.FC = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Saved Projects */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/20 rounded-lg shadow-md p-6 border-r-4 border-blue-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">پروژه‌های ذخیره شده</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
+                  پروژه‌های ذخیره شده
+                </p>
+                <p className="text-3xl font-bold text-blue-900 dark:text-blue-100 mt-2">
                   {stats?.saved_projects_count || 0}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-blue-200 dark:bg-blue-700 rounded-lg flex items-center justify-center">
                 <svg
-                  className="w-6 h-6 text-blue-600 dark:text-blue-400"
+                  className="w-6 h-6 text-blue-700 dark:text-blue-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -126,17 +128,19 @@ export const InvestorDashboard: React.FC = () => {
           </div>
 
           {/* Pending Connections */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/30 dark:to-yellow-800/20 rounded-lg shadow-md p-6 border-r-4 border-yellow-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">درخواست‌های در انتظار</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                <p className="text-sm text-yellow-700 dark:text-yellow-300 font-medium">
+                  درخواست‌های در انتظار
+                </p>
+                <p className="text-3xl font-bold text-yellow-900 dark:text-yellow-100 mt-2">
                   {stats?.pending_connections || 0}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-yellow-200 dark:bg-yellow-700 rounded-lg flex items-center justify-center">
                 <svg
-                  className="w-6 h-6 text-yellow-600 dark:text-yellow-400"
+                  className="w-6 h-6 text-yellow-700 dark:text-yellow-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -153,17 +157,19 @@ export const InvestorDashboard: React.FC = () => {
           </div>
 
           {/* Accepted Connections */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/20 rounded-lg shadow-md p-6 border-r-4 border-green-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">اتصالات فعال</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                <p className="text-sm text-green-700 dark:text-green-300 font-medium">
+                  اتصالات فعال
+                </p>
+                <p className="text-3xl font-bold text-green-900 dark:text-green-100 mt-2">
                   {stats?.accepted_connections || 0}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-green-200 dark:bg-green-700 rounded-lg flex items-center justify-center">
                 <svg
-                  className="w-6 h-6 text-green-600 dark:text-green-400"
+                  className="w-6 h-6 text-green-700 dark:text-green-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -180,22 +186,24 @@ export const InvestorDashboard: React.FC = () => {
           </div>
 
           {/* Monthly Views */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/20 rounded-lg shadow-md p-6 border-r-4 border-purple-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">بازدیدهای ماهانه</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                <p className="text-sm text-purple-700 dark:text-purple-300 font-medium">
+                  بازدیدهای ماهانه
+                </p>
+                <p className="text-3xl font-bold text-purple-900 dark:text-purple-100 mt-2">
                   {stats?.monthly_views_remaining === -1
                     ? '∞'
                     : stats?.monthly_views_remaining || 0}
                 </p>
                 {investorProfile.tier === 'free' && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">از 10</p>
+                  <p className="text-xs text-purple-600 dark:text-purple-400 mt-1">از 10</p>
                 )}
               </div>
-              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-purple-200 dark:bg-purple-700 rounded-lg flex items-center justify-center">
                 <svg
-                  className="w-6 h-6 text-purple-600 dark:text-purple-400"
+                  className="w-6 h-6 text-purple-700 dark:text-purple-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

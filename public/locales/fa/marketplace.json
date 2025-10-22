@@ -1,1 +1,19 @@
-{}
+{
+  "page_title": "بازار پروژه‌ها",
+  "filter_all": "همه پروژه‌ها",
+  "filter_all_desc": "نمایش تمام پروژه‌های عمومی",
+  "filter_trending": "پرطرفدار",
+  "filter_trending_desc": "پروژه‌هایی با بیشترین لایک",
+  "filter_completed": "تکمیل شده",
+  "filter_completed_desc": "پروژه‌هایی که تمام فازها را طی کرده‌اند",
+  "filter_recent": "جدیدترین",
+  "filter_recent_desc": "پروژه‌های اخیراً اضافه شده",
+  "active_filter": "فیلتر فعال",
+  "project_owner": "صاحب پروژه",
+  "comments": "نظرات",
+  "view_comments": "مشاهده نظرات",
+  "success_stories_title": "ببینید دیگران چطور با کمک ما به موفقیت رسیدند",
+  "created_at": "تاریخ ایجاد",
+  "likes": "لایک‌ها",
+  "disabled": "غیرفعال"
+}

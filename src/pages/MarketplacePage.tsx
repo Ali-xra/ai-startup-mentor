@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   PublicProjectsService,
   PublicProject,
@@ -8,6 +8,7 @@ import {
 import { ProjectCard } from '../components/marketplace/ProjectCard';
 import { ProjectFilters } from '../components/marketplace/ProjectFilters';
 import { CommentsModal } from '../components/marketplace/CommentsModal';
+import { PublicNavigation } from '../components/PublicNavigation';
 import { supabase } from '../services/supabaseClient';
 import '../index.css';
 
@@ -87,36 +88,8 @@ const MarketplacePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      {/* Header */}
-      <header className="bg-white dark:bg-slate-800 shadow-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-2">
-              <span className="text-2xl"></span>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-white">بازار پروژه‌ها</h1>
-            </Link>
-
-            <div className="flex items-center gap-4">
-              {!isLoggedIn && (
-                <>
-                  <Link
-                    to="/login"
-                    className="px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-                  >
-                    ورود
-                  </Link>
-                  <Link
-                    to="/auth"
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-                  >
-                    ثبت‌نام
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Public Navigation */}
+      <PublicNavigation />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">

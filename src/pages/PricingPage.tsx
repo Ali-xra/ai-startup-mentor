@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useFeatureFlags } from '../hooks/useFeatureFlags';
 import { Locale } from '../i18n';
-import LanguageSelector from '../components/LanguageSelector';
+import { PublicNavigation } from '../components/PublicNavigation';
 import '../index.css';
 
 const PricingPage: React.FC = () => {
@@ -11,23 +11,9 @@ const PricingPage: React.FC = () => {
   const { planName } = useFeatureFlags();
   const { language } = useLanguage();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    // Check if user has a saved theme preference
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
-    return savedTheme || 'dark'; // Default to dark theme
-  });
 
   // Map LanguageCode to Locale
   const locale: Locale = language === 'fa' ? 'fa' : 'en';
-
-  // Apply theme on component mount and when theme changes
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
 
   const t = (key: string) => {
     const translations: Record<string, { fa: string; en: string }> = {
@@ -289,80 +275,8 @@ const PricingPage: React.FC = () => {
       className={`min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-indigo-900/20 dark:from-slate-900 dark:via-purple-900/20 dark:to-indigo-900/20 transition-colors duration-300`}
       dir={locale === 'fa' ? 'rtl' : 'ltr'}
     >
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-2xl"></span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                  AI Startup Mentor
-                </h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  {locale === 'fa' ? 'دستیار هوشمند استارتاپی' : 'Your AI Startup Assistant'}
-                </p>
-              </div>
-            </div>
-
-            {/* Right Side */}
-            <div className="flex items-center gap-3">
-              <LanguageSelector />
-              <button
-                onClick={() => {
-                  const newTheme = theme === 'light' ? 'dark' : 'light';
-                  setTheme(newTheme);
-                  localStorage.setItem('theme', newTheme);
-                  if (newTheme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                }}
-                className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              >
-                {theme === 'dark' ? '' : ''}
-              </button>
-              {user && (
-                <div
-                  className={`flex items-center gap-3 ${locale === 'fa' ? 'flex-row' : 'flex-row-reverse'}`}
-                >
-                  <div className={locale === 'fa' ? 'text-right' : 'text-left'}>
-                    <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      {user.email}
-                    </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      {t('current_plan_label')} <span className="font-semibold">{planName}</span>
-                    </p>
-                  </div>
-                  <button
-                    onClick={signOut}
-                    className="px-4 py-2 text-sm bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
-                  >
-                    {t('sign_out')}
-                  </button>
-                </div>
-              )}
-              <a
-                href="/"
-                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-              >
-                {t('back_home')}
-              </a>
-              <a
-                href="/about"
-                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-              >
-                {t('about_us')}
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Public Navigation */}
+      <PublicNavigation />
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">

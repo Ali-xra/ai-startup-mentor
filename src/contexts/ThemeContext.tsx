@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, ReactNode } from 'react';
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'dark'; // همیشه dark
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void; // برای سازگاری با کد قدیمی - هیچ کاری نمی‌کنه
+  setTheme: (theme: Theme) => void; // برای سازگاری با کد قدیمی - هیچ کاری نمی‌کنه
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -16,42 +16,27 @@ interface ThemeProviderProps {
 
 /**
  * ThemeProvider
- * مدیریت مرکزی تم روشن/تیره در تمام اپلیکیشن
+ * تم همیشه dark است - این provider فقط برای سازگاری با کد قدیمی نگه داشته شده
  */
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    // بررسی تم ذخیره شده در localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      return savedTheme;
-    }
-    // اگر تم ذخیره نشده بود، از تم سیستم استفاده کن
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
-  });
+  // همیشه dark
+  const theme: Theme = 'dark';
 
   useEffect(() => {
     const root = document.documentElement;
+    // همیشه کلاس dark اضافه کن
+    root.classList.add('dark');
+    // همیشه dark ذخیره کن
+    localStorage.setItem('theme', 'dark');
+  }, []);
 
-    // اعمال یا حذف کلاس dark
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-
-    // ذخیره در localStorage
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
+  // این توابع هیچ کاری نمی‌کنن - فقط برای سازگاری هستن
   const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'light' ? 'dark' : 'light'));
+    // هیچ کاری نمی‌کنه
   };
 
   const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
+    // هیچ کاری نمی‌کنه
   };
 
   const value = {

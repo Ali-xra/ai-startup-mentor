@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
-import LanguageSelector from '../components/LanguageSelector';
+import { PublicNavigation } from '../components/PublicNavigation';
 import { Locale } from '../i18n';
 import {
   PublicProjectsService,
@@ -17,12 +18,10 @@ interface PublicProject extends PublicProjectType {
 }
 
 const LandingPageContent: React.FC = () => {
+  const { t } = useTranslation(['landing', 'marketplace']);
   const { language } = useLanguage();
   const locale: Locale = language === 'fa' ? 'fa' : 'en';
   const navigate = useNavigate();
-  const [theme, setTheme] = useState<'light' | 'dark'>(
-    () => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark'
-  );
   const [selectedFilter, setSelectedFilter] = useState<ProjectFilter>('all');
   const [publicProjects, setPublicProjects] = useState<PublicProject[]>([]);
   const [totalProjects, setTotalProjects] = useState<number>(0);
@@ -52,202 +51,13 @@ const LandingPageContent: React.FC = () => {
     fetchProjects();
   }, [selectedFilter]);
 
-  useEffect(() => {
-    const savedTheme = (localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
-  const t = (key: string) => {
-    const translations: Record<string, { fa: string; en: string }> = {
-      hero_title: {
-        fa: 'دستیار هوشمند برای تبدیل ایده به استارتاپ',
-        en: 'AI-Powered Assistant to Turn Your Ideas into Startups',
-      },
-      hero_subtitle: {
-        fa: 'از ایده تا بیزنس پلن کامل، همراه با راهنمای گام به گام و هوش مصنوعی پیشرفته',
-        en: 'From idea to complete business plan, with step-by-step guidance and advanced AI',
-      },
-      cta_start: { fa: 'شروع رایگان', en: 'Start Free' },
-      cta_login: { fa: 'ورود', en: 'Login' },
-      cta_pricing: { fa: 'قیمت‌گذاری', en: 'Pricing' },
-      features_title: { fa: ' ویژگی‌های کلیدی', en: ' Key Features' },
-      feature1_title: { fa: ' هوش مصنوعی پیشرفته', en: ' Advanced AI' },
-      feature1_desc: {
-        fa: 'راهنمایی هوشمند در هر مرحله از مسیر استارتاپ',
-        en: 'Smart guidance at every stage of your startup journey',
-      },
-      feature2_title: { fa: ' 8 مرحله جامع', en: ' 8 Comprehensive Phases' },
-      feature2_desc: {
-        fa: 'از تعریف ایده تا آماده‌سازی پیچ برای سرمایه‌گذار',
-        en: 'From idea definition to investor pitch preparation',
-      },
-      feature3_title: { fa: ' همکاری تیمی', en: ' Team Collaboration' },
-      feature3_desc: {
-        fa: 'به اشتراک‌گذاری و کار تیمی روی پروژه',
-        en: 'Share and collaborate on projects with your team',
-      },
-      feature4_title: { fa: ' خروجی حرفه‌ای', en: ' Professional Export' },
-      feature4_desc: {
-        fa: 'دریافت بیزنس پلن و پیچ دک به فرمت‌های مختلف',
-        en: 'Get business plan and pitch deck in various formats',
-      },
-      showcase_title: { fa: ' پروژه‌های عمومی', en: ' Public Projects Showcase' },
-      showcase_subtitle: {
-        fa: 'ایده‌های الهام‌بخش از جامعه ما',
-        en: 'Inspiring ideas from our community',
-      },
-      filter_all: { fa: 'همه', en: 'All' },
-      filter_trending: { fa: 'پرطرفدار', en: 'Trending' },
-      filter_completed: { fa: 'تکمیل شده', en: 'Completed' },
-      filter_recent: { fa: 'جدیدترین', en: 'Recent' },
-      phase_of: { fa: 'مرحله %s از %s', en: 'Phase %s of %s' },
-      view_project: { fa: 'مشاهده پروژه', en: 'View Project' },
-      likes: { fa: 'پسند', en: 'Likes' },
-      comments: { fa: 'نظر', en: 'Comments' },
-      stats_title: { fa: ' آمار پلتفرم', en: ' Platform Stats' },
-      stat_users: { fa: '+ کاربر فعال', en: '+ Active Users' },
-      stat_projects: { fa: '+ پروژه ایجاد شده', en: '+ Projects Created' },
-      stat_completed: { fa: '+ بیزنس پلن کامل', en: '+ Completed Business Plans' },
-      stat_funding: { fa: 'میلیون دلار سرمایه جذب شده', en: 'Million $ Funding Raised' },
-      testimonials_title: { fa: ' نظرات کاربران', en: ' User Testimonials' },
-      testimonial1_name: { fa: 'سارا احمدی', en: 'Sarah Johnson' },
-      testimonial1_role: { fa: 'بنیان‌گذار TechStart', en: 'Founder of TechStart' },
-      testimonial1_text: {
-        fa: 'این پلتفرم واقعاً مسیر راه‌اندازی استارتاپ من را تغییر داد. هوش مصنوعی به من کمک کرد تا بیزنس پلن حرفه‌ای بسازم.',
-        en: 'This platform truly transformed my startup journey. The AI helped me create a professional business plan.',
-      },
-      testimonial2_name: { fa: 'علی رضایی', en: 'Alex Chen' },
-      testimonial2_role: { fa: 'مدیرعامل GreenTech', en: 'CEO of GreenTech' },
-      testimonial2_text: {
-        fa: 'راهنمایی گام به گام و پشتیبانی عالی. بدون این پلتفرم نمی‌توانستم ایده‌ام را به محصول تبدیل کنم.',
-        en: "Step-by-step guidance and excellent support. I couldn't have turned my idea into a product without this platform.",
-      },
-      testimonial3_name: { fa: 'مریم کرمی', en: 'Mary Davis' },
-      testimonial3_role: { fa: 'کارآفرین حوزه سلامت', en: 'Healthcare Entrepreneur' },
-      testimonial3_text: {
-        fa: '۸ مرحله جامع واقعاً کمک‌کننده بود. حالا می‌توانم با اعتماد به نفس بیشتری با سرمایه‌گذاران صحبت کنم.',
-        en: 'The 8 comprehensive phases were incredibly helpful. Now I can confidently pitch to investors.',
-      },
-
-      // FAQ Section
-      faq_title: { fa: 'سوالات متداول ', en: 'Frequently Asked Questions ' },
-      faq_q1: { fa: 'چطور می‌توانم شروع کنم؟', en: 'How do I get started?' },
-      faq_a1: {
-        fa: 'کافی است روی "شروع رایگان" کلیک کنید و حساب کاربری بسازید. سپس می‌توانید اولین پروژه استارتاپی خود را شروع کنید.',
-        en: 'Simply click "Start Free" and create your account. Then you can begin your first startup project.',
-      },
-      faq_q2: { fa: 'آیا هوش مصنوعی واقعاً کمک می‌کند؟', en: 'Does the AI really help?' },
-      faq_a2: {
-        fa: 'بله! هوش مصنوعی ما بر اساس بهترین تجربیات کارآفرینی آموزش دیده و در هر مرحله راهنمایی‌های عملی ارائه می‌دهد.',
-        en: 'Yes! Our AI is trained on the best entrepreneurial experiences and provides practical guidance at every stage.',
-      },
-      faq_q3: {
-        fa: 'آیا می‌توانم پروژه‌هایم را با تیمم به اشتراک بگذارم؟',
-        en: 'Can I share my projects with my team?',
-      },
-      faq_a3: {
-        fa: 'بله! بسته به پلن انتخابی‌تان می‌توانید پروژه‌ها را با تعداد مختلفی از اعضای تیم به اشتراک بگذارید.',
-        en: 'Yes! Depending on your chosen plan, you can share projects with different numbers of team members.',
-      },
-      faq_q4: {
-        fa: 'خروجی نهایی چه فرمت‌هایی دارد؟',
-        en: 'What formats are available for final output?',
-      },
-      faq_a4: {
-        fa: 'می‌توانید بیزنس پلن و پیچ دک خود را در فرمت‌های PDF، Word و Excel دریافت کنید.',
-        en: 'You can get your business plan and pitch deck in PDF, Word, and Excel formats.',
-      },
-      footer_tagline: {
-        fa: 'ساخته شده با برای استارتاپ‌های آینده',
-        en: 'Made with for future startups',
-      },
-      footer_rights: { fa: 'تمامی حقوق محفوظ است.', en: 'All rights reserved.' },
-      about_us: { fa: 'درباره ما', en: 'About Us' },
-    };
-    return translations[key]?.[locale] || key;
-  };
-
-  const handleLogin = () => {
-    window.location.href = '/login';
-  };
-
   return (
     <div
       className={`min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50 dark:from-slate-900 dark:via-purple-900/20 dark:to-indigo-900/20 transition-colors duration-300`}
       dir={locale === 'fa' ? 'rtl' : 'ltr'}
     >
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-xl sm:text-2xl"></span>
-              </div>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                  AI Startup Mentor
-                </h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
-                  {locale === 'fa' ? 'دستیار هوشمند استارتاپی' : 'Your AI Startup Assistant'}
-                </p>
-              </div>
-            </div>
-
-            {/* Right Side */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <LanguageSelector />
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              >
-                {theme === 'dark' ? '' : ''}
-              </button>
-              <a
-                href="/marketplace"
-                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors hidden sm:block"
-              >
-                {locale === 'fa' ? 'بازار پروژه‌ها' : 'Marketplace'}
-              </a>
-              <a
-                href="/pricing"
-                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-              >
-                {t('cta_pricing')}
-              </a>
-              <a
-                href="/about"
-                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors hidden sm:block"
-              >
-                {t('about_us')}
-              </a>
-              <button
-                onClick={handleLogin}
-                className="px-4 sm:px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 text-sm"
-              >
-                {t('cta_login')}
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Public Navigation */}
+      <PublicNavigation />
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -259,12 +69,12 @@ const LandingPageContent: React.FC = () => {
             {t('hero_subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-            <button
-              onClick={handleLogin}
-              className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-base sm:text-lg rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all font-bold shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105 w-full sm:w-auto"
+            <a
+              href="/login"
+              className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-base sm:text-lg rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all font-bold shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105 w-full sm:w-auto text-center"
             >
               {t('cta_start')}
-            </button>
+            </a>
           </div>
         </div>
 
@@ -314,25 +124,43 @@ const LandingPageContent: React.FC = () => {
           // Loading State
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-600 border-t-transparent"></div>
-            <p className="mt-4 text-slate-600 dark:text-slate-400">
-              {locale === 'fa' ? 'در حال بارگذاری...' : 'Loading...'}
-            </p>
+            <p className="mt-4 text-slate-600 dark:text-slate-400">{t('loading')}</p>
           </div>
         ) : error ? (
           // Error State
           <div className="text-center py-12">
-            <div className="text-6xl mb-4"></div>
-            <p className="text-slate-600 dark:text-slate-400">
-              {locale === 'fa' ? 'خطا در بارگذاری پروژه‌ها' : 'Error loading projects'}
-            </p>
+            <svg
+              className="w-16 h-16 mx-auto mb-4 text-red-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p className="text-slate-600 dark:text-slate-400">{t('error_loading')}</p>
           </div>
         ) : publicProjects.length === 0 ? (
           // Empty State
           <div className="text-center py-12">
-            <div className="text-6xl mb-4"></div>
-            <p className="text-slate-600 dark:text-slate-400">
-              {locale === 'fa' ? 'هنوز پروژه‌ای منتشر نشده است' : 'No projects published yet'}
-            </p>
+            <svg
+              className="w-16 h-16 mx-auto mb-4 text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+              />
+            </svg>
+            <p className="text-slate-600 dark:text-slate-400">{t('no_projects')}</p>
           </div>
         ) : (
           <>
@@ -355,12 +183,32 @@ const LandingPageContent: React.FC = () => {
                   onClick={() => navigate('/marketplace')}
                   className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-lg font-bold rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
-                  <span></span>
-                  <span>{locale === 'fa' ? 'مشاهده همه پروژه‌ها' : 'View All Projects'}</span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                  <span>{t('view_all_projects')}</span>
                   <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
                     +{totalProjects - 8}
                   </span>
-                  <span></span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d={locale === 'fa' ? 'M15 19l-7-7 7-7' : 'M9 5l7 7-7 7'}
+                    />
+                  </svg>
                 </button>
               </div>
             )}
@@ -374,9 +222,7 @@ const LandingPageContent: React.FC = () => {
           <h3 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
             {t('testimonials_title')}
           </h3>
-          <p className="text-lg text-slate-600 dark:text-slate-400">
-            ببینید دیگران چطور با کمک ما به موفقیت رسیدند
-          </p>
+          <p className="text-lg text-slate-600 dark:text-slate-400">{t('success_stories_title')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

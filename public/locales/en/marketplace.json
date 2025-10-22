@@ -1,1 +1,19 @@
-{}
+{
+  "page_title": "Project Marketplace",
+  "filter_all": "All Projects",
+  "filter_all_desc": "Show all public projects",
+  "filter_trending": "Trending",
+  "filter_trending_desc": "Projects with the most likes",
+  "filter_completed": "Completed",
+  "filter_completed_desc": "Projects that have completed all phases",
+  "filter_recent": "Recent",
+  "filter_recent_desc": "Recently added projects",
+  "active_filter": "Active filter",
+  "project_owner": "Project Owner",
+  "comments": "Comments",
+  "view_comments": "View Comments",
+  "success_stories_title": "See how others succeeded with our help",
+  "created_at": "Created",
+  "likes": "Likes",
+  "disabled": "Disabled"
+}

@@ -1,35 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Locale } from '../i18n';
-import LanguageSelector from '../components/LanguageSelector';
+import { PublicNavigation } from '../components/PublicNavigation';
 import '../index.css';
 
 const AboutPage: React.FC = () => {
   const { language } = useLanguage();
   const locale: Locale = language === 'fa' ? 'fa' : 'en';
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
-    return savedTheme || 'dark';
-  });
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
 
   const t = (key: string) => {
     const translations: Record<string, { fa: string; en: string }> = {
@@ -190,57 +167,8 @@ const AboutPage: React.FC = () => {
       className={`min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50 dark:from-slate-900 dark:via-purple-900/20 dark:to-indigo-900/20 transition-colors duration-300`}
       dir={locale === 'fa' ? 'rtl' : 'ltr'}
     >
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-xl sm:text-2xl"></span>
-              </div>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                  AI Startup Mentor
-                </h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
-                  {locale === 'fa' ? 'دستیار هوشمند استارتاپی' : 'Your AI Startup Assistant'}
-                </p>
-              </div>
-            </div>
-
-            {/* Right Side */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <LanguageSelector />
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              >
-                {theme === 'dark' ? '' : ''}
-              </button>
-              <a
-                href="/"
-                className="px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-              >
-                {t('home')}
-              </a>
-              <a
-                href="/pricing"
-                className="px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-              >
-                {t('pricing')}
-              </a>
-              <a
-                href="/"
-                className="px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-              >
-                {t('back_to_home')}
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Public Navigation */}
+      <PublicNavigation />
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">

@@ -260,11 +260,17 @@ export const EntrepreneurDashboard: React.FC = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* کل پروژه‌ها */}
-        <Card variant="elevated" padding="md" className="border-r-4 border-blue-500">
+        <Card
+          variant="elevated"
+          padding="md"
+          className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/20 border-r-4 border-blue-500"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">کل پروژه‌ها</p>
-              <p className="text-3xl font-bold text-slate-900 dark:text-white">
+              <p className="text-sm text-blue-700 dark:text-blue-300 mb-1 font-medium">
+                کل پروژه‌ها
+              </p>
+              <p className="text-3xl font-bold text-blue-900 dark:text-blue-100">
                 {stats.totalProjects}
               </p>
             </div>
@@ -272,11 +278,17 @@ export const EntrepreneurDashboard: React.FC = () => {
         </Card>
 
         {/* در حال پیشرفت */}
-        <Card variant="elevated" padding="md" className="border-r-4 border-yellow-500">
+        <Card
+          variant="elevated"
+          padding="md"
+          className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/30 dark:to-yellow-800/20 border-r-4 border-yellow-500"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">در حال پیشرفت</p>
-              <p className="text-3xl font-bold text-slate-900 dark:text-white">
+              <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-1 font-medium">
+                در حال پیشرفت
+              </p>
+              <p className="text-3xl font-bold text-yellow-900 dark:text-yellow-100">
                 {stats.inProgressProjects}
               </p>
             </div>
@@ -284,11 +296,17 @@ export const EntrepreneurDashboard: React.FC = () => {
         </Card>
 
         {/* تکمیل شده */}
-        <Card variant="elevated" padding="md" className="border-r-4 border-green-500">
+        <Card
+          variant="elevated"
+          padding="md"
+          className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/20 border-r-4 border-green-500"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">تکمیل شده</p>
-              <p className="text-3xl font-bold text-slate-900 dark:text-white">
+              <p className="text-sm text-green-700 dark:text-green-300 mb-1 font-medium">
+                تکمیل شده
+              </p>
+              <p className="text-3xl font-bold text-green-900 dark:text-green-100">
                 {stats.completedProjects}
               </p>
             </div>
@@ -296,11 +314,17 @@ export const EntrepreneurDashboard: React.FC = () => {
         </Card>
 
         {/* منتشر شده */}
-        <Card variant="elevated" padding="md" className="border-r-4 border-purple-500">
+        <Card
+          variant="elevated"
+          padding="md"
+          className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/20 border-r-4 border-purple-500"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">منتشر شده</p>
-              <p className="text-3xl font-bold text-slate-900 dark:text-white">
+              <p className="text-sm text-purple-700 dark:text-purple-300 mb-1 font-medium">
+                منتشر شده
+              </p>
+              <p className="text-3xl font-bold text-purple-900 dark:text-purple-100">
                 {stats.publishedProjects}
               </p>
             </div>

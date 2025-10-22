@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { PublicProject } from '../../services/publicProjectsService';
 import { PublicProjectsService } from '../../services/publicProjectsService';
 
@@ -20,6 +21,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   onClick,
   showStats = true,
 }) => {
+  const { t } = useTranslation('marketplace');
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(project.likes_count);
@@ -180,7 +182,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
               {project.owner_name}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">صاحب پروژه</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{t('project_owner')}</p>
           </div>
         </div>
 
@@ -243,7 +245,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-default'
               }`}
-              title={isClickable ? 'نظرات' : 'غیرفعال'}
+              title={isClickable ? t('comments') : t('disabled')}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path

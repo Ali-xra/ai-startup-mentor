@@ -22,9 +22,7 @@ const AppContent: React.FC = () => {
   const { session, loading, user } = useAuth();
   const { language } = useLanguage();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
-  const [theme, setTheme] = useState<'light' | 'dark'>(
-    () => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark'
-  );
+  const theme = 'dark'; // همیشه dark
   const [selectedStageForPreview, setSelectedStageForPreview] = useState<string | null>(null);
   const [profileCheckDone, setProfileCheckDone] = useState(false);
   const [needsRoleSelection, setNeedsRoleSelection] = useState(false);
@@ -33,6 +31,12 @@ const AppContent: React.FC = () => {
 
   // Map LanguageCode to Locale for backwards compatibility
   const locale: Locale = language === 'fa' ? 'fa' : 'en';
+
+  // اطمینان از dark mode همیشگی
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  }, []);
 
   const journey = useStartupJourney(selectedProjectId, locale);
 
@@ -234,8 +238,9 @@ const AppContent: React.FC = () => {
     }
   };
 
+  // این تابع دیگه کاری نمی‌کنه - فقط برای سازگاری با کد قدیمی
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    // هیچ کاری نمی‌کنه
   };
 
   // No longer needed - LanguageSelector handles this

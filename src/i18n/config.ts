@@ -13,7 +13,16 @@ i18n
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json', // Path to translation files
     },
-    ns: ['common', 'auth', 'marketplace', 'entrepreneur', 'investor', 'admin', 'consultant'], // Namespaces
+    ns: [
+      'common',
+      'auth',
+      'landing',
+      'marketplace',
+      'entrepreneur',
+      'investor',
+      'admin',
+      'consultant',
+    ], // Namespaces
     defaultNS: 'common', // Default namespace
     interpolation: {
       escapeValue: false, // React already escapes values

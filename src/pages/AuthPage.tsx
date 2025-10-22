@@ -3,6 +3,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthScreen } from '../components/AuthScreen';
 import { RoleSelection } from '../components/RoleSelection';
+import { PublicNavigation } from '../components/PublicNavigation';
 import { Locale } from '../i18n';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../services/supabaseClient';
@@ -106,6 +107,7 @@ const AuthPage: React.FC = () => {
   if (needsRoleSelection && user) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+        <PublicNavigation />
         <RoleSelection
           locale={locale}
           userId={user.id}
@@ -122,6 +124,7 @@ const AuthPage: React.FC = () => {
   // صفحه login/signup
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+      <PublicNavigation />
       <AuthScreen locale={locale} onLocaleToggle={handleLocaleToggle} />
     </div>
   );

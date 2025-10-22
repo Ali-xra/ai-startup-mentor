@@ -21,9 +21,7 @@ export const ProjectWorkspace: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { language } = useLanguage();
-  const [theme, setTheme] = useState<'light' | 'dark'>(
-    () => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark'
-  );
+  const theme = 'dark'; // همیشه dark
   const [selectedStageForPreview, setSelectedStageForPreview] = useState<string | null>(null);
 
   // Map LanguageCode to Locale for backwards compatibility
@@ -38,25 +36,11 @@ export const ProjectWorkspace: React.FC = () => {
     }
   }, [projectId, navigate]);
 
-  // Initialize theme on mount
+  // اطمینان از dark mode همیشگی
   useEffect(() => {
-    const savedTheme = (localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
   }, []);
-
-  // Update theme when it changes
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
 
   useEffect(() => {
     // Sync old locale system with new language context
@@ -110,8 +94,9 @@ export const ProjectWorkspace: React.FC = () => {
     );
   };
 
+  // این تابع دیگه کاری نمی‌کنه - فقط برای سازگاری با کد قدیمی
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    // هیچ کاری نمی‌کنه
   };
 
   // No longer needed - LanguageSelector handles this

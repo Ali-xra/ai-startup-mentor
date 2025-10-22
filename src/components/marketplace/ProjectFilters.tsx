@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { ProjectFilter } from '../../services/publicProjectsService';
 
 interface ProjectFiltersProps {
@@ -7,33 +8,34 @@ interface ProjectFiltersProps {
 }
 
 export const ProjectFilters: React.FC<ProjectFiltersProps> = ({ activeFilter, onFilterChange }) => {
+  const { t } = useTranslation('marketplace');
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const filters: Array<{ value: ProjectFilter; label: string; icon: string; description: string }> =
+  const filters: Array<{ value: ProjectFilter; labelKey: string; icon: string; descKey: string }> =
     [
       {
         value: 'all',
-        label: 'همه پروژه‌ها',
+        labelKey: 'filter_all',
         icon: '',
-        description: 'نمایش تمام پروژه‌های عمومی',
+        descKey: 'filter_all_desc',
       },
       {
         value: 'trending',
-        label: 'پرطرفدار',
+        labelKey: 'filter_trending',
         icon: '',
-        description: 'پروژه‌هایی با بیشترین لایک',
+        descKey: 'filter_trending_desc',
       },
       {
         value: 'completed',
-        label: 'تکمیل شده',
+        labelKey: 'filter_completed',
         icon: '',
-        description: 'پروژه‌هایی که تمام فازها را طی کرده‌اند',
+        descKey: 'filter_completed_desc',
       },
       {
         value: 'recent',
-        label: 'جدیدترین',
+        labelKey: 'filter_recent',
         icon: '',
-        description: 'پروژه‌های اخیراً اضافه شده',
+        descKey: 'filter_recent_desc',
       },
     ];
 
@@ -56,10 +58,10 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({ activeFilter, on
             }`}
           >
             <span className="text-2xl">{filter.icon}</span>
-            <span className="text-sm">{filter.label}</span>
+            <span className="text-sm">{t(filter.labelKey)}</span>
             {activeFilter === filter.value && (
               <span className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                {filter.description}
+                {t(filter.descKey)}
               </span>
             )}
           </button>
@@ -74,7 +76,7 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({ activeFilter, on
         >
           <span className="flex items-center gap-2">
             <span className="text-xl">{filters.find((f) => f.value === activeFilter)?.icon}</span>
-            <span>{filters.find((f) => f.value === activeFilter)?.label}</span>
+            <span>{t(filters.find((f) => f.value === activeFilter)?.labelKey || '')}</span>
           </span>
           <svg
             className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
@@ -103,8 +105,8 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({ activeFilter, on
               >
                 <span className="text-2xl">{filter.icon}</span>
                 <div className="flex-1 text-right">
-                  <p className="font-medium">{filter.label}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{filter.description}</p>
+                  <p className="font-medium">{t(filter.labelKey)}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{t(filter.descKey)}</p>
                 </div>
                 {activeFilter === filter.value && (
                   <svg
@@ -136,7 +138,9 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({ activeFilter, on
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>فیلتر فعال: {filters.find((f) => f.value === activeFilter)?.label}</span>
+          <span>
+            {t('active_filter')}: {t(filters.find((f) => f.value === activeFilter)?.labelKey || '')}
+          </span>
         </div>
       </div>
     </div>

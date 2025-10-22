@@ -16,8 +16,8 @@ export const InvestorLayout: React.FC = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    // Redirect به صفحه اصلی سایت
-    window.location.href = '/';
+    // Redirect به صفحه لاگین
+    window.location.href = '/login';
   };
 
   // لیست منوها
