@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
 import LanguageSelector from '../LanguageSelector';
@@ -10,17 +11,18 @@ interface AdminLayoutProps {
 }
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage, onNavigate }) => {
+  const { t } = useTranslation('admin');
   const { user, signOut } = useAuth();
   const { isSuperAdmin } = useAdminAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   type AdminPage = 'dashboard' | 'users' | 'upgrade-requests' | 'audit';
 
-  const menuItems: Array<{ id: AdminPage; icon: string; label: string; enabled: boolean }> = [
-    { id: 'dashboard', icon: '', label: 'Dashboard', enabled: true },
-    { id: 'users', icon: '', label: 'Users', enabled: true },
-    { id: 'upgrade-requests', icon: '', label: 'Upgrade Requests (Beta)', enabled: true },
-    { id: 'audit', icon: '', label: 'Audit Log', enabled: isSuperAdmin },
+  const menuItems: Array<{ id: AdminPage; icon: string; labelKey: string; enabled: boolean }> = [
+    { id: 'dashboard', icon: '', labelKey: 'dashboard', enabled: true },
+    { id: 'users', icon: '', labelKey: 'users', enabled: true },
+    { id: 'upgrade-requests', icon: '', labelKey: 'upgrade_requests', enabled: true },
+    { id: 'audit', icon: '', labelKey: 'audit_log', enabled: isSuperAdmin },
   ];
 
   return (
@@ -34,8 +36,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
           <div className="flex items-center justify-between mb-3">
             {isSidebarOpen && (
               <div>
-                <h1 className="text-xl font-bold">Admin Panel</h1>
-                <p className="text-xs text-indigo-200 mt-1">پنل مدیریت</p>
+                <h1 className="text-xl font-bold">{t('panel_title')}</h1>
+                <p className="text-xs text-indigo-200 mt-1">Admin Panel</p>
               </div>
             )}
             <button
@@ -67,7 +69,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
                 }`}
               >
                 <span className="text-2xl">{item.icon}</span>
-                {isSidebarOpen && <span className="font-medium">{item.label}</span>}
+                {isSidebarOpen && <span className="font-medium">{t(item.labelKey)}</span>}
               </button>
             ))}
         </nav>
@@ -81,7 +83,9 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
             {isSidebarOpen && (
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">{user?.email}</p>
-                <p className="text-xs text-indigo-200">{isSuperAdmin ? 'Super Admin' : 'Admin'}</p>
+                <p className="text-xs text-indigo-200">
+                  {isSuperAdmin ? t('super_admin') : t('admin')}
+                </p>
               </div>
             )}
           </div>
@@ -90,7 +94,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
               onClick={signOut}
               className="w-full px-4 py-2 bg-indigo-500 hover:bg-indigo-400 rounded-lg transition-colors text-sm font-medium"
             >
-              خروج
+              {t('logout')}
             </button>
           )}
         </div>
@@ -102,9 +106,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
         <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-8 py-4">
           <div>
             <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
-              {menuItems.find((item) => item.id === currentPage)?.label}
+              {t(menuItems.find((item) => item.id === currentPage)?.labelKey || 'dashboard')}
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">مدیریت سیستم</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+              {t('system_management')}
+            </p>
           </div>
         </div>
 

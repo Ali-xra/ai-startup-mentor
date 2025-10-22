@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useInvestorAuth } from '../../hooks/useInvestorAuth';
 import { supabase } from '../../services/supabaseClient';
 import LanguageSelector from '../LanguageSelector';
@@ -10,6 +11,7 @@ import LanguageSelector from '../LanguageSelector';
  * شامل: Header, Navigation, Sidebar
  */
 export const InvestorLayout: React.FC = () => {
+  const { t } = useTranslation('investor');
   const location = useLocation();
   const navigate = useNavigate();
   const { user, profile, investorProfile } = useInvestorAuth();
@@ -24,7 +26,7 @@ export const InvestorLayout: React.FC = () => {
   // لیست منوها
   const navItems = [
     {
-      name: 'داشبورد',
+      nameKey: 'dashboard',
       path: '/investor',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +40,7 @@ export const InvestorLayout: React.FC = () => {
       ),
     },
     {
-      name: 'کشف پروژه‌ها',
+      nameKey: 'explore_projects',
       path: '/investor/explore',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,7 +54,7 @@ export const InvestorLayout: React.FC = () => {
       ),
     },
     {
-      name: 'ذخیره شده',
+      nameKey: 'saved',
       path: '/investor/saved',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +68,7 @@ export const InvestorLayout: React.FC = () => {
       ),
     },
     {
-      name: 'اتصالات',
+      nameKey: 'connections',
       path: '/investor/connections',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,12 +94,6 @@ export const InvestorLayout: React.FC = () => {
     free: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
     verified: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
     premium: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-  };
-
-  const tierLabels = {
-    free: 'رایگان',
-    verified: 'تایید شده',
-    premium: 'پرمیوم',
   };
 
   return (
@@ -126,7 +122,7 @@ export const InvestorLayout: React.FC = () => {
                 </div>
                 <div className="hidden md:block">
                   <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                    پورتال سرمایه‌گذار
+                    {t('portal_title')}
                   </h1>
                 </div>
               </Link>
@@ -145,7 +141,7 @@ export const InvestorLayout: React.FC = () => {
                   }`}
                 >
                   {item.icon}
-                  <span className="mr-2">{item.name}</span>
+                  <span className="mr-2">{t(item.nameKey)}</span>
                 </Link>
               ))}
             </nav>
@@ -161,13 +157,13 @@ export const InvestorLayout: React.FC = () => {
               >
                 <div className="hidden md:block text-right">
                   <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
-                    {profile?.name || 'سرمایه‌گذار'}
+                    {profile?.name || t('investor')}
                   </p>
                   {investorProfile && (
                     <p
                       className={`text-xs px-2 py-0.5 rounded-full inline-block ${tierBadgeColors[investorProfile.tier]}`}
                     >
-                      {tierLabels[investorProfile.tier]}
+                      {t(investorProfile.tier)}
                     </p>
                   )}
                 </div>
@@ -197,14 +193,14 @@ export const InvestorLayout: React.FC = () => {
                         onClick={() => setShowUserMenu(false)}
                         className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       >
-                        داشبورد
+                        {t('dashboard')}
                       </Link>
                       <Link
                         to="/investor/profile"
                         onClick={() => setShowUserMenu(false)}
                         className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       >
-                        تنظیمات پروفایل
+                        {t('profile_settings')}
                       </Link>
                       {investorProfile?.tier === 'free' && (
                         <Link
