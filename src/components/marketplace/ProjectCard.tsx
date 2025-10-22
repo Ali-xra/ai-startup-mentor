@@ -21,7 +21,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   onClick,
   showStats = true,
 }) => {
-  const { t } = useTranslation('marketplace');
+  const { t, i18n } = useTranslation('marketplace');
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(project.likes_count);
@@ -128,7 +128,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* پیشرفت پروژه */}
         <div className="mb-4">
           <div className="flex justify-between items-center text-xs text-gray-600 dark:text-gray-400 mb-1">
-            <span>پیشرفت پروژه</span>
+            <span>{t('project_progress')}</span>
             <span className="font-semibold">{progressPercentage}%</span>
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -139,7 +139,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
           <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
             <span>
-              فاز {project.phase_completed} از {project.total_phases}
+              {t('phase')} {project.phase_completed} {t('of')} {project.total_phases}
             </span>
           </div>
         </div>
@@ -200,7 +200,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-default'
               }`}
-              title={isClickable ? (isLiked ? 'حذف لایک' : 'لایک کردن') : 'غیرفعال'}
+              title={isClickable ? (isLiked ? t('unlike') : t('like')) : t('disabled')}
             >
               {loading ? (
                 <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
@@ -260,7 +260,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* تاریخ ایجاد */}
             <div className="text-xs text-gray-500 dark:text-gray-400">
-              {new Date(project.created_at).toLocaleDateString('fa-IR')}
+              {new Date(project.created_at).toLocaleDateString(
+                i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+              )}
             </div>
           </div>
         )}

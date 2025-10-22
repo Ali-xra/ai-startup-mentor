@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   PublicProjectsService,
   PublicProject,
@@ -18,6 +19,7 @@ import '../index.css';
  */
 const MarketplacePage: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation('marketplace');
   const [projects, setProjects] = useState<PublicProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -55,11 +57,11 @@ const MarketplacePage: React.FC = () => {
       setProjects(filtered);
     } catch (err: any) {
       console.error('Error loading projects:', err);
-      setError('خطا در بارگذاری پروژه‌ها');
+      setError(t('error_loading'));
     } finally {
       setLoading(false);
     }
-  }, [filter, searchQuery]);
+  }, [filter, searchQuery, t]);
 
   useEffect(() => {
     loadProjects();
@@ -96,10 +98,10 @@ const MarketplacePage: React.FC = () => {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            کشف ایده‌های نوآورانه
+            {t('hero_title')}
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            پروژه‌های استارتاپی را کشف کنید، با آن‌ها تعامل داشته باشید و ایده‌های جدید بیابید
+            {t('hero_subtitle')}
           </p>
         </div>
 
@@ -111,7 +113,7 @@ const MarketplacePage: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="جستجو در پروژه‌ها..."
+              placeholder={t('search_placeholder')}
               className="w-full px-4 py-3 pr-12 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
@@ -158,7 +160,7 @@ const MarketplacePage: React.FC = () => {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              <p className="text-slate-600 dark:text-slate-400">در حال بارگذاری پروژه‌ها...</p>
+              <p className="text-slate-600 dark:text-slate-400">{t('loading')}</p>
             </div>
           </div>
         )}
@@ -189,11 +191,9 @@ const MarketplacePage: React.FC = () => {
                   />
                 </svg>
                 <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                  پروژه‌ای یافت نشد
+                  {t('no_projects_found')}
                 </h3>
-                <p className="text-slate-500 dark:text-slate-400">
-                  هیچ پروژه‌ای با این فیلتر پیدا نشد
-                </p>
+                <p className="text-slate-500 dark:text-slate-400">{t('no_projects_with_filter')}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

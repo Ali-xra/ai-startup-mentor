@@ -1,5 +1,8 @@
 {
   "page_title": "Project Marketplace",
+  "hero_title": "Discover Innovative Ideas",
+  "hero_subtitle": "Explore startup projects, interact with them, and find new ideas",
+  "search_placeholder": "Search projects...",
   "filter_all": "All Projects",
   "filter_all_desc": "Show all public projects",
   "filter_trending": "Trending",
@@ -15,5 +18,14 @@
   "success_stories_title": "See how others succeeded with our help",
   "created_at": "Created",
   "likes": "Likes",
-  "disabled": "Disabled"
+  "disabled": "Disabled",
+  "loading": "Loading projects...",
+  "error_loading": "Error loading projects",
+  "no_projects_found": "No projects found",
+  "no_projects_with_filter": "No projects found with this filter",
+  "phase": "Phase",
+  "of": "of",
+  "project_progress": "Project Progress",
+  "like": "Like",
+  "unlike": "Unlike"
 }

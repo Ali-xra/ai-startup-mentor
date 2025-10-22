@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LanguageCode } from '../services/translationService';
+import { useTranslation } from 'react-i18next';
 
 interface Language {
   code: LanguageCode;
@@ -28,12 +29,14 @@ const GlobeIcon = () => (
 
 const LanguageSelector: React.FC = () => {
   const { language, setLanguage } = useLanguage();
+  const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = React.useState(false);
 
   const currentLanguage = languages.find((lang) => lang.code === language) || languages[0];
 
   const handleLanguageChange = (langCode: LanguageCode) => {
-    setLanguage(langCode);
+    setLanguage(langCode); // Update LanguageContext
+    i18n.changeLanguage(langCode); // Update i18next
     setIsOpen(false);
   };
 
