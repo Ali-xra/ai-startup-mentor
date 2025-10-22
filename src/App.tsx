@@ -16,6 +16,7 @@ import AdminApp from './pages/AdminApp';
 import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
 import MarketplacePage from './pages/MarketplacePage';
+import I18nTest from './components/I18nTest';
 
 // Protected Route Component
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -28,11 +29,11 @@ const App: React.FC = () => {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
-            <Route path="/auth" element={<AuthPage />} />
             <Route path="/login" element={<AuthPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/marketplace" element={<MarketplacePage />} />
+            <Route path="/i18n-test" element={<I18nTest />} />
 
             {/* Protected Routes */}
             <Route
