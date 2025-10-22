@@ -14,22 +14,27 @@ const I18nTest: React.FC = () => {
 
   return (
     <div className="p-8 bg-white dark:bg-slate-800 rounded-lg shadow-lg max-w-2xl mx-auto mt-8">
-      <h1 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">{t('appName')}</h1>
+      <h1 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">
+        i18next Test - {t('header_title_unnamed')}
+      </h1>
 
-      <p className="text-lg mb-6 text-slate-700 dark:text-slate-300">{t('welcome')}</p>
+      <p className="text-lg mb-6 text-slate-700 dark:text-slate-300">
+        {t('system_start_journey')} <strong>Testing i18next</strong>
+      </p>
 
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200">
-          Test Buttons:
+          Settings Menu Translations:
         </h2>
         <div className="flex gap-2 flex-wrap">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded">{t('buttons.save')}</button>
-          <button className="px-4 py-2 bg-gray-500 text-white rounded">
-            {t('buttons.cancel')}
+          <button className="px-4 py-2 bg-blue-500 text-white rounded">
+            {t('settings_switch_project')}
           </button>
-          <button className="px-4 py-2 bg-red-500 text-white rounded">{t('buttons.delete')}</button>
-          <button className="px-4 py-2 bg-yellow-500 text-white rounded">
-            {t('buttons.edit')}
+          <button className="px-4 py-2 bg-gray-500 text-white rounded">
+            {t('settings_export_project')}
+          </button>
+          <button className="px-4 py-2 bg-red-500 text-white rounded">
+            {t('settings_restart_project')}
           </button>
         </div>
       </div>
@@ -47,7 +52,7 @@ const I18nTest: React.FC = () => {
                 : 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white'
             }`}
           >
-            🇬🇧 {t('language.english')}
+            🇬🇧 English
           </button>
           <button
             onClick={() => changeLanguage('fa')}
@@ -57,7 +62,7 @@ const I18nTest: React.FC = () => {
                 : 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white'
             }`}
           >
-            🇮🇷 {t('language.persian')}
+            🇮🇷 فارسی
           </button>
           <button
             onClick={() => changeLanguage('is')}
@@ -67,7 +72,7 @@ const I18nTest: React.FC = () => {
                 : 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white'
             }`}
           >
-            🇮🇸 {t('language.icelandic')}
+            🇮🇸 Icelandic (Placeholder)
           </button>
         </div>
       </div>
