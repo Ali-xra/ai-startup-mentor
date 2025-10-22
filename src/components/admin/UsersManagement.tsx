@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../../services/supabaseClient';
 import { featureFlagsService } from '../../services/featureFlagsService';
 import { Loader } from '../Loader';
@@ -23,6 +24,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [deleteConfirmUserId, setDeleteConfirmUserId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { t, i18n } = useTranslation('admin');
 
   useEffect(() => {
     loadUsers();
@@ -108,28 +110,28 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert('کپی شد! ');
+    alert(t('copied'));
   };
 
   const getPlanBadge = (plan: string) => {
     const planConfig: Record<string, { label: string; bgClass: string; textClass: string }> = {
       free: {
-        label: 'رایگان',
+        label: t('plan_free'),
         bgClass: 'bg-gray-100 dark:bg-gray-800',
         textClass: 'text-gray-700 dark:text-gray-300',
       },
       starter: {
-        label: 'شروع',
+        label: t('plan_starter'),
         bgClass: 'bg-blue-100 dark:bg-blue-900/30',
         textClass: 'text-blue-700 dark:text-blue-300',
       },
       pro: {
-        label: 'حرفه‌ای',
+        label: t('plan_pro'),
         bgClass: 'bg-purple-100 dark:bg-purple-900/30',
         textClass: 'text-purple-700 dark:text-purple-300',
       },
       enterprise: {
-        label: 'سازمانی',
+        label: t('plan_enterprise'),
         bgClass: 'bg-amber-100 dark:bg-amber-900/30',
         textClass: 'text-amber-700 dark:text-amber-300',
       },
@@ -152,37 +154,37 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
       { label: string; icon: string; bgClass: string; textClass: string }
     > = {
       entrepreneur: {
-        label: 'کارآفرین',
+        label: t('role_entrepreneur'),
         icon: '',
         bgClass: 'bg-green-100 dark:bg-green-900/30',
         textClass: 'text-green-700 dark:text-green-300',
       },
       investor: {
-        label: 'سرمایه‌گذار',
+        label: t('role_investor'),
         icon: '',
         bgClass: 'bg-emerald-100 dark:bg-emerald-900/30',
         textClass: 'text-emerald-700 dark:text-emerald-300',
       },
       programmer: {
-        label: 'برنامه‌نویس',
+        label: t('role_programmer'),
         icon: '',
         bgClass: 'bg-cyan-100 dark:bg-cyan-900/30',
         textClass: 'text-cyan-700 dark:text-cyan-300',
       },
       consultant: {
-        label: 'مشاور',
+        label: t('role_consultant'),
         icon: '',
         bgClass: 'bg-orange-100 dark:bg-orange-900/30',
         textClass: 'text-orange-700 dark:text-orange-300',
       },
       designer: {
-        label: 'طراح',
+        label: t('role_designer'),
         icon: '',
         bgClass: 'bg-pink-100 dark:bg-pink-900/30',
         textClass: 'text-pink-700 dark:text-pink-300',
       },
       admin: {
-        label: 'ادمین',
+        label: t('role_admin'),
         icon: '',
         bgClass: 'bg-red-100 dark:bg-red-900/30',
         textClass: 'text-red-700 dark:text-red-300',
@@ -219,14 +221,14 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
         setUsers(users.filter((u) => u.id !== userId));
         setFilteredUsers(filteredUsers.filter((u) => u.id !== userId));
 
-        alert(' کاربر با موفقیت حذف شد');
+        alert(t('user_deleted_success'));
         setDeleteConfirmUserId(null);
       } else {
         throw new Error(data?.message || 'Failed to delete user');
       }
     } catch (error) {
       console.error('Error deleting user:', error);
-      alert(' خطا در حذف کاربر: ' + (error as any).message);
+      alert(t('delete_user_error') + ': ' + (error as any).message);
     } finally {
       setIsDeleting(false);
     }
@@ -247,7 +249,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">مجموع کاربران</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{t('total_users_stat')}</p>
               <p className="text-3xl font-bold text-slate-800 dark:text-slate-100 mt-2">
                 {users.length}
               </p>
@@ -259,7 +261,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">کاربران فیلتر شده</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{t('filtered_users')}</p>
               <p className="text-3xl font-bold text-slate-800 dark:text-slate-100 mt-2">
                 {filteredUsers.length}
               </p>
@@ -271,7 +273,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">امروز</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{t('today')}</p>
               <p className="text-3xl font-bold text-slate-800 dark:text-slate-100 mt-2">
                 {
                   users.filter((u) => {
@@ -294,7 +296,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="جستجو با ایمیل یا User ID..."
+            placeholder={t('search_email_or_id')}
             className="flex-1 px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           />
           {searchQuery && (
@@ -302,7 +304,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
               onClick={() => setSearchQuery('')}
               className="px-4 py-3 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
             >
-              پاک کردن
+              {t('clear')}
             </button>
           )}
         </div>
@@ -315,19 +317,19 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
             <thead className="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600">
               <tr>
                 <th className="px-6 py-4 text-right text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-                  ایمیل
+                  {t('email')}
                 </th>
                 <th className="px-6 py-4 text-right text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-                  نوع کاربر
+                  {t('user_type')}
                 </th>
                 <th className="px-6 py-4 text-right text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-                  پلن
+                  {t('plan')}
                 </th>
                 <th className="px-6 py-4 text-right text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-                  تاریخ ثبت‌نام
+                  {t('registration_date')}
                 </th>
                 <th className="px-6 py-4 text-right text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-                  عملیات
+                  {t('actions')}
                 </th>
               </tr>
             </thead>
@@ -346,7 +348,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                       </div>
                       <div>
                         <p className="font-medium text-slate-800 dark:text-slate-100">
-                          {user.email || 'بدون ایمیل'}
+                          {user.email || t('no_email')}
                         </p>
                       </div>
                     </div>
@@ -354,7 +356,9 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                   <td className="px-6 py-4">{getRoleBadge(user.role || 'entrepreneur')}</td>
                   <td className="px-6 py-4">{getPlanBadge(user.plan || 'free')}</td>
                   <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                    {new Date(user.created_at).toLocaleDateString('fa-IR')}
+                    {new Date(user.created_at).toLocaleDateString(
+                      i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
@@ -362,13 +366,13 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                         onClick={() => onViewUserDetails?.(user.id)}
                         className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors text-sm font-medium"
                       >
-                        مشاهده جزئیات
+                        {t('view_details')}
                       </button>
                       <button
                         onClick={() => setDeleteConfirmUserId(user.id)}
                         className="px-3 py-1.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-sm font-medium"
                       >
-                        حذف
+                        {t('delete')}
                       </button>
                     </div>
                   </td>
@@ -382,7 +386,7 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
           <div className="p-12 text-center">
             <div className="text-6xl mb-4"></div>
             <p className="text-slate-600 dark:text-slate-400 text-lg">
-              {searchQuery ? 'کاربری یافت نشد' : 'هیچ کاربری وجود ندارد'}
+              {searchQuery ? t('no_users_found') : t('no_users_exist')}
             </p>
           </div>
         )}
@@ -395,17 +399,17 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
             <div className="text-center">
               <div className="text-6xl mb-4"></div>
               <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                تایید حذف کاربر
+                {t('confirm_delete_user')}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 mb-2">
-                آیا از حذف این کاربر مطمئن هستید؟
+                {t('confirm_delete_message')}
               </p>
               <p className="text-sm text-slate-500 dark:text-slate-500 mb-6 font-mono bg-slate-100 dark:bg-slate-700 p-2 rounded">
                 {users.find((u) => u.id === deleteConfirmUserId)?.email}
               </p>
               <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 mb-6">
                 <p className="text-sm text-red-800 dark:text-red-400">
-                  این عمل غیرقابل بازگشت است و تمام اطلاعات کاربر حذف خواهد شد.
+                  {t('irreversible_warning')}
                 </p>
               </div>
               <div className="flex gap-3">
@@ -414,14 +418,14 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
                   disabled={isDeleting}
                   className="flex-1 px-4 py-3 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors font-medium disabled:opacity-50"
                 >
-                  انصراف
+                  {t('cancel')}
                 </button>
                 <button
                   onClick={() => handleDeleteUser(deleteConfirmUserId)}
                   disabled={isDeleting}
                   className="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50"
                 >
-                  {isDeleting ? 'در حال حذف...' : ' تایید حذف'}
+                  {isDeleting ? t('deleting') : t('confirm_delete')}
                 </button>
               </div>
             </div>
@@ -434,11 +438,8 @@ export const UsersManagement: React.FC<UsersManagementProps> = ({ onViewUserDeta
         <div className="flex items-start gap-3">
           <div className="text-2xl"></div>
           <div className="flex-1">
-            <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-1">راهنما</h4>
-            <p className="text-sm text-blue-800 dark:text-blue-400">
-              برای مدیریت فیچرهای هر کاربر، User ID را کپی کرده و به بخش &quot;Feature
-              Management&quot; بروید.
-            </p>
+            <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-1">{t('help')}</h4>
+            <p className="text-sm text-blue-800 dark:text-blue-400">{t('help_message')}</p>
           </div>
         </div>
       </div>

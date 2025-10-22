@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const AdminDashboard: React.FC = () => {
+  const { t } = useTranslation('admin');
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
@@ -8,7 +10,7 @@ export const AdminDashboard: React.FC = () => {
         <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/20 rounded-lg p-6 shadow-md border-r-4 border-blue-500">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">کاربران</p>
+              <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">{t('users')}</p>
               <p className="text-3xl font-bold text-blue-900 dark:text-blue-100 mt-2">--</p>
             </div>
             <div className="w-12 h-12 bg-blue-200 dark:bg-blue-700 rounded-lg flex items-center justify-center">
@@ -32,7 +34,9 @@ export const AdminDashboard: React.FC = () => {
         <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/20 rounded-lg p-6 shadow-md border-r-4 border-purple-500">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-purple-700 dark:text-purple-300 font-medium">پروژه‌ها</p>
+              <p className="text-sm text-purple-700 dark:text-purple-300 font-medium">
+                {t('total_projects')}
+              </p>
               <p className="text-3xl font-bold text-purple-900 dark:text-purple-100 mt-2">--</p>
             </div>
             <div className="w-12 h-12 bg-purple-200 dark:bg-purple-700 rounded-lg flex items-center justify-center">
@@ -56,7 +60,9 @@ export const AdminDashboard: React.FC = () => {
         <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/20 rounded-lg p-6 shadow-md border-r-4 border-green-500">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-green-700 dark:text-green-300 font-medium">کاربران فعال</p>
+              <p className="text-sm text-green-700 dark:text-green-300 font-medium">
+                {t('active_users')}
+              </p>
               <p className="text-3xl font-bold text-green-900 dark:text-green-100 mt-2">--</p>
             </div>
             <div className="w-12 h-12 bg-green-200 dark:bg-green-700 rounded-lg flex items-center justify-center">
@@ -81,7 +87,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-yellow-700 dark:text-yellow-300 font-medium">
-                درآمد ماهانه
+                {t('monthly_revenue')}
               </p>
               <p className="text-3xl font-bold text-yellow-900 dark:text-yellow-100 mt-2">$--</p>
             </div>
@@ -106,10 +112,8 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Welcome Message */}
       <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg p-8 text-white shadow-lg">
-        <h2 className="text-3xl font-bold mb-2">خوش آمدید! </h2>
-        <p className="text-indigo-100 mb-6">
-          به پنل مدیریت خوش آمدید. از اینجا می‌توانید تمام جنبه‌های سیستم را مدیریت کنید.
-        </p>
+        <h2 className="text-3xl font-bold mb-2">{t('welcome')}</h2>
+        <p className="text-indigo-100 mb-6">{t('welcome_message')}</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
             <div className="text-2xl mb-2">
@@ -122,8 +126,8 @@ export const AdminDashboard: React.FC = () => {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold mb-1">Feature Management</h3>
-            <p className="text-sm text-indigo-100">مدیریت فیچرها و دسترسی کاربران</p>
+            <h3 className="font-semibold mb-1">{t('feature_management')}</h3>
+            <p className="text-sm text-indigo-100">{t('feature_management_desc')}</p>
           </div>
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
             <div className="text-2xl mb-2">
@@ -136,8 +140,8 @@ export const AdminDashboard: React.FC = () => {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold mb-1">User Management</h3>
-            <p className="text-sm text-indigo-100">مشاهده و مدیریت کاربران</p>
+            <h3 className="font-semibold mb-1">{t('user_management')}</h3>
+            <p className="text-sm text-indigo-100">{t('user_management_desc')}</p>
           </div>
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
             <div className="text-2xl mb-2">
@@ -150,8 +154,8 @@ export const AdminDashboard: React.FC = () => {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold mb-1">Audit Log</h3>
-            <p className="text-sm text-indigo-100">بررسی تاریخچه تغییرات</p>
+            <h3 className="font-semibold mb-1">{t('audit_log')}</h3>
+            <p className="text-sm text-indigo-100">{t('audit_log_desc')}</p>
           </div>
         </div>
       </div>
@@ -159,7 +163,7 @@ export const AdminDashboard: React.FC = () => {
       {/* Quick Actions */}
       <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-4">
-          دسترسی سریع
+          {t('quick_access')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <button className="p-4 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors text-left">
@@ -173,8 +177,8 @@ export const AdminDashboard: React.FC = () => {
                 />
               </svg>
             </div>
-            <div className="font-medium">جستجوی کاربر</div>
-            <div className="text-sm opacity-75">پیدا کردن و مدیریت کاربران</div>
+            <div className="font-medium">{t('search_user')}</div>
+            <div className="text-sm opacity-75">{t('search_user_desc')}</div>
           </button>
 
           <button className="p-4 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors text-left">
@@ -188,8 +192,8 @@ export const AdminDashboard: React.FC = () => {
                 />
               </svg>
             </div>
-            <div className="font-medium">فعال‌سازی پلن</div>
-            <div className="text-sm opacity-75">اختصاص پلن به کاربر</div>
+            <div className="font-medium">{t('activate_plan')}</div>
+            <div className="text-sm opacity-75">{t('activate_plan_desc')}</div>
           </button>
 
           <button className="p-4 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors text-left">
@@ -203,8 +207,8 @@ export const AdminDashboard: React.FC = () => {
                 />
               </svg>
             </div>
-            <div className="font-medium">گزارشات</div>
-            <div className="text-sm opacity-75">مشاهده آمار و گزارش‌ها</div>
+            <div className="font-medium">{t('reports')}</div>
+            <div className="text-sm opacity-75">{t('reports_desc')}</div>
           </button>
         </div>
       </div>
