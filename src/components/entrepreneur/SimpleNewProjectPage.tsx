@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../services/supabaseClient';
 import { Loader } from '../Loader';
@@ -16,6 +17,7 @@ interface Project {
  * صفحه ساده برای انتخاب بین شروع سفر جدید یا ادامه سفر قبلی
  */
 export const SimpleNewProjectPage: React.FC = () => {
+  const { t, i18n } = useTranslation('entrepreneur');
   const { user } = useAuth();
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
@@ -54,11 +56,12 @@ export const SimpleNewProjectPage: React.FC = () => {
       setCreating(true);
 
       // ساخت پروژه جدید
+      const dateStr = new Date().toLocaleDateString(i18n.language === 'fa' ? 'fa-IR' : 'en-US');
       const { data: newProject, error } = await supabase
         .from('projects')
         .insert({
           user_id: user.id,
-          project_name: `پروژه جدید ${new Date().toLocaleDateString('fa-IR')}`,
+          project_name: `${t('create_new_project')} ${dateStr}`,
           initial_idea: '',
           stage: 'idea',
           startup_data: {},
@@ -74,7 +77,7 @@ export const SimpleNewProjectPage: React.FC = () => {
       navigate(`/entrepreneur/project/${newProject.id}`);
     } catch (error) {
       console.error('Error creating project:', error);
-      alert('خطا در ساخت پروژه جدید');
+      alert(t('new_project_error'));
     } finally {
       setCreating(false);
     }
@@ -99,11 +102,9 @@ export const SimpleNewProjectPage: React.FC = () => {
         <div className="text-center mb-12">
           <div className="text-6xl mb-4"></div>
           <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
-            سفر استارتاپی شما
+            {t('startup_journey')}
           </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400">
-            آماده برای شروع یک ماجراجویی جدید هستید یا می‌خواهید سفر قبلی را ادامه دهید؟
-          </p>
+          <p className="text-lg text-slate-600 dark:text-slate-400">{t('journey_message')}</p>
         </div>
 
         {/* Main Options Grid */}
@@ -117,10 +118,8 @@ export const SimpleNewProjectPage: React.FC = () => {
             <div className="absolute inset-0 bg-white/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="relative z-10">
               <div className="text-6xl mb-6"></div>
-              <h2 className="text-3xl font-bold mb-4">شروع سفر جدید</h2>
-              <p className="text-purple-100 text-lg">
-                ایده جدیدی دارید؟ بیایید آن را به یک استارتاپ موفق تبدیل کنیم!
-              </p>
+              <h2 className="text-3xl font-bold mb-4">{t('start_new_journey')}</h2>
+              <p className="text-purple-100 text-lg">{t('new_idea_message')}</p>
             </div>
           </button>
 
@@ -132,10 +131,8 @@ export const SimpleNewProjectPage: React.FC = () => {
             <div className="absolute inset-0 bg-white/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="relative z-10">
               <div className="text-6xl mb-6"></div>
-              <h2 className="text-3xl font-bold mb-4">ادامه سفر قبلی</h2>
-              <p className="text-indigo-100 text-lg">
-                روی پروژه‌های قبلی خود کار کنید و آنها را تکمیل کنید
-              </p>
+              <h2 className="text-3xl font-bold mb-4">{t('continue_previous_journey')}</h2>
+              <p className="text-indigo-100 text-lg">{t('continue_work_message')}</p>
             </div>
           </button>
         </div>
@@ -145,13 +142,13 @@ export const SimpleNewProjectPage: React.FC = () => {
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                پروژه‌های اخیر شما
+                {t('your_recent_projects')}
               </h3>
               <button
                 onClick={() => navigate('/entrepreneur/projects')}
                 className="text-purple-600 dark:text-purple-400 hover:underline font-medium"
               >
-                مشاهده همه
+                {t('view_all')}
               </button>
             </div>
 
@@ -163,10 +160,12 @@ export const SimpleNewProjectPage: React.FC = () => {
                   className="text-right p-6 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:shadow-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all border-2 border-transparent hover:border-purple-500"
                 >
                   <h4 className="font-semibold text-slate-900 dark:text-white mb-2 truncate">
-                    {project.project_name || 'پروژه بدون نام'}
+                    {project.project_name || t('unnamed_project')}
                   </h4>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    {new Date(project.updated_at).toLocaleDateString('fa-IR')}
+                    {new Date(project.updated_at).toLocaleDateString(
+                      i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+                    )}
                   </p>
                 </button>
               ))}
@@ -179,11 +178,9 @@ export const SimpleNewProjectPage: React.FC = () => {
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-12 text-center">
             <div className="text-6xl mb-4"></div>
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-              هنوز پروژه‌ای ندارید
+              {t('no_projects_yet')}
             </h3>
-            <p className="text-slate-600 dark:text-slate-400">
-              اولین پروژه خود را با کلیک روی &quot;شروع سفر جدید&quot; ایجاد کنید!
-            </p>
+            <p className="text-slate-600 dark:text-slate-400">{t('no_projects_empty_message')}</p>
           </div>
         )}
       </div>
