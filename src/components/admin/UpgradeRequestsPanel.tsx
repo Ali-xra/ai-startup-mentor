@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { UpgradeRequest, UpgradeRequestStatus } from '../../types';
 import { upgradeRequestService } from '../../services/upgradeRequestService';
 
@@ -7,6 +8,7 @@ interface UpgradeRequestsPanelProps {
 }
 
 export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ adminId }) => {
+  const { t, i18n } = useTranslation('admin');
   const [requests, setRequests] = useState<UpgradeRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState<UpgradeRequestStatus | 'all'>('all');
@@ -24,20 +26,19 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
       setRequests(data);
     } catch (error) {
       console.error('Error loading upgrade requests:', error);
-      alert('Error loading upgrade requests');
+      alert(t('error_loading_requests'));
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleApprove = async (requestId: string, durationMonths: number = 1) => {
-    if (!confirm(`Are you sure you want to approve this request for ${durationMonths} month(s)?`))
-      return;
+    if (!confirm(t('confirm_approve', { months: durationMonths }))) return;
 
     setProcessingId(requestId);
     try {
       await upgradeRequestService.approveUpgradeRequest(requestId, adminId, durationMonths);
-      alert(' Request approved successfully!');
+      alert(t('request_approved'));
       await loadRequests();
     } catch (error: any) {
       console.error('Error approving request:', error);
@@ -48,13 +49,13 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
   };
 
   const handleReject = async (requestId: string) => {
-    const reason = prompt('Reason for rejection (optional):');
+    const reason = prompt(t('rejection_reason'));
     if (reason === null) return; // User cancelled
 
     setProcessingId(requestId);
     try {
       await upgradeRequestService.rejectUpgradeRequest(requestId, adminId, reason || undefined);
-      alert(' Request rejected');
+      alert(t('request_rejected'));
       await loadRequests();
     } catch (error: any) {
       console.error('Error rejecting request:', error);
@@ -65,19 +66,19 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
   };
 
   const handleExtend = async (requestId: string) => {
-    const months = prompt('Extend by how many months?', '1');
+    const months = prompt(t('extend_months'), '1');
     if (!months) return;
 
     const additionalMonths = parseInt(months);
     if (isNaN(additionalMonths) || additionalMonths < 1) {
-      alert('Invalid number of months');
+      alert(t('invalid_months'));
       return;
     }
 
     setProcessingId(requestId);
     try {
       await upgradeRequestService.extendUpgradeRequest(requestId, adminId, additionalMonths);
-      alert(` Extended by ${additionalMonths} month(s)`);
+      alert(t('extended_success', { months: additionalMonths }));
       await loadRequests();
     } catch (error: any) {
       console.error('Error extending request:', error);
@@ -107,7 +108,7 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString('en-US', {
+    return new Date(dateString).toLocaleString(i18n.language === 'fa' ? 'fa-IR' : 'en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -129,14 +130,14 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-          Upgrade Requests (Beta Access)
+          {t('upgrade_requests_title')}
         </h2>
         <button
           onClick={loadRequests}
           disabled={isLoading}
           className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 transition-colors"
         >
-          Refresh
+          {t('refresh')}
         </button>
       </div>
 
@@ -158,7 +159,7 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
                 : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600'
             }`}
           >
-            {f === 'all' ? 'All' : f.charAt(0).toUpperCase() + f.slice(1)}
+            {f === 'all' ? t('all') : t(f)}
           </button>
         ))}
       </div>
@@ -167,11 +168,11 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
       {isLoading ? (
         <div className="text-center py-8">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">Loading requests...</p>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">{t('loading_requests')}</p>
         </div>
       ) : requests.length === 0 ? (
         <div className="text-center py-12 bg-slate-100 dark:bg-slate-800 rounded-lg">
-          <p className="text-slate-600 dark:text-slate-400">No requests found</p>
+          <p className="text-slate-600 dark:text-slate-400">{t('no_requests_found')}</p>
         </div>
       ) : (
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
@@ -179,22 +180,22 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
             <thead className="bg-slate-50 dark:bg-slate-900">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  User
+                  {t('user')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Plan
+                  {t('plan')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Status
+                  {t('status')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Requested
+                  {t('requested')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Expires
+                  {t('expires')}
                 </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Actions
+                  {t('actions')}
                 </th>
               </tr>
             </thead>
@@ -234,12 +235,12 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
                             <div
                               className={`text-xs ${daysLeft < 7 ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'}`}
                             >
-                              {daysLeft > 0 ? `${daysLeft} days left` : 'Expired'}
+                              {daysLeft > 0 ? t('days_left', { days: daysLeft }) : t('expired')}
                             </div>
                           )}
                         </div>
                       ) : (
-                        <span className="text-slate-400 dark:text-slate-600">N/A</span>
+                        <span className="text-slate-400 dark:text-slate-600">{t('na')}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -251,14 +252,14 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
                               disabled={isProcessing}
                               className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 transition-colors"
                             >
-                              Approve
+                              {t('approve')}
                             </button>
                             <button
                               onClick={() => handleReject(request.id)}
                               disabled={isProcessing}
                               className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 transition-colors"
                             >
-                              Reject
+                              {t('reject')}
                             </button>
                           </>
                         )}
@@ -268,7 +269,7 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
                             disabled={isProcessing}
                             className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 transition-colors"
                           >
-                            Extend
+                            {t('extend')}
                           </button>
                         )}
                       </div>
@@ -285,7 +286,7 @@ export const UpgradeRequestsPanel: React.FC<UpgradeRequestsPanelProps> = ({ admi
       {requests.some((r) => r.admin_notes) && (
         <div className="mt-6 p-4 bg-slate-100 dark:bg-slate-800 rounded-lg">
           <h3 className="text-sm font-semibold mb-2 text-slate-900 dark:text-white">
-            Admin Notes:
+            {t('admin_notes')}
           </h3>
           {requests
             .filter((r) => r.admin_notes)
