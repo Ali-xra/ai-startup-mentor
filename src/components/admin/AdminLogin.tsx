@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
 import { Loader } from '../Loader';
@@ -8,6 +9,7 @@ interface AdminLoginProps {
 }
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
+  const { t } = useTranslation('admin');
   const { user, signIn } = useAuth();
   const { isAdmin, isLoading: isCheckingAdmin } = useAdminAuth();
   const [email, setEmail] = useState('');
@@ -31,7 +33,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
       await signIn(email, password);
       // بعد از لاگین، useEffect بالا چک می‌کنه که ادمینه یا نه
     } catch (err: any) {
-      setError(err.message || 'خطا در ورود');
+      setError(err.message || t('login_error'));
     } finally {
       setIsLoading(false);
     }
@@ -54,16 +56,14 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
           <div className="text-center">
             <div className="text-6xl mb-4"></div>
             <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-              Access Denied
+              {t('access_denied')}
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 mb-6">
-              شما به پنل مدیریت دسترسی ندارید.
-            </p>
+            <p className="text-slate-600 dark:text-slate-400 mb-6">{t('no_admin_access')}</p>
             <button
               onClick={() => (window.location.href = '/')}
               className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
             >
-              بازگشت به صفحه اصلی
+              {t('back_to_home')}
             </button>
           </div>
         </div>
@@ -78,9 +78,9 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
         <div className="text-center mb-8">
           <div className="text-5xl mb-4"></div>
           <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-            Admin Panel
+            {t('admin_login_title')}
           </h1>
-          <p className="text-slate-600 dark:text-slate-400">ورود به پنل مدیریت</p>
+          <p className="text-slate-600 dark:text-slate-400">{t('admin_login_subtitle')}</p>
         </div>
 
         {/* Login Form */}
@@ -93,7 +93,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              ایمیل
+              {t('email')}
             </label>
             <input
               type="email"
@@ -108,7 +108,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              رمز عبور
+              {t('password')}
             </label>
             <input
               type="password"
@@ -129,10 +129,10 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
             {isLoading ? (
               <>
                 <Loader />
-                <span>در حال ورود...</span>
+                <span>{t('logging_in')}</span>
               </>
             ) : (
-              <span>ورود به پنل</span>
+              <span>{t('login_to_panel')}</span>
             )}
           </button>
         </form>
@@ -140,7 +140,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
         {/* Footer */}
         <div className="mt-6 text-center">
           <a href="/" className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
-            بازگشت به صفحه اصلی
+            {t('back_to_home')}
           </a>
         </div>
       </div>

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { featureFlagsService } from '../../services/featureFlagsService';
 import { FeatureFlag, UserWithFeatures, FeatureKey } from '../../types';
 import { Loader } from '../Loader';
 
 export const FeatureManagement: React.FC = () => {
+  const { t, i18n } = useTranslation('admin');
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'global' | 'users' | 'plans'>('users');
 
@@ -46,7 +48,7 @@ export const FeatureManagement: React.FC = () => {
       setUsers(results);
     } catch (error) {
       console.error('Error searching users:', error);
-      alert('خطا در جستجو');
+      alert(t('search_error'));
     } finally {
       setIsLoadingUsers(false);
     }
@@ -65,10 +67,10 @@ export const FeatureManagement: React.FC = () => {
 
       // Refresh user list
       await handleSearch();
-      alert('تغییرات با موفقیت اعمال شد');
+      alert(t('changes_applied_success'));
     } catch (error) {
       console.error('Error toggling feature:', error);
-      alert('خطا در اعمال تغییرات');
+      alert(t('changes_apply_error'));
     }
   };
 
@@ -107,10 +109,10 @@ export const FeatureManagement: React.FC = () => {
 
       // Refresh user list
       await handleSearch();
-      alert('تغییرات با موفقیت اعمال شد');
+      alert(t('changes_applied_success'));
     } catch (error) {
       console.error('Error changing feature:', error);
-      alert('خطا در اعمال تغییرات');
+      alert(t('changes_apply_error'));
     }
   };
 
@@ -121,16 +123,16 @@ export const FeatureManagement: React.FC = () => {
   ) => {
     if (!user) return;
 
-    const confirmMsg = `آیا از فعال‌سازی پلن "${planName}" برای این کاربر اطمینان دارید؟`;
+    const confirmMsg = t('confirm_plan_activation', { plan: planName });
     if (!confirm(confirmMsg)) return;
 
     try {
       await featureFlagsService.grantPlan(userId, planName, user.id);
       await handleSearch();
-      alert(`پلن ${planName} با موفقیت فعال شد`);
+      alert(t('plan_activated_success', { plan: planName }));
     } catch (error) {
       console.error('Error granting plan:', error);
-      alert('خطا در فعال‌سازی پلن');
+      alert(t('plan_activation_error'));
     }
   };
 
@@ -146,13 +148,13 @@ export const FeatureManagement: React.FC = () => {
     {} as Record<string, FeatureFlag[]>
   );
 
-  const categoryLabels: Record<string, { fa: string; icon: string }> = {
-    projects: { fa: 'پروژه‌ها', icon: '' },
-    ai: { fa: 'AI', icon: '' },
-    team: { fa: 'تیم', icon: '' },
-    export: { fa: 'Export', icon: '' },
-    phases: { fa: 'مراحل', icon: '' },
-    storage: { fa: 'ذخیره‌سازی', icon: '' },
+  const categoryLabels: Record<string, { label: string; icon: string }> = {
+    projects: { label: t('category_projects'), icon: '' },
+    ai: { label: t('category_ai'), icon: '' },
+    team: { label: t('category_team'), icon: '' },
+    export: { label: t('category_export'), icon: '' },
+    phases: { label: t('category_phases'), icon: '' },
+    storage: { label: t('category_storage'), icon: '' },
   };
 
   if (isLoadingFeatures) {
@@ -175,7 +177,7 @@ export const FeatureManagement: React.FC = () => {
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          مدیریت کاربران
+          {t('user_management_tab')}
         </button>
         <button
           onClick={() => setActiveTab('plans')}
@@ -185,7 +187,7 @@ export const FeatureManagement: React.FC = () => {
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          پلن‌ها
+          {t('plans_tab')}
         </button>
         <button
           onClick={() => setActiveTab('global')}
@@ -195,7 +197,7 @@ export const FeatureManagement: React.FC = () => {
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          تنظیمات Global
+          {t('global_settings_tab')}
         </button>
       </div>
 
@@ -205,10 +207,10 @@ export const FeatureManagement: React.FC = () => {
           {/* Search Box */}
           <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
             <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-4">
-              جستجوی کاربر با User ID
+              {t('search_user_by_id')}
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-              برای پیدا کردن User ID: Supabase Authentication Users کپی User ID
+              {t('user_id_instruction')}
             </p>
             <div className="flex gap-3">
               <input
@@ -216,7 +218,7 @@ export const FeatureManagement: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="User ID (UUID) را وارد کنید..."
+                placeholder={t('enter_user_id_placeholder')}
                 className="flex-1 px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 font-mono text-sm"
               />
               <button
@@ -225,7 +227,7 @@ export const FeatureManagement: React.FC = () => {
                 className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium flex items-center gap-2"
               >
                 {isLoadingUsers ? <Loader /> : ''}
-                <span>جستجو</span>
+                <span>{t('search')}</span>
               </button>
             </div>
           </div>
@@ -252,7 +254,9 @@ export const FeatureManagement: React.FC = () => {
 
                     {/* Current Plan Display */}
                     <div className="mb-3 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
-                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">پلن فعلی:</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                        {t('current_plan')}:
+                      </p>
                       <div className="flex items-center gap-2">
                         <span
                           className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -269,7 +273,10 @@ export const FeatureManagement: React.FC = () => {
                         </span>
                         {userData.plan_expires_at && (
                           <span className="text-xs text-slate-500 dark:text-slate-400">
-                            انقضا: {new Date(userData.plan_expires_at).toLocaleDateString('fa-IR')}
+                            {t('expires')}:{' '}
+                            {new Date(userData.plan_expires_at).toLocaleDateString(
+                              i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+                            )}
                           </span>
                         )}
                       </div>
@@ -278,7 +285,7 @@ export const FeatureManagement: React.FC = () => {
                     {/* Plan Selection with Radio Buttons */}
                     <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
                       <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
-                        تغییر پلن:
+                        {t('change_plan')}:
                       </p>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                         {(['free', 'starter', 'pro', 'enterprise'] as const).map((planName) => (
@@ -304,12 +311,12 @@ export const FeatureManagement: React.FC = () => {
                             />
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300 capitalize">
                               {planName === 'free'
-                                ? ' Free'
+                                ? t('plan_free')
                                 : planName === 'starter'
-                                  ? ' Starter'
+                                  ? t('plan_starter')
                                   : planName === 'pro'
-                                    ? ' Pro'
-                                    : ' Enterprise'}
+                                    ? t('plan_pro')
+                                    : t('plan_enterprise')}
                             </span>
                           </label>
                         ))}
@@ -335,7 +342,7 @@ export const FeatureManagement: React.FC = () => {
                         >
                           <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2 border-b border-slate-200 dark:border-slate-600 pb-2">
                             <span>{categoryLabels[category]?.icon}</span>
-                            <span>{categoryLabels[category]?.fa}</span>
+                            <span>{categoryLabels[category]?.label}</span>
                           </h4>
                           <div className="space-y-2">
                             {categoryFeatures.map((feature) => {
@@ -388,7 +395,7 @@ export const FeatureManagement: React.FC = () => {
           {!isLoadingUsers && users.length === 0 && searchQuery && (
             <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-8 text-center">
               <div className="text-4xl mb-2"></div>
-              <p className="text-slate-600 dark:text-slate-400">کاربری با این ایمیل پیدا نشد</p>
+              <p className="text-slate-600 dark:text-slate-400">{t('no_user_found')}</p>
             </div>
           )}
         </div>
@@ -399,10 +406,30 @@ export const FeatureManagement: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {['free', 'starter', 'pro', 'enterprise'].map((planName) => {
             const planFeatures: Record<string, string[]> = {
-              free: ['1 پروژه', '50 پیام AI', 'بدون اشتراک‌گذاری', 'تا مرحله 3'],
-              starter: ['3 پروژه', '500 پیام AI', 'اشتراک با 2 نفر', 'همه مراحل'],
-              pro: ['پروژه نامحدود', '2000 پیام AI', 'اشتراک با 10 نفر', 'Export پیشرفته'],
-              enterprise: ['نامحدود', 'AI نامحدود', 'تیم نامحدود', 'همه امکانات'],
+              free: [
+                t('feature_projects_1'),
+                t('feature_ai_50'),
+                t('feature_disabled'),
+                t('feature_phase_3'),
+              ],
+              starter: [
+                t('feature_projects_3'),
+                t('feature_ai_500'),
+                t('feature_team_2'),
+                t('feature_all_phases'),
+              ],
+              pro: [
+                t('feature_unlimited'),
+                t('feature_ai_2000'),
+                t('feature_team_10'),
+                t('feature_export_advanced'),
+              ],
+              enterprise: [
+                t('feature_unlimited'),
+                t('feature_unlimited'),
+                t('feature_unlimited'),
+                t('feature_unlimited'),
+              ],
             };
 
             const colors: Record<string, string> = {
@@ -444,13 +471,15 @@ export const FeatureManagement: React.FC = () => {
       {/* Global Tab */}
       {activeTab === 'global' && (
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
-          <p className="text-slate-600 dark:text-slate-400 mb-4">تنظیمات Global به زودی...</p>
+          <p className="text-slate-600 dark:text-slate-400 mb-4">
+            {t('global_settings_coming_soon')}
+          </p>
           <div className="space-y-4">
             {Object.entries(featuresByCategory).map(([category, categoryFeatures]) => (
               <div key={category}>
                 <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
                   <span>{categoryLabels[category]?.icon}</span>
-                  <span>{categoryLabels[category]?.fa}</span>
+                  <span>{categoryLabels[category]?.label}</span>
                 </h3>
                 <div className="space-y-2">
                   {categoryFeatures.map((feature) => (
@@ -473,7 +502,9 @@ export const FeatureManagement: React.FC = () => {
                             : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
                         }`}
                       >
-                        {feature.is_enabled_globally ? 'فعال برای همه' : 'غیرفعال'}
+                        {feature.is_enabled_globally
+                          ? t('enabled_globally')
+                          : t('feature_disabled')}
                       </span>
                     </div>
                   ))}
