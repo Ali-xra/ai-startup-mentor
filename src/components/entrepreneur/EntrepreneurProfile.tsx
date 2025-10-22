@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../services/supabaseClient';
 import { Loader } from '../Loader';
@@ -20,6 +21,7 @@ interface ProfileData {
  * صفحه تنظیمات پروفایل کارآفرین
  */
 export const EntrepreneurProfile: React.FC = () => {
+  const { t, i18n } = useTranslation('entrepreneur');
   const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -105,10 +107,10 @@ export const EntrepreneurProfile: React.FC = () => {
 
       if (error) throw error;
 
-      alert(' پروفایل با موفقیت بروزرسانی شد');
+      alert(t('profile_updated'));
     } catch (error) {
       console.error('Error saving profile:', error);
-      alert(' خطا در ذخیره پروفایل');
+      alert(t('profile_update_error'));
     } finally {
       setSaving(false);
     }
@@ -126,8 +128,10 @@ export const EntrepreneurProfile: React.FC = () => {
     <div className="p-8 max-w-4xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">تنظیمات پروفایل</h1>
-        <p className="text-slate-600 dark:text-slate-400">مدیریت اطلاعات شخصی و حساب کاربری</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+          {t('profile_settings')}
+        </h1>
+        <p className="text-slate-600 dark:text-slate-400">{t('profile_subtitle')}</p>
       </div>
 
       {/* Profile Form */}
@@ -139,31 +143,33 @@ export const EntrepreneurProfile: React.FC = () => {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
-              تصویر پروفایل
+              {t('profile_picture')}
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-              فرمت‌های مجاز: JPG, PNG - حداکثر 2MB
+              {t('allowed_formats')}
             </p>
             <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors">
-              آپلود تصویر
+              {t('upload_image')}
             </button>
           </div>
         </div>
 
         {/* Personal Information */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">اطلاعات شخصی</h3>
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+            {t('personal_info')}
+          </h3>
 
           {/* Name */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              نام و نام خانوادگی
+              {t('full_name')}
             </label>
             <input
               type="text"
               value={profile.name}
               onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-              placeholder="نام خود را وارد کنید"
+              placeholder={t('enter_name_placeholder')}
               className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
             />
           </div>
@@ -171,7 +177,7 @@ export const EntrepreneurProfile: React.FC = () => {
           {/* Email */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              ایمیل
+              {t('email')}
             </label>
             <input
               type="email"
@@ -182,14 +188,14 @@ export const EntrepreneurProfile: React.FC = () => {
               readOnly
             />
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              برای تغییر ایمیل با پشتیبانی تماس بگیرید
+              {t('change_email_note')}
             </p>
           </div>
 
           {/* Phone */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              شماره تماس
+              {t('phone_number')}
             </label>
             <input
               type="tel"
@@ -203,13 +209,13 @@ export const EntrepreneurProfile: React.FC = () => {
           {/* Company */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              نام شرکت/استارتاپ
+              {t('company_name')}
             </label>
             <input
               type="text"
               value={profile.company || ''}
               onChange={(e) => setProfile({ ...profile, company: e.target.value })}
-              placeholder="نام شرکت یا استارتاپ خود"
+              placeholder={t('company_placeholder')}
               className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
             />
           </div>
@@ -217,13 +223,13 @@ export const EntrepreneurProfile: React.FC = () => {
           {/* Bio */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              درباره من
+              {t('about_me')}
             </label>
             <textarea
               rows={4}
               value={profile.bio || ''}
               onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
-              placeholder="توضیحی کوتاه درباره خود و تجربیاتتان..."
+              placeholder={t('about_me_placeholder')}
               className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
             />
           </div>
@@ -232,15 +238,17 @@ export const EntrepreneurProfile: React.FC = () => {
         {/* Account Info */}
         <div className="pt-6 border-t border-slate-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
-            اطلاعات حساب
+            {t('account_info')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-lg">
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">نقش کاربری</p>
-              <p className="text-lg font-semibold text-slate-900 dark:text-white">کارآفرین</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">{t('user_role')}</p>
+              <p className="text-lg font-semibold text-slate-900 dark:text-white">
+                {t('entrepreneur')}
+              </p>
             </div>
             <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-lg">
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">شناسه کاربری</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">{t('user_id')}</p>
               <p className="text-sm font-mono text-slate-900 dark:text-white truncate">
                 {user?.id}
               </p>
@@ -251,7 +259,9 @@ export const EntrepreneurProfile: React.FC = () => {
         {/* Subscription Plan */}
         <div className="pt-6 border-t border-slate-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">پلن اشتراک</h3>
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+              {t('subscription_plan')}
+            </h3>
             <span
               className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
                 planName === 'Enterprise'
@@ -264,12 +274,12 @@ export const EntrepreneurProfile: React.FC = () => {
               }`}
             >
               {planName === 'Enterprise'
-                ? ' سازمانی'
+                ? t('plan_enterprise')
                 : planName === 'Pro'
-                  ? ' حرفه‌ای'
+                  ? t('plan_pro')
                   : planName === 'Starter'
-                    ? ' استارتر'
-                    : ' رایگان'}
+                    ? t('plan_starter')
+                    : t('plan_free')}
             </span>
           </div>
 
@@ -280,11 +290,11 @@ export const EntrepreneurProfile: React.FC = () => {
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl"></span>
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  تعداد پروژه
+                  {t('max_projects')}
                 </p>
               </div>
               <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                {maxProjects === Infinity ? 'نامحدود' : maxProjects}
+                {maxProjects === Infinity ? t('unlimited') : maxProjects}
               </p>
             </div>
 
@@ -293,11 +303,13 @@ export const EntrepreneurProfile: React.FC = () => {
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl"></span>
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  اعتبار هوش مصنوعی
+                  {t('ai_credits')}
                 </p>
               </div>
               <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                {aiCredits === Infinity ? 'نامحدود' : aiCredits.toLocaleString('fa-IR')}
+                {aiCredits === Infinity
+                  ? t('unlimited')
+                  : aiCredits.toLocaleString(i18n.language === 'fa' ? 'fa-IR' : 'en-US')}
               </p>
             </div>
 
@@ -305,13 +317,15 @@ export const EntrepreneurProfile: React.FC = () => {
             <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 p-4 rounded-xl border border-green-200 dark:border-green-800">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl"></span>
-                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">اعضای تیم</p>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  {t('team_members')}
+                </p>
               </div>
               <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                 {maxTeamMembers === Infinity
-                  ? 'نامحدود'
+                  ? t('unlimited')
                   : maxTeamMembers === 0
-                    ? 'ندارد'
+                    ? t('none')
                     : maxTeamMembers}
               </p>
             </div>
@@ -320,10 +334,16 @@ export const EntrepreneurProfile: React.FC = () => {
             <div className="bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl"></span>
-                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">خروجی فایل</p>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  {t('file_export')}
+                </p>
               </div>
               <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                {canExport === 'advanced' ? 'پیشرفته' : canExport === 'basic' ? 'پایه' : 'ندارد'}
+                {canExport === 'advanced'
+                  ? t('advanced')
+                  : canExport === 'basic'
+                    ? t('basic')
+                    : t('none')}
               </p>
             </div>
 
@@ -332,11 +352,13 @@ export const EntrepreneurProfile: React.FC = () => {
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl"></span>
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  مراحل قابل دسترسی
+                  {t('accessible_phases')}
                 </p>
               </div>
               <p className="text-2xl font-bold text-pink-600 dark:text-pink-400">
-                {maxPhase === 8 ? 'همه' : `تا مرحله ${maxPhase.toLocaleString('fa-IR')}`}
+                {maxPhase === 8
+                  ? t('all_phases')
+                  : `${t('up_to_phase')} ${maxPhase.toLocaleString(i18n.language === 'fa' ? 'fa-IR' : 'en-US')}`}
               </p>
             </div>
 
@@ -345,10 +367,12 @@ export const EntrepreneurProfile: React.FC = () => {
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl"></span>
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  وضعیت اشتراک
+                  {t('subscription_status')}
                 </p>
               </div>
-              <p className="text-lg font-bold text-indigo-600 dark:text-indigo-400">فعال</p>
+              <p className="text-lg font-bold text-indigo-600 dark:text-indigo-400">
+                {t('active')}
+              </p>
             </div>
           </div>
 
@@ -358,19 +382,17 @@ export const EntrepreneurProfile: React.FC = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <h4 className="text-xl font-bold mb-2">
-                    {planName === 'Free' ? ' آماده برای ارتقا هستید؟' : ' به پلن بالاتر ارتقا دهید'}
+                    {planName === 'Free' ? t('ready_to_upgrade') : t('upgrade_to_higher_plan')}
                   </h4>
                   <p className="text-purple-100">
-                    {planName === 'Free'
-                      ? 'با پلن‌های پولی، پروژه‌های بیشتر، AI نامحدود و امکانات حرفه‌ای بیشتری داشته باشید'
-                      : 'با ارتقا به پلن‌های بالاتر، امکانات بیشتری در اختیار داشته باشید'}
+                    {planName === 'Free' ? t('upgrade_free_message') : t('upgrade_paid_message')}
                   </p>
                 </div>
                 <button
                   onClick={() => navigate('/pricing')}
                   className="px-8 py-3 bg-white text-purple-600 rounded-xl font-bold hover:bg-purple-50 transition-colors whitespace-nowrap shadow-lg hover:shadow-xl"
                 >
-                  مشاهده پلن‌ها
+                  {t('view_plans')}
                 </button>
               </div>
             </div>
@@ -382,10 +404,8 @@ export const EntrepreneurProfile: React.FC = () => {
               <div className="flex items-center gap-3">
                 <span className="text-4xl"></span>
                 <div>
-                  <h4 className="text-xl font-bold mb-1">شما از پلن سازمانی استفاده می‌کنید!</h4>
-                  <p className="text-green-100">
-                    از تمام امکانات پیشرفته و نامحدود پلتفرم بهره‌مند هستید
-                  </p>
+                  <h4 className="text-xl font-bold mb-1">{t('using_enterprise')}</h4>
+                  <p className="text-green-100">{t('enterprise_message')}</p>
                 </div>
               </div>
             </div>
@@ -399,25 +419,25 @@ export const EntrepreneurProfile: React.FC = () => {
             disabled={saving}
             className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors font-medium"
           >
-            {saving ? 'در حال ذخیره...' : 'ذخیره تغییرات'}
+            {saving ? t('saving') : t('save_changes')}
           </button>
           <button
             onClick={loadProfile}
             className="px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-lg transition-colors font-medium"
           >
-            لغو
+            {t('cancel')}
           </button>
         </div>
       </div>
 
       {/* Danger Zone */}
       <div className="mt-8 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 p-6">
-        <h3 className="text-lg font-semibold text-red-900 dark:text-red-400 mb-2">منطقه خطرناک</h3>
-        <p className="text-sm text-red-700 dark:text-red-300 mb-4">
-          حذف حساب کاربری شما منجر به حذف تمام پروژه‌ها و داده‌های شما خواهد شد.
-        </p>
+        <h3 className="text-lg font-semibold text-red-900 dark:text-red-400 mb-2">
+          {t('danger_zone')}
+        </h3>
+        <p className="text-sm text-red-700 dark:text-red-300 mb-4">{t('delete_account_warning')}</p>
         <button className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm font-medium">
-          حذف حساب کاربری
+          {t('delete_account')}
         </button>
       </div>
     </div>

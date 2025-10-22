@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../../services/supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
 import { Loader } from '../Loader';
@@ -21,6 +22,7 @@ interface Project {
 export const ProjectsList: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation('entrepreneur');
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'in-progress' | 'completed'>('all');
@@ -201,7 +203,7 @@ export const ProjectsList: React.FC = () => {
   };
 
   const handleDeleteProject = async (projectId: string, projectName: string) => {
-    if (!window.confirm(`آیا از حذف پروژه "${projectName}" اطمینان دارید؟`)) return;
+    if (!window.confirm(t('confirm_delete', { name: projectName }))) return;
 
     try {
       const { error } = await supabase.from('projects').delete().eq('id', projectId);
@@ -210,10 +212,10 @@ export const ProjectsList: React.FC = () => {
 
       // حذف از لیست
       setProjects((prev) => prev.filter((p) => p.id !== projectId));
-      alert('پروژه با موفقیت حذف شد');
+      alert(t('project_deleted'));
     } catch (error) {
       console.error('Error deleting project:', error);
-      alert('خطا در حذف پروژه');
+      alert(t('delete_error'));
     }
   };
 
@@ -222,12 +224,12 @@ export const ProjectsList: React.FC = () => {
     if (!user) return;
 
     if (!newProjectName.trim()) {
-      alert('لطفاً نام پروژه را وارد کنید');
+      alert(t('enter_project_name'));
       return;
     }
 
     if (!newProjectIdea.trim()) {
-      alert('لطفاً ایده اولیه پروژه را وارد کنید');
+      alert(t('enter_initial_idea'));
       return;
     }
 
@@ -254,7 +256,7 @@ export const ProjectsList: React.FC = () => {
       navigate(`/entrepreneur/project/${newProject.id}`);
     } catch (error) {
       console.error('Error creating project:', error);
-      alert('خطا در ساخت پروژه');
+      alert(t('create_error'));
     } finally {
       setCreating(false);
     }
@@ -291,19 +293,21 @@ export const ProjectsList: React.FC = () => {
     <div className="p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">پروژه‌های من</h1>
-        <p className="text-slate-600 dark:text-slate-400 mb-6">
-          مدیریت و مشاهده تمام پروژه‌های خود
-        </p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+          {t('my_projects')}
+        </h1>
+        <p className="text-slate-600 dark:text-slate-400 mb-6">{t('projects_subtitle')}</p>
 
         {/* کارت ساخت پروژه جدید */}
         <div className="bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50 dark:from-purple-900/20 dark:via-indigo-900/20 dark:to-blue-900/20 rounded-2xl p-8 mb-8 border-2 border-purple-200 dark:border-purple-800 shadow-xl">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center text-2xl shadow-lg"></div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">شروع سفر جدید</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                {t('start_new_journey')}
+              </h2>
               <p className="text-slate-600 dark:text-slate-400 text-sm">
-                ایده خود را با ما به واقعیت تبدیل کنید
+                {t('turn_idea_to_reality')}
               </p>
             </div>
           </div>
@@ -312,13 +316,13 @@ export const ProjectsList: React.FC = () => {
             {/* نام پروژه */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                نام پروژه <span className="text-red-500">*</span>
+                {t('project_name')} <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={newProjectName}
                 onChange={(e) => setNewProjectName(e.target.value)}
-                placeholder="مثال: فروشگاه آنلاین محصولات ارگانیک"
+                placeholder={t('project_name_placeholder')}
                 className="w-full px-4 py-3 border-2 border-purple-200 dark:border-purple-800 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-purple-500 dark:focus:border-purple-500 focus:outline-none transition-colors"
                 disabled={creating}
               />
@@ -327,13 +331,13 @@ export const ProjectsList: React.FC = () => {
             {/* ایده اولیه */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                ایده اولیه <span className="text-red-500">*</span>
+                {t('initial_idea')} <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={newProjectIdea}
                 onChange={(e) => setNewProjectIdea(e.target.value)}
-                placeholder="مثال: پلتفرمی برای فروش محصولات ارگانیک به صورت آنلاین"
+                placeholder={t('initial_idea_placeholder')}
                 className="w-full px-4 py-3 border-2 border-purple-200 dark:border-purple-800 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-purple-500 dark:focus:border-purple-500 focus:outline-none transition-colors"
                 disabled={creating}
               />
@@ -349,12 +353,12 @@ export const ProjectsList: React.FC = () => {
               {creating ? (
                 <>
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  <span>در حال ساخت...</span>
+                  <span>{t('creating')}</span>
                 </>
               ) : (
                 <>
                   <span></span>
-                  <span>شروع سفر</span>
+                  <span>{t('start_journey')}</span>
                   <span></span>
                 </>
               )}
@@ -368,7 +372,7 @@ export const ProjectsList: React.FC = () => {
           <div className="flex-1 max-w-md">
             <input
               type="text"
-              placeholder="جستجوی پروژه..."
+              placeholder={t('search_projects')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
@@ -385,7 +389,7 @@ export const ProjectsList: React.FC = () => {
                   : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600'
               }`}
             >
-              همه
+              {t('filter_all')}
             </button>
             <button
               onClick={() => setFilter('in-progress')}
@@ -395,7 +399,7 @@ export const ProjectsList: React.FC = () => {
                   : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600'
               }`}
             >
-              در حال پیشرفت
+              {t('filter_in_progress')}
             </button>
             <button
               onClick={() => setFilter('completed')}
@@ -405,7 +409,7 @@ export const ProjectsList: React.FC = () => {
                   : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600'
               }`}
             >
-              تکمیل شده
+              {t('filter_completed')}
             </button>
           </div>
         </div>
@@ -417,17 +421,17 @@ export const ProjectsList: React.FC = () => {
           <div className="text-6xl mb-4"></div>
           <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">
             {searchQuery
-              ? 'پروژه‌ای یافت نشد'
+              ? t('no_projects_found')
               : projects.length === 0
-                ? 'هنوز پروژه‌ای ندارید'
-                : 'پروژه‌ای در این دسته وجود ندارد'}
+                ? t('no_projects_yet')
+                : t('no_projects_in_category')}
           </p>
           {projects.length === 0 && (
             <Link
               to="/entrepreneur/new-project"
               className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 font-semibold"
             >
-              ساخت اولین پروژه
+              {t('create_first_project')}
             </Link>
           )}
         </div>
@@ -443,12 +447,20 @@ export const ProjectsList: React.FC = () => {
                 {/* Project Header */}
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 truncate">
-                    {project.project_name || 'پروژه بدون نام'}
+                    {project.project_name || t('unnamed_project')}
                   </h3>
                   <div className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                    <p>ساخته شده: {new Date(project.created_at).toLocaleDateString('fa-IR')}</p>
                     <p>
-                      آخرین بروزرسانی: {new Date(project.updated_at).toLocaleDateString('fa-IR')}
+                      {t('created_on')}:{' '}
+                      {new Date(project.created_at).toLocaleDateString(
+                        i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+                      )}
+                    </p>
+                    <p>
+                      {t('last_update')}:{' '}
+                      {new Date(project.updated_at).toLocaleDateString(
+                        i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+                      )}
                     </p>
                   </div>
 
@@ -456,7 +468,7 @@ export const ProjectsList: React.FC = () => {
                   <div className="mb-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                        پیشرفت
+                        {t('progress')}
                       </span>
                       <span className="text-sm font-bold text-slate-900 dark:text-white">
                         {progress}%
@@ -482,15 +494,15 @@ export const ProjectsList: React.FC = () => {
                   <div className="mb-4">
                     {progress === 100 ? (
                       <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded-full">
-                        تکمیل شده
+                        {t('status_completed')}
                       </span>
                     ) : progress > 0 ? (
                       <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs rounded-full">
-                        در حال پیشرفت
+                        {t('status_in_progress')}
                       </span>
                     ) : (
                       <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded-full">
-                        شروع نشده
+                        {t('status_not_started')}
                       </span>
                     )}
                   </div>
@@ -502,7 +514,7 @@ export const ProjectsList: React.FC = () => {
                     to={`/entrepreneur/project/${project.id}`}
                     className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg transition-all text-center text-sm font-semibold shadow-md hover:shadow-lg"
                   >
-                    ادامه کار
+                    {t('continue_work')}
                   </Link>
                   <button
                     onClick={() => {
@@ -510,7 +522,7 @@ export const ProjectsList: React.FC = () => {
                       setShareModalOpen(true);
                     }}
                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium"
-                    title="اشتراک‌گذاری پروژه"
+                    title={t('share_project')}
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -524,7 +536,7 @@ export const ProjectsList: React.FC = () => {
                   <button
                     onClick={() => handleDeleteProject(project.id, project.project_name)}
                     className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm font-medium"
-                    title="حذف پروژه"
+                    title={t('delete_project')}
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -545,7 +557,7 @@ export const ProjectsList: React.FC = () => {
       {/* Summary */}
       {filteredProjects.length > 0 && (
         <div className="mt-8 text-center text-slate-600 dark:text-slate-400">
-          نمایش {filteredProjects.length} پروژه از {projects.length} پروژه
+          {t('showing_projects', { count: filteredProjects.length, total: projects.length })}
         </div>
       )}
 

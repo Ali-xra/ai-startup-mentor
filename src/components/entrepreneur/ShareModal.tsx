@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../services/supabaseClient';
 
@@ -21,6 +22,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { t } = useTranslation('entrepreneur');
   const { user } = useAuth();
   const [isPublic, setIsPublic] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -90,7 +92,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
               .from('public_projects')
               .update({
                 is_published: true,
-                title: project.project_name || 'پروژه بدون نام',
+                title: project.project_name || t('unnamed_project'),
                 description:
                   project.startup_data?.businessIdea || project.startup_data?.initialIdea || '',
                 updated_at: new Date().toISOString(),
@@ -103,7 +105,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
             const { error } = await supabase.from('public_projects').insert({
               project_id: projectId,
               user_id: user.id,
-              title: project.project_name || 'پروژه بدون نام',
+              title: project.project_name || t('unnamed_project'),
               description:
                 project.startup_data?.businessIdea || project.startup_data?.initialIdea || '',
               tags: [],
@@ -127,7 +129,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       setIsPublic(!isPublic);
     } catch (error) {
       console.error('Error updating public status:', error);
-      alert('خطا در تغییر وضعیت پروژه');
+      alert(t('status_change_error'));
     } finally {
       setUpdating(false);
     }
@@ -136,14 +138,14 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   // اضافه کردن ایمیل برای اشتراک‌گذاری
   const addEmail = async () => {
     if (!emailInput.trim()) {
-      alert('لطفاً ایمیل را وارد کنید');
+      alert(t('enter_email'));
       return;
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailInput)) {
-      alert('فرمت ایمیل صحیح نیست');
+      alert(t('invalid_email_format'));
       return;
     }
 
@@ -155,10 +157,10 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       setSharedEmails([...sharedEmails, emailInput]);
       setEmailInput('');
 
-      alert(` پروژه با ${emailInput} به اشتراک گذاشته شد`);
+      alert(t('shared_successfully', { email: emailInput }));
     } catch (error) {
       console.error('Error sharing project:', error);
-      alert('خطا در اشتراک‌گذاری پروژه');
+      alert(t('share_error'));
     } finally {
       setAddingEmail(false);
     }
@@ -169,10 +171,10 @@ export const ShareModal: React.FC<ShareModalProps> = ({
     try {
       // TODO: حذف از جدول project_shares
       setSharedEmails(sharedEmails.filter((e) => e !== email));
-      alert(` اشتراک‌گذاری با ${email} لغو شد`);
+      alert(t('share_removed', { email }));
     } catch (error) {
       console.error('Error removing share:', error);
-      alert('خطا در لغو اشتراک‌گذاری');
+      alert(t('remove_share_error'));
     }
   };
 
@@ -180,7 +182,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   const copyPublicLink = () => {
     const link = `${window.location.origin}/marketplace?project=${projectId}`;
     navigator.clipboard.writeText(link);
-    alert(' لینک کپی شد!');
+    alert(t('link_copied'));
   };
 
   if (!isOpen) return null;
@@ -192,7 +194,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-              اشتراک‌گذاری پروژه
+              {t('share_project_title')}
             </h2>
             <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{projectName}</p>
           </div>
@@ -213,12 +215,10 @@ export const ShareModal: React.FC<ShareModalProps> = ({
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
-                    دسترسی عمومی
+                    {t('public_access')}
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">
-                    {isPublic
-                      ? 'پروژه شما در بازار عمومی قابل مشاهده است'
-                      : 'پروژه شما خصوصی است و فقط شما آن را می‌بینید'}
+                    {isPublic ? t('project_public_message') : t('project_private_message')}
                   </p>
                 </div>
                 <button
@@ -244,7 +244,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                     <span className="text-2xl"></span>
                     <div className="flex-1">
                       <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                        لینک عمومی پروژه
+                        {t('public_link')}
                       </p>
                       <p className="text-xs text-slate-500 dark:text-slate-400 break-all">
                         {window.location.origin}/marketplace?project={projectId}
@@ -255,7 +255,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                     onClick={copyPublicLink}
                     className="w-full px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg text-sm font-medium transition-all"
                   >
-                    کپی لینک
+                    {t('copy_link')}
                   </button>
                 </div>
               )}
@@ -264,10 +264,10 @@ export const ShareModal: React.FC<ShareModalProps> = ({
             {/* بخش اشتراک‌گذاری با ایمیل */}
             <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
-                اشتراک‌گذاری با کاربران خاص
+                {t('share_with_users')}
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                ایمیل کاربرانی که می‌خواهید پروژه را با آنها به اشتراک بگذارید
+                {t('share_with_email_message')}
               </p>
 
               {/* Input برای اضافه کردن ایمیل */}
@@ -285,7 +285,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                   disabled={addingEmail || !emailInput.trim()}
                   className="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-blue-400 disabled:to-indigo-400 text-white rounded-lg text-sm font-medium transition-all"
                 >
-                  {addingEmail ? '...' : 'افزودن'}
+                  {addingEmail ? t('adding') : t('add_button')}
                 </button>
               </div>
 
@@ -293,7 +293,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
               {sharedEmails.length > 0 ? (
                 <div className="space-y-2">
                   <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
-                    به اشتراک گذاشته شده با:
+                    {t('shared_with')}
                   </p>
                   {sharedEmails.map((email) => (
                     <div
@@ -310,7 +310,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                         onClick={() => removeEmail(email)}
                         className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium"
                       >
-                        حذف
+                        {t('remove')}
                       </button>
                     </div>
                   ))}
@@ -319,7 +319,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                 <div className="bg-white dark:bg-slate-800 rounded-lg px-4 py-8 text-center border border-slate-200 dark:border-slate-700">
                   <span className="text-4xl mb-2 block"></span>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    هنوز با کسی به اشتراک نگذاشته‌اید
+                    {t('not_shared_yet')}
                   </p>
                 </div>
               )}
@@ -331,7 +331,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                 onClick={onClose}
                 className="px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-lg transition-colors font-medium"
               >
-                بستن
+                {t('close')}
               </button>
             </div>
           </div>

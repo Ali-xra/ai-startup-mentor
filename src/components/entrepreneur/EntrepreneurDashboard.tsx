@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../../services/supabaseClient';
 import { useAuth } from '../../contexts/AuthContext';
 import { Loader } from '../Loader';
@@ -26,6 +27,7 @@ interface RecentProject {
  */
 export const EntrepreneurDashboard: React.FC = () => {
   const { user } = useAuth();
+  const { t, i18n } = useTranslation('entrepreneur');
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<ProjectStats>({
     totalProjects: 0,
@@ -227,8 +229,10 @@ export const EntrepreneurDashboard: React.FC = () => {
       const recent: RecentProject[] =
         projects?.slice(0, 5).map((p) => ({
           id: p.id,
-          name: p.project_name || 'پروژه بدون نام',
-          lastModified: new Date(p.updated_at).toLocaleDateString('fa-IR'),
+          name: p.project_name || t('unnamed_project'),
+          lastModified: new Date(p.updated_at).toLocaleDateString(
+            i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+          ),
           progress: calculateProgress(p.startup_data),
           isPublished: publicProjects?.some((pp) => pp.project_id === p.id) || false,
         })) || [];
@@ -253,8 +257,10 @@ export const EntrepreneurDashboard: React.FC = () => {
     <div className="p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">داشبورد کارآفرین</h1>
-        <p className="text-slate-600 dark:text-slate-400">مدیریت پروژه‌ها و استارتاپ‌های خود</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+          {t('dashboard_title')}
+        </h1>
+        <p className="text-slate-600 dark:text-slate-400">{t('dashboard_subtitle')}</p>
       </div>
 
       {/* Stats Grid */}
@@ -268,7 +274,7 @@ export const EntrepreneurDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-blue-700 dark:text-blue-300 mb-1 font-medium">
-                کل پروژه‌ها
+                {t('total_projects')}
               </p>
               <p className="text-3xl font-bold text-blue-900 dark:text-blue-100">
                 {stats.totalProjects}
@@ -286,7 +292,7 @@ export const EntrepreneurDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-1 font-medium">
-                در حال پیشرفت
+                {t('in_progress_stat')}
               </p>
               <p className="text-3xl font-bold text-yellow-900 dark:text-yellow-100">
                 {stats.inProgressProjects}
@@ -304,7 +310,7 @@ export const EntrepreneurDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-green-700 dark:text-green-300 mb-1 font-medium">
-                تکمیل شده
+                {t('completed_stat')}
               </p>
               <p className="text-3xl font-bold text-green-900 dark:text-green-100">
                 {stats.completedProjects}
@@ -322,7 +328,7 @@ export const EntrepreneurDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-purple-700 dark:text-purple-300 mb-1 font-medium">
-                منتشر شده
+                {t('published_stat')}
               </p>
               <p className="text-3xl font-bold text-purple-900 dark:text-purple-100">
                 {stats.publishedProjects}
@@ -336,12 +342,14 @@ export const EntrepreneurDashboard: React.FC = () => {
       <Card variant="elevated" padding="md">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">پروژه‌های اخیر</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              {t('recent_projects')}
+            </h2>
             <Link
               to="/entrepreneur/projects"
               className="text-sm text-purple-600 dark:text-purple-400 hover:underline font-medium"
             >
-              مشاهده همه
+              {t('view_all')}
             </Link>
           </div>
         </CardHeader>
@@ -349,10 +357,10 @@ export const EntrepreneurDashboard: React.FC = () => {
           {recentProjects.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4"></div>
-              <p className="text-slate-600 dark:text-slate-400 mb-4">هنوز پروژه‌ای ندارید</p>
+              <p className="text-slate-600 dark:text-slate-400 mb-4">{t('no_projects_yet')}</p>
               <Link to="/entrepreneur/new-project">
                 <Button variant="primary" size="lg">
-                  ساخت اولین پروژه
+                  {t('create_first_project')}
                 </Button>
               </Link>
             </div>
@@ -372,12 +380,12 @@ export const EntrepreneurDashboard: React.FC = () => {
                         </h3>
                         {project.isPublished && (
                           <Badge variant="success" size="sm">
-                            منتشر شده
+                            {t('published_badge')}
                           </Badge>
                         )}
                       </div>
                       <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
-                        آخرین بروزرسانی: {project.lastModified}
+                        {t('last_update')}: {project.lastModified}
                       </p>
                       <div className="flex items-center gap-3">
                         <div className="flex-1 bg-slate-200 dark:bg-slate-700 rounded-full h-2">
