@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../services/supabaseClient';
 import LanguageSelector from '../LanguageSelector';
@@ -10,6 +11,7 @@ import LanguageSelector from '../LanguageSelector';
  * شامل: Sidebar, Navigation, Header
  */
 export const EntrepreneurLayout: React.FC = () => {
+  const { t } = useTranslation('entrepreneur');
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -29,22 +31,22 @@ export const EntrepreneurLayout: React.FC = () => {
   // لیست منوها
   const navItems = [
     {
-      name: 'داشبورد',
+      nameKey: 'dashboard',
       path: '/entrepreneur',
       icon: '',
     },
     {
-      name: 'پروژه‌های من',
+      nameKey: 'my_projects',
       path: '/entrepreneur/projects',
       icon: '',
     },
     {
-      name: 'بازار پروژه‌ها',
+      nameKey: 'marketplace',
       path: '/entrepreneur/marketplace',
       icon: '',
     },
     {
-      name: 'پروفایل',
+      nameKey: 'profile',
       path: '/entrepreneur/profile',
       icon: '',
     },
@@ -68,7 +70,7 @@ export const EntrepreneurLayout: React.FC = () => {
           <div className="flex items-center justify-between mb-3">
             {isSidebarOpen && (
               <div>
-                <h1 className="text-xl font-bold">پنل کارآفرین </h1>
+                <h1 className="text-xl font-bold">{t('panel_title')}</h1>
                 <p className="text-xs text-purple-200 mt-1">Entrepreneur Panel</p>
               </div>
             )}
@@ -97,7 +99,7 @@ export const EntrepreneurLayout: React.FC = () => {
               }`}
             >
               <span className="text-xl">{item.icon}</span>
-              {isSidebarOpen && <span>{item.name}</span>}
+              {isSidebarOpen && <span>{t(item.nameKey)}</span>}
             </Link>
           ))}
         </nav>
@@ -111,7 +113,7 @@ export const EntrepreneurLayout: React.FC = () => {
             {isSidebarOpen && (
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">{user?.email}</p>
-                <p className="text-xs text-purple-200">کارآفرین</p>
+                <p className="text-xs text-purple-200">{t('entrepreneur')}</p>
               </div>
             )}
           </div>
@@ -121,7 +123,7 @@ export const EntrepreneurLayout: React.FC = () => {
               className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors text-sm font-medium"
             >
               <span></span>
-              <span>خروج</span>
+              <span>{t('logout')}</span>
             </button>
           )}
         </div>
