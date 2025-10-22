@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useInvestorAuth } from '../../hooks/useInvestorAuth';
 import { supabase } from '../../services/supabaseClient';
+import LanguageSelector from '../LanguageSelector';
 
 /**
  * InvestorLayout
@@ -148,6 +149,9 @@ export const InvestorLayout: React.FC = () => {
                 </Link>
               ))}
             </nav>
+
+            {/* Language Selector */}
+            <LanguageSelector />
 
             {/* User Menu */}
             <div className="relative">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../services/supabaseClient';
+import LanguageSelector from '../LanguageSelector';
 
 /**
  * EntrepreneurLayout
@@ -64,7 +65,7 @@ export const EntrepreneurLayout: React.FC = () => {
       >
         {/* Header */}
         <div className="p-4 border-b border-white/10">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-3">
             {isSidebarOpen && (
               <div>
                 <h1 className="text-xl font-bold">پنل کارآفرین </h1>
@@ -78,6 +79,11 @@ export const EntrepreneurLayout: React.FC = () => {
               {isSidebarOpen ? '◀' : '▶'}
             </button>
           </div>
+          {isSidebarOpen && (
+            <div className="flex justify-center">
+              <LanguageSelector />
+            </div>
+          )}
         </div>
 
         {/* Navigation */}

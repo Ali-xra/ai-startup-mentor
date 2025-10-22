@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
+import LanguageSelector from '../LanguageSelector';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -30,7 +31,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
       >
         {/* Header */}
         <div className="p-6 border-b border-indigo-500">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-3">
             {isSidebarOpen && (
               <div>
                 <h1 className="text-xl font-bold">Admin Panel</h1>
@@ -44,6 +45,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, currentPage,
               {isSidebarOpen ? '◀' : '▶'}
             </button>
           </div>
+          {isSidebarOpen && (
+            <div className="flex justify-center">
+              <LanguageSelector />
+            </div>
+          )}
         </div>
 
         {/* Navigation */}
