@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { featureFlagsService } from '../../services/featureFlagsService';
 import { FeatureKey, UserWithFeatures } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
@@ -10,6 +11,7 @@ interface UserDetailsPageProps {
 }
 
 export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack }) => {
+  const { t } = useTranslation('admin');
   const { user: adminUser } = useAuth();
   const [selectedUser, setSelectedUser] = useState<UserWithFeatures | null>(null);
   const [loading, setLoading] = useState(true);
@@ -51,7 +53,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
       await loadUserData();
     } catch (error) {
       console.error('Error granting plan:', error);
-      alert('خطا در تغییر پلن کاربر');
+      alert(t('plan_change_error'));
     } finally {
       setLoading(false);
     }
@@ -82,7 +84,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
       await loadUserData();
     } catch (error) {
       console.error('Error toggling feature:', error);
-      alert('خطا در تغییر فیچر');
+      alert(t('feature_toggle_error'));
     } finally {
       setLoading(false);
     }
@@ -114,53 +116,53 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
   };
 
   const categoryLabels: Record<string, string> = {
-    projects: ' پروژه‌ها',
-    ai: ' AI',
-    team: ' تیم',
-    export: ' خروجی',
-    phases: ' مراحل',
-    storage: ' فضای ذخیره‌سازی',
+    projects: t('category_projects'),
+    ai: t('category_ai'),
+    team: t('category_team'),
+    export: t('category_export'),
+    phases: t('category_phases'),
+    storage: t('category_storage'),
   };
 
   const featureLabels: Record<string, string> = {
-    [FeatureKey.MAX_PROJECTS_1]: '1 پروژه',
-    [FeatureKey.MAX_PROJECTS_3]: '3 پروژه',
-    [FeatureKey.UNLIMITED_PROJECTS]: 'نامحدود',
-    [FeatureKey.AI_CREDITS_50]: '50 پیام',
-    [FeatureKey.AI_CREDITS_500]: '500 پیام',
-    [FeatureKey.AI_CREDITS_2000]: '2000 پیام',
-    [FeatureKey.UNLIMITED_AI]: 'نامحدود',
-    [FeatureKey.TEAM_SHARING_DISABLED]: 'غیرفعال',
-    [FeatureKey.TEAM_SHARING_2]: '2 نفر',
-    [FeatureKey.TEAM_SHARING_10]: '10 نفر',
-    [FeatureKey.TEAM_SHARING_UNLIMITED]: 'نامحدود',
-    [FeatureKey.EXPORT_DISABLED]: 'غیرفعال',
-    [FeatureKey.EXPORT_BASIC]: 'پایه',
-    [FeatureKey.EXPORT_ADVANCED]: 'پیشرفته',
-    [FeatureKey.PHASE_3_LIMIT]: 'تا مرحله 3',
-    [FeatureKey.PHASE_5_LIMIT]: 'تا مرحله 5',
-    [FeatureKey.ALL_PHASES]: 'همه مراحل',
-    [FeatureKey.STORAGE_50MB]: '50MB',
-    [FeatureKey.STORAGE_500MB]: '500MB',
-    [FeatureKey.STORAGE_5GB]: '5GB',
-    [FeatureKey.STORAGE_UNLIMITED]: 'نامحدود',
+    [FeatureKey.MAX_PROJECTS_1]: t('feature_projects_1'),
+    [FeatureKey.MAX_PROJECTS_3]: t('feature_projects_3'),
+    [FeatureKey.UNLIMITED_PROJECTS]: t('feature_unlimited'),
+    [FeatureKey.AI_CREDITS_50]: t('feature_ai_50'),
+    [FeatureKey.AI_CREDITS_500]: t('feature_ai_500'),
+    [FeatureKey.AI_CREDITS_2000]: t('feature_ai_2000'),
+    [FeatureKey.UNLIMITED_AI]: t('feature_unlimited'),
+    [FeatureKey.TEAM_SHARING_DISABLED]: t('feature_disabled'),
+    [FeatureKey.TEAM_SHARING_2]: t('feature_team_2'),
+    [FeatureKey.TEAM_SHARING_10]: t('feature_team_10'),
+    [FeatureKey.TEAM_SHARING_UNLIMITED]: t('feature_unlimited'),
+    [FeatureKey.EXPORT_DISABLED]: t('feature_disabled'),
+    [FeatureKey.EXPORT_BASIC]: t('feature_export_basic'),
+    [FeatureKey.EXPORT_ADVANCED]: t('feature_export_advanced'),
+    [FeatureKey.PHASE_3_LIMIT]: t('feature_phase_3'),
+    [FeatureKey.PHASE_5_LIMIT]: t('feature_phase_5'),
+    [FeatureKey.ALL_PHASES]: t('feature_all_phases'),
+    [FeatureKey.STORAGE_50MB]: t('feature_storage_50mb'),
+    [FeatureKey.STORAGE_500MB]: t('feature_storage_500mb'),
+    [FeatureKey.STORAGE_5GB]: t('feature_storage_5gb'),
+    [FeatureKey.STORAGE_UNLIMITED]: t('feature_unlimited'),
   };
 
   const planLabels: Record<string, string> = {
-    free: 'رایگان (Free)',
-    starter: 'شروع (Starter)',
-    pro: 'حرفه‌ای (Pro)',
-    enterprise: 'سازمانی (Enterprise)',
+    free: t('plan_free'),
+    starter: t('plan_starter'),
+    pro: t('plan_pro'),
+    enterprise: t('plan_enterprise'),
   };
 
   const getRoleName = (role: string) => {
     const roleNames: Record<string, string> = {
-      entrepreneur: ' کارآفرین',
-      investor: ' سرمایه‌گذار',
-      programmer: ' برنامه‌نویس',
-      consultant: ' مشاور',
-      designer: ' طراح',
-      admin: ' ادمین',
+      entrepreneur: t('role_entrepreneur'),
+      investor: t('role_investor'),
+      programmer: t('role_programmer'),
+      consultant: t('role_consultant'),
+      designer: t('role_designer'),
+      admin: t('role_admin'),
     };
     return roleNames[role] || role;
   };
@@ -168,7 +170,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
   if (loading && !selectedUser) {
     return (
       <div className="p-6 text-center">
-        <p className="text-gray-400">در حال بارگذاری...</p>
+        <p className="text-gray-400">{t('loading')}</p>
       </div>
     );
   }
@@ -180,9 +182,9 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
           onClick={onBack}
           className="mb-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg"
         >
-          بازگشت
+          {t('back')}
         </button>
-        <p className="text-red-400">کاربر یافت نشد</p>
+        <p className="text-red-400">{t('user_not_found')}</p>
       </div>
     );
   }
@@ -195,26 +197,26 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
           onClick={onBack}
           className="mb-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
         >
-          بازگشت به لیست کاربران
+          {t('back_to_users_list')}
         </button>
-        <h2 className="text-2xl font-bold text-white mb-4">جزئیات کاربر</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">{t('user_details')}</h2>
       </div>
 
       {/* User Info Card */}
       <div className="bg-gray-800 rounded-lg p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="text-gray-400 text-sm">ایمیل:</label>
+            <label className="text-gray-400 text-sm">{t('email')}:</label>
             <p className="text-white font-medium">{selectedUser.email}</p>
           </div>
           <div>
-            <label className="text-gray-400 text-sm">پلن فعلی:</label>
+            <label className="text-gray-400 text-sm">{t('current_plan')}:</label>
             <p className="text-white font-medium">
               {planLabels[selectedUser.current_plan || 'free']}
             </p>
           </div>
           <div className="md:col-span-2">
-            <label className="text-gray-400 text-sm mb-2 block">شناسه کاربر (User ID):</label>
+            <label className="text-gray-400 text-sm mb-2 block">{t('user_id')}:</label>
             <div className="flex items-center gap-2 bg-gray-900 p-3 rounded border border-gray-700">
               <code className="text-green-400 text-sm flex-1 font-mono break-all">
                 {selectedUser.id}
@@ -222,7 +224,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
               <button
                 onClick={handleCopyUserId}
                 className="p-2 hover:bg-gray-700 rounded transition-colors flex-shrink-0"
-                title="کپی کردن"
+                title={t('copy')}
               >
                 {copySuccess ? (
                   <Check className="w-5 h-5 text-green-400" />
@@ -237,7 +239,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
 
       {/* Plan Selection */}
       <div className="bg-gray-800 rounded-lg p-6 mb-6">
-        <h3 className="text-xl font-bold text-white mb-4">انتخاب پلن</h3>
+        <h3 className="text-xl font-bold text-white mb-4">{t('select_plan')}</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {(['free', 'starter', 'pro', 'enterprise'] as const).map((plan) => (
             <label
@@ -281,7 +283,7 @@ export const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId, onBack
 
       {/* Feature Management */}
       <div className="bg-gray-800 rounded-lg p-6">
-        <h3 className="text-xl font-bold text-white mb-4">مدیریت فیچرها</h3>
+        <h3 className="text-xl font-bold text-white mb-4">{t('feature_management')}</h3>
 
         <div className="space-y-6">
           {Object.entries(featuresByCategory).map(([categoryKey, features]) => (

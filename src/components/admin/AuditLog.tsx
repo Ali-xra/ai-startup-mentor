@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { featureFlagsService } from '../../services/featureFlagsService';
 import { Loader } from '../Loader';
 
@@ -13,6 +14,7 @@ interface AuditLogEntry {
 }
 
 export const AuditLog: React.FC = () => {
+  const { t, i18n } = useTranslation('admin');
   const [logs, setLogs] = useState<AuditLogEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterAction, setFilterAction] = useState<string>('all');
@@ -34,12 +36,12 @@ export const AuditLog: React.FC = () => {
 
   const getActionLabel = (action: string): { text: string; color: string; icon: string } => {
     const actions: Record<string, { text: string; color: string; icon: string }> = {
-      grant_feature: { text: 'فعال‌سازی فیچر', color: 'green', icon: '' },
-      revoke_feature: { text: 'غیرفعال‌سازی فیچر', color: 'red', icon: '' },
-      revoke_all_features: { text: 'حذف تمام فیچرها', color: 'red', icon: '' },
-      grant_plan: { text: 'فعال‌سازی پلن', color: 'blue', icon: '' },
-      create_admin: { text: 'ایجاد ادمین', color: 'purple', icon: '' },
-      delete_admin: { text: 'حذف ادمین', color: 'red', icon: '' },
+      grant_feature: { text: t('action_grant_feature'), color: 'green', icon: '' },
+      revoke_feature: { text: t('action_revoke_feature'), color: 'red', icon: '' },
+      revoke_all_features: { text: t('action_revoke_all_features'), color: 'red', icon: '' },
+      grant_plan: { text: t('action_grant_plan'), color: 'blue', icon: '' },
+      create_admin: { text: t('action_create_admin'), color: 'purple', icon: '' },
+      delete_admin: { text: t('action_delete_admin'), color: 'red', icon: '' },
     };
 
     return actions[action] || { text: action, color: 'slate', icon: '' };
@@ -65,7 +67,7 @@ export const AuditLog: React.FC = () => {
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">مجموع لاگ‌ها</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{t('total_logs')}</p>
               <p className="text-3xl font-bold text-slate-800 dark:text-slate-100 mt-2">
                 {logs.length}
               </p>
@@ -77,7 +79,9 @@ export const AuditLog: React.FC = () => {
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">فعال‌سازی فیچر</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">
+                {t('feature_activations')}
+              </p>
               <p className="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">
                 {logs.filter((l) => l.action === 'grant_feature').length}
               </p>
@@ -89,7 +93,7 @@ export const AuditLog: React.FC = () => {
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">غیرفعال‌سازی</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{t('deactivations')}</p>
               <p className="text-3xl font-bold text-red-600 dark:text-red-400 mt-2">
                 {logs.filter((l) => l.action === 'revoke_feature').length}
               </p>
@@ -101,7 +105,7 @@ export const AuditLog: React.FC = () => {
         <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">فعال‌سازی پلن</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{t('plan_changes')}</p>
               <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">
                 {logs.filter((l) => l.action.includes('plan')).length}
               </p>
@@ -114,7 +118,9 @@ export const AuditLog: React.FC = () => {
       {/* Filters */}
       <div className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm">
         <div className="flex items-center gap-4 flex-wrap">
-          <span className="font-medium text-slate-700 dark:text-slate-300">فیلتر:</span>
+          <span className="font-medium text-slate-700 dark:text-slate-300">
+            {t('filter_by_action')}:
+          </span>
           <button
             onClick={() => setFilterAction('all')}
             className={`px-4 py-2 rounded-lg transition-colors ${
@@ -123,7 +129,7 @@ export const AuditLog: React.FC = () => {
                 : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
             }`}
           >
-            همه ({logs.length})
+            {t('all_actions')} ({logs.length})
           </button>
           {uniqueActions.map((action) => {
             const { text, color, icon } = getActionLabel(action);
@@ -164,19 +170,21 @@ export const AuditLog: React.FC = () => {
                       {text}
                     </span>
                     <span className="text-sm text-slate-600 dark:text-slate-400">
-                      {new Date(log.created_at).toLocaleString('fa-IR')}
+                      {new Date(log.created_at).toLocaleString(
+                        i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+                      )}
                     </span>
                   </div>
                   <div className="space-y-1 text-sm">
                     <p className="text-slate-700 dark:text-slate-300">
-                      <span className="font-medium">Admin ID:</span>{' '}
+                      <span className="font-medium">{t('admin_user')}:</span>{' '}
                       <code className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded font-mono text-xs">
                         {log.admin_id.slice(0, 8)}...
                       </code>
                     </p>
                     {log.target_user_id && (
                       <p className="text-slate-700 dark:text-slate-300">
-                        <span className="font-medium">Target User:</span>{' '}
+                        <span className="font-medium">{t('target_user')}:</span>{' '}
                         <code className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded font-mono text-xs">
                           {log.target_user_id.slice(0, 8)}...
                         </code>
@@ -185,7 +193,7 @@ export const AuditLog: React.FC = () => {
                     {log.details && Object.keys(log.details).length > 0 && (
                       <details className="mt-2">
                         <summary className="cursor-pointer text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium">
-                          جزئیات بیشتر
+                          {t('details')}
                         </summary>
                         <pre className="mt-2 p-3 bg-slate-50 dark:bg-slate-900 rounded text-xs overflow-x-auto">
                           {JSON.stringify(log.details, null, 2)}
@@ -203,9 +211,7 @@ export const AuditLog: React.FC = () => {
       {filteredLogs.length === 0 && (
         <div className="bg-white dark:bg-slate-800 rounded-lg p-12 text-center">
           <div className="text-6xl mb-4"></div>
-          <p className="text-slate-600 dark:text-slate-400 text-lg">
-            {filterAction === 'all' ? 'هیچ لاگی ثبت نشده است' : 'لاگی با این فیلتر یافت نشد'}
-          </p>
+          <p className="text-slate-600 dark:text-slate-400 text-lg">{t('no_logs')}</p>
         </div>
       )}
 
@@ -214,10 +220,13 @@ export const AuditLog: React.FC = () => {
         <div className="flex items-start gap-3">
           <div className="text-2xl">ℹ</div>
           <div className="flex-1">
-            <h4 className="font-semibold text-amber-900 dark:text-amber-300 mb-1">Audit Log</h4>
+            <h4 className="font-semibold text-amber-900 dark:text-amber-300 mb-1">
+              {t('audit_log_title')}
+            </h4>
             <p className="text-sm text-amber-800 dark:text-amber-400">
-              تمام عملیات ادمین‌ها در این قسمت ثبت و نمایش داده می‌شود. این لاگ‌ها برای امنیت و
-              بررسی تغییرات ضروری هستند.
+              {i18n.language === 'fa'
+                ? 'تمام عملیات ادمین‌ها در این قسمت ثبت و نمایش داده می‌شود. این لاگ‌ها برای امنیت و بررسی تغییرات ضروری هستند.'
+                : 'All admin operations are recorded and displayed in this section. These logs are essential for security and auditing changes.'}
             </p>
           </div>
         </div>
