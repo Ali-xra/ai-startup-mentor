@@ -27,5 +27,18 @@
   "of": "از",
   "project_progress": "پیشرفت پروژه",
   "like": "لایک کردن",
-  "unlike": "حذف لایک"
+  "unlike": "حذف لایک",
+  "error_loading_comments": "خطا در بارگذاری نظرات",
+  "must_login_to_comment": "برای ارسال نظر باید وارد شوید",
+  "error_submitting_comment": "خطا در ارسال نظر. لطفاً دوباره تلاش کنید.",
+  "confirm_delete_comment": "آیا از حذف این نظر مطمئن هستید؟",
+  "error_deleting_comment": "خطا در حذف نظر",
+  "no_comments_yet": "هنوز نظری ثبت نشده",
+  "be_first_to_comment": "اولین نفری باشید که نظر می‌دهید!",
+  "delete_comment": "حذف نظر",
+  "edited": "(ویرایش شده)",
+  "write_comment_placeholder": "نظر خود را بنویسید...",
+  "close": "بستن",
+  "submitting": "در حال ارسال...",
+  "submit_comment": "ارسال نظر"
 }

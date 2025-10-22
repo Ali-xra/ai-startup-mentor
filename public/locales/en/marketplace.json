@@ -27,5 +27,18 @@
   "of": "of",
   "project_progress": "Project Progress",
   "like": "Like",
-  "unlike": "Unlike"
+  "unlike": "Unlike",
+  "error_loading_comments": "Error loading comments",
+  "must_login_to_comment": "You must be logged in to post comments",
+  "error_submitting_comment": "Error submitting comment. Please try again.",
+  "confirm_delete_comment": "Are you sure you want to delete this comment?",
+  "error_deleting_comment": "Error deleting comment",
+  "no_comments_yet": "No comments yet",
+  "be_first_to_comment": "Be the first to comment!",
+  "delete_comment": "Delete comment",
+  "edited": "edited",
+  "write_comment_placeholder": "Write your comment...",
+  "close": "Close",
+  "submitting": "Submitting...",
+  "submit_comment": "Submit Comment"
 }

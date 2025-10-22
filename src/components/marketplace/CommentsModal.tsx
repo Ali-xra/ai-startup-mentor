@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { PublicProject, ProjectComment } from '../../services/publicProjectsService';
 import { PublicProjectsService } from '../../services/publicProjectsService';
 
@@ -9,6 +10,7 @@ interface CommentsModalProps {
 }
 
 export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, onClose }) => {
+  const { t, i18n } = useTranslation('marketplace');
   const [comments, setComments] = useState<ProjectComment[]>([]);
   const [newComment, setNewComment] = useState('');
   const [loading, setLoading] = useState(false);
@@ -31,7 +33,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
       setComments(data);
     } catch (err) {
       console.error('Error loading comments:', err);
-      setError('خطا در بارگذاری نظرات');
+      setError(t('error_loading_comments'));
     } finally {
       setLoading(false);
     }
@@ -52,9 +54,9 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
     } catch (err: any) {
       console.error('Error adding comment:', err);
       if (err.message?.includes('not authenticated')) {
-        setError('برای ارسال نظر باید وارد شوید');
+        setError(t('must_login_to_comment'));
       } else {
-        setError('خطا در ارسال نظر. لطفاً دوباره تلاش کنید.');
+        setError(t('error_submitting_comment'));
       }
     } finally {
       setSubmitting(false);
@@ -62,14 +64,14 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
   };
 
   const handleDeleteComment = async (commentId: string) => {
-    if (!confirm('آیا از حذف این نظر مطمئن هستید؟')) return;
+    if (!confirm(t('confirm_delete_comment'))) return;
 
     try {
       await PublicProjectsService.deleteComment(commentId);
       setComments((prev) => prev.filter((c) => c.id !== commentId));
     } catch (err) {
       console.error('Error deleting comment:', err);
-      setError('خطا در حذف نظر');
+      setError(t('error_deleting_comment'));
     }
   };
 
@@ -81,7 +83,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
         {/* هدر */}
         <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">نظرات</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('comments')}</h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{project.title}</p>
           </div>
           <button
@@ -146,11 +148,9 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
                 />
               </svg>
               <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                هنوز نظری ثبت نشده
+                {t('no_comments_yet')}
               </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                اولین نفری باشید که نظر می‌دهید!
-              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('be_first_to_comment')}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -180,13 +180,16 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
                           {comment.user_name}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(comment.created_at).toLocaleDateString('fa-IR', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
+                          {new Date(comment.created_at).toLocaleDateString(
+                            i18n.language === 'fa' ? 'fa-IR' : 'en-US',
+                            {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            }
+                          )}
                         </p>
                       </div>
                     </div>
@@ -195,7 +198,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
                     <button
                       onClick={() => handleDeleteComment(comment.id)}
                       className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                      title="حذف نظر"
+                      title={t('delete_comment')}
                     >
                       <svg
                         className="w-4 h-4"
@@ -221,7 +224,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
                   {/* نمایش ویرایش شده */}
                   {comment.updated_at !== comment.created_at && (
                     <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 italic">
-                      (ویرایش شده)
+                      {t('edited')}
                     </p>
                   )}
                 </div>
@@ -236,7 +239,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder="نظر خود را بنویسید..."
+              placeholder={t('write_comment_placeholder')}
               rows={3}
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 resize-none"
               disabled={submitting}
@@ -247,7 +250,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
                 onClick={onClose}
                 className="px-4 py-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
-                بستن
+                {t('close')}
               </button>
               <button
                 type="submit"
@@ -271,10 +274,10 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ project, isOpen, o
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       />
                     </svg>
-                    در حال ارسال...
+                    {t('submitting')}
                   </span>
                 ) : (
-                  'ارسال نظر'
+                  t('submit_comment')
                 )}
               </button>
             </div>
