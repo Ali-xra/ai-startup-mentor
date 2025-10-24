@@ -1249,7 +1249,268 @@ scripts/
 
 ---
 
-## Task 1.5.3: Migration کامپوننت‌های اصلی
+## 📊 وضعیت Migration و تحلیل جامع
+
+### 🔍 خلاصه وضعیت:
+
+- ✅ Setup کامل شد: i18next config + اسکریپت‌های ترجمه
+- ✅ JSON files آماده: 201 کلید برای en و fa
+- ❌ **27 فایل هنوز از سیستم قدیمی استفاده می‌کنند** (`src/i18n.ts`)
+- ⚠️ **958 مشکل linting** باید حل شوند (64 error + 894 warning)
+- ⚠️ **Bundle size بزرگ**: 950KB (نیاز به code splitting)
+
+---
+
+### 📋 فایل‌های باقی‌مانده برای Migration (27 فایل):
+
+#### Priority A (Critical - Core Components): 8 فایل
+
+این فایل‌ها اولویت بالا دارند چون در تمام صفحات استفاده می‌شوند.
+
+- [ ] [src/contexts/AuthContext.tsx](src/contexts/AuthContext.tsx) - Auth messages
+- [ ] [src/components/Header.tsx](src/components/Header.tsx) - Navigation labels
+- [ ] [src/components/SettingsMenu.tsx](src/components/SettingsMenu.tsx) - Settings options
+- [ ] [src/components/PublicNavigation.tsx](src/components/PublicNavigation.tsx) - Public menu
+- [ ] [src/components/RoleSelection.tsx](src/components/RoleSelection.tsx) - Role titles
+- [ ] [src/pages/LandingPage.tsx](src/pages/LandingPage.tsx) - Landing content
+- [ ] [src/pages/AuthPage.tsx](src/pages/AuthPage.tsx) - Login/Signup forms
+- [ ] [src/pages/AppContent.tsx](src/pages/AppContent.tsx) - Main app layout
+
+**زمان تخمینی:** 4-5 ساعت | **Namespace:** `common`, `auth`
+
+---
+
+#### Priority B (Important - Hooks & Services): 6 فایل
+
+این hooks در چندین component استفاده می‌شوند.
+
+- [ ] [src/hooks/useChatManager.ts](src/hooks/useChatManager.ts) - Chat messages
+- [ ] [src/hooks/useExportManager.ts](src/hooks/useExportManager.ts) - Export labels
+- [ ] [src/hooks/useStageManager.ts](src/hooks/useStageManager.ts) - Stage descriptions
+- [ ] [src/hooks/useStartupJourney.ts](src/hooks/useStartupJourney.ts) - Journey flow text
+- [ ] [src/hooks/useProjectManager.ts](src/hooks/useProjectManager.ts) - Project messages
+- [ ] [src/hooks/useFeatureFlags.ts](src/hooks/useFeatureFlags.ts) - Feature names
+
+**زمان تخمینی:** 3-4 ساعت | **Namespace:** `entrepreneur`, `common`
+
+---
+
+#### Priority C (Entrepreneur Features): 8 فایل
+
+صفحات و کامپوننت‌های مخصوص کارآفرینان.
+
+- [ ] [src/components/entrepreneur/EntrepreneurDashboard.tsx](src/components/entrepreneur/EntrepreneurDashboard.tsx)
+- [ ] [src/components/entrepreneur/EntrepreneurProfile.tsx](src/components/entrepreneur/EntrepreneurProfile.tsx)
+- [ ] [src/components/entrepreneur/ProjectWorkspace.tsx](src/components/entrepreneur/ProjectWorkspace.tsx)
+- [ ] [src/components/entrepreneur/ProjectsList.tsx](src/components/entrepreneur/ProjectsList.tsx)
+- [ ] [src/components/entrepreneur/ShareModal.tsx](src/components/entrepreneur/ShareModal.tsx)
+- [ ] [src/components/ChatInterface.tsx](src/components/ChatInterface.tsx)
+- [ ] [src/components/ProjectSelectionScreen.tsx](src/components/ProjectSelectionScreen.tsx)
+- [ ] [src/components/LimitReachedModal.tsx](src/components/LimitReachedModal.tsx)
+
+**زمان تخمینی:** 4-5 ساعت | **Namespace:** `entrepreneur`
+
+---
+
+#### Priority D (Other Pages & Features): 5 فایل
+
+صفحات عمومی و feature های خاص.
+
+- [ ] [src/pages/PricingPage.tsx](src/pages/PricingPage.tsx) - Pricing content
+- [ ] [src/pages/AboutPage.tsx](src/pages/AboutPage.tsx) - About content
+- [ ] [src/components/investor/InvestorLayout.tsx](src/components/investor/InvestorLayout.tsx)
+- [ ] [src/components/BlueprintPreview.tsx](src/components/BlueprintPreview.tsx)
+- [ ] [src/components/admin/UserDetailsPage.tsx](src/components/admin/UserDetailsPage.tsx)
+
+**زمان تخمینی:** 2-3 ساعت | **Namespace:** `common`, `investor`, `admin`
+
+---
+
+### 🗂️ جدول Namespace Mapping
+
+راهنمای انتخاب namespace مناسب برای هر فایل:
+
+| فایل                      | Namespace اصلی | Namespace‌های ثانویه | توضیحات                |
+| ------------------------- | -------------- | -------------------- | ---------------------- |
+| AuthPage.tsx              | `auth`         | `common`             | فرم‌های login/signup   |
+| AuthContext.tsx           | `auth`         | -                    | Auth errors & messages |
+| LandingPage.tsx           | `common`       | -                    | صفحه اصلی              |
+| Header.tsx                | `common`       | `auth`               | Navigation + user menu |
+| PublicNavigation.tsx      | `common`       | -                    | Menu عمومی             |
+| RoleSelection.tsx         | `auth`         | -                    | انتخاب نقش             |
+| EntrepreneurDashboard.tsx | `entrepreneur` | `common`             | Dashboard کارآفرین     |
+| EntrepreneurProfile.tsx   | `entrepreneur` | `auth`               | پروفایل کاربر          |
+| ProjectWorkspace.tsx      | `entrepreneur` | -                    | محیط کار پروژه         |
+| ProjectsList.tsx          | `entrepreneur` | -                    | لیست پروژه‌ها          |
+| ShareModal.tsx            | `entrepreneur` | -                    | اشتراک‌گذاری پروژه     |
+| ChatInterface.tsx         | `entrepreneur` | `common`             | رابط چت                |
+| useChatManager.ts         | `entrepreneur` | -                    | مدیریت چت              |
+| useStageManager.ts        | `entrepreneur` | -                    | مدیریت مراحل           |
+| useProjectManager.ts      | `entrepreneur` | -                    | مدیریت پروژه           |
+| InvestorLayout.tsx        | `investor`     | `common`             | Layout سرمایه‌گذار     |
+| PricingPage.tsx           | `common`       | -                    | صفحه قیمت‌گذاری        |
+| AboutPage.tsx             | `common`       | -                    | صفحه درباره ما         |
+| UserDetailsPage.tsx       | `admin`        | `auth`               | جزئیات کاربر (admin)   |
+
+---
+
+### 📖 مثال‌های Migration
+
+#### مثال 1: Component ساده
+
+**قبل (سیستم قدیمی):**
+
+```tsx
+import { i18n } from '../i18n';
+import { useLanguage } from '../contexts/LanguageContext';
+
+function LoginButton() {
+  const { language } = useLanguage();
+  return <button>{i18n[language].auth.loginButton}</button>;
+}
+```
+
+**بعد (i18next):**
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function LoginButton() {
+  const { t } = useTranslation('auth');
+  return <button>{t('loginButton')}</button>;
+}
+```
+
+---
+
+#### مثال 2: Multiple Namespaces
+
+**قبل:**
+
+```tsx
+const welcomeMsg = i18n[language].common.welcome;
+const loginTitle = i18n[language].auth.loginTitle;
+```
+
+**بعد:**
+
+```tsx
+const { t: tCommon } = useTranslation('common');
+const { t: tAuth } = useTranslation('auth');
+
+const welcomeMsg = tCommon('welcome');
+const loginTitle = tAuth('loginTitle');
+```
+
+---
+
+#### مثال 3: Dynamic Values
+
+**قبل:**
+
+```tsx
+const msg = `${i18n[language].common.hello}, ${userName}!`;
+```
+
+**بعد:**
+
+```tsx
+const { t } = useTranslation('common');
+const msg = t('helloUser', { name: userName });
+
+// در common.json:
+// "helloUser": "Hello, {{name}}!"
+```
+
+---
+
+### 🐛 Linting Issues (958 مشکل)
+
+#### Breakdown by Category:
+
+**❌ Errors (64 مشکل):**
+
+- React Hooks violations: ~30
+  - "React Hook useEffect has missing dependencies"
+  - "Calling setState within useEffect without cleanup"
+- TypeScript errors: ~20
+  - "Property does not exist on type"
+  - "Type mismatch"
+- Import/Export issues: ~14
+  - "Module not found"
+  - "Unused imports"
+
+**⚠️ Warnings (894 مشکل):**
+
+- `console.log` statements: ~600
+  - Debug logs که باید حذف شوند
+- `@ts-ignore` comments: ~150
+  - باید به `@ts-expect-error` تبدیل شوند
+- `react/no-unescaped-entities`: ~100
+  - کوتیشن‌های escape نشده در JSX
+- Unused variables: ~44
+  - متغیرهای تعریف شده ولی استفاده نشده
+
+#### Priority برای حل:
+
+1. **Priority 1 (Critical):** Fix 64 errors - قبل از production
+2. **Priority 2 (High):** Remove ~600 console.log - قبل از production
+3. **Priority 3 (Medium):** Fix @ts-ignore to @ts-expect-error
+4. **Priority 4 (Low):** Fix react/no-unescaped-entities و unused vars
+
+**زمان تخمینی کل:** 6-8 ساعت
+
+---
+
+### 🎯 Priority Matrix
+
+| Task                                            | Priority    | Effort | Impact | Dependencies | زمان تخمینی |
+| ----------------------------------------------- | ----------- | ------ | ------ | ------------ | ----------- |
+| **Migration Tasks**                             |
+| Task 1.5.3: Core Migration (Priority A)         | 🔴 Critical | High   | High   | 1.5.1, 1.5.2 | 4-5 ساعت    |
+| Task 1.5.4: Hooks Migration (Priority B)        | 🟡 High     | Medium | High   | 1.5.3        | 3-4 ساعت    |
+| Task 1.5.5: Entrepreneur Migration (Priority C) | 🟡 High     | High   | Medium | 1.5.3, 1.5.4 | 4-5 ساعت    |
+| Task 1.5.6: Other Pages Migration (Priority D)  | 🟢 Medium   | Low    | Low    | 1.5.3        | 2-3 ساعت    |
+| Task 1.5.7: Cleanup & Optimization              | 🟢 Medium   | Medium | Medium | همه          | 2-3 ساعت    |
+| **Linting Tasks**                               |
+| Fix 64 Linting Errors                           | 🔴 Critical | Medium | High   | -            | 3-4 ساعت    |
+| Remove 600 console.log                          | 🟡 High     | High   | Medium | -            | 2-3 ساعت    |
+| Fix 150 @ts-ignore warnings                     | 🟡 High     | Medium | Medium | -            | 1-2 ساعت    |
+| Fix other warnings (144)                        | 🟢 Low      | Low    | Low    | -            | 1 ساعت      |
+| **Performance Tasks**                           |
+| Code Splitting (950KB → <500KB)                 | 🟡 High     | High   | High   | 1.5.7        | 3-4 ساعت    |
+
+**زمان تخمینی کل Phase 1.5:** 28-36 ساعت (~4-5 روز کاری)
+
+---
+
+### 📅 پیشنهاد Timeline
+
+**روز 1-2: Core Migration**
+
+- Priority A files (8 فایل)
+- Fix critical linting errors (64 errors)
+
+**روز 3: Hooks & Features**
+
+- Priority B files (6 فایل)
+- Priority C files - part 1 (4 فایل)
+
+**روز 4: Features & Pages**
+
+- Priority C files - part 2 (4 فایل)
+- Priority D files (5 فایل)
+
+**روز 5: Cleanup & Optimization**
+
+- Remove console.log (600)
+- Fix remaining warnings
+- Code splitting
+- Final testing
+
+---
+
+## Task 1.5.3: Migration کامپوننت‌های اصلی (Priority A)
 
 **وضعیت:** ❌ انجام نشده (0%)
 **زمان تخمینی:** ۴-۵ ساعت
@@ -1280,48 +1541,79 @@ function MarketplacePage() {
 
 ---
 
-## Task 1.5.4: Migration صفحات Marketplace
+## Task 1.5.4: Migration Hooks & Services (Priority B)
 
 **وضعیت:** ❌ انجام نشده (0%)
 **زمان تخمینی:** ۳-۴ ساعت
-**اولویت:** 🟡 متوسط
+**اولویت:** 🟡 بالا
+
+این hooks در چندین component استفاده می‌شوند، پس تغییراتشون تأثیر زیادی داره.
 
 ### Subtasks:
 
-- [ ] استخراج متن‌های MarketplacePage.tsx
-- [ ] ساخت marketplace.json برای en و fa
-- [ ] Migration کامپوننت‌های مرتبط
-- [ ] تست کامل
+- [ ] Migration useChatManager.ts (Chat messages & errors)
+- [ ] Migration useExportManager.ts (Export labels & notifications)
+- [ ] Migration useStageManager.ts (Stage descriptions & prompts)
+- [ ] Migration useStartupJourney.ts (Journey flow text)
+- [ ] Migration useProjectManager.ts (Project CRUD messages)
+- [ ] Migration useFeatureFlags.ts (Feature names & descriptions)
+- [ ] تست کامل integration با components
+
+### 📝 یادداشت‌ها:
+
+- این hooks باید بعد از Priority A migrate بشن
+- Namespace اصلی: `entrepreneur`, `common`
 
 ---
 
-## Task 1.5.5: Migration صفحات Entrepreneur
-
-**وضعیت:** ❌ انجام نشده (0%)
-**زمان تخمینی:** ۳-۴ ساعت
-**اولویت:** 🟡 متوسط
-
-### Subtasks:
-
-- [ ] Migration EntrepreneurDashboard
-- [ ] Migration ProjectsList
-- [ ] Migration SimpleNewProjectPage
-- [ ] تست
-
----
-
-## Task 1.5.6: Migration صفحات Landing/Pricing/About
+## Task 1.5.5: Migration Entrepreneur Features (Priority C)
 
 **وضعیت:** ❌ انجام نشده (0%)
 **زمان تخمینی:** ۴-۵ ساعت
 **اولویت:** 🟡 متوسط
 
+صفحات و کامپوننت‌های مخصوص کارآفرینان.
+
 ### Subtasks:
 
-- [ ] Migration LandingPage.tsx
+- [ ] Migration EntrepreneurDashboard.tsx
+- [ ] Migration EntrepreneurProfile.tsx
+- [ ] Migration ProjectWorkspace.tsx
+- [ ] Migration ProjectsList.tsx
+- [ ] Migration ShareModal.tsx
+- [ ] Migration ChatInterface.tsx
+- [ ] Migration ProjectSelectionScreen.tsx
+- [ ] Migration LimitReachedModal.tsx
+- [ ] تست کامل entrepreneur journey
+
+### 📝 یادداشت‌ها:
+
+- Namespace اصلی: `entrepreneur`
+- این components به hooks (Task 1.5.4) وابسته هستند
+
+---
+
+## Task 1.5.6: Migration Other Pages (Priority D)
+
+**وضعیت:** ❌ انجام نشده (0%)
+**زمان تخمینی:** ۲-۳ ساعت
+**اولویت:** 🟢 متوسط
+
+صفحات عمومی و feature های خاص.
+
+### Subtasks:
+
 - [ ] Migration PricingPage.tsx
 - [ ] Migration AboutPage.tsx
-- [ ] تست
+- [ ] Migration InvestorLayout.tsx
+- [ ] Migration BlueprintPreview.tsx
+- [ ] Migration admin/UserDetailsPage.tsx
+- [ ] تست کامل
+
+### 📝 یادداشت‌ها:
+
+- این صفحات اولویت پایین‌تری دارند
+- Namespace: `common`, `investor`, `admin`
 
 ---
 
@@ -1333,14 +1625,22 @@ function MarketplacePage() {
 
 ### Subtasks:
 
-- [ ] حذف src/i18n.ts قدیمی
+- [ ] حذف src/i18n.ts قدیمی (859 خط)
 - [ ] بررسی و حذف translationService.ts (اگر لازم نباشد)
+- [ ] Remove ~600 console.log statements
+- [ ] Fix @ts-ignore → @ts-expect-error (150 موارد)
 - [ ] تست production build
-- [ ] بررسی bundle size
+- [ ] بررسی bundle size (هدف: < 500KB)
+- [ ] Implement code splitting با React.lazy()
+
+### 📝 یادداشت‌ها:
+
+- این task بعد از migration کامل همه فایل‌ها انجام می‌شه
+- شامل linting cleanup هم می‌شه
 
 ---
 
-## Task 1.5.8: مستندسازی و Commit
+## Task 1.5.8: مستندسازی و Final Testing
 
 **وضعیت:** ❌ انجام نشده (0%)
 **زمان تخمینی:** ۱-۲ ساعت
@@ -1351,26 +1651,73 @@ function MarketplacePage() {
 - [ ] نوشتن I18N_GUIDE.md
   - راهنمای اضافه کردن زبان جدید
   - راهنمای اضافه کردن ترجمه جدید
-  - مثال‌های کد
-- [ ] به‌روزرسانی PROJECT_PROGRESS.md
+  - راهنمای استفاده از useTranslation
+  - Best practices و anti-patterns
+  - مثال‌های کد کامل
+- [ ] به‌روزرسانی PROJECT_PROGRESS.md (این فایل!)
+- [ ] Final testing در تمام browsers
+- [ ] تست RTL (Persian) و LTR (English)
 - [ ] Git Commit با پیام کامل
+- [ ] Merge به main branch
+
+### 📝 یادداشت‌ها:
+
+- این آخرین task فاز 1.5 است
+- بعد از این task، فاز 1.5 کامل می‌شه ✅
 
 ---
 
 ## 📊 محاسبه پیشرفت فاز ۱.۵:
 
 ```
-Task 1.5.1: i18next Setup              [100%] ✅
-Task 1.5.2: اسکریپت‌های ترجمه         [100%] ✅
-Task 1.5.3: Migration کامپوننت‌های اصلی [0%] ❌
-Task 1.5.4: Migration Marketplace       [0%] ❌
-Task 1.5.5: Migration Entrepreneur      [0%] ❌
-Task 1.5.6: Migration Landing/Pricing   [0%] ❌
-Task 1.5.7: بهینه‌سازی و Cleanup       [0%] ❌
-Task 1.5.8: مستندسازی                 [0%] ❌
+Task 1.5.1: i18next Setup                          [██████████] 100% ✅
+Task 1.5.2: اسکریپت‌های ترجمه                     [██████████] 100% ✅
+Task 1.5.3: Migration Core (Priority A - 8 files)  [░░░░░░░░░░]   0% ❌
+Task 1.5.4: Migration Hooks (Priority B - 6 files) [░░░░░░░░░░]   0% ❌
+Task 1.5.5: Migration Entrepreneur (Priority C)     [░░░░░░░░░░]   0% ❌
+Task 1.5.6: Migration Other Pages (Priority D)      [░░░░░░░░░░]   0% ❌
+Task 1.5.7: بهینه‌سازی و Cleanup                  [░░░░░░░░░░]   0% ❌
+Task 1.5.8: مستندسازی و Final Testing             [░░░░░░░░░░]   0% ❌
 
 میانگین: (100+100+0+0+0+0+0+0) / 8 = 25%
 ```
+
+### 📈 آمار جامع:
+
+**✅ کامل شده:**
+
+- i18next config و setup
+- 201 کلید JSON برای en و fa
+- اسکریپت‌های تبدیل و ترجمه
+- ساختار فولدر و namespaces
+
+**❌ باقی‌مانده:**
+
+- 27 فایل برای migration
+- 958 مشکل linting (64 error + 894 warning)
+- Code splitting (950KB → <500KB)
+- مستندسازی کامل
+
+**⏱️ زمان تخمینی باقی‌مانده:** 26-34 ساعت (~4-5 روز کاری)
+
+### 🎯 بعدی چیه؟
+
+**Option 1: ادامه فاز 1.5 (پیشنهادی)**
+
+- Start with Task 1.5.3: Migration Priority A files
+- این 8 فایل core هستند و در همه جا استفاده می‌شن
+- زمان: 4-5 ساعت
+
+**Option 2: شروع فاز 3 (Testing)**
+
+- Setup Vitest
+- نوشتن تست‌های اولیه
+- این می‌تونه موازی با migration پیش بره
+
+**Option 3: Fix Critical Linting (64 errors)**
+
+- حل کردن 64 error که مانع production می‌شن
+- زمان: 3-4 ساعت
 
 ---
 
