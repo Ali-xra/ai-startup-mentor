@@ -56,5 +56,12 @@
   "delete_project_modal_title": "[IS] Confirm Deletion",
   "delete_project_modal_message": "[IS] Are you sure you want to permanently delete the project",
   "delete_project_modal_confirm_button": "[IS] Delete",
-  "delete_project_modal_cancel_button": "[IS] Cancel"
+  "delete_project_modal_cancel_button": "[IS] Cancel",
+  "request_beta_plan": "[IS] Request Beta Plan",
+  "request_pending_title": "[IS] Upgrade Request Pending",
+  "request_pending_message": "[IS] Your plan upgrade request is under review. We will notify you as soon as it's processed.",
+  "request_approved_title": "[IS] Request Approved!",
+  "request_approved_message": "[IS] Your upgrade request has been approved! You now have access to all the features of your new plan.",
+  "current_plan_label": "[IS] Active Plan",
+  "expires_at_label": "[IS] Valid Until"
 }

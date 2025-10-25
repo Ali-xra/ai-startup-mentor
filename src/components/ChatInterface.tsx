@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Stage, StartupData } from '../types';
+import { Stage, StartupData, ChatMessage } from '../types';
 import { Loader } from './Loader';
 import { SuggestionModal } from './SuggestionModal';
 import { STAGE_TO_DATA_KEY } from '../hooks/useStartupJourney';
-import { Locale, t } from '../i18n';
+import { useTranslation } from 'react-i18next';
+import { Locale } from '../i18n';
 import { getStageById } from '../config/stages';
 
 interface ChatInterfaceProps {
+  messages: ChatMessage[];
   isLoading: boolean;
   isComplete: boolean;
   editingStage: Stage | null;
@@ -28,6 +30,7 @@ interface ChatInterfaceProps {
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
+  messages,
   isLoading,
   isComplete,
   editingStage,
@@ -47,6 +50,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   onCancelDirectEdit,
   // onRefineEditedStage is unused but kept for future use
 }) => {
+  const { t } = useTranslation('common');
   const [input, setInput] = useState('');
   const [currentPrompt, setCurrentPrompt] = useState<string>('');
   const [currentQuestion, setCurrentQuestion] = useState<string>('');
@@ -106,7 +110,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       if (stageConfig) {
         const guidance =
           locale === 'fa' ? stageConfig.guidance_fa || '' : stageConfig.guidance_en || '';
-        const question = locale === 'fa' ? stageConfig.question_fa : stageConfig.question_en;
+        const question = locale === 'fa' ? stageConfig.question_fa || '' : stageConfig.question_en || '';
         setCurrentGuidance(guidance);
         setCurrentQuestion(question);
         setCurrentPrompt('');
@@ -125,7 +129,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       if (stageConfig) {
         const guidance =
           locale === 'fa' ? stageConfig.guidance_fa || '' : stageConfig.guidance_en || '';
-        const question = locale === 'fa' ? stageConfig.question_fa : stageConfig.question_en;
+        const question = locale === 'fa' ? stageConfig.question_fa || '' : stageConfig.question_en || '';
         setCurrentGuidance(guidance);
         setCurrentQuestion(question);
         setCurrentPrompt('');
@@ -142,7 +146,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     // اگر پروژه کامل شده و هیچ stage انتخابی نداریم، پیام تکمیل نمایش بده
     if (isComplete && !selectedStageForPreview) {
       setCurrentPrompt('');
-      setCurrentQuestion(t('chat_complete_message', locale));
+      setCurrentQuestion(t('chat_complete_message'));
       setCurrentGuidance('');
       return;
     }
@@ -173,7 +177,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               {currentGuidance && (
                 <div className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed p-3 bg-slate-100 dark:bg-slate-800/50 rounded-lg">
                   <strong className="text-slate-700 dark:text-slate-300">
-                    {locale === 'fa' ? 'راهنمایی:' : 'Guidance:'}
+                    {t('chat_guidance_label')}
                   </strong>{' '}
                   {currentGuidance}
                 </div>
@@ -201,12 +205,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               onKeyDown={handleKeyDown}
               placeholder={
                 editingStage
-                  ? locale === 'fa'
-                    ? 'متن خود را ویرایش کنید...'
-                    : 'Edit your text...'
+                  ? t('chat_edit_placeholder')
                   : suggestionModalOpen
-                    ? t('chat_placeholder_awaiting_suggestion', locale)
-                    : t('chat_placeholder_default', locale)
+                    ? t('chat_placeholder_awaiting_suggestion')
+                    : t('chat_placeholder_default')
               }
               rows={editingStage ? 8 : 2}
               className="flex-1 p-3 bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-300 resize-none text-slate-800 dark:text-slate-200"
@@ -223,7 +225,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     }}
                     disabled={isLoading}
                     className="p-3 bg-slate-400 dark:bg-slate-600 text-white font-semibold rounded-lg hover:bg-slate-500 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    title={locale === 'fa' ? 'لغو' : 'Cancel'}
+                    title={t('chat_cancel_button')}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -241,7 +243,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     onClick={handleSend}
                     disabled={!input.trim() || isLoading}
                     className="p-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    title={locale === 'fa' ? 'ذخیره' : 'Save'}
+                    title={t('chat_save_button')}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -267,7 +269,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     }}
                     disabled={isLoading || suggestionModalOpen}
                     className="p-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    title={locale === 'fa' ? 'کمک هوش مصنوعی' : 'AI Help'}
+                    title={t('chat_ai_help_button')}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +294,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     onClick={handleSend}
                     disabled={!input.trim() || isLoading || suggestionModalOpen}
                     className="p-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    title={t('chat_send_button_tooltip', locale)}
+                    title={t('chat_send_button_tooltip')}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -318,7 +320,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     }}
                     disabled={isLoading || suggestionModalOpen}
                     className="p-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    title={t('chat_suggest_button_tooltip', locale)}
+                    title={t('chat_suggest_button_tooltip')}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -345,7 +347,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         {isComplete && !editingStage && (
           <div className="p-4 bg-green-100 dark:bg-green-900/50 border-t border-green-200 dark:border-green-800">
             <div className="text-center text-green-600 dark:text-green-400 font-semibold">
-              {t('chat_complete_title', locale)}
+              {t('chat_complete_title')}
             </div>
           </div>
         )}
@@ -358,7 +360,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 disabled={isLoading}
                 className="w-full max-w-sm px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2 transition-all"
               >
-                {isLoading ? <Loader /> : t('chat_continue_to_next_section', locale)}
+                {isLoading ? <Loader /> : t('chat_continue_to_next_section')}
                 {!isLoading && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

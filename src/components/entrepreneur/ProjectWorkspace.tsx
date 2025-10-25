@@ -8,7 +8,8 @@ import { StageIndicator } from '../StageIndicator';
 import { useStartupJourney } from '../../hooks/useStartupJourney';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Locale, t } from '../../i18n';
+import { useTranslation } from 'react-i18next';
+import { Locale } from '../../i18n';
 import { Loader } from '../Loader';
 import { PublicProjectsService } from '../../services/publicProjectsService';
 
@@ -17,6 +18,7 @@ import { PublicProjectsService } from '../../services/publicProjectsService';
  * صفحه کار روی پروژه - همان AppContent قبلی اما به صورت جداگانه
  */
 export const ProjectWorkspace: React.FC = () => {
+  const { t } = useTranslation('common');
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -67,7 +69,7 @@ export const ProjectWorkspace: React.FC = () => {
   }, [journey]);
 
   const handleRestart = () => {
-    if (window.confirm(t('settings_restart_confirm', locale))) {
+    if (window.confirm(t('settings_restart_confirm'))) {
       journey.restartJourney();
     }
   };
@@ -77,21 +79,19 @@ export const ProjectWorkspace: React.FC = () => {
   };
 
   const handleExportPDF = () => {
-    alert(locale === 'fa' ? 'قابلیت Export PDF بزودی اضافه خواهد شد' : 'PDF Export coming soon');
+    alert(t('export_pdf_coming_soon'));
   };
 
   const handleExportWord = () => {
-    alert(locale === 'fa' ? 'قابلیت Export Word بزودی اضافه خواهد شد' : 'Word Export coming soon');
+    alert(t('export_word_coming_soon'));
   };
 
   const handleExportCSV = () => {
-    alert(locale === 'fa' ? 'قابلیت Export CSV بزودی اضافه خواهد شد' : 'CSV Export coming soon');
+    alert(t('export_csv_coming_soon'));
   };
 
   const handleExportExcel = () => {
-    alert(
-      locale === 'fa' ? 'قابلیت Export Excel بزودی اضافه خواهد شد' : 'Excel Export coming soon'
-    );
+    alert(t('export_excel_coming_soon'));
   };
 
   // این تابع دیگه کاری نمی‌کنه - فقط برای سازگاری با کد قدیمی
@@ -116,7 +116,6 @@ export const ProjectWorkspace: React.FC = () => {
     <div
       className={`h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 ${locale === 'fa' ? 'font-vazir' : 'font-sans'}`}
     >
-      {/* @ts-expect-error - HeaderProps will be updated in refactoring */}
       <Header
         progress={journey.progress}
         theme={theme}
@@ -151,12 +150,12 @@ export const ProjectWorkspace: React.FC = () => {
           />
         </div>
         <div className="lg:col-span-5 flex flex-col overflow-hidden">
-          {/* @ts-expect-error - ChatInterfaceProps will be updated in refactoring */}
           <ChatInterface
             messages={journey.messages}
             isLoading={journey.isLoading}
             isComplete={journey.isComplete}
             editingStage={journey.editingStage}
+            currentStage={journey.stage}
             startupData={journey.startupData}
             isReadyForNextSection={journey.isReadyForNextSection}
             suggestionModalOpen={journey.suggestionModalOpen}
@@ -176,10 +175,10 @@ export const ProjectWorkspace: React.FC = () => {
         <div className="lg:col-span-5 overflow-y-auto">
           <BlueprintPreview
             startupData={journey.startupData}
-            // @ts-expect-error - Type mismatch will be fixed in refactoring
             locale={locale}
+            currentStage={journey.stage}
             selectedStage={selectedStageForPreview}
-            onEditStage={journey.editStage}
+            onEditStage={journey.editStage as (stage: string) => void}
           />
         </div>
       </main>

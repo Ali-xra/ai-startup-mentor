@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Locale, t } from '../i18n';
+import { useTranslation } from 'react-i18next';
+import { Locale } from '../i18n';
 import { Stage } from '../types';
 import { supabase, projectMembersService } from '../services/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
@@ -36,6 +37,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
   onProjectSelect,
   locale,
 }) => {
+  const { t } = useTranslation('common');
   const { user, signOut } = useAuth();
   const { maxProjects, planName } = useFeatureFlags();
   const { checkProjectLimit, showLimitModal, limitInfo, closeLimitModal, checkAndShowLimit } =
@@ -55,6 +57,15 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
   const [pendingInvitations, setPendingInvitations] = useState<any[]>([]);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // محاسبه پلن بعدی برای درخواست ارتقا
+  // ترتیب: Free → Starter → Pro → Enterprise
+  const getNextTierPlan = (): 'starter' | 'pro' | 'enterprise' => {
+    if (planName === 'Free') return 'starter';
+    if (planName === 'Starter') return 'pro';
+    if (planName === 'Pro') return 'enterprise';
+    return 'enterprise'; // fallback
+  };
 
   const fetchProjects = useCallback(async () => {
     if (!user) return;
@@ -230,7 +241,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!initialIdea.trim() || !projectName.trim() || !user) {
-      alert(t('welcome_alert_no_details', locale));
+      alert(t('welcome_alert_no_details'));
       return;
     }
 
@@ -321,13 +332,13 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
         const importedData = JSON.parse(text);
 
         if (!importedData.stage || !importedData.data || !importedData.messages) {
-          throw new Error(t('welcome_alert_invalid_file', locale));
+          throw new Error(t('welcome_alert_invalid_file'));
         }
 
         const projectNameFromFile =
-          importedData.data.projectName || t('welcome_unnamed_project', locale);
+          importedData.data.projectName || t('welcome_unnamed_project');
         const initialIdeaFromFile =
-          importedData.data.initialIdea || t('welcome_no_description', locale);
+          importedData.data.initialIdea || t('welcome_no_description');
 
         const { error } = await supabase.from('projects').insert({
           project_name: projectNameFromFile,
@@ -346,7 +357,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
         alert(`Project "${projectNameFromFile}" imported successfully!`);
       } catch (err: any) {
         console.error('Error importing project:', err);
-        alert(`${t('welcome_alert_invalid_file', locale)}: ${err.message}`);
+        alert(`${t('welcome_alert_invalid_file')}: ${err.message}`);
       } finally {
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
@@ -507,10 +518,10 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
           </div>
           <div className="text-center mb-10">
             <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600 mb-2">
-              {t('welcome_title', locale)}
+              {t('welcome_title')}
             </h1>
             <p className="text-lg text-slate-600 dark:text-slate-300">
-              {t('welcome_subtitle', locale)}
+              {t('welcome_subtitle')}
             </p>
             {userProfile && (
               <div className="mt-4 p-4 bg-white/50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
@@ -603,7 +614,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white dark:bg-slate-800/50 p-6 rounded-2xl shadow-xl shadow-black/10">
               <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-4">
-                {t('welcome_new_journey', locale)}
+                {t('welcome_new_journey')}
               </h2>
               <form onSubmit={handleCreateProject} className="space-y-4">
                 <div>
@@ -611,14 +622,14 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
                     htmlFor="projectName"
                     className="block text-sm font-medium text-slate-600 dark:text-slate-300"
                   >
-                    {t('welcome_project_name', locale)}
+                    {t('welcome_project_name')}
                   </label>
                   <input
                     id="projectName"
                     type="text"
                     value={projectName}
                     onChange={(e) => setProjectName(e.target.value)}
-                    placeholder={t('welcome_project_name_placeholder', locale)}
+                    placeholder={t('welcome_project_name_placeholder')}
                     className="mt-1 w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
                     required
                   />
@@ -628,13 +639,13 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
                     htmlFor="initialIdea"
                     className="block text-sm font-medium text-slate-600 dark:text-slate-300"
                   >
-                    {t('welcome_idea', locale)}
+                    {t('welcome_idea')}
                   </label>
                   <textarea
                     id="initialIdea"
                     value={initialIdea}
                     onChange={(e) => setInitialIdea(e.target.value)}
-                    placeholder={t('welcome_idea_placeholder', locale)}
+                    placeholder={t('welcome_idea_placeholder')}
                     rows={4}
                     className="mt-1 w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all resize-none"
                     required
@@ -645,7 +656,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
                   disabled={isCreating}
                   className="w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 transition-all shadow-md hover:shadow-lg flex justify-center items-center"
                 >
-                  {isCreating ? <Loader /> : t('welcome_begin_button', locale)}
+                  {isCreating ? <Loader /> : t('welcome_begin_button')}
                 </button>
               </form>
             </div>
@@ -653,7 +664,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
             <div className="bg-white dark:bg-slate-800/50 p-6 rounded-2xl shadow-xl shadow-black/10">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
-                  {t('welcome_continue_journey', locale)}
+                  {t('welcome_continue_journey')}
                 </h2>
                 <div>
                   <input
@@ -681,7 +692,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
                         d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
                       />
                     </svg>
-                    <span>{t('welcome_load_from_file', locale)}</span>
+                    <span>{t('welcome_load_from_file')}</span>
                   </button>
                 </div>
               </div>
@@ -852,7 +863,7 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
                 </div>
               ) : (
                 <p className="text-slate-500 dark:text-slate-400 text-center mt-8">
-                  {t('welcome_no_projects', locale)}
+                  {t('welcome_no_projects')}
                 </p>
               )}
             </div>
@@ -863,8 +874,8 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
         isOpen={!!projectToDelete}
         onClose={() => setProjectToDelete(null)}
         onConfirm={confirmDelete}
-        title={t('delete_project_modal_title', locale)}
-        message={`${t('delete_project_modal_message', locale)} "${projectToDelete?.name}"?`}
+        title={t('delete_project_modal_title')}
+        message={`${t('delete_project_modal_message')} "${projectToDelete?.name}"?`}
         isLoading={isDeleting}
         locale={locale}
       />
@@ -892,6 +903,8 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
         limitType={limitInfo?.limitType || 'projects'}
         currentValue={limitInfo?.currentValue}
         maxValue={limitInfo?.maxValue}
+        currentPlan={planName}
+        requestedPlan={getNextTierPlan()}
       />
     </>
   );
