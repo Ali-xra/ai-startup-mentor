@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Locale, t } from '../i18n';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../services/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 import { Loader } from './Loader';
@@ -7,7 +7,6 @@ import { Loader } from './Loader';
 interface ProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  locale: Locale;
 }
 
 interface UserProfile {
@@ -19,8 +18,9 @@ interface UserProfile {
   position?: string;
 }
 
-export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, locale }) => {
+export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const { user } = useAuth();
+  const { t } = useTranslation('common');
   const [profile, setProfile] = useState<UserProfile>({
     name: '',
     email: '',
@@ -105,11 +105,11 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, loc
 
       if (error) throw error;
 
-      alert(t('profile_saved_success', locale));
+      alert(t('profile_saved_success'));
       onClose();
     } catch (error: any) {
       console.error('Error saving profile:', error);
-      alert(`${t('profile_save_error', locale)}: ${error.message}`);
+      alert(`${t('profile_save_error')}: ${error.message}`);
     } finally {
       setIsSaving(false);
     }
@@ -130,7 +130,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, loc
         {/* هدر */}
         <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
           <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
-            {t('profile_edit_title', locale)}
+            {t('profile_edit_title')}
           </h2>
           <button
             onClick={onClose}
@@ -158,84 +158,84 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, loc
               {/* نام */}
               <div>
                 <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
-                  {t('profile_name', locale)}
+                  {t('profile_name')}
                 </label>
                 <input
                   type="text"
                   value={profile.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   className="w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
-                  placeholder={t('profile_name_placeholder', locale)}
+                  placeholder={t('profile_name_placeholder')}
                 />
               </div>
 
               {/* ایمیل */}
               <div>
                 <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
-                  {t('profile_email', locale)}
+                  {t('profile_email')}
                 </label>
                 <input
                   type="email"
                   value={profile.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   className="w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
-                  placeholder={t('profile_email_placeholder', locale)}
+                  placeholder={t('profile_email_placeholder')}
                 />
               </div>
 
               {/* تلفن */}
               <div>
                 <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
-                  {t('profile_phone', locale)}
+                  {t('profile_phone')}
                 </label>
                 <input
                   type="tel"
                   value={profile.phone || ''}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
                   className="w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
-                  placeholder={t('profile_phone_placeholder', locale)}
+                  placeholder={t('profile_phone_placeholder')}
                 />
               </div>
 
               {/* شرکت */}
               <div>
                 <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
-                  {t('profile_company', locale)}
+                  {t('profile_company')}
                 </label>
                 <input
                   type="text"
                   value={profile.company || ''}
                   onChange={(e) => handleInputChange('company', e.target.value)}
                   className="w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
-                  placeholder={t('profile_company_placeholder', locale)}
+                  placeholder={t('profile_company_placeholder')}
                 />
               </div>
 
               {/* موقعیت شغلی */}
               <div>
                 <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
-                  {t('profile_position', locale)}
+                  {t('profile_position')}
                 </label>
                 <input
                   type="text"
                   value={profile.position || ''}
                   onChange={(e) => handleInputChange('position', e.target.value)}
                   className="w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all"
-                  placeholder={t('profile_position_placeholder', locale)}
+                  placeholder={t('profile_position_placeholder')}
                 />
               </div>
 
               {/* بیوگرافی */}
               <div>
                 <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
-                  {t('profile_bio', locale)}
+                  {t('profile_bio')}
                 </label>
                 <textarea
                   value={profile.bio || ''}
                   onChange={(e) => handleInputChange('bio', e.target.value)}
                   rows={3}
                   className="w-full p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all resize-none"
-                  placeholder={t('profile_bio_placeholder', locale)}
+                  placeholder={t('profile_bio_placeholder')}
                 />
               </div>
             </div>
@@ -248,14 +248,14 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, loc
             onClick={onClose}
             className="flex-1 px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors font-semibold"
           >
-            {t('profile_cancel', locale)}
+            {t('profile_cancel')}
           </button>
           <button
             onClick={handleSave}
             disabled={isSaving || isLoading}
             className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 transition-all font-semibold flex justify-center items-center"
           >
-            {isSaving ? <Loader /> : t('profile_save', locale)}
+            {isSaving ? <Loader /> : t('profile_save')}
           </button>
         </div>
       </div>

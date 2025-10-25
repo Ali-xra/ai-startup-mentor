@@ -1,5 +1,5 @@
 import React from 'react';
-import { Locale, t } from '../i18n';
+import { useTranslation } from 'react-i18next';
 import { Loader } from './Loader';
 
 interface ConfirmationModalProps {
@@ -9,7 +9,6 @@ interface ConfirmationModalProps {
   title: string;
   message: string;
   isLoading: boolean;
-  locale: Locale;
 }
 
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -19,8 +18,8 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   title,
   message,
   isLoading,
-  locale,
 }) => {
+  const { t } = useTranslation('common');
   if (!isOpen) return null;
 
   return (
@@ -69,7 +68,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             onClick={onConfirm}
             disabled={isLoading}
           >
-            {isLoading ? <Loader /> : t('delete_project_modal_confirm_button', locale)}
+            {isLoading ? <Loader /> : t('delete_project_modal_confirm_button')}
           </button>
           <button
             type="button"
@@ -77,7 +76,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             onClick={onClose}
             disabled={isLoading}
           >
-            {t('delete_project_modal_cancel_button', locale)}
+            {t('delete_project_modal_cancel_button')}
           </button>
         </div>
       </div>

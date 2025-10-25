@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Locale, t } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 interface SearchResult {
   key: string;
@@ -10,7 +10,6 @@ interface SearchResult {
 
 interface SearchBoxProps {
   startupData: any;
-  locale: Locale;
   onNavigate?: (section: string) => void;
   onHighlight?: (searchTerm: string) => void;
   onSearch?: (term: string) => void;
@@ -18,11 +17,12 @@ interface SearchBoxProps {
 
 export const SearchBox: React.FC<SearchBoxProps> = ({
   startupData,
-  locale,
   onNavigate,
   onHighlight,
   onSearch,
 }) => {
+  const { t, i18n } = useTranslation('common');
+  const isRTL = i18n.language === 'fa';
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -151,8 +151,8 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
           onKeyDown={handleKeyDown}
           onFocus={() => query.length > 0 && setIsOpen(results.length > 0)}
           onBlur={() => setTimeout(() => setIsOpen(false), 150)}
-          placeholder={t('search_placeholder', locale) || 'جستجو در طرح کسب و کار...'}
-          className={`w-full px-3 py-2 pl-10 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent ${locale === 'fa' ? 'text-right' : 'text-left'}`}
+          placeholder={t('search_placeholder')}
+          className={`w-full px-3 py-2 pl-10 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent ${isRTL ? 'text-right' : 'text-left'}`}
         />
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg
@@ -175,13 +175,13 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
       {isOpen && results.length > 0 && (
         <div
           ref={resultsRef}
-          className={`absolute mt-1 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg max-h-64 overflow-y-auto z-50 ${locale === 'fa' ? 'right-0' : 'left-0'}`}
+          className={`absolute mt-1 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg max-h-64 overflow-y-auto z-50 ${isRTL ? 'right-0' : 'left-0'}`}
         >
           {results.map((result, index) => (
             <button
               key={`${result.key}-${index}`}
               onClick={() => handleResultClick(result)}
-              className={`w-full text-left px-3 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 border-b border-slate-100 dark:border-slate-700 last:border-b-0 ${selectedIndex === index ? 'bg-purple-50 dark:bg-purple-900/20' : ''} ${locale === 'fa' ? 'text-right' : 'text-left'}`}
+              className={`w-full text-left px-3 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 border-b border-slate-100 dark:border-slate-700 last:border-b-0 ${selectedIndex === index ? 'bg-purple-50 dark:bg-purple-900/20' : ''} ${isRTL ? 'text-right' : 'text-left'}`}
             >
               <div className="font-medium text-slate-900 dark:text-slate-100 mb-1">
                 {result.section}

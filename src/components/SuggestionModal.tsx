@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Loader } from './Loader';
-import { Locale, t } from '../i18n';
 
 interface SuggestionModalProps {
   isOpen: boolean;
   suggestion: string;
   isLoading: boolean;
-  locale: Locale;
   onAccept: (editedSuggestion: string) => void;
   onRefine: (editedSuggestion: string, instruction: string) => void;
   onClose: () => void;
@@ -16,11 +15,11 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
   isOpen,
   suggestion,
   isLoading,
-  locale,
   onAccept,
   onRefine,
   onClose,
 }) => {
+  const { t } = useTranslation('common');
   const [editedText, setEditedText] = useState(suggestion);
   const [refineInstruction, setRefineInstruction] = useState('');
 
@@ -43,7 +42,7 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
         {/* Header */}
         <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <h2 className="text-xl font-bold text-purple-700 dark:text-purple-300">
-            {t('chat_bubble_suggestion_title', locale)}
+            {t('chat_bubble_suggestion_title')}
           </h2>
           <button
             onClick={onClose}
@@ -69,7 +68,7 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
             <div className="flex flex-col items-center justify-center h-64 space-y-3">
               <Loader />
               <span className="text-slate-600 dark:text-slate-400">
-                {t('chat_thinking', locale)}
+                {t('chat_thinking')}
               </span>
             </div>
           ) : (
@@ -85,14 +84,14 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
               {/* Refine Section */}
               <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
                 <p className="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-3">
-                  {t('chat_bubble_refine_title', locale)}
+                  {t('chat_bubble_refine_title')}
                 </p>
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
                     value={refineInstruction}
                     onChange={(e) => setRefineInstruction(e.target.value)}
-                    placeholder={t('chat_bubble_refine_placeholder', locale)}
+                    placeholder={t('chat_bubble_refine_placeholder')}
                     className="flex-1 p-3 bg-white dark:bg-slate-900 border-2 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-purple-400 focus:outline-none text-sm text-slate-800 dark:text-slate-200"
                     disabled={isLoading}
                     onKeyDown={(e) => {
@@ -106,7 +105,7 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
                     disabled={isLoading || !refineInstruction.trim()}
                     className="px-4 py-3 bg-slate-500 text-white font-semibold rounded-lg hover:bg-slate-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]"
                   >
-                    {isLoading ? <Loader /> : t('chat_bubble_refine_button', locale)}
+                    {isLoading ? <Loader /> : t('chat_bubble_refine_button')}
                   </button>
                 </div>
               </div>
@@ -121,7 +120,7 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
             disabled={isLoading}
             className="px-6 py-3 bg-slate-300 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-400 dark:hover:bg-slate-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {t('direct_editor_cancel_button', locale)}
+            {t('direct_editor_cancel_button')}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -138,7 +137,7 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
             disabled={isLoading}
             className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {isLoading ? <Loader /> : t('chat_bubble_accept_button', locale)}
+            {isLoading ? <Loader /> : t('chat_bubble_accept_button')}
             {!isLoading && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"

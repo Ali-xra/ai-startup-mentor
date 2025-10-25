@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChatMessage } from '../types';
 import { Loader } from './Loader';
-import { Locale, t } from '../i18n';
 
 interface ChatBubbleProps {
   message: ChatMessage;
   onSuggestionAccept: (messageId: string, acceptedAnswer: string) => void;
   onRefineSuggestion: (messageId: string, originalSuggestion: string, instruction: string) => void;
   isLoading: boolean;
-  locale: Locale;
 }
 
 export const ChatBubble: React.FC<ChatBubbleProps> = ({
@@ -16,8 +15,8 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   onSuggestionAccept,
   onRefineSuggestion,
   isLoading,
-  locale,
 }) => {
+  const { t } = useTranslation('common');
   const [editedText, setEditedText] = useState(message.text);
   const [refineInstruction, setRefineInstruction] = useState('');
 
@@ -41,7 +40,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
       <div className="flex justify-start">
         <div className="p-4 rounded-2xl max-w-lg w-full bg-slate-200 dark:bg-slate-700 rounded-bl-none border-2 border-purple-400 dark:border-purple-500 shadow-lg">
           <p className="text-purple-700 dark:text-purple-300 font-semibold mb-2">
-            {t('chat_bubble_suggestion_title', locale)}
+            {t('chat_bubble_suggestion_title')}
           </p>
           <textarea
             value={editedText}
@@ -53,14 +52,14 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
 
           <div className="mt-4 pt-4 border-t border-slate-300 dark:border-slate-600">
             <p className="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2">
-              {t('chat_bubble_refine_title', locale)}
+              {t('chat_bubble_refine_title')}
             </p>
             <div className="flex items-center gap-2">
               <input
                 type="text"
                 value={refineInstruction}
                 onChange={(e) => setRefineInstruction(e.target.value)}
-                placeholder={t('chat_bubble_refine_placeholder', locale)}
+                placeholder={t('chat_bubble_refine_placeholder')}
                 className="flex-1 p-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none text-sm text-slate-800 dark:text-slate-200"
                 disabled={isLoading}
                 onKeyDown={(e) => {
@@ -78,7 +77,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
                 disabled={isLoading || !refineInstruction.trim()}
                 className="px-4 py-2 bg-slate-500 text-white font-semibold rounded-lg hover:bg-slate-600 transition-all disabled:opacity-50 flex items-center justify-center"
               >
-                {isLoading ? <Loader /> : t('chat_bubble_refine_button', locale)}
+                {isLoading ? <Loader /> : t('chat_bubble_refine_button')}
               </button>
             </div>
           </div>
@@ -88,7 +87,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
             disabled={isLoading}
             className="mt-4 w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 transition-all disabled:opacity-50"
           >
-            {t('chat_bubble_accept_button', locale)}
+            {t('chat_bubble_accept_button')}
           </button>
         </div>
       </div>
@@ -124,7 +123,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
       {message.sources && message.sources.length > 0 && (
         <div className="mt-2 text-xs max-w-lg">
           <span className="font-semibold text-slate-600 dark:text-slate-400">
-            {t('blueprint_sources', locale)}
+            {t('blueprint_sources')}
           </span>
           <ul className="list-disc list-inside">
             {message.sources.map((source, index) => (

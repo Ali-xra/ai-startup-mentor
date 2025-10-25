@@ -877,7 +877,6 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
         title={t('delete_project_modal_title')}
         message={`${t('delete_project_modal_message')} "${projectToDelete?.name}"?`}
         isLoading={isDeleting}
-        locale={locale}
       />
       {selectedProjectForMembers && (
         <ProjectMembersModal
@@ -895,7 +894,6 @@ export const ProjectSelectionScreen: React.FC<ProjectSelectionScreenProps> = ({
       <ProfileModal
         isOpen={profileModalOpen}
         onClose={() => setProfileModalOpen(false)}
-        locale={locale}
       />
       <LimitReachedModal
         isOpen={showLimitModal}

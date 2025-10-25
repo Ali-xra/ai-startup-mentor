@@ -145,8 +145,9 @@ export const ProjectWorkspace: React.FC = () => {
             onStageSelect={(stage) => {
               // فقط برای preview - مسیر رو reset نکن
               setSelectedStageForPreview(stage);
+              // متن ذخیره شده رو برای نمایش و ویرایش لود می‌کنیم
+              journey.editStage(stage);
             }}
-            locale={locale}
           />
         </div>
         <div className="lg:col-span-5 flex flex-col overflow-hidden">
@@ -179,6 +180,7 @@ export const ProjectWorkspace: React.FC = () => {
             currentStage={journey.stage}
             selectedStage={selectedStageForPreview}
             onEditStage={journey.editStage as (stage: string) => void}
+            onNavigate={(stage) => setSelectedStageForPreview(stage)}
           />
         </div>
       </main>

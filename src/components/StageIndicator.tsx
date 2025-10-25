@@ -1,6 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Stage } from '../types';
-import { Locale, t } from '../i18n';
 import { ALL_PHASES, getStageTitle } from '../config/stages';
 
 interface StageIndicatorProps {
@@ -8,7 +8,6 @@ interface StageIndicatorProps {
   currentStage: Stage;
   selectedStageForPreview?: string | null;
   onStageSelect: (stage: Stage) => void;
-  locale: Locale;
 }
 
 export const StageIndicator: React.FC<StageIndicatorProps> = ({
@@ -16,8 +15,9 @@ export const StageIndicator: React.FC<StageIndicatorProps> = ({
   currentStage,
   selectedStageForPreview,
   onStageSelect,
-  locale,
 }) => {
+  const { t, i18n } = useTranslation('common');
+  const locale = i18n.language as 'en' | 'fa' | 'is';
   const currentStageIndex = stages.indexOf(currentStage);
 
   // Find which phase and subsection contain a given stage
@@ -91,7 +91,7 @@ export const StageIndicator: React.FC<StageIndicatorProps> = ({
                 ${isClickable ? 'cursor-pointer hover:border-purple-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/30' : ''}
                 `}
         onClick={isClickable ? () => onStageSelect(stage) : undefined}
-        title={isClickable ? t('stage_indicator_view_tooltip', locale) : ''}
+        title={isClickable ? t('stage_indicator_view_tooltip') : ''}
       >
         <span className="truncate flex items-center gap-2">
           {isCompleted ? (
@@ -113,7 +113,7 @@ export const StageIndicator: React.FC<StageIndicatorProps> = ({
   return (
     <div className="p-3 bg-slate-100 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 h-full overflow-y-auto w-full">
       <h2 className="text-base font-bold text-center mb-3 text-slate-800 dark:text-slate-100">
-        {t('stage_indicator_title', locale)}
+        {t('stage_indicator_title')}
       </h2>
 
       <div className="space-y-2">

@@ -163,7 +163,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         isOpen={suggestionModalOpen}
         suggestion={currentSuggestion}
         isLoading={isLoading}
-        locale={locale}
         onAccept={handleSuggestionAccept}
         onRefine={onRefineSuggestion}
         onClose={onSuggestionModalClose}

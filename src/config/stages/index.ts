@@ -83,7 +83,7 @@ export const getAllStagesFlat = () => {
  * @param locale - Language ('fa' | 'en')
  * @returns Stage title in the requested language
  */
-export const getStageTitle = (stageId: string, locale: 'fa' | 'en'): string => {
+export const getStageTitle = (stageId: string, locale: 'fa' | 'en' | 'is' | string): string => {
   const stage = getStageById(stageId);
   if (stage) {
     return locale === 'fa' ? stage.title_fa : stage.title_en;
@@ -100,7 +100,7 @@ export const getStageTitle = (stageId: string, locale: 'fa' | 'en'): string => {
  * @param locale - Language ('fa' | 'en')
  * @returns Subsection title in the requested language
  */
-export const getSubsectionTitle = (subsectionId: string, locale: 'fa' | 'en'): string => {
+export const getSubsectionTitle = (subsectionId: string, locale: 'fa' | 'en' | 'is' | string): string => {
   const subsection = getSubsectionById(subsectionId);
   if (subsection) {
     return locale === 'fa' ? subsection.title_fa : subsection.title_en;
