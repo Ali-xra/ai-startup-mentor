@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ChatMessage, Stage, StartupData, Locale, MajorSection } from '../types';
-import { t } from '../i18n';
+import i18n from '../i18n/config';
 
 // Import our new modular hooks
 import { useProjectManager } from './useProjectManager';
@@ -82,31 +82,63 @@ export const useStartupJourney = (projectId: string | null, locale: Locale) => {
     const projectData = await projectManager.loadProject();
 
     if (projectData) {
-      stageManager.setStage(projectData.stage);
+      console.log('[useStartupJourney] Project loaded:', {
+        stage: projectData.stage,
+        messagesCount: projectData.messages?.length || 0,
+        startupData: projectData.startupData,
+      });
+
+      // FIX: If stage is null or INITIAL, set it to IDEA_TITLE (first real stage)
+      let actualStage = projectData.stage;
+      if (!actualStage || actualStage === Stage.INITIAL) {
+        console.log('[useStartupJourney] Stage is null/INITIAL, fixing to IDEA_TITLE');
+        actualStage = Stage.IDEA_TITLE;
+        // Update database immediately
+        await projectManager.saveProject(
+          actualStage,
+          projectData.startupData,
+          projectData.messages
+        );
+      }
+
+      stageManager.setStage(actualStage);
       setStartupData(projectData.startupData);
       chatManager.setMessages(projectData.messages);
 
       // If no messages, show initial messages
       if (!projectData.messages || projectData.messages.length === 0) {
-        chatManager.addMessage({
-          text: `${t('system_start_journey', locale)} "${projectData.startupData.projectName}"`,
+        console.log('[useStartupJourney] No messages found, creating initial messages');
+        const initialMessages: ChatMessage[] = [];
+
+        initialMessages.push({
+          id: uuidv4(),
+          text: `${i18n.t('system_start_journey')} "${projectData.startupData.projectName}"`,
           sender: 'system',
         });
 
         // Show guidance if available
-        const guidance = getGuidanceForStage(projectData.stage, locale);
+        const guidance = getGuidanceForStage(actualStage, locale);
         if (guidance) {
-          chatManager.addMessage({ text: guidance, sender: 'ai' });
+          initialMessages.push({ id: uuidv4(), text: guidance, sender: 'ai' });
         }
 
-        chatManager.addMessage({
-          text: getQuestionForStage(projectData.stage, locale),
+        initialMessages.push({
+          id: uuidv4(),
+          text: getQuestionForStage(actualStage, locale),
           sender: 'ai',
         });
+
+        console.log('[useStartupJourney] Initial messages created:', initialMessages.length);
+
+        chatManager.setMessages(initialMessages);
+
+        // IMPORTANT: Save initial messages to database
+        await projectManager.saveProject(actualStage, projectData.startupData, initialMessages);
       }
     }
 
     setIsInitialized(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, locale]);
 
   // Load project when projectId changes
@@ -114,7 +146,7 @@ export const useStartupJourney = (projectId: string | null, locale: Locale) => {
     if (projectId) {
       // Reset all state when projectId changes
       setIsInitialized(false);
-      stageManager.setStage(Stage.INITIAL);
+      // DON'T reset stage to INITIAL - let loadProject set it from DB
       setStartupData({});
       chatManager.setMessages([]);
       setEditingStage(null);
@@ -220,7 +252,7 @@ export const useStartupJourney = (projectId: string | null, locale: Locale) => {
   const handleUpdateStageData = async (stageToUpdate: Stage, newValue: string) => {
     setEditingStage(null);
     chatManager.addMessage({
-      text: `${t('system_saving_changes', locale)} ${t(stageToUpdate, locale)}...`,
+      text: `${i18n.t('system_saving_changes')} ${i18n.t(stageToUpdate)}...`,
       sender: 'system',
     });
 
@@ -231,7 +263,7 @@ export const useStartupJourney = (projectId: string | null, locale: Locale) => {
         setStartupData(updatedData);
         await projectManager.saveProject(stageManager.stage, updatedData, chatManager.messages);
         chatManager.addMessage({
-          text: t('system_update_save_success', locale),
+          text: i18n.t('system_update_save_success'),
           sender: 'system',
         });
       }
@@ -244,7 +276,7 @@ export const useStartupJourney = (projectId: string | null, locale: Locale) => {
     try {
       const dataKey = STAGE_TO_DATA_KEY[stageToRefine];
       if (!dataKey) {
-        throw new Error(t('system_refine_edited_stage_data_key_error', locale));
+        throw new Error(i18n.t('system_refine_edited_stage_data_key_error'));
       }
 
       const refinedText = await chatManager.refineEditedStage(
@@ -278,14 +310,14 @@ export const useStartupJourney = (projectId: string | null, locale: Locale) => {
       const summaryKey = STAGE_TO_DATA_KEY[summaryStage];
 
       if (summaryKey) {
-        const systemMsg = `${t('system_generating_summary', locale)} ${summaryStage.split('_')[0]}...`;
+        const systemMsg = `${i18n.t('system_generating_summary')} ${summaryStage.split('_')[0]}...`;
         chatManager.addMessage({ text: systemMsg, sender: 'system' });
 
         const summary = await stageManager.generateSectionSummary(summaryStage, currentData);
         const updatedData = { ...currentData, [summaryKey]: summary };
         setStartupData(updatedData);
 
-        const successMsg = `${summaryStage.split('_')[0]} ${t('system_summary_complete', locale)}`;
+        const successMsg = `${summaryStage.split('_')[0]} ${i18n.t('system_summary_complete')}`;
         chatManager.addMessage({ text: successMsg, sender: 'system' });
 
         await stageManager.advanceStage(summaryStage, updatedData, [
@@ -296,7 +328,7 @@ export const useStartupJourney = (projectId: string | null, locale: Locale) => {
       }
     } catch (error) {
       chatManager.addMessage({
-        text: t('system_summary_error', locale),
+        text: i18n.t('system_summary_error'),
         sender: 'system',
       });
     }
@@ -311,7 +343,7 @@ export const useStartupJourney = (projectId: string | null, locale: Locale) => {
     const newStage = Stage.IDEA_TITLE;
     const startMessage: ChatMessage = {
       id: uuidv4(),
-      text: `${t('system_restarting_project', locale)} ${startupData.initialIdea}`,
+      text: `${i18n.t('system_restarting_project')} ${startupData.initialIdea}`,
       sender: 'system',
     };
 

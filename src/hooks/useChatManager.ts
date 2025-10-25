@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import i18n from '../i18n/config';
 import * as geminiService from '../services/geminiService';
 import { ChatMessage, Stage, StartupData, Locale } from '../types';
-import { t } from '../i18n';
 
 /**
  * useChatManager Hook
@@ -169,7 +169,7 @@ export const useChatManager = ({ locale }: UseChatManagerProps): UseChatManagerR
   ): Promise<string> => {
     setIsLoading(true);
     addMessage({
-      text: `${t('system_refining_edited_stage', locale)} "${t(stageToRefine, locale)}" ${t('system_refine_edited_stage_based_on_command', locale)}`,
+      text: `${i18n.t('system_refining_edited_stage')} "${i18n.t(stageToRefine)}" ${i18n.t('system_refine_edited_stage_based_on_command')}`,
       sender: 'system',
     });
 
@@ -183,7 +183,7 @@ export const useChatManager = ({ locale }: UseChatManagerProps): UseChatManagerR
       );
 
       addMessage({
-        text: t('system_refine_edited_stage_success', locale),
+        text: i18n.t('system_refine_edited_stage_success'),
         sender: 'system',
       });
 
@@ -192,7 +192,7 @@ export const useChatManager = ({ locale }: UseChatManagerProps): UseChatManagerR
     } catch (error) {
       console.error('[useChatManager] Error refining edited stage:', error);
       addMessage({
-        text: t('system_refine_edited_stage_error', locale),
+        text: i18n.t('system_refine_edited_stage_error'),
         sender: 'system',
       });
       throw error;

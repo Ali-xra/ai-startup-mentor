@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as geminiService from '../services/geminiService';
 import { Stage, StartupData, ChatMessage, Locale } from '../types';
-import { t } from '../i18n';
+import i18n from '../i18n/config';
 import { getStageById } from '../config/stages';
 
 /**
@@ -19,8 +19,8 @@ import { getStageById } from '../config/stages';
  */
 
 // All stages from all 8 phases
+// NOTE: INITIAL is not included as it's just a placeholder with no config
 export const ALL_STAGES: Stage[] = [
-  Stage.INITIAL,
   // Phase 1: Core Concept & Validation
   Stage.IDEA_TITLE,
   Stage.ELEVATOR_PITCH,
@@ -66,14 +66,16 @@ export const ALL_STAGES: Stage[] = [
   Stage.LOGO_DESIGN_CONCEPTS,
   Stage.COLOR_PALETTE,
   Stage.TYPOGRAPHY,
-  // Phase 5: Product Development
-  Stage.FULL_PRODUCT_DESCRIPTION,
-  Stage.FEATURE_PRIORITIZATION,
-  Stage.PRODUCT_ROADMAP,
-  Stage.MVP_SCOPE,
-  Stage.MVP_USER_FLOW,
-  Stage.TECH_STACK,
-  Stage.QA_PLAN,
+  // Phase 5: Requirements Engineering & MVP Construction
+  Stage.PLATFORM_VISION,
+  Stage.USER_ROLES,
+  Stage.USER_PROFILE_NEEDS,
+  Stage.MULTI_TENANCY,
+  Stage.FILE_UPLOADS,
+  Stage.DATABASE_AND_AUTH,
+  Stage.PUBLIC_PAGES,
+  Stage.USER_PANEL_STRUCTURE,
+  Stage.CORE_FEATURES_IMPLEMENTATION,
   // Phase 6: Marketing & Sales Strategy
   Stage.MARKETING_OBJECTIVES,
   Stage.KPIS,
@@ -153,14 +155,16 @@ export const STAGE_TO_DATA_KEY: Record<Stage, keyof StartupData | null> = {
   [Stage.COLOR_PALETTE]: 'color_palette',
   [Stage.TYPOGRAPHY]: 'typography',
 
-  // Phase 5: Product Development
-  [Stage.FULL_PRODUCT_DESCRIPTION]: 'full_product_description',
-  [Stage.FEATURE_PRIORITIZATION]: 'feature_prioritization',
-  [Stage.PRODUCT_ROADMAP]: 'product_roadmap',
-  [Stage.MVP_SCOPE]: 'mvp_scope',
-  [Stage.MVP_USER_FLOW]: 'mvp_user_flow',
-  [Stage.TECH_STACK]: 'tech_stack',
-  [Stage.QA_PLAN]: 'qa_plan',
+  // Phase 5: Requirements Engineering & MVP Construction
+  [Stage.PLATFORM_VISION]: 'platform_vision',
+  [Stage.USER_ROLES]: 'user_roles',
+  [Stage.USER_PROFILE_NEEDS]: 'user_profile_needs',
+  [Stage.MULTI_TENANCY]: 'multi_tenancy',
+  [Stage.FILE_UPLOADS]: 'file_uploads',
+  [Stage.DATABASE_AND_AUTH]: 'database_and_auth',
+  [Stage.PUBLIC_PAGES]: 'public_pages',
+  [Stage.USER_PANEL_STRUCTURE]: 'user_panel_structure',
+  [Stage.CORE_FEATURES_IMPLEMENTATION]: 'core_features_implementation',
 
   // Phase 6: Marketing & Sales Strategy
   [Stage.MARKETING_OBJECTIVES]: 'marketing_objectives',
@@ -196,10 +200,10 @@ export const STAGE_TO_DATA_KEY: Record<Stage, keyof StartupData | null> = {
 export const getQuestionForStage = (stage: Stage, locale: Locale): string => {
   const stageConfig = getStageById(stage);
   if (stageConfig) {
-    return locale === 'fa' ? stageConfig.question_fa : stageConfig.question_en;
+    return locale === 'fa' ? stageConfig.question_fa || '' : stageConfig.question_en || '';
   }
   // Fallback to old i18n system
-  return t(`question_${stage}`, locale);
+  return i18n.t(`question_${stage}`);
 };
 
 export const getGuidanceForStage = (stage: Stage, locale: Locale): string | null => {

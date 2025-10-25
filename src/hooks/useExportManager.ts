@@ -1,5 +1,5 @@
 import { Stage, StartupData, ChatMessage, Locale } from '../types';
-import { t } from '../i18n';
+import i18n from '../i18n/config';
 
 /**
  * useExportManager Hook
@@ -230,7 +230,7 @@ export const useExportManager = ({ locale }: UseExportManagerProps): UseExportMa
       });
     } catch (error) {
       console.error('[useExportManager] Export error:', error);
-      alert(t('export_error', locale));
+      alert(i18n.t('export_error'));
     }
   };
 
