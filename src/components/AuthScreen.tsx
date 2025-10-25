@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../services/supabaseClient';
-import { Locale, t } from '../i18n';
+import { Locale } from '../i18n';
 import { Loader } from './Loader';
 
 interface AuthScreenProps {
@@ -31,6 +32,7 @@ const GoogleIcon = () => (
 );
 
 export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
+  const { t } = useTranslation('auth');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
@@ -50,7 +52,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
       } else {
         const { error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
-        alert(t('auth_confirm_email_alert', locale));
+        alert(t('auth_confirm_email_alert'));
       }
     } catch (err: any) {
       setError(err.error_description || err.message);
@@ -89,11 +91,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
         <div className="w-full max-w-md mx-auto">
           <div className="text-center mb-10">
             <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600 mb-2">
-              {t('welcome_title', locale)}
+              {t('welcome_title')}
             </h1>
-            <p className="text-lg text-slate-600 dark:text-slate-300">
-              {t('welcome_subtitle', locale)}
-            </p>
+            <p className="text-lg text-slate-600 dark:text-slate-300">{t('welcome_subtitle')}</p>
           </div>
 
           <div className="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl shadow-black/10">
@@ -102,13 +102,13 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
                 onClick={() => setIsLogin(true)}
                 className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors ${isLogin ? 'bg-purple-500 text-white shadow' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
               >
-                {t('auth_sign_in_tab', locale)}
+                {t('auth_sign_in_tab')}
               </button>
               <button
                 onClick={() => setIsLogin(false)}
                 className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors ${!isLogin ? 'bg-purple-500 text-white shadow' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
               >
-                {t('auth_sign_up_tab', locale)}
+                {t('auth_sign_up_tab')}
               </button>
             </div>
 
@@ -118,7 +118,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
                   htmlFor="email"
                   className="block text-sm font-medium text-slate-600 dark:text-slate-300"
                 >
-                  {t('auth_email_label', locale)}
+                  {t('auth_email_label')}
                 </label>
                 <input
                   id="email"
@@ -135,7 +135,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
                   htmlFor="password"
                   className="block text-sm font-medium text-slate-600 dark:text-slate-300"
                 >
-                  {t('auth_password_label', locale)}
+                  {t('auth_password_label')}
                 </label>
                 <input
                   id="password"
@@ -158,16 +158,16 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
                 {loading ? (
                   <Loader />
                 ) : isLogin ? (
-                  t('auth_sign_in_button', locale)
+                  t('auth_sign_in_button')
                 ) : (
-                  t('auth_sign_up_button', locale)
+                  t('auth_sign_up_button')
                 )}
               </button>
             </form>
             <div className="relative flex py-5 items-center">
               <div className="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
               <span className="flex-shrink mx-4 text-slate-400 dark:text-slate-500 text-sm">
-                {t('auth_or_divider', locale)}
+                {t('auth_or_divider')}
               </span>
               <div className="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
             </div>
@@ -182,7 +182,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ locale }) => {
               ) : (
                 <>
                   <GoogleIcon />
-                  {t('auth_google_button', locale)}
+                  {t('auth_google_button')}
                 </>
               )}
             </button>
