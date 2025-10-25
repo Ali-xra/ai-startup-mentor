@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Locale, t } from '../i18n';
+import { useTranslation } from 'react-i18next';
+import { Locale } from '../i18n';
 
 interface SettingsMenuProps {
   onRestart: () => void;
@@ -26,6 +27,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   currentTheme,
   locale,
 }) => {
+  const { t } = useTranslation('common');
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -61,7 +63,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-        title={t('settings_tooltip', locale)}
+        title={t('settings_tooltip')}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +105,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5"
                 />
               </svg>
-              <span>{t('settings_switch_project', locale)}</span>
+              <span>{t('settings_switch_project')}</span>
             </button>
 
             {/* Export Section */}
@@ -112,7 +114,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <p
                 className={`text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider ${locale === 'fa' ? 'text-right' : 'text-left'}`}
               >
-                {locale === 'fa' ? ' خروجی' : ' Export'}
+                {t('settings_export_section')}
               </p>
             </div>
             <button
@@ -133,7 +135,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                 />
               </svg>
-              <span>{t('settings_export_project', locale)}</span>
+              <span>{t('settings_export_project')}</span>
             </button>
 
             <button
@@ -157,7 +159,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
                 />
               </svg>
-              <span>{t('export_pdf', locale)}</span>
+              <span>{t('export_pdf')}</span>
             </button>
             <button
               onClick={() => {
@@ -180,7 +182,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0v3m0 0v3.75m0-3.75h9.75c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125H8.25c-.621 0-1.125-.504-1.125-1.125V11.25c0-.621.504-1.125 1.125-1.125H9m6.75 0v3.75M9 15.75v3.75M15 15.75v3.75"
                 />
               </svg>
-              <span>{t('export_word', locale)}</span>
+              <span>{t('export_word')}</span>
             </button>
             <button
               onClick={() => {
@@ -203,7 +205,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   d="M3.375 19.5h17.25m0 0a1.125 1.125 0 0 1-1.125 1.125H4.5a1.125 1.125 0 0 1-1.125-1.125m0 0V5.25a1.125 1.125 0 0 1 1.125-1.125h4.5a1.125 1.125 0 0 1 1.125 1.125v13.5m-6.75 0h6.75m0 0v-3.375A3.375 3.375 0 0 0 12.375 15H8.25"
                 />
               </svg>
-              <span>{t('export_csv', locale)}</span>
+              <span>{t('export_csv')}</span>
             </button>
             <button
               onClick={() => {
@@ -226,7 +228,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   d="M3.375 19.5h17.25m0 0a1.125 1.125 0 0 1-1.125 1.125H4.5a1.125 1.125 0 0 1-1.125-1.125m0 0V5.25a1.125 1.125 0 0 1 1.125-1.125h4.5a1.125 1.125 0 0 1 1.125 1.125v13.5m-6.75 0h6.75m0 0v-3.375A3.375 3.375 0 0 0 12.375 15H8.25"
                 />
               </svg>
-              <span>{t('export_excel', locale)}</span>
+              <span>{t('export_excel')}</span>
             </button>
 
             <div className="border-t border-slate-200 dark:border-slate-700 my-1"></div>
@@ -268,11 +270,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   />
                 </svg>
               )}
-              <span>
-                {currentTheme === 'dark'
-                  ? t('theme_light', locale) || 'روشن'
-                  : t('theme_dark', locale) || 'تیره'}
-              </span>
+              <span>{currentTheme === 'dark' ? t('theme_light') : t('theme_dark')}</span>
             </button>
             <button
               onClick={handleRestart}
@@ -292,7 +290,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 11.667 0l3.181-3.183m-4.991-2.696v4.992h-4.992v-.001M2.985 4.356h4.992m0 0v4.992m0-4.992L10.186 1.17a8.25 8.25 0 0 0-11.667 0L1 4.356"
                 />
               </svg>
-              <span>{t('settings_restart_project', locale)}</span>
+              <span>{t('settings_restart_project')}</span>
             </button>
           </div>
         </div>

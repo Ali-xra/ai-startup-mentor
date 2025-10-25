@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import LanguageSelector from './LanguageSelector';
@@ -11,20 +12,18 @@ import { Locale } from '../i18n';
  * و تضمین می‌کند که navigation بدون تغییر باقی می‌ماند
  */
 export const PublicNavigation: React.FC = () => {
+  const { t } = useTranslation('common');
   const { language } = useLanguage();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const location = useLocation();
   const locale: Locale = language === 'fa' ? 'fa' : 'en';
 
-  const t = (key: string) => {
-    const translations: Record<string, { fa: string; en: string }> = {
-      home: { fa: 'خانه', en: 'Home' },
-      marketplace: { fa: 'بازار پروژه‌ها', en: 'Marketplace' },
-      pricing: { fa: 'قیمت‌گذاری', en: 'Pricing' },
-      about_us: { fa: 'درباره ما', en: 'About Us' },
-      login: { fa: 'ورود', en: 'Login' },
-    };
-    return translations[key]?.[locale] || key;
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   // تشخیص صفحه فعال برای استایل دادن
@@ -44,7 +43,7 @@ export const PublicNavigation: React.FC = () => {
                 AI Startup Mentor
               </h1>
               <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
-                {locale === 'fa' ? 'دستیار هوشمند استارتاپی' : 'Your AI Startup Assistant'}
+                {t('app_tagline')}
               </p>
             </div>
           </Link>
@@ -60,7 +59,7 @@ export const PublicNavigation: React.FC = () => {
                   : 'text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
               }`}
             >
-              {t('home')}
+              {t('nav_home')}
             </Link>
 
             <Link
@@ -71,7 +70,7 @@ export const PublicNavigation: React.FC = () => {
                   : 'text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
               }`}
             >
-              {t('marketplace')}
+              {t('nav_marketplace')}
             </Link>
 
             <Link
@@ -82,7 +81,7 @@ export const PublicNavigation: React.FC = () => {
                   : 'text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
               }`}
             >
-              {t('pricing')}
+              {t('nav_pricing')}
             </Link>
 
             <Link
@@ -93,11 +92,11 @@ export const PublicNavigation: React.FC = () => {
                   : 'text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
               }`}
             >
-              {t('about_us')}
+              {t('nav_about_us')}
             </Link>
 
-            {/* Login Link - Same style as other links */}
-            {!user && (
+            {/* Login/Logout Link */}
+            {!user ? (
               <Link
                 to="/login"
                 className={`px-3 py-2 text-xs sm:text-sm font-medium transition-colors ${
@@ -106,8 +105,23 @@ export const PublicNavigation: React.FC = () => {
                     : 'text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
                 }`}
               >
-                {t('login')}
+                {t('nav_login')}
               </Link>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/login?switch=true"
+                  className="px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                >
+                  {t('nav_switch_account')}
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                >
+                  {t('nav_logout')}
+                </button>
+              </div>
             )}
 
             {/* Language Selector - After Login */}

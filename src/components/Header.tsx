@@ -1,7 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { SettingsMenu } from './SettingsMenu';
 import { SearchBox } from './SearchBox';
-import { Locale, t } from '../i18n';
+import { Locale } from '../i18n';
 
 interface HeaderProps {
   progress: number;
@@ -43,7 +44,8 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigate,
   onSearch,
 }) => {
-  const title = projectName || initialIdea || t('header_title_unnamed', locale);
+  const { t } = useTranslation('common');
+  const title = projectName || initialIdea || t('header_title_unnamed');
   return (
     <header className="p-4 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
       <div className="max-w-screen-2xl mx-auto">
@@ -68,7 +70,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={onSwitchProjects}
               className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-              title={t('header_switch_project_tooltip', locale)}
+              title={t('header_switch_project_tooltip')}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

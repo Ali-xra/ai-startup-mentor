@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../services/supabaseClient';
-import { Locale, t } from '../i18n';
+import { Locale } from '../i18n';
 import { Loader } from './Loader';
 
 interface RoleSelectionProps {
@@ -12,6 +13,7 @@ interface RoleSelectionProps {
 type UserRole = 'entrepreneur' | 'investor' | 'programmer' | 'consultant' | 'designer';
 
 export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, onComplete }) => {
+  const { t } = useTranslation('auth');
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,7 +96,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
       window.location.href = rolePages[selectedRole];
     } catch (err: any) {
       console.error('Error saving role:', err);
-      setError(err.message || 'خطا در ذخیره اطلاعات. لطفاً دوباره تلاش کنید.');
+      setError(err.message || t('role_save_error'));
     } finally {
       setLoading(false);
     }
@@ -121,10 +123,10 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             </svg>
           </div>
           <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-3">
-            {locale === 'fa' ? 'به AI Startup Mentor خوش آمدید!' : 'Welcome to AI Startup Mentor!'}
+            {t('role_selection_welcome')}
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-300">
-            {locale === 'fa' ? 'لطفاً نقش خود را انتخاب کنید' : 'Please select your role'}
+            {t('role_selection_subtitle')}
           </p>
         </div>
 
@@ -157,12 +159,10 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             <div className="text-center">
               <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                {locale === 'fa' ? 'کارآفرین' : 'Entrepreneur'}
+                {t('role_entrepreneur')}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                {locale === 'fa'
-                  ? 'من یک ایده دارم و می‌خواهم آن را به یک کسب‌وکار واقعی تبدیل کنم. به راهنمایی، برنامه‌ریزی و کمک برای پیدا کردن سرمایه‌گذار نیاز دارم.'
-                  : 'I have an idea and want to turn it into a real business. I need guidance, planning, and help finding investors.'}
+                {t('role_entrepreneur_desc')}
               </p>
             </div>
           </button>
@@ -194,12 +194,10 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             <div className="text-center">
               <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                {locale === 'fa' ? 'سرمایه‌گذار' : 'Investor'}
+                {t('role_investor')}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                {locale === 'fa'
-                  ? 'من به دنبال فرصت‌های سرمایه‌گذاری در استارتاپ‌های نوپا هستم. می‌خواهم پروژه‌های جالب را کشف کنم و با کارآفرینان ارتباط برقرار کنم.'
-                  : "I'm looking for investment opportunities in new startups. I want to discover exciting projects and connect with entrepreneurs."}
+                {t('role_investor_desc')}
               </p>
             </div>
           </button>
@@ -231,12 +229,10 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             <div className="text-center">
               <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                {locale === 'fa' ? 'برنامه‌نویس' : 'Programmer'}
+                {t('role_programmer')}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                {locale === 'fa'
-                  ? 'من یک برنامه‌نویس یا فریلنسر هستم که می‌خواهم پروژه‌های استارتاپی پیدا کنم و در توسعه محصولات نوآورانه شرکت کنم.'
-                  : "I'm a programmer or freelancer looking to find startup projects and contribute to innovative product development."}
+                {t('role_programmer_desc')}
               </p>
             </div>
           </button>
@@ -268,12 +264,10 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             <div className="text-center">
               <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                {locale === 'fa' ? 'مشاور' : 'Consultant'}
+                {t('role_consultant')}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                {locale === 'fa'
-                  ? 'من یک مشاور کسب‌وکار یا متخصص هستم که می‌خواهم تجربیاتم را با استارتاپ‌ها به اشتراک بگذارم و در رشد آن‌ها کمک کنم.'
-                  : "I'm a business consultant or specialist who wants to share my expertise with startups and help them grow."}
+                {t('role_consultant_desc')}
               </p>
             </div>
           </button>
@@ -305,12 +299,10 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
             <div className="text-center">
               <div className="text-6xl mb-4"></div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                {locale === 'fa' ? 'طراح' : 'Designer'}
+                {t('role_designer')}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                {locale === 'fa'
-                  ? 'من یک طراح رابط کاربری و تجربه کاربری هستم که می‌خواهم در طراحی محصولات استارتاپی شرکت کنم و رابط‌های زیبا و کاربرپسند بسازم.'
-                  : "I'm a UI/UX designer who wants to work on startup products and create beautiful, user-friendly interfaces."}
+                {t('role_designer_desc')}
               </p>
             </div>
           </button>
@@ -343,11 +335,11 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
           {loading ? (
             <>
               <Loader />
-              <span className="mr-2">{locale === 'fa' ? 'در حال ذخیره...' : 'Saving...'}</span>
+              <span className="mr-2">{t('role_saving')}</span>
             </>
           ) : (
             <>
-              {locale === 'fa' ? 'ادامه' : 'Continue'}
+              {t('role_continue')}
               <svg
                 className={`w-5 h-5 ${locale === 'fa' ? 'mr-2' : 'ml-2'}`}
                 fill="none"
@@ -367,9 +359,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ locale, userId, on
 
         {/* Help Text */}
         <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-6">
-          {locale === 'fa'
-            ? 'نگران نباشید! بعداً می‌توانید نقش خود را تغییر دهید.'
-            : "Don't worry! You can change your role later in settings."}
+          {t('role_change_later')}
         </p>
       </div>
     </div>
