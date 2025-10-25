@@ -1772,24 +1772,68 @@ const msg = t('helloUser', { name: userName });
 
 ## Task 1.5.7: بهینه‌سازی و Cleanup
 
-**وضعیت:** ❌ انجام نشده (0%)
+**وضعیت:** ⏳ در حال انجام (25%)
 **زمان تخمینی:** ۲-۳ ساعت
+**زمان صرف شده:** ۱ ساعت
 **اولویت:** 🟢 پایین
 
 ### Subtasks:
+
+#### Migration باقی‌مانده:
+
+- [x] Migrate 6 فایل آخر به i18next
+  - ChatBubble.tsx, ConfirmationModal.tsx, ProfileModal.tsx
+  - SearchBox.tsx, StageIndicator.tsx, SuggestionModal.tsx
+- [x] اضافه کردن 29 کلید ترجمه جدید به common.json (en, fa, is)
+- [x] Fix getStageTitle/getSubsectionTitle برای پشتیبانی از 'is' | string
+
+#### Cleanup:
 
 - [ ] حذف src/i18n.ts قدیمی (859 خط)
 - [ ] بررسی و حذف translationService.ts (اگر لازم نباشد)
 - [ ] Remove ~600 console.log statements
 - [ ] Fix @ts-ignore → @ts-expect-error (150 موارد)
-- [ ] تست production build
-- [ ] بررسی bundle size (هدف: < 500KB)
+
+#### Build & Optimization:
+
+- [x] تست TypeScript build (✅ بدون error)
+- [x] تست production build (✅ موفق)
+- [x] بررسی bundle size (⚠️ 899KB > 500KB - نیاز به code splitting)
 - [ ] Implement code splitting با React.lazy()
 
 ### 📝 یادداشت‌ها:
 
-- این task بعد از migration کامل همه فایل‌ها انجام می‌شه
-- شامل linting cleanup هم می‌شه
+```
+✅ Session 2025-10-25 (Commit d527c27):
+   - Migrated 6 components to i18next:
+     * ChatBubble.tsx - chat suggestion UI
+     * ConfirmationModal.tsx - delete confirmation buttons
+     * ProfileModal.tsx - complete profile form (15 keys)
+     * SearchBox.tsx - search with RTL/LTR support
+     * StageIndicator.tsx - stage navigation
+     * SuggestionModal.tsx - suggestion modal UI
+
+   - Translation keys added to common.json (29 keys):
+     * chat_thinking, chat_bubble_* (5 keys)
+     * direct_editor_cancel_button, blueprint_sources
+     * delete_project_modal_* (2 keys)
+     * search_placeholder
+     * profile_* (15 keys)
+     * stage_indicator_view_tooltip
+
+   - TypeScript: ✅ بدون error
+   - Build: ✅ موفق (899KB - نیاز به code splitting)
+   - Commit و Push: ✅ انجام شد
+
+⚠️ Bundle size بزرگ است (899KB > 500KB)
+   - نیاز به code splitting با React.lazy()
+   - این در subtask بعدی انجام می‌شود
+
+❌ باقی‌مانده برای تکمیل:
+   - حذف i18n.ts قدیمی
+   - cleanup console.log و @ts-ignore
+   - code splitting
+```
 
 ---
 
@@ -1829,10 +1873,10 @@ Task 1.5.3: Migration Core (Priority A - 8 files)  [█████████�
 Task 1.5.4: Migration Hooks (Priority B - 6 files) [██████████] 100% ✅
 Task 1.5.5: Migration Entrepreneur (Priority C)     [██████████] 100% ✅
 Task 1.5.6: Migration Other Pages (Priority D)      [████████░░]  80% ✅ (4/5 files)
-Task 1.5.7: بهینه‌سازی و Cleanup                  [░░░░░░░░░░]   0% ❌
+Task 1.5.7: بهینه‌سازی و Cleanup                  [██▓░░░░░░░]  25% ⏳ (6 components migrated)
 Task 1.5.8: مستندسازی و Final Testing             [░░░░░░░░░░]   0% ❌
 
-میانگین: (100+100+100+100+100+80+0+0) / 8 = 72.5% ≈ 73%
+میانگین: (100+100+100+100+100+80+25+0) / 8 = 75.625% ≈ 76%
 ```
 
 ### 📈 آمار جامع:
@@ -1840,20 +1884,21 @@ Task 1.5.8: مستندسازی و Final Testing             [░░░░░░�
 **✅ کامل شده:**
 
 - i18next config و setup ✅
-- 201+ کلید JSON برای en، fa، is ✅
+- 230+ کلید JSON برای en، fa، is ✅ (201 + 29 جدید)
 - اسکریپت‌های تبدیل و ترجمه ✅
 - ساختار فولدر و namespaces ✅
 - Migration Priority A (8 files) ✅
 - Migration Priority B (6 files) ✅
 - Migration Priority C (8 files) ✅
+- Migration 6 فایل اضافی (ChatBubble, ConfirmationModal, ProfileModal, SearchBox, StageIndicator, SuggestionModal) ✅
 
 **❌ باقی‌مانده:**
 
-- 5 فایل Priority D برای migration
-- بهینه‌سازی و Cleanup
+- 1 فایل Priority D برای migration (BlueprintPreview)
+- حذف i18n.ts قدیمی
+- بهینه‌سازی و Cleanup (console.log، @ts-ignore)
 - مستندسازی کامل
-- 958 مشکل linting (64 error + 894 warning)
-- Code splitting (950KB → <500KB)
+- Code splitting (899KB → <500KB)
 
 **⏱️ زمان تخمینی باقی‌مانده:** 7-10 ساعت (~1-2 روز کاری)
 
