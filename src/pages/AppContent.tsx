@@ -13,12 +13,14 @@ import { useStartupJourney } from '../hooks/useStartupJourney';
 // FIX: Corrected import path to be a relative path.
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Locale, t } from '../i18n';
+import { useTranslation } from 'react-i18next';
+import { Locale } from '../i18n';
 import { Loader } from '../components/Loader';
 import { supabase } from '../services/supabaseClient';
 import { PublicProjectsService } from '../services/publicProjectsService';
 
 const AppContent: React.FC = () => {
+  const { t } = useTranslation('common');
   const { session, loading, user } = useAuth();
   const { language } = useLanguage();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
@@ -180,7 +182,7 @@ const AppContent: React.FC = () => {
   }, [journey]);
 
   const handleRestart = () => {
-    if (window.confirm(t('settings_restart_confirm', locale))) {
+    if (window.confirm(t('settings_restart_confirm'))) {
       journey.restartJourney();
     }
   };
@@ -190,21 +192,19 @@ const AppContent: React.FC = () => {
   };
 
   const handleExportPDF = () => {
-    alert(locale === 'fa' ? 'قابلیت Export PDF بزودی اضافه خواهد شد' : 'PDF Export coming soon');
+    alert(t('export_pdf_coming_soon'));
   };
 
   const handleExportWord = () => {
-    alert(locale === 'fa' ? 'قابلیت Export Word بزودی اضافه خواهد شد' : 'Word Export coming soon');
+    alert(t('export_word_coming_soon'));
   };
 
   const handleExportCSV = () => {
-    alert(locale === 'fa' ? 'قابلیت Export CSV بزودی اضافه خواهد شد' : 'CSV Export coming soon');
+    alert(t('export_csv_coming_soon'));
   };
 
   const handleExportExcel = () => {
-    alert(
-      locale === 'fa' ? 'قابلیت Export Excel بزودی اضافه خواهد شد' : 'Excel Export coming soon'
-    );
+    alert(t('export_excel_coming_soon'));
   };
 
   const handlePublishToggle = async () => {
@@ -215,7 +215,7 @@ const AppContent: React.FC = () => {
         // خصوصی کردن
         await PublicProjectsService.unpublishProject(selectedProjectId);
         setIsPublished(false);
-        alert(locale === 'fa' ? 'پروژه خصوصی شد' : 'Project is now private');
+        alert(t('project_unpublished'));
       } else {
         // منتشر کردن
         const title =
@@ -230,11 +230,11 @@ const AppContent: React.FC = () => {
 
         await PublicProjectsService.publishProject(selectedProjectId, title, description, tags);
         setIsPublished(true);
-        alert(locale === 'fa' ? ' پروژه در بازار منتشر شد!' : ' Project published to marketplace!');
+        alert(t('project_published'));
       }
     } catch (error) {
       console.error('Error toggling publish:', error);
-      alert(locale === 'fa' ? 'خطا در انتشار پروژه' : 'Error publishing project');
+      alert(t('project_publish_error'));
     }
   };
 
